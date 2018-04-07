@@ -1,0 +1,115 @@
+/* this is a tag */
+body {
+  background-color:white;
+  margin:40px;
+}
+
+.headline {
+  margin: 20px;
+  margin-left: 0px;
+}
+
+.btn-outline-success {
+  color: black;
+  border-color: black;
+}
+
+.filter {
+  display: none;
+}
+
+.card {
+  border: none;
+  width: 300px;
+  height: 200px;
+  margin: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.card-title {
+  text-transform:capitalize;
+  position: absolute;
+  display: inline-block;
+  top: 43%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.card-text {
+  text-transform:capitalize;
+  position: absolute;
+  display: inline-block;
+  top: 58%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.lc-experience {
+  text-align: left;
+  float: left;
+  vertical-align: top;
+  display: inline-block;
+  position: absolute;
+  top: 16px;
+  left: 16px;
+}
+
+.lc-conditions {
+  text-align: right;
+  float: right;
+  vertical-align: top;
+  display: inline-block;
+  position: absolute;
+  top: 16px;
+  right: 55px;
+}
+
+.lc-seasonality {
+  text-align: right;
+  float: right;
+  vertical-align: top;
+  display: inline-block;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.lc-flight {
+  text-align: left;
+  float: left;
+  vertical-align: bottom;
+  display: inline-block;
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+}
+
+.lc-cost {
+  text-align: right;
+  float: right;
+  vertical-align: bottom;
+  display: inline-block;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+}
+
+.expandBelow .tabs ul .li.active {
+  border-bottom: 2px solid grey;
+  color: black;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.ridable-waves {
+  margin: 20px;
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
+
+.spot-card {
+  margin: 20px;
+}

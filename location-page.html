@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Link to custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- FONT AWESOME - for icons -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+
+    <title>Surf Trip List</title>
+
+    <style>
+      #surfspotmap {
+        height:300px;
+        width:400px;
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+    <!-- surf spot map placeholder -->
+    <div id="surf-spot-map">
+    </div><!-- /surf spot map placeholder -->
+
+    <!-- jumbotron -->
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <button type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="city text-center">Santa Cruz</h3>
+        <h6 class="state text-center">California</h6>
+      </div>
+    </div><!-- /jumbotron -->
+
+    <!-- nav -->
+    <nav class="navbar navbar-expand justify-content-center navbar-light bg-white">
+      <div class="container">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#overview">Overview</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#surf-spots">Surf Spots</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#accommodations">Accommodations</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="#flights">Flights</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    </nav><!-- /nav -->
+
+    <!-- page auto refresh below nav (https://css-tricks.com/rethinking-dynamic-page-replacing-content/) -->
+
+    <!-- containter -->
+    <div class="container">
+
+      <!-- location overview -->
+        <div id="overview" class="row mb-5">
+          <div class="col-lg">
+            <table class="table">
+              <tbody>
+                  <tr>
+                      <td class="experience">🏄‍♂️Experience levels</td>
+                      <td>ABC</td>
+                  </tr>
+                  <tr>
+                      <td class="good-for">👫Good for:</td>
+                      <td>ABC</td>
+                  </tr>
+                  <tr>
+                      <td class="nearby">🗺Nearby spots</td>
+                      <td>ABC</td>
+                  </tr>
+                  <tr>
+                      <td class="surf-lessons">👩‍🏫Surf lessons</td>
+                      <td>ABC</td>
+                  </tr>
+                  <tr>
+                      <td class="rentals">🏄‍♂️Board rentals</td>
+                      <td>ABC</td>
+                  </tr>
+                  <tr>
+                      <td class="beaches">🏖Beaches: </td>
+                      <td>ABC</td>
+                  </tr>
+                  <tr>
+                      <td class="accommodation-type">🏡Accommodations</td>
+                      <td>ABC</td>
+                  </tr>
+                  <tr>
+                      <td class="price">✈️Flight cost</td>
+                      <td>ABC</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+          <div class="col-lg">
+            <table class="table">
+              <tbody>
+                <tr>
+                    <td class="health-care">🏥Health care</td>
+                    <td>ABC</td>
+                </tr>
+                <tr>
+                    <td class="intenet">📱Internet</td>
+                    <td>ABC</td>
+                </tr>
+                <tr>
+                    <td class="culture">⛩Culture</td>
+                    <td>ABC</td>
+                </tr>
+                <tr>
+                    <td class="nightlife">🍸Nightlife</td>
+                    <td>ABC</td>
+                </tr>
+                <tr>
+                    <td class="nature">🏞Nature</td>
+                    <td>ABC</td>
+                </tr>
+                <tr>
+                    <td class="language">🗣Language</td>
+                    <td>ABC</td>
+                </tr>
+                <tr>
+                    <td class="food">🌮Food</td>
+                    <td>ABC</td>
+                </tr>
+                <tr>
+                    <td class="safety">⛑Safety</td>
+                    <td>ABC</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div><!-- /location overview -->
+
+
+      <!-- chance of ridable waves -->
+      <div id="surf-spots" class="row mb-5 text-center">
+        <div class="col-sm">
+          <table class="table col-sm">
+            <tbody>
+              <tr>
+                  <td class="jan">95%<br><h4>Jan</h4></td>
+                  <td class="feb">95%<br><h4>Feb</h4></td>
+                  <td class="mar">95%<br><h4>Mar</h4></td>
+                  <td class="apr">95%<br><h4>Apr</h4></td>
+                  <td class="may">95%<br><h4>May</h4></td>
+                  <td class="jun">95%<br><h4>Jun</h4></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        <div class="col-sm">
+          <table class="table col-sm">
+            <tbody>
+              <tr>
+                  <td class="jul">95%<br><h4>Jul</h4></td>
+                  <td class="aug">95%<br><h4>Aug</h4></td>
+                  <td class="sep">95%<br><h4>Sep</h4></td>
+                  <td class="oct">95%<br><h4>Oct</h4></td>
+                  <td class="nov">95%<br><h4>Nov</h4></td>
+                  <td class="dec">95%<br><h4>Dec</h4></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      <p class="mx-auto"><small><strong>Chance of Ridable Waves</strong></small></p>
+      </div>
+      </div><!-- /chance of ridable waves -->
+
+
+      <!-- surf spots -->
+      <div class="row">
+        <div class="col-md mb-5">
+          <h5 class="text-center">Surf Spot 1 - Beginner</h5>
+          <p class="text-center">Now: ⭐️⭐️⭐️⭐️</p>
+            <div class="row">
+              <div class="col-sm">
+                <table class="table col-sm">
+                    <tbody>
+                      <tr>
+                          <td class="wave-type">🌊Type</td>
+                          <td>ABC</td>
+                      </tr>
+                      <tr>
+                          <td class="bottom">⚓️Bottom</td>
+                          <td>ABC</td>
+                      </tr>
+                      <tr>
+                          <td class="beach">🏖Beach: </td>
+                          <td>ABC</td>
+                      </tr>
+                      <tr>
+                          <td class="accessiblity">🚗Accessibility: </td>
+                          <td>ABC</td>
+                      </tr>
+                      <tr>
+                          <td class="crowd">🎪Crowd:</td>
+                          <td>ABC</td>
+                      </tr>
+                      <tr>
+                          <td class="localism">👺Localism:</td>
+                          <td>ABC</td>
+                      </tr>
+                    </tbody>
+                </table>
+              </div>
+              <div class="col-sm">
+                <table class="table col-sm">
+                    <tbody>
+                    <tr>
+                        <td class="swell-size">🌊Swell size:</td>
+                        <td>ABC</td>
+                    </tr>
+                    <tr>
+                        <td class="swell-dir">➹Swell direction:</td>
+                        <td>ABC</td>
+                    </tr>
+                    <tr>
+                        <td class="swell-preiod">⏱Swell period:</td>
+                        <td>ABC</td>
+                    </tr>
+                    <tr>
+                        <td class="wind-dir">💨Wind dir</td>
+                        <td>ABC</td>
+                    </tr>
+                    <tr>
+                        <td class="tide">〰️Tide:</td>
+                        <td>ABC</td>
+                    </tr>
+                    <tr>
+                        <td class-"forecast">🗓Forecast</td>
+                        <td>ABC</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div id="surfSpotMap" class="embed-responsive embed-responsive-4by3">
+              <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3188.431764615794!2d-122.0279788847057!3d36.951743779917614!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808e6a92b528f3c9%3A0xa81c04e9d98c2202!2sSteamer+Lane!5e0!3m2!1sen!2sus!4v1521729842335" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="col-md mb-5">
+          <h5 class="text-center">Surf Spot 2 - Intermediate</h5>
+          <p class="text-center">Now: ⭐️⭐️⭐️</p>
+          <div class="row">
+            <div class="col-sm">
+              <table class="table col-sm">
+                  <tbody>
+                    <tr>
+                        <td class="wave-type">🌊Type</td>
+                        <td>ABC</td>
+                    </tr>
+                    <tr>
+                        <td class="bottom">⚓️Bottom</td>
+                        <td>ABC</td>
+                    </tr>
+                    <tr>
+                        <td class="beach">🏖Beach: </td>
+                        <td>ABC</td>
+                    </tr>
+                    <tr>
+                        <td class="accessiblity">🚗Accessibility: </td>
+                        <td>ABC</td>
+                    </tr>
+                    <tr>
+                        <td class="crowd">🎪Crowd:</td>
+                        <td>ABC</td>
+                    </tr>
+                    <tr>
+                        <td class="localism">👺Localism:</td>
+                        <td>ABC</td>
+                    </tr>
+                  </tbody>
+              </table>
+            </div>
+            <div class="col-sm">
+              <table class="table col-sm">
+                  <tbody>
+                  <tr>
+                      <td class="swell-size">🌊Swell size:</td>
+                      <td>ABC</td>
+                  </tr>
+                  <tr>
+                      <td class="swell-dir">➹Swell direction:</td>
+                      <td>ABC</td>
+                  </tr>
+                  <tr>
+                      <td class="swell-preiod">⏱Swell period:</td>
+                      <td>ABC</td>
+                  </tr>
+                  <tr>
+                      <td class="wind-dir">💨Wind dir</td>
+                      <td>ABC</td>
+                  </tr>
+                  <tr>
+                      <td class="tide">〰️Tide:</td>
+                      <td>ABC</td>
+                  </tr>
+                  <tr>
+                      <td class="forecast">🗓Forecast</td>
+                      <td>ABC</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="surfSpotMap" class="embed-responsive embed-responsive-4by3">
+            <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3188.431764615794!2d-122.0279788847057!3d36.951743779917614!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808e6a92b528f3c9%3A0xa81c04e9d98c2202!2sSteamer+Lane!5e0!3m2!1sen!2sus!4v1521729842335" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div><!-- /surf spots -->
+
+
+      <!-- accommodations -->
+      <div id="accommodations" class="row mb-5">
+         <div class="embed-responsive embed-responsive-4by3">
+           <iframe class="embed-responsive-item" src="https://www.google.com/maps/d/embed?mid=1FWK4uJODzMVOP2EX1rEkGNtOMuXhAM3N" style="border:0"></iframe>
+         </div>
+       </div><!-- /accommodations -->
+
+
+      <!-- flights -->
+      <div id="flights" class="row mx-1">
+        <table class="table table-hover mb-5">
+          <tbody>
+            <tr>
+              <th class="price">$247</th>
+              <td class="airline">Virgin</td>
+              <td class="times">🗓 Sat 7 Apr (in 17 days)</td>
+              <td class="from">🛫San Francisco (SFO)</td>
+              <td class="to">🛬Honolulu (HNL)</td>
+              <td class="duration">⌚️5h 5m</td>
+            </tr>
+            <tr>
+              <th class="price">$247</th>
+              <td class="airline">Virgin</td>
+              <td class="times">🗓 Sat 7 Apr (in 17 days)</td>
+              <td class="from">🛫San Francisco (SFO)</td>
+              <td class="to">🛬Honolulu (HNL)</td>
+              <td class="duration">⌚️5h 5m</td>
+            </tr>
+            <tr>
+              <th class="price">$247</th>
+              <td class="airline">Virgin</td>
+              <td class="times">🗓 Sat 7 Apr (in 17 days)</td>
+              <td class="from">🛫San Francisco (SFO)</td>
+              <td class="to">🛬Honolulu (HNL)</td>
+              <td class="duration">⌚️5h 5m</td>
+            </tr>
+            <tr>
+              <th class="price">$247</th>
+              <td class="airline">Virgin</td>
+              <td class="times">🗓 Sat 7 Apr (in 17 days)</td>
+              <td class="from">🛫San Francisco (SFO)</td>
+              <td class="to">🛬Honolulu (HNL)</td>
+              <td class="duration">⌚️5h 5m</td>
+            </tr>
+            <tr>
+              <th class="price">$247</th>
+              <td class="airline">Virgin</td>
+              <td class="times">🗓 Sat 7 Apr (in 17 days)</td>
+              <td class="from">🛫San Francisco (SFO)</td>
+              <td class="to">🛬Honolulu (HNL)</td>
+              <td class="duration">⌚️5h 5m</td>
+            </tr>
+            <tr>
+              <th class="price">$247</th>
+              <td class="airline">Virgin</td>
+              <td class="times">🗓 Sat 7 Apr (in 17 days)</td>
+              <td class="from">🛫San Francisco (SFO)</td>
+              <td class="to">🛬Honolulu (HNL)</td>
+              <td class="duration">⌚️5h 5m</td>
+            </tr>
+          </tbody>
+        </table>
+      </div><!-- /flights -->
+
+      <!-- footer -->
+      <div class="row py-3">
+        <div class="col-md text-center">
+          <small class="text-muted">&copy; 2018 Surf Trip List</small>
+        </div>
+      </div><!-- /footer -->
+
+    </div><!-- /.containter -->
+
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyB85TjM4154F_LU7bWtckJ20i22kjcK1T0",
+        authDomain: "surf-trip-list.firebaseapp.com",
+        databaseURL: "https://surf-trip-list.firebaseio.com",
+        projectId: "surf-trip-list",
+        storageBucket: "surf-trip-list.appspot.com",
+        messagingSenderId: "743850386285"
+      };
+      firebase.initializeApp(config);
+    </script>
+
+    <!-- your firebase code -->
+    <script src="script.js"></script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Enables Tooltips -->
+    <script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    </script>
+
+    <!-- Initializes the map -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&callback=initMap"></script>
+
+  </body>
+</html>
