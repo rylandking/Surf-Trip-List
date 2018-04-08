@@ -1,3 +1,4 @@
+
 // Initialize Cloud Firestore through Firebase
 var db = firebase.firestore();
 
@@ -144,30 +145,37 @@ db.collection("surf-spot").get().then(function(querySnapshot) {
     const ssData = doc.data();
     const ssName = doc.id;
     const spotname = ssName.replace(/-/g,' ');
+    const mapCenter = ssData.surfspot;
+    // console.log('data is: ', ssData);
 
-    function initMap() {
 
-      //Map options
-      var options = {
-        zoom: 15,
-        center: {lat:36.9517,lng:-122.0258}
-      }
+    initMap(ssData, spotname, mapCenter)
 
-      var map = new google.maps.Map(document.getElementById('surfspotmap'), options);
-
-    }
-
-    //add to html
-    //$ is the same as getElementById
-    $("#surf-spot-map").prepend(
-      `<h1>${spotname}</h1>
-       <div id="surfspotmap">
-         <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3188.431764615794!2d-122.0279788847057!3d36.951743779917614!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808e6a92b528f3c9%3A0xa81c04e9d98c2202!2sSteamer+Lane!5e0!3m2!1sen!2sus!4v1521729842335" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
-       </div>`
-    ); //end prepend
 
   });
 });
+
+window.initMap = function(ssData, spotname, mapCenter){
+
+  console.log("ssData:", ssData );
+  console.log("mapCenter:", mapCenter );
+
+  //Map options
+  var options = {
+    zoom: 15,
+    // center: {lat:36.9517,lng:-122.0258}
+    center: mapCenter
+  }
+
+  //add to html
+  //$ is the same as getElementById
+  $("#surf-spot-map__wrapper").prepend(
+    `<h1>${spotname}</h1>
+      <div id="surf-spot-map" style="height:300px; width:400px;" class="col-xs-6"></div>`
+  ); //end prepend
+
+  var map = new google.maps.Map(document.getElementById('surf-spot-map'), options);
+};
 
 
 

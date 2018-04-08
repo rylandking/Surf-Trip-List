@@ -20,7 +20,7 @@
     <title>Surf Trip List</title>
 
     <style>
-      #surfspotmap {
+      #surf-spot-map {
         height:300px;
         width:400px;
       }
@@ -31,7 +31,8 @@
   <body>
 
     <!-- surf spot map placeholder -->
-    <div id="surf-spot-map">
+    <div id="surf-spot-map__wrapper">
+
     </div><!-- /surf spot map placeholder -->
 
     <!-- jumbotron -->
@@ -403,6 +404,14 @@
 
     </div><!-- /.containter -->
 
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
     <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
     <script>
@@ -418,14 +427,17 @@
       firebase.initializeApp(config);
     </script>
 
+    <!-- Initializes the map -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&callback=initMap"></script>
+
+
+
+
+
+
     <!-- your firebase code -->
     <script src="script.js"></script>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <!-- Enables Tooltips -->
     <script>
@@ -433,9 +445,6 @@
         $('[data-toggle="tooltip"]').tooltip();
     });
     </script>
-
-    <!-- Initializes the map -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&callback=initMap"></script>
 
   </body>
 </html>
