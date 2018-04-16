@@ -1,6 +1,6 @@
 
 // Initialize Cloud Firestore through Firebase
-var db = firebase.firestore();
+const db = firebase.firestore();
 
 // Hide/Show Filter Page
 $(document).ready(function(){
@@ -146,55 +146,217 @@ db.collection("surf-spot").get().then(function(querySnapshot) {
     const ssName = doc.id;
     const spotname = ssName.replace(/-/g,' ');
     const mapCenter = ssData.surfspot;
-    // console.log('data is: ', ssData);
+    const icon = ssData.iconImage;
+    const markerDB = ssData.marker;
+    const markers1DB = ssData.markers1;
+    const markersDB = ssData.markers;
+
+    const expert = 'map-images/expert.png';
+    const advanced = 'map-images/advanced.png';
+    const intermediate = 'map-images/intermediate.png';
+    const beginner = 'map-images/beginner.png';
+    const surfLessons = 'map-images/surf-lessons.png';
+    const beach = 'map-images/beach.png';
+    const crowd = 'map-images/crowd.png';
+    const localism = 'map-images/localism.png';
+
+    //ssData.marker (cowells) logs CORRECT object w/ map:map & position: {lat:lng:}
+
+    // const a = [0, 1, 2];
+    // console.log( a[0] );
+    //
+    // const dbMarkers = ssData.markers;
+    // console.log( dbMarkers[0] );
+
+    // //Loop through markers
+    // for(var i = 0; i < dbMarkers.length; i++) {
+    //   //Add marker
+    //   // addMarker(markers[i]);
+    //   console.log(dbMarkers[i]);
+    // }
+
+    initMap(ssData, spotname, mapCenter, icon, markerDB, markersDB, markers1DB)
+
+    //Map options
+    var options = {
+      zoom:15,
+      center:mapCenter
+    }
+
+    //new map
+    var map = new google.maps.Map(document.getElementById('surf-spot-map'), options);
+
+    // console.log(markerDB);
+    //
+    // Add one marker -- works
+    // var marker = new google.maps.Marker(
+    //   markerDB
+    //   // {
+    //   // position:{lat:36.9510, lng:-122.0250},
+    //   // map:map,
+    //   // // icon:beginner
+    //   // }
+    // );
+    // marker.setMap(map);
 
 
-    initMap(ssData, spotname, mapCenter)
+    console.log(markers1DB);
+
+
+    //Array of markers v2
+    var markers = [
+      {
+        coords:{lat:36.9599, lng:-122.0280},
+        iconImage:advanced,
+        content:'<h3>Advanced</h3>'
+      },
+      {
+        coords:mapCenter,
+        iconImage:beginner,
+        content:'<h3>Beginner</h3>'
+      },
+      {
+        coords:{lat:36.9599, lng:-122.0200},
+        iconImage:intermediate,
+        content:'<h3>Intermediate</h3>'
+      }
+    ];
+
+    //Loop through markers
+    for(var i = 0; i < markers.length; i++) {
+      //Add marker
+      addMarker(markers[i]);
+    }
+
+    //Add marker function
+    function addMarker(props) {
+      var marker = new google.maps.Marker({
+        position:props.coords,
+        map:map,
+        icon:props.iconImage
+      });
+
+       //Creates the info window
+        var infoWindow = new google.maps.InfoWindow({
+          content: props.content
+        });
+        //Adds the listener
+        marker.addListener('click', function(){
+          infoWindow.open(map, marker);
+
+          //Closes windows when map is clicked
+          google.maps.event.addListener(map, "click", function(event) {
+          //Close info window
+              infoWindow.close();
+          });
+        });
+      }//End of addMarker v2
 
 
   });
 });
 
-window.initMap = function(ssData, spotname, mapCenter){
 
-  console.log("ssData:", ssData );
-  console.log("mapCenter:", mapCenter );
-
-  //Map options
-  var options = {
-    zoom: 15,
-    // center: {lat:36.9517,lng:-122.0258}
-    center: mapCenter
-  }
+window.initMap = function(ssData, spotname, mapCenter, icon, markerDB, markersDB, markers1DB){
 
   //add to html
   //$ is the same as getElementById
   $("#surf-spot-map__wrapper").prepend(
-    `<h1>${spotname}</h1>
-      <div id="surf-spot-map" style="height:300px; width:400px;" class="col-xs-6"></div>`
+      `<div class="col-lg-6 mb-5">
+       <h5 class="text-center spot-name mb-3" style="text-transform:capitalize;">${spotname} - Skill Levels</h5>
+         <div class="row">
+           <div class="col-sm">
+             <table class="table col-sm">
+                 <tbody>
+                 <tr>
+                     <td class="good-for">👍Good for:</td>
+                     <td>ABC</td>
+                 </tr>
+                   <tr>
+                       <td class="wave-type">🌊Type:</td>
+                       <td>ABC</td>
+                   </tr>
+                   <tr>
+                       <td class="bottom">⚓️Bottom:</td>
+                       <td>ABC</td>
+                   </tr>
+                   <tr>
+                       <td class="beach">🏖Beach: </td>
+                       <td>ABC</td>
+                   </tr>
+                   <tr>
+                       <td class="accessiblity">🚗Accessibility: </td>
+                       <td>ABC</td>
+                   </tr>
+                 </tbody>
+             </table>
+           </div>
+           <div class="col-sm">
+             <table class="table col-sm">
+                 <tbody>
+                 <tr>
+                     <td class="best-board">🏄🏽‍♀️Best board:</td>
+                     <td>ABC</td>
+                 </tr>
+                 <tr>
+                     <td class="best-size">🌊Best size:</td>
+                     <td>ABC</td>
+                 </tr>
+                 <tr>
+                     <td class="best-tide">〰️Best tide:</td>
+                     <td>ABC</td>
+                 </tr>
+                 <tr>
+                     <td class="wind-dir">💨Best wind:</td>
+                     <td>ABC</td>
+                 </tr>
+                 <tr>
+                     <td class="forecast">🗓Forecast:</td>
+                     <td>ABC</td>
+                 </tr>
+               </tbody>
+             </table>
+           </div>
+         </div>
+       <div class="col-sm">
+         <table class="table table-sm col-sm">
+           <tbody>
+             <tr>
+                 <td data-toggle="tooltip" title="Chance of 🏄‍♂️ surfable waves in Jan"><small>95%</small><br><b>Jan<b></td>
+                 <td data-toggle="tooltip" title="Chance of 🏄‍♂️ surfable waves in Feb"><small>95%</small><br><b>Feb<b></td>
+                 <td data-toggle="tooltip" title="Chance of 🏄‍♂️ surfable waves in Mar"><small>95%</small><br><b>Mar<b></td>
+                 <td data-toggle="tooltip" title="Chance of 🏄‍♂️ surfable waves in Apr"><small>95%</small><br><b>Apr<b></td>
+                 <td data-toggle="tooltip" title="Chance of 🏄‍♂️ surfable waves in May"><small>95%</small><br><b>May<b></td>
+                 <td data-toggle="tooltip" title="Chance of 🏄‍♂️ surfable waves in Jun"><small>95%</small><br><b>Jun<b></td>
+                 <td data-toggle="tooltip" title="Chance of 🏄‍♂️ surfable waves in Jul"><small>95%</small><br><b>Jul<b></td>
+                 <td data-toggle="tooltip" title="Chance of 🏄‍♂️ surfable waves in Aug"><small>95%</small><br><b>Aug<b></td>
+                 <td data-toggle="tooltip" title="Chance of 🏄‍♂️ surfable waves in Sep"><small>95%</small><br><b>Sep<b></td>
+                 <td data-toggle="tooltip" title="Chance of 🏄‍♂️ surfable waves in Oct"><small>95%</small><br><b>Oct<b></td>
+                 <td data-toggle="tooltip" title="Chance of 🏄‍♂️ surfable waves in Nov"><small>95%</small><br><b>Nov<b></td>
+                 <td data-toggle="tooltip" title="Chance of 🏄‍♂️ surfable waves in Dec"><small>95%</small><br><b>Dec<b></td>
+               </tr>
+             </tbody>
+           </table>
+         </div>
+        <div id="surf-spot-map" class="mb-3" style="max-height:auto; width:auto;"></div>
+       </div>`
   ); //end prepend
 
-  var map = new google.maps.Map(document.getElementById('surf-spot-map'), options);
-};
+};//End window.initMap
 
 
 
-
-
-/////OLD SYNTAX/////
-
-////Card Container Div
-// '<div class="card bg-dark text-white' + ' ' + expFilter +'">' +
-//   '<img class="img-fluid card-img" src="' + cityimage + '" alt="sample card">' +
-//     '<div class="card-img-overlay">' +
-//
-//       '<div id="experience" class="lc-experience">' + exp + '</div>' +
-//       '<div id="rideable" class="lc-seasonality" data-toggle="tooltip" title="Chance of rideable waves this month">🏄‍♂️ ' + rideable +'% </div>' +
-//       // '<div class="lc-conditions">⭐️⭐️⭐️⭐️</div>' +
-//       '<h4 id="locName" class="card-title" style="white-space: nowrap;">' + locname +'</h4>' +
-//       '<p id="region" class="card-text">' + region +'</p>' +
-//       '<div class="lc-flight"<div data-toggle="tooltip" data-placement="bottom" title="Flight cost">🛫 $187</div>' +
-//       '<div class="lc-cost" <div data-toggle="tooltip" data-placement="bottom" title="Avg accomm cost">🏡 $42/n</div>' +
-//
-//     '</div>'+
-// '</div>'
+  // // //TEST of marker from db
+  // var marker = new google.maps.Marker({
+  //   position:mapCenter,
+  //   map:map,
+  //   icon:localism
+  // });
+  //
+  // var infoWindow = new google.maps.InfoWindow({
+  //   content:'<h3>Localism</h3>'
+  // });
+  //
+  // marker.addListener('click', function(){
+  //   infoWindow.open(map, marker);
+  // });//End Test

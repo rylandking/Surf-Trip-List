@@ -29,13 +29,14 @@
   <script>
 
   function initMap() {
-    const expert = 'map-images/expert.png'
-    const intermediate = 'map-images/intermediate.png'
-    const beginner = 'map-images/beginner.png'
-    const surfLessons = 'map-images/surf-lessons.png'
-    const beach = 'map-images/beach.png'
-    const crowd = 'map-images/crowd.png'
-    const localism = 'map-images/localism.png'
+    const expert = 'map-images/expert.png';
+    const advanced = 'map-images/advanced.png';
+    const intermediate = 'map-images/intermediate.png';
+    const beginner = 'map-images/beginner.png';
+    const surfLessons = 'map-images/surf-lessons.png';
+    const beach = 'map-images/beach.png';
+    const crowd = 'map-images/crowd.png';
+    const localism = 'map-images/localism.png';
 
     //Map options
     var options = {
@@ -45,6 +46,11 @@
 
     //New map
     var map = new google.maps.Map(document.getElementById('map'), options);
+
+    // var marker = new google.maps.Marker({
+    //   position:{lat:36.9510, lng:-122.0250},
+    //   map:map,
+    // });
 
     //To set up new custom markers just re-write addMarker function
 
@@ -85,6 +91,11 @@
         iconImage:crowd,
         content:'<h2>Crowded</h2>'
       },
+      {
+        coords:{lat:36.9513282, lng:-122.0237356},
+        iconImage:advanced,
+        content:'<h2>Advanced</h2>'
+      }
     ];
 
     //Loop through markers
@@ -99,27 +110,26 @@
       var marker = new google.maps.Marker({
         position:props.coords,
         map:map,
-        // icon: props.iconImage
+        icon: props.iconImage
       });
 
-      //Check for custom icon
-      if(props.iconImage){
-        //Set icon image
-        marker.setIcon(props.iconImage);
-      }
+      //Set info window
+      var infoWindow = new google.maps.InfoWindow({
+        content:props.content
+      });
 
-      //Check for content
-      if(props.content){
-        //Set info window
-        var infoWindow = new google.maps.InfoWindow({
-          content:props.content
+      //Info window click listener
+      marker.addListener('click', function() {
+        //Open info window
+        infoWindow.open(map, marker);
+
+        //Closes windows when map is clicked
+        google.maps.event.addListener(map, "click", function(event) {
+        //Close info window
+            infoWindow.close();
         });
 
-        //Info window click listener
-        marker.addListener('click', function(){
-          infoWindow.open(map, marker);
-        });
-      }
+      });
     }
   }
   </script>

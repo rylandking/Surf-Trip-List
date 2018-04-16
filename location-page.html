@@ -30,11 +30,6 @@
 
   <body>
 
-    <!-- surf spot map placeholder -->
-    <div id="surf-spot-map__wrapper">
-
-    </div><!-- /surf spot map placeholder -->
-
     <!-- jumbotron -->
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
@@ -152,9 +147,8 @@
           </div>
         </div><!-- /location overview -->
 
-
-      <!-- chance of ridable waves -->
-      <div id="surf-spots" class="row mb-5 text-center">
+      <!-- chance of ridable waves v1 -->
+      <!-- <div id="surf-spots" class="row mb-5 text-center">
         <div class="col-sm">
           <table class="table col-sm">
             <tbody>
@@ -185,11 +179,50 @@
         </div>
       <p class="mx-auto"><small><strong>Chance of Ridable Waves</strong></small></p>
       </div>
-      </div><!-- /chance of ridable waves -->
+    </div><!-- /chance of ridable waves v1-->
+
+      <!-- chance of ridable waves js loop -->
+      <!-- <div id="rideable" class="row mb-5 text-center">
+        <div class="col-sm">
+          <table class="table col-sm">
+            <tbody>
+              <tr>
+                  <td id="jan" data-toggle="tooltip" title="Chance of rideable waves in January">95%<br><h5>Jan</h5></td>
+                  <td id="feb" data-toggle="tooltip" title="Chance of rideable waves in February">95%<br><h5>Feb</h5></td>
+                  <td id="mar" data-toggle="tooltip" title="Chance of rideable waves in March">95%<br><h5>Mar</h5></td>
+                  <td id="apr" data-toggle="tooltip" title="Chance of rideable waves in April">95%<br><h5>Apr</h5></td>
+                  <td id="may" data-toggle="tooltip" title="Chance of rideable waves in May">95%<br><h5>May</h5></td>
+                  <td id="jun" data-toggle="tooltip" title="Chance of rideable waves in June">95%<br><h5>Jun</h5></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        <div class="col-sm">
+          <table class="table col-sm">
+            <tbody>
+              <tr>
+                  <td id="jul" data-toggle="tooltip" title="Chance of rideable waves in July">95%<br><h5>Jul</h5></td>
+                  <td id="aug" data-toggle="tooltip" title="Chance of rideable waves in August">95%<br><h5>Aug</h5></td>
+                  <td id="sep" data-toggle="tooltip" title="Chance of rideable waves in September">95%<br><h5>Sep</h5></td>
+                  <td id="oct" data-toggle="tooltip" title="Chance of rideable waves in October">95%<br><h5>Oct</h5></td>
+                  <td id="nov" data-toggle="tooltip" title="Chance of rideable waves in November">95%<br><h5>Nov</h5></td>
+                  <td id="dec" data-toggle="tooltip" title="Chance of rideable waves in December">95%<br><h5>Dec</h5></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      <p class="mx-auto"><small><strong>Chance of Ridable Waves</strong></small></p>
+    </div> --><!-- /chance of ridable waves js loop -->
 
 
       <!-- surf spots -->
-      <div class="row">
+      <!-- surf spot map placeholder -->
+
+        <div id="surf-spot-map__wrapper" class="row">
+        </div>
+      <!-- /surf spot map placeholder -->
+
+      <!-- <div class="row">
         <div class="col-md mb-5">
           <h5 class="text-center">Surf Spot 1 - Beginner</h5>
           <p class="text-center">Now: ⭐️⭐️⭐️⭐️</p>
@@ -333,10 +366,10 @@
 
       <!-- accommodations -->
       <div id="accommodations" class="row mb-5">
-         <div class="embed-responsive embed-responsive-4by3">
-           <iframe class="embed-responsive-item" src="https://www.google.com/maps/d/embed?mid=1FWK4uJODzMVOP2EX1rEkGNtOMuXhAM3N" style="border:0"></iframe>
-         </div>
-       </div><!-- /accommodations -->
+        <div class="embed-responsive embed-responsive-4by3">
+          <iframe class="embed-responsive-item" src="https://www.google.com/maps/d/embed?mid=1FWK4uJODzMVOP2EX1rEkGNtOMuXhAM3N" style="border:0"></iframe>
+        </div>
+      </div><!-- /accommodations -->
 
 
       <!-- flights -->
@@ -411,9 +444,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-
+    <!-- Initalizes Firestore -->
     <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
+
     <script>
       // Initialize Firebase
       var config = {
@@ -430,20 +464,25 @@
     <!-- Initializes the map -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&callback=initMap"></script>
 
-
-
-
-
-
     <!-- your firebase code -->
     <script src="script.js"></script>
-
 
     <!-- Enables Tooltips -->
     <script>
     $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
+      $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+        // $('[data-toggle="tooltip"]').tooltip();
     });
+    </script>
+
+    <script>
+      $("[data-toggle=popover]").popover({
+        placement : 'top',
+        trigger : 'click',
+        html : true,
+        content :
+        '<b>Surf Trip List House</b><p>Your perfect surf trip house!</p><div><a href="https://www.airbnb.com/rooms/select/3741609"><img src="house.png" style="height=auto; width:auto"></a></div>'
+      });
     </script>
 
   </body>
