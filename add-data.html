@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
+  <title>Adding STL Data</title>
+</head>
+
+<body>
+
+
+  <div class="container">
+
+    <!-- Add Surf Spot Data -->
+    <h3 class="my-3">🗺Add New Surf Spot</h3>
+
+    <div class="alert alert-danger" role="alert">
+      1. Refresh the page.
+    </div>
+
+    <div class="alert alert-danger" role="alert">
+      2. Give ssDocRef the correct spot name.
+    </div>
+
+    <p>🏙City: "salina-cruz"</p>
+      <input id="inputCity" type="textfield" class="mb-5"></input>
+
+    <p>🌎Continent:</p>
+      <li>north-america</li>
+      <li>central-america</li>
+      <li>south-america</li>
+      <li>caribbean</li>
+      <li>pacific-ocean</li>
+      <li>indian-ocean</li>
+      <li>indonesia</li>
+      <li>australia</li>
+      <li>europe</li>
+      <li>africa</li>
+      <li>asia</li>
+      <li>middle-east</li>
+    <input id="inputContinent" type="textfield" class="mb-5"></input>
+
+    <p>🎓Surf Lessons:</p>
+    <p class="font-weight-light mb-5">true or false in add-data.js</p>
+      <!-- <input id="inputSurfLessons" type="textfield" class="mb-5"></input> -->
+
+    <p>🏄‍♂️Rentals:</p>
+      <p class="font-weight-light mb-5">true or false in add-data.js</p>
+      <!-- <input id="inputBeach" type="textfield" class="mb-5"></input> -->
+
+    <p>☀️Water Temp</p>
+      <li>Trunks</li>
+      <li>Wetsuit</li>
+      <input id="inputTemp" type="textfield" class="mb-5"></input>
+
+    <p>🏄🏽‍♀️Skill Level:</p>
+      <li>beginner</li>
+      <li>intermediate</li>
+      <li>advanced</li>
+      <li>expert</li>
+    <input id="inputSkill" type="textfield" class="mb-5"></input>
+
+    <p>🏄‍♂️Best Board:</p>
+      <li>short-board</li>
+      <li>fun-board</li>
+      <li>long-board</li>
+      <input id="inputBoard" type="textfield" class="mb-5"></input>
+
+    <p>🌊Best Size:</p>
+      <li>waist-high</li>
+      <li>head-high</li>
+      <li>double-overhead</li>
+      <input id="inputSize" type="textfield" class="mb-5"></input>
+
+    <p>♒︎Best Tide:</p>
+      <li>low</li>
+      <li>medium</li>
+      <li>high</li>
+      <li>all</li>
+      <input id="inputTide" type="textfield" class="mb-5"></input>
+
+    <p>↖︎Best Wind:</p>
+      <li>N</li>
+      <li>NE</li>
+      <li>E</li>
+      <li>SE</li>
+      <li>S</li>
+      <li>SW</li>
+      <li>W</li>
+      <li>NW</li>
+      <input id="inputWind" type="textfield" class="mb-5"></input>
+
+    <p>🌊Wave Type:</p>
+      <li>point</li>
+      <li>beach</li>
+      <input id="inputType" type="textfield" class="mb-5"></input>
+
+    <p>➡️Wave Direction:</p>
+      <li>right</li>
+      <li>left</li>
+      <li>both</li>
+      <input id="inputDirection" type="textfield" class="mb-5"></input>
+
+    <p>🌊Barrel?</p>
+      <li>yes</li>
+      <li>sometimes</li>
+      <li>no</li>
+      <input id="inputBarrel" type="textfield" class="mb-5"></input>
+
+    <p>⚓️Bottom:</p>
+      <li>sand</li>
+      <li>rock</li>
+      <li>reef</li>
+      <input id="inputBottom" type="textfield" class="mb-5"></input>
+
+    <p>🏖Beach:</p>
+      <li>comfortable</li>
+      <li>semi-comfortable</li>
+      <li>no-beach</li>
+      <input id="inputBeach" type="textfield" class="mb-5"></input>
+
+    <p>🎪Crowd:</p>
+      <li>a-zoo</li>
+      <li>spread-out</li>
+      <li>minimal</li>
+      <input id="inputCrowd" type="textfield" class="mb-5"></input>
+
+    <p>👺Localism:</p>
+      <li>yes</li>
+      <li>be-respectful</li>
+      <li>no</li>
+      <input id="inputLocalism" type="textfield" class="mb-5"></input>
+
+    <p>🚗Accessibility:</p>
+      <li>park</li>
+      <li>hike</li>
+      <li>boat</li>
+      <li>in-front</li>
+      <input id="inputAccess" type="textfield" class="mb-5"></input>
+
+    <p>💻Forecast Link:</p>
+      <input id="inputForecast" type="textfield" class="mb-5"></input>
+
+    <p>📆Jan:</p>
+      <input id="inputJan" type="textfield" class="mb-5"></input>
+
+    <p>📆Feb:</p>
+      <input id="inputFeb" type="textfield" class="mb-5"></input>
+
+    <p>📆Mar:</p>
+      <input id="inputMar" type="textfield" class="mb-5"></input>
+
+    <p>📆Apr:</p>
+      <input id="inputApr" type="textfield" class="mb-5"></input>
+
+    <p>📆May:</p>
+      <input id="inputMay" type="textfield" class="mb-5"></input>
+
+    <p>📆Jun:</p>
+      <input id="inputJun" type="textfield" class="mb-5"></input>
+
+    <p>📆Jul:</p>
+      <input id="inputJul" type="textfield" class="mb-5"></input>
+
+    <p>📆Aug:</p>
+      <input id="inputAug" type="textfield" class="mb-5"></input>
+
+    <p>📆sep:</p>
+      <input id="inputSep" type="textfield" class="mb-5"></input>
+
+    <p>📆Oct:</p>
+      <input id="inputOct" type="textfield" class="mb-5"></input>
+
+    <p>📆Nov:</p>
+      <input id="inputNov" type="textfield" class="mb-5"></input>
+
+    <p>📆Dec:</p>
+      <input id="inputDec" type="textfield" class="mb-5"></input>
+
+  <p>🌍Map Center:</p>
+    <p class="font-weight-light mb-5">Lat</p>
+    <input id="inputLat" type="textfield" class="mb-5"></input>
+    <p class="font-weight-light mb-5">Lat</p>
+    <input id="inputLng" type="textfield" class="mb-5"></input>
+
+  <div class="alert alert-danger" role="alert">
+    Does ssDocRef have the correct spot name?
+  </div>
+
+  <br><button id="saveButton" class="btn btn-warning mb-5">Save NEW Surf Spot</button>
+
+  <hr><!-- /Add Surf Spot Data -->
+
+  <!-- Add City Data -->
+  <h3 class="my-3">🏙Add New City</h3>
+  <div class="alert alert-danger" role="alert">
+    1. Refresh the page.
+  </div>
+  <div class="alert alert-danger" role="alert">
+    2. Give ssDocRef the correct CITY NAME.
+  </div>
+
+  <p>📸City Image Link</p>
+    <li>imageID</li>
+  <input id="inputCityImage" type="textfield" class="mb-5"></input>
+
+  <p>🌎Region Name:</p>
+    <li>lower-case. like 'new-york'</li>
+  <input id="inputRegion" type="textfield" class="mb-5"></input>
+
+  <p>🌎Continent:</p>
+    <li>north-america</li>
+    <li>central-america</li>
+    <li>south-america</li>
+    <li>caribbean</li>
+    <li>pacific-ocean</li>
+    <li>indian-ocean</li>
+    <li>indonesia</li>
+    <li>australia</li>
+    <li>europe</li>
+    <li>africa</li>
+    <li>asia</li>
+    <li>middle-east</li>
+  <input id="inputCityContinent" type="textfield" class="mb-5"></input>
+
+  <p>💻Lonely Planet Link</p>
+    <li>https://....</li>
+  <input id="inputLP" type="textfield" class="mb-5"></input>
+
+  <p>🤠Good for:</p>
+    <li>friends-trip</li>
+    <li>solo-adventure</li>
+    <li>familes</li>
+    <li>couples</li>
+  <input id="inputGoodFor" type="textfield" class="mb-5"></input>
+
+  <p>☀️Water Temp</p>
+    <li>bathing-suit</li>
+    <li>wetsuit</li>
+  <input id="inputWaterTemp" type="textfield" class="mb-5"></input>
+
+  <p>🏄‍♂️Surf Lessons</p>
+    <li>available</li>
+    <li>not-available</li>
+  <input id="inputCitySurfLessons" type="textfield" class="mb-5"></input>
+
+  <p>🏄‍♂️Board Rentals</p>
+    <li>available</li>
+    <li>not-available</li>
+  <input id="inputRentals" type="textfield" class="mb-5"></input>
+
+  <p>🗣Dominant Language</p>
+    <li>english</li>
+    <li>spanish</li>
+    <li>portugese</li>
+  <input id="inputLanguage" type="textfield" class="mb-5"></input>
+
+  <p>🏥Health Care</p>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+  <input id="inputHealthCare" type="textfield" class="mb-5"></input>
+
+  <p>📱Internet</p>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+  <input id="inputInternet" type="textfield" class="mb-5"></input>
+
+  <p>💃Nightlife</p>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+  <input id="inputNightlife" type="textfield" class="mb-5"></input>
+
+  <p>☘️Nature</p>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+  <input id="inputNature" type="textfield" class="mb-5"></input>
+
+  <p>⛩Nearby Culture</p>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+  <input id="inputCulture" type="textfield" class="mb-5"></input>
+
+  <p>🙊Good English</p>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+  <input id="inputEnglish" type="textfield" class="mb-5"></input>
+
+  <p>👮‍♂️Safety</p>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+  <input id="inputSafety" type="textfield" class="mb-5"></input>
+
+  <p>🍾Party Scene</p>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+  <input id="inputParty" type="textfield" class="mb-5"></input>
+
+  <p>🧗‍♀️Solo Female Safe</p>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+  <input id="inputFemaleSafe" type="textfield" class="mb-5"></input>
+
+  <br><button id="saveCityButton" class="btn btn-warning mb-5">Save NEW City</button>
+  <!-- /Add City Data -->
+
+</div>
+
+
+
+  <script src="add-data.js"></script>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <!-- Enables Tooltips -->
+  <script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+
+</body>
+</html>
