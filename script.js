@@ -1,3 +1,17 @@
+var map; // making it global
+//Map markers
+const mExpert = 'icon-images/expert.png';
+const mAdvanced = 'icon-images/advanced.png';
+const mIntermediate = 'icon-images/intermediate.png';
+const mBeginner = 'icon-images/beginner.png';
+const mSurfLessons = 'icon-images/surf-lessons.png';
+const mBeach = 'icon-images/beach.png';
+const mCrowd = 'icon-images/crowd.png';
+const mLocalism = 'icon-images/localism.png';
+//Surfboard icons
+const shortBoard = 'icon-images/short-board.png';
+const funBoard = 'icon-images/fun-board.png';
+const longBoard = 'icon-images/long-board.png';
 
 // Initialize Cloud Firestore through Firebase
 const db = firebase.firestore();
@@ -539,70 +553,59 @@ db.collection("city").get().then(function(querySnapshot) {
   });
 });
 
+//Add marker function
+function addMarker(props, map) {
+  var marker = new google.maps.Marker({
+    position: props.coords,
+    map: map,
+    icon: props.iconImage
+  });
 
-//Getting the markers
-db.collection("markers").get().then(function(querySnapshot) {
-    querySnapshot.forEach(function(doc) {
+ //Creates the info window
+  var infoWindow = new google.maps.InfoWindow({
+    content: props.content
+  });
 
-      const mData = doc.data();
-      const mCity = mData.city;
-      const mSurfSpot = mData.surfSpot;
+  //Adds the listener
+  marker.addListener('click', function(){
+    infoWindow.open(map, marker);
 
-      console.log(mData);
-
-      // //Array of markers v2
-      // var markers = [
-      //   {
-      //     coords:{lat:36.9599, lng:-122.0280},
-      //     iconImage:mAdvanced,
-      //     content:'<h3>Advanced</h3>'
-      //   },
-      //   {
-      //     coords:mapCenter,
-      //     iconImage:mBeginner,
-      //     content:'<h3>Beginner</h3>'
-      //   },
-      //   {
-      //     coords:{lat:36.9599, lng:-122.0200},
-      //     iconImage:mIntermediate,
-      //     content:'<h3>Intermediate</h3>'
-      //   }
-      // ];
-      //
-      // //Loop through markers
-      // for(var i = 0; i < markers.length; i++) {
-      //   //Add marker
-      //   addMarker(markers[i]);
-      // }
-      //
-      // //Add marker function
-      // function addMarker(props) {
-      //   var marker = new google.maps.Marker({
-      //     position:props.coords,
-      //     map:map,
-      //     icon:props.iconImage
-      //   });
-      //
-      //  //Creates the info window
-      //   var infoWindow = new google.maps.InfoWindow({
-      //     content: props.content
-      //   });
-      //
-      //   //Adds the listener
-      //   marker.addListener('click', function(){
-      //     infoWindow.open(map, marker);
-      //
-      //     //Closes windows when map is clicked
-      //     google.maps.event.addListener(map, "click", function(event) {
-      //     //Close info window
-      //         infoWindow.close();
-      //     });
-      //   });
-      // }//End of addMarker v2
-
-
+    //Closes windows when map is clicked
+    google.maps.event.addListener(map, "click", function(event) {
+    //Close info window
+        infoWindow.close();
     });
-});
+  });
+}//End of addMarker v2
+
+function renderMarkers(map) {
+  // console.log('map: ', map)
+  //Getting the markers
+  db.collection("markers").get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+
+        const mData = doc.data();
+        const mCity = mData.city;
+        const mSurfSpot = mData.surfSpot;
+
+        // console.log('mData: ', mData);
+
+        //Array of markers v2
+        var markers = [
+          mData
+        ];
+        
+        //Loop through markers
+        for(var i = 0; i < markers.length; i++) {
+          console.log('rendering markers', markers[i])          
+          //Add marker
+          addMarker(markers[i], map);
+        }
+
+      });
+  });
+}
+
 
 
 //Getting Surf Spot Maps
@@ -650,19 +653,7 @@ db.collection("surf-spot").get().then(function(querySnapshot) {
     const markerDB = ssData.marker;
     const markers1DB = ssData.markers1;
     const markersDB = ssData.markers;
-    //Map markers
-    const mExpert = 'icon-images/expert.png';
-    const mAdvanced = 'icon-images/advanced.png';
-    const mIntermediate = 'icon-images/intermediate.png';
-    const mBeginner = 'icon-images/beginner.png';
-    const mSurfLessons = 'icon-images/surf-lessons.png';
-    const mBeach = 'icon-images/beach.png';
-    const mCrowd = 'icon-images/crowd.png';
-    const mLocalism = 'icon-images/localism.png';
-    //Surfboard icons
-    const shortBoard = 'icon-images/short-board.png';
-    const funBoard = 'icon-images/fun-board.png';
-    const longBoard = 'icon-images/long-board.png';
+ 
 
 
     //Sets skill icon in surf spot heading
@@ -889,7 +880,7 @@ db.collection("surf-spot").get().then(function(querySnapshot) {
     }
 
     //new map
-    var map = new google.maps.Map(document.getElementById('surf-spot-map'), options);
+    map = new google.maps.Map(document.getElementById('surf-spot-map'), options);
 
     // // Add one marker -- markerDB works
     // var marker = new google.maps.Marker(
@@ -903,55 +894,7 @@ db.collection("surf-spot").get().then(function(querySnapshot) {
     // marker.setMap(map);
 
 
-    //Array of markers v2
-    var markers = [
-      {
-        coords:{lat:36.9599, lng:-122.0280},
-        iconImage:mAdvanced,
-        content:'<h3>Advanced</h3>'
-      },
-      {
-        coords:mapCenter,
-        iconImage:mBeginner,
-        content:'<h3>Beginner</h3>'
-      },
-      {
-        coords:{lat:36.9599, lng:-122.0200},
-        iconImage:mIntermediate,
-        content:'<h3>Intermediate</h3>'
-      }
-    ];
-
-    //Loop through markers
-    for(var i = 0; i < markers.length; i++) {
-      //Add marker
-      addMarker(markers[i]);
-    }
-
-    //Add marker function
-    function addMarker(props) {
-      var marker = new google.maps.Marker({
-        position:props.coords,
-        map:map,
-        icon:props.iconImage
-      });
-
-     //Creates the info window
-      var infoWindow = new google.maps.InfoWindow({
-        content: props.content
-      });
-
-      //Adds the listener
-      marker.addListener('click', function(){
-        infoWindow.open(map, marker);
-
-        //Closes windows when map is clicked
-        google.maps.event.addListener(map, "click", function(event) {
-        //Close info window
-            infoWindow.close();
-        });
-      });
-    }//End of addMarker v2
+    renderMarkers(map)
 
 
   });
