@@ -554,17 +554,17 @@ db.collection("markers").get().then(function(querySnapshot) {
       // var markers = [
       //   {
       //     coords:{lat:36.9599, lng:-122.0280},
-      //     iconImage:advanced,
+      //     iconImage:mAdvanced,
       //     content:'<h3>Advanced</h3>'
       //   },
       //   {
       //     coords:mapCenter,
-      //     iconImage:beginner,
+      //     iconImage:mBeginner,
       //     content:'<h3>Beginner</h3>'
       //   },
       //   {
       //     coords:{lat:36.9599, lng:-122.0200},
-      //     iconImage:intermediate,
+      //     iconImage:mIntermediate,
       //     content:'<h3>Intermediate</h3>'
       //   }
       // ];
@@ -582,22 +582,22 @@ db.collection("markers").get().then(function(querySnapshot) {
       //     map:map,
       //     icon:props.iconImage
       //   });
-
-       // //Creates the info window
-       //  var infoWindow = new google.maps.InfoWindow({
-       //    content: props.content
-       //  });
-       //
-       //  //Adds the listener
-       //  marker.addListener('click', function(){
-       //    infoWindow.open(map, marker);
-       //
-       //    //Closes windows when map is clicked
-       //    google.maps.event.addListener(map, "click", function(event) {
-       //    //Close info window
-       //        infoWindow.close();
-       //    });
-       //  });
+      //
+      //  //Creates the info window
+      //   var infoWindow = new google.maps.InfoWindow({
+      //     content: props.content
+      //   });
+      //
+      //   //Adds the listener
+      //   marker.addListener('click', function(){
+      //     infoWindow.open(map, marker);
+      //
+      //     //Closes windows when map is clicked
+      //     google.maps.event.addListener(map, "click", function(event) {
+      //     //Close info window
+      //         infoWindow.close();
+      //     });
+      //   });
       // }//End of addMarker v2
 
 
@@ -903,55 +903,55 @@ db.collection("surf-spot").get().then(function(querySnapshot) {
     // marker.setMap(map);
 
 
-    // //Array of markers v2
-    // var markers = [
-    //   {
-    //     coords:{lat:36.9599, lng:-122.0280},
-    //     iconImage:advanced,
-    //     content:'<h3>Advanced</h3>'
-    //   },
-    //   {
-    //     coords:mapCenter,
-    //     iconImage:beginner,
-    //     content:'<h3>Beginner</h3>'
-    //   },
-    //   {
-    //     coords:{lat:36.9599, lng:-122.0200},
-    //     iconImage:intermediate,
-    //     content:'<h3>Intermediate</h3>'
-    //   }
-    // ];
-    //
-    // //Loop through markers
-    // for(var i = 0; i < markers.length; i++) {
-    //   //Add marker
-    //   addMarker(markers[i]);
-    // }
-    //
-    // //Add marker function
-    // function addMarker(props) {
-    //   var marker = new google.maps.Marker({
-    //     position:props.coords,
-    //     map:map,
-    //     icon:props.iconImage
-    //   });
+    //Array of markers v2
+    var markers = [
+      {
+        coords:{lat:36.9599, lng:-122.0280},
+        iconImage:mAdvanced,
+        content:'<h3>Advanced</h3>'
+      },
+      {
+        coords:mapCenter,
+        iconImage:mBeginner,
+        content:'<h3>Beginner</h3>'
+      },
+      {
+        coords:{lat:36.9599, lng:-122.0200},
+        iconImage:mIntermediate,
+        content:'<h3>Intermediate</h3>'
+      }
+    ];
 
-     // //Creates the info window
-     //  var infoWindow = new google.maps.InfoWindow({
-     //    content: props.content
-     //  });
-     //
-     //  //Adds the listener
-     //  marker.addListener('click', function(){
-     //    infoWindow.open(map, marker);
-     //
-     //    //Closes windows when map is clicked
-     //    google.maps.event.addListener(map, "click", function(event) {
-     //    //Close info window
-     //        infoWindow.close();
-     //    });
-     //  });
-    // }//End of addMarker v2
+    //Loop through markers
+    for(var i = 0; i < markers.length; i++) {
+      //Add marker
+      addMarker(markers[i]);
+    }
+
+    //Add marker function
+    function addMarker(props) {
+      var marker = new google.maps.Marker({
+        position:props.coords,
+        map:map,
+        icon:props.iconImage
+      });
+
+     //Creates the info window
+      var infoWindow = new google.maps.InfoWindow({
+        content: props.content
+      });
+
+      //Adds the listener
+      marker.addListener('click', function(){
+        infoWindow.open(map, marker);
+
+        //Closes windows when map is clicked
+        google.maps.event.addListener(map, "click", function(event) {
+        //Close info window
+            infoWindow.close();
+        });
+      });
+    }//End of addMarker v2
 
 
   });
