@@ -111,19 +111,6 @@
       //New map
       var map = new google.maps.Map(document.getElementById('map'), options);
 
-      //Array of priceMarkers
-      var priceMarkers = [
-        {
-          new google.maps.LatLng(36.954803, -122.027115)
-        },
-        {
-          new google.maps.LatLng(36.954403, -122.027115)
-        },
-        {
-          new google.maps.LatLng(36.950803, -122.027115)
-        },
-      ]
-
       // Creates price marker
       var priceMarker = new Popup(
           new google.maps.LatLng(36.954803, -122.027115),
@@ -132,90 +119,88 @@
 
       // Add one airbnb marker
       var priceMarker2 = new Popup(
-          new google.maps.LatLng(36.950803, -122.020115),
+          new google.maps.LatLng(36.954803, -122.031015),
           document.getElementById('content2'));
           priceMarker2.setMap(map);
 
-      // Add one marker -- works
-      var marker = new google.maps.Marker({
-        position:{lat:36.9510, lng:-122.0250},
-        map:map,
-        icon:advanced,
-      });
+      // // Add one marker -- works
+      // var marker = new google.maps.Marker({
+      //   position:{lat:36.9510, lng:-122.0250},
+      //   map:map,
+      //   icon:advanced,
+      // });
 
-      // //Array of surf spot markers
-      // var markers = [
-      //   {
-      //     coords:{lat:36.9510, lng:-122.0250},
-      //     iconImage:expert,
-      //     content:'<h2>Expert</h2>'
-      //   },
-      //   {
-      //     coords:{lat:36.9530595, lng:-122.0245763},
-      //     iconImage:intermediate,
-      //     content:'<h2>Intermediate</h2>'
-      //   },
-      //   {
-      //     coords:{lat:36.957192, lng:-122.0243403},
-      //     iconImage:beginner,
-      //     content:'<h2>Beginner</h2>'
-      //   },
-      //   {
-      //     coords:{lat:36.958774, lng:-122.0247656},
-      //     iconImage:surfLessons,
-      //     content:'<h2>Surf Lessons</h2>'
-      //   },
-      //   {
-      //     coords:{lat:36.9502348, lng:-122.0245081},
-      //     iconImage:localism,
-      //     content:'<h2>Localism</h2>'
-      //   },
-      //   {
-      //     coords:{lat:36.9614145, lng:-122.0239931},
-      //     iconImage:beach,
-      //     content:'<h2>Comfortable Beach</h2>'
-      //   },
-      //   {
-      //     coords:{lat:36.9583282, lng:-122.0237356},
-      //     iconImage:crowd,
-      //     content:'<h2>Crowded</h2>'
-      //   }
-      // ];
-      //
-      // //Loop through markers
-      // for(var i=0; i<markers.length; i++) {
-      //   //Add markers
-      //   addMarker(markers[i]);
-      // }
-      //
-      // //Add marker function
-      // function addMarker(props){
-      //   //Add marker
-      //   var marker = new google.maps.Marker({
-      //     position:props.coords,
-      //     map:map,
-      //     // icon: props.iconImage
-      //   });
-      //
-      //   //Check for custom icon
-      //   if(props.iconImage){
-      //     //Set icon image
-      //     marker.setIcon(props.iconImage);
-      //   }
-      //
-      //   //Check for content
-      //   if(props.content){
-      //     //Set info window
-      //     var infoWindow = new google.maps.InfoWindow({
-      //       content:props.content
-      //     });
-      //
-      //     //Info window click listener
-      //     marker.addListener('click', function(){
-      //       infoWindow.open(map, marker);
-      //     });
-      //   }
-      // }
+      //Array of surf spot markers
+      var markers = [
+        {
+          coords:{lat:36.9510, lng:-122.0250},
+          iconImage:expert,
+          content:'<h2>Expert</h2>'
+        },
+        {
+          coords:{lat:36.9530595, lng:-122.0245763},
+          iconImage:intermediate,
+          content:'<h2>Intermediate</h2>'
+        },
+        {
+          coords:{lat:36.957192, lng:-122.0243403},
+          iconImage:beginner,
+          content:'<h2>Beginner</h2>'
+        },
+        {
+          coords:{lat:36.958774, lng:-122.0247656},
+          iconImage:surfLessons,
+          content:'<h2>Surf Lessons</h2>'
+        },
+        {
+          coords:{lat:36.9502348, lng:-122.0245081},
+          iconImage:localism,
+          content:'<h2>Localism</h2>'
+        },
+        {
+          coords:{lat:36.9614145, lng:-122.0239931},
+          iconImage:beach,
+          content:'<h2>Comfortable Beach</h2>'
+        },
+        {
+          coords:{lat:36.9583282, lng:-122.0237356},
+          iconImage:crowd,
+          content:'<h2>Crowded</h2>'
+        }
+      ];
+
+      //Loop through markers
+      for(var i=0; i<markers.length; i++) {
+        //Add markers
+        addMarker(markers[i]);
+      }
+
+      //Add marker function
+      function addMarker(props){
+        //Add marker
+        var marker = new google.maps.Marker({
+          position:props.coords,
+          map:map,
+          icon: props.iconImage
+        });
+
+        var infoWindow = new google.maps.InfoWindow({
+          content:props.content
+        });
+
+        //Info window click listener
+        marker.addListener('click', function(){
+          infoWindow.open(map, marker);
+
+          //Closes windows when map is clicked
+          google.maps.event.addListener(map, "click", function(event) {
+          //Close info window
+              infoWindow.close();
+          });
+
+        });
+
+      }
     }//End of initialize map
 
 

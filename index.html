@@ -55,6 +55,8 @@
         <hr>
       </div><!-- /feedback -->
 
+  <!-- container-fluid -->
+  <div class="container-fluid">
     <!-- filter buttons -->
     <button id="showHideFilters" type="button" class="btn btn-danger showHideFilters"><i id="filterArrow" class="fas fa-chevron-down"></i> FILTERS</button>
     <button id="clearFilters" type="button" class="btn btn-outline-danger"><i class="fas fa-times"></i> CLEAR</button><!-- /filter buttons -->
@@ -117,7 +119,8 @@
           </div>
       </div><!-- location cards -->
 
-  </div> <!-- end cardcontainer -->
+    </div><!-- end cardcontainer -->
+  </div><!-- /end container-fluid -->
 
     <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
@@ -146,7 +149,8 @@
     <!-- Enables Tooltips -->
     <script>
     $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
+      $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+        // $('[data-toggle="tooltip"]').tooltip();
     });
     </script>
   </body>
