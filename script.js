@@ -386,6 +386,47 @@ db.collection("city").get().then(function(querySnapshot) {
           femaleSafeScore = " ";
         }
 
+        //Sets languageTip in #travel-guide table
+        if (language == "english") {
+          languageTip =
+          `data-toggle="tooltip" title="🗣Mostly English speakers"`;
+        } else if (language == "spanish") {
+          languageTip =
+          `data-toggle="tooltip" title="🗣Mostly Spanish speakers"`;
+        } else if (femaleSafeScore == "portugese") {
+          languageTip =
+          `data-toggle="tooltip" title="🗣Mostly Portugese speakers"`;
+        } else {
+          languageTip = " ";
+        }
+
+        //Sets cityRentals in #travel-guide table
+        if (cityRentals == "available") {
+          cityRentals = `<td class="text-center"><p data-toggle="tooltip" title="👍Surfboard rentals are available">👍</p></td>`;
+        } else if (cityRentals == "not-available") {
+          cityRentals = `<td class="text-center"><p data-toggle="tooltip" title="👎No surfboard rentals available">👎</p></td>`;
+        } else {
+          cityRentals = " ";
+        }
+
+        //Sets cityLessons in #travel-guide table
+        if (cityLessons == "available") {
+          cityLessons = `<td class="text-center"><p data-toggle="tooltip" title="👍Surf lessons are available">👍</p></td>`;
+        } else if (cityLessons == "not-available") {
+          cityLessons = `<td class="text-center"><p data-toggle="tooltip" title="👎No surf lessons available">👎</p></td>`;
+        } else {
+          cityLessons = " ";
+        }
+
+        //Sets waterTemp in #travel-guide table
+        if (waterTemp == "bathing-suit") {
+          waterTemp = `<td data-toggle="tooltip" title="☀️Use a bathing suit most months" class="text-center">Bathing suit</td>`;
+        } else if (waterTemp == "wetsuit") {
+          waterTemp = `<td data-toggle="tooltip" title="❄️Use a wetsuit most months" class="text-center">Wetsuit</td>`;
+        } else {
+          waterTemp = " ";
+        }
+
         // inside this loop, we want to get the document inside 'surf-spot' collection that matches doc.id
         db.collection("surf-spot").get().then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
@@ -407,27 +448,12 @@ db.collection("city").get().then(function(querySnapshot) {
               //then create a string with the fontawesome icons based on expIcons array - send that string to your HTML
             }
 
-            // if (expIcons = "0") {
-            //
-            // }
-            //
-            // //if expIcons array has 0
-            // //put beginner variable into relevant cardcontainer div
-            //
-            // var beginner = '<div data-toggle="tooltip" title="Beginner"><i style="color:limegreen" class="fas fa-circle"></i></div>';
-            // var intermediate = '<div data-toggle="tooltip" title="Intermediate"><i style="color:skyblue" class="fas fa-square"></i></div>';
-            // var advanced = '<div data-toggle="tooltip" title="Advanced"><i style="color:white" class="fas fa-chevron-up"></i></i></div>';
-            // var expert = '<div data-toggle="tooltip" title="Expert"><i style="color:white" class="fas fa-angle-double-up"></i></div>';
-
           })
         });//End of the surf spot loop
 
         // we are inside a loop, so doc.id will go through each location in 'cities'
         // then get the document that matches doc.id which connects to a field in each surf spot
 
-
-        //citydata is all data for the documents in the city collection
-        //access just parts of using citydata.fieldname
         citydata = doc.data();
         var region = citydata.region;
 
@@ -517,13 +543,13 @@ db.collection("city").get().then(function(querySnapshot) {
                 </tr>
                 <tr>
                     <td class="surf-lessons">👩‍🏫Surf lessons</td>
-                    <td>${cityLessons}</td>
+                    ${cityLessons}
                     <td class="culture">⛩Culture</td>
                     <td>${cultureScore}</td>
                 </tr>
                 <tr>
                     <td class="rentals">🏄‍♂️Board rentals</td>
-                    <td>${cityRentals}</td>
+                    ${cityRentals}
                     <td class="nature">🏞Nature</td>
                     <td>${natureScore}</td>
                 </tr>
@@ -541,9 +567,9 @@ db.collection("city").get().then(function(querySnapshot) {
                 </tr>
                 <tr>
                   <td class="waterTemp">☀️Water temp</td>
-                  <td>${waterTemp}</td>
+                  ${waterTemp}
                   <td class="language">🗣Language</td>
-                  <td>${language}</td>
+                  <td style="text-transform:capitalize" ${languageTip}>${language}</td>
                 </tr>
               </tbody>
             </table>
@@ -594,10 +620,10 @@ function renderMarkers(map) {
         var markers = [
           mData
         ];
-        
+
         //Loop through markers
         for(var i = 0; i < markers.length; i++) {
-          console.log('rendering markers', markers[i])          
+          console.log('rendering markers', markers[i])
           //Add marker
           addMarker(markers[i], map);
         }
@@ -653,7 +679,7 @@ db.collection("surf-spot").get().then(function(querySnapshot) {
     const markerDB = ssData.marker;
     const markers1DB = ssData.markers1;
     const markersDB = ssData.markers;
- 
+
 
 
     //Sets skill icon in surf spot heading
@@ -871,7 +897,56 @@ db.collection("surf-spot").get().then(function(querySnapshot) {
     //   console.log(dbMarkers[i]);
     // }
 
-    initMap(ssData, spotname, mapCenter, icon, markerDB, markersDB, markers1DB, board, size, sizeTip, tide, tideTip, wind, windTip, rentals, lessons, waveDir, waveDirTip, waveType, waveTypeTip, barrel, barrelTip, bottom, bottomTip, beach, beachTip, crowd, crowdTip, localism, localismTip, access, accessTip, jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec, forecast, skill, skillTip, board, boardIcon, boardTip)
+    initMap(
+      ssData,
+      spotname,
+      mapCenter,
+      icon,
+      markerDB,
+      markersDB,
+      markers1DB,
+      size,
+      sizeTip,
+      tide,
+      tideTip,
+      wind,
+      windTip,
+      rentals,
+      lessons,
+      waveDir,
+      waveDirTip,
+      waveType,
+      waveTypeTip,
+      barrel,
+      barrelTip,
+      bottom,
+      bottomTip,
+      beach,
+      beachTip,
+      crowd,
+      crowdTip,
+      localism,
+      localismTip,
+      access,
+      accessTip,
+      jan,
+      feb,
+      mar,
+      apr,
+      may,
+      jun,
+      jul,
+      aug,
+      sep,
+      oct,
+      nov,
+      dec,
+      forecast,
+      skill,
+      skillTip,
+      board,
+      boardIcon,
+      boardTip)
 
     //Map options
     var options = {
