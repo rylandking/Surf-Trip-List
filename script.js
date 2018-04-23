@@ -386,16 +386,59 @@ db.collection("city").get().then(function(querySnapshot) {
           femaleSafeScore = " ";
         }
 
+        //Sets femaleSafeScore in #travel-guide table
+        if (englishScore == 5) {
+          englishScore =
+          `<div class="progress rounded-0" style="height: 30px;">
+            <div data-toggle="tooltip" title="🤓Everyone speaks English" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+              <b>great</b>
+            </div>
+          </div>`;
+        } else if (englishScore == 4) {
+          englishScore =
+          `<div class="progress rounded-0" style="height: 30px;">
+            <div data-toggle="tooltip" title="🤓Most people speak English" class="progress-bar bg-success" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+              <b>good</b>
+            </div>
+          </div>`;
+        } else if (englishScore == 3) {
+          englishScore =
+          `<div class="progress rounded-0" style="height: 30px;">
+            <div data-toggle="tooltip" title="🤓You can find English speaking locals" class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+              <b>okay</b>
+            </div>
+          </div>`;
+        } else if (englishScore == 2) {
+          englishScore =
+          `<div class="progress rounded-0" style="height: 30px;">
+            <div data-toggle="tooltip" title="🙊Very few people speak English" class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+              <b>bad</b>
+            </div>
+          </div>`;
+        } else if (englishScore == 1) {
+          englishScore =
+          `<div class="progress rounded-0" style="height: 30px;">
+            <div data-toggle="tooltip" title="🙊Almost no one speaks English" class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+              <b>bad</b>
+            </div>
+          </div>`;
+        } else {
+          englishScore = " ";
+        }
+
         //Sets languageTip in #travel-guide table
         if (language == "english") {
           languageTip =
           `data-toggle="tooltip" title="🗣Mostly English speakers"`;
         } else if (language == "spanish") {
           languageTip =
-          `data-toggle="tooltip" title="🗣Mostly Spanish speakers"`;
-        } else if (femaleSafeScore == "portugese") {
+          `data-toggle="tooltip" data-html="true" title="<p>👋Hello: Hola.</p><p>😁Please: Por favor.</p><p>🙏Thank you: Gracias.</p><p>🍻Beer: Cerveza.</p>"`;
+        } else if (language == "portugese") {
           languageTip =
-          `data-toggle="tooltip" title="🗣Mostly Portugese speakers"`;
+          `data-toggle="tooltip" data-html="true" title="<p>👋Hello: Olá.</p><p>😁Please: Por favor.</p><p>🙏Thank you: Obrigado.</p><p>🍻Beer: Cerveja.</p>"`;
+        } else if (language == "indonesian") {
+          languageTip =
+          `data-toggle="tooltip" data-html="true" title="<p>👋Hello: Halo.</p><p>😁Please: Silakan. (suh-LAH-kann).</p><p>🙏Thank you: Terima kasih. (Tuh-REE-mah KAH-see).</p><p>🍻Beer: Bir.</p>"`;
         } else {
           languageTip = " ";
         }
@@ -406,7 +449,7 @@ db.collection("city").get().then(function(querySnapshot) {
         } else if (cityRentals == "not-available") {
           cityRentals = `<td class="text-center"><p data-toggle="tooltip" title="👎No surfboard rentals available">👎</p></td>`;
         } else {
-          cityRentals = " ";
+          cityRentals = `<td data-toggle="tooltip" title="Undefined." class="text-center"> </td>`;
         }
 
         //Sets cityLessons in #travel-guide table
@@ -415,7 +458,7 @@ db.collection("city").get().then(function(querySnapshot) {
         } else if (cityLessons == "not-available") {
           cityLessons = `<td class="text-center"><p data-toggle="tooltip" title="👎No surf lessons available">👎</p></td>`;
         } else {
-          cityLessons = " ";
+          cityLessons = `<td data-toggle="tooltip" title="Undefined." class="text-center"> </td>`;
         }
 
         //Sets waterTemp in #travel-guide table
@@ -424,7 +467,7 @@ db.collection("city").get().then(function(querySnapshot) {
         } else if (waterTemp == "wetsuit") {
           waterTemp = `<td data-toggle="tooltip" title="❄️Use a wetsuit most months" class="text-center">Wetsuit</td>`;
         } else {
-          waterTemp = " ";
+          waterTemp = `<td data-toggle="tooltip" title="Undefined." class="text-center"> </td>`;
         }
 
         // inside this loop, we want to get the document inside 'surf-spot' collection that matches doc.id
@@ -531,7 +574,7 @@ db.collection("city").get().then(function(querySnapshot) {
                 </tr>
                 <tr>
                     <td class="beaches">🏖Beaches: </td>
-                    <td>ABC</td>
+                    <td class="text-center"><p data-toggle="tooltip" title="🏖Comfortable beaches available">👍</p></td>
                     <td class="partyScore">💃Party scene</td>
                     <td>${partyScore}</td>
                 </tr>
@@ -554,22 +597,40 @@ db.collection("city").get().then(function(querySnapshot) {
                     <td>${natureScore}</td>
                 </tr>
                 <tr>
-                    <td class="skill">🏄‍♂️Skill levels</td>
+                    <td class="power">🔌Power</td>
                     <td>ABC</td>
                     <td class="safety">👮‍♂️Safety</td>
                     <td>${safetyScore}</td>
                 </tr>
                 <tr>
-                    <td class="nearby">🗺Nearby spots</td>
-                    <td>ABC</td>
-                    <td class="femaleSafeScore">👩Solo-female safe</td>
+                    <td class="tapWater">🚰Safe tap water</td>
+                    <td class="text-center">🚫No</td>
+                    <td class="femaleSafeScore">👩Female Friendly</td>
                     <td>${femaleSafeScore}</td>
                 </tr>
                 <tr>
                   <td class="waterTemp">☀️Water temp</td>
                   ${waterTemp}
+                  <td class="englishScore">🙊English speaking</td>
+                  <td>${englishScore}</td>
+                </tr>
+                <tr>
+                  <td class="insurance">🚑Travelers Insurance</td>
+                  <td class="text-center" data-toggle="tooltip" title="🚑Travelers insurance" style="color: black;"><a href="www.travelersinsurance.com" >👍Get insurance</a></td>
                   <td class="language">🗣Language</td>
-                  <td style="text-transform:capitalize" ${languageTip}>${language}</td>
+                  <td class="text-center" style="text-transform:capitalize" ${languageTip}>${language}</td>
+                </tr>
+                <tr>
+                  <td class="lp">🗺Travel Guide</td>
+                  <td class="text-center" data-toggle="tooltip" title="💻Regional travel guide" style="color: black;"><a href="${lp}" >👍Learn even more!</a></td>
+                  <td class="immigration">👮‍♂️Immigration</td>
+                  <td class="text-center" data-toggle="tooltip" title="👮‍♂️Immigration guide" style="color: black;"><a href="www.immigrationguides.com">👍See an immigration guide</a></td>
+                </tr>
+                <tr>
+                  <td class="lp">🚘Uber available</td>
+                  <td class="text-center" data-toggle="tooltip" title="🚘Uber is available" style="color: black;"><a href="www.uber.com">👍Available!</a></td>
+                  <td></td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>
