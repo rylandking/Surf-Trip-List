@@ -164,6 +164,15 @@ const inputParty = document.querySelector("#inputParty");
 const inputFemaleSafe = document.querySelector("#inputFemaleSafe");
 const inputCitySurfLessons = document.querySelector("#inputCitySurfLessons");
 const inputRentals = document.querySelector("#inputRentals");
+const inputTapWater = document.querySelector("#inputTapWater");
+const inputUber = document.querySelector("#inputUber");
+const inputInsurance = document.querySelector("#inputInsurance");
+const inputImmigration = document.querySelector("#inputImmigration");
+const inputNorms = document.querySelector("#inputNorms");
+const inputCityCrowd = document.querySelector("#inputCityCrowd");
+const inputPowerType = document.querySelector("#inputPowerType");
+const inputFrequency = document.querySelector("#inputFrequency");
+const inputVolts = document.querySelector("#inputVolts");
 
 const inputCityImage = document.querySelector("#inputCityImage");
 const inputLP = document.querySelector("#inputLP");
@@ -188,6 +197,15 @@ saveCityButton.addEventListener("click", function(){
   const femaleToSave = inputFemaleSafe.value;
   const citySurfLessonsToSave = inputCitySurfLessons.value;
   const rentalsToSave = inputRentals.value;
+  const tapWaterToSave = inputTapWater.value;
+  const uberToSave = inputUber.value;
+  const insuranceToSave = inputInsurance.value;
+  const immigrationToSave = inputImmigration.value;
+  const cityCrowdToSave = inputCityCrowd.value;
+  const normsToSave = inputNorms.value;
+  const voltsToSave = inputVolts.value;
+  const frequencyToSave = inputFrequency.value;
+  const powerTypeToSave = inputPowerType.value;
 
   const cityImageToSave = inputCityImage.value;
   const lpToSave = inputLP.value;
@@ -210,10 +228,19 @@ cityDocRef.set({
   safetyScore: parseInt(safetyToSave),
   partyScore: parseInt(partyToSave),
   femaleSafeScore: parseInt(femaleToSave),
+  cityCrowdScore: parseInt(cityCrowdToSave),
   cityimage: cityImageToSave,
   lp: lpToSave,
   cityRentals: rentalsToSave,
   cityLessons: citySurfLessonsToSave,
+  tapWater: tapWaterToSave,
+  uber: uberToSave,
+  insurance: insuranceToSave,
+  immigration: immigrationToSave,
+  norms: normsToSave,
+  powerType: powerTypeToSave,
+  frequency: frequencyToSave,
+  volts: voltsToSave
 
 }).then(function() {
   console.log("I saved the CITY DATA to Firestore. 👍");
