@@ -50,6 +50,7 @@ db.collection("city").get().then(function(querySnapshot) {
         //City Data from FORM
         let cityRegion = citydata.region;
         let cityContintent = citydata.contintent;
+        let nation = citydata.nation;
         let goodFor = citydata.goodFor;
         let waterTemp = citydata.waterTemp;
         let language = citydata.language;
@@ -62,7 +63,7 @@ db.collection("city").get().then(function(querySnapshot) {
         let safetyScore = citydata.safetyScore;
         let partyScore = citydata.partyScore;
         let femaleSafeScore = citydata.femaleSafeScore;
-        let cityCrowdScore = citydata.cityCrowdScore;
+        let touristScore = citydata.touristScore;
         let lp = citydata.lp;
         let cityRentals = citydata.cityRentals;
         let cityLessons = citydata.cityLessons;
@@ -75,7 +76,19 @@ db.collection("city").get().then(function(querySnapshot) {
         let volts = citydata.volts;
         let frequency = citydata.frequency;
         let powerType = citydata.powerType;
+        let meal = citydata.meal;
+        let beer = citydata.beer;
+        let currencyName = citydata.currencyName;
+        let usdEquivalent = citydata.usdEquivalent;
+        let atm = citydata.atm;
+        let roomCost = citydata.roomCost;
+        let placeCost = citydata.placeCost;
 
+        //Calculates the USD of a common ATM takeout
+        const atmInUSD = parseInt(atm/usdEquivalent);
+
+        //Calculates daily cost of staying in a city
+        const dailyCost = parseInt(roomCost + (3 * meal) + beer);
 
         //Sets healthCareScore in #travel-guide table
         if (healthCareScore == 5) {
@@ -182,7 +195,7 @@ db.collection("city").get().then(function(querySnapshot) {
         } else if (cultureScore == 2) {
           cultureScore =
           `<div class="progress rounded-0" style="height: 30px;">
-            <div data-toggle="tooltip" title="⛩Minimal interesting culture" class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+            <div data-toggle="tooltip" title="⛩Minimal interesting culture nearby" class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
               <b>bad</b>
             </div>
           </div>`;
@@ -321,21 +334,21 @@ db.collection("city").get().then(function(querySnapshot) {
         if (partyScore == 5) {
           partyScore =
           `<div class="progress rounded-0" style="height: 30px;">
-            <div data-toggle="tooltip" title="💃Party on, Wayne!" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+            <div data-toggle="tooltip" title="🕺🏼💃Party on, Wayne!" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
               <b>great</b>
             </div>
           </div>`;
         } else if (partyScore == 4) {
           partyScore =
           `<div class="progress rounded-0" style="height: 30px;">
-            <div data-toggle="tooltip" title="💃Party spots nearby" class="progress-bar bg-success" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+            <div data-toggle="tooltip" title="🕺🏼💃Party spots nearby" class="progress-bar bg-success" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
               <b>good</b>
             </div>
           </div>`;
         } else if (partyScore == 3) {
           partyScore =
           `<div class="progress rounded-0" style="height: 30px;">
-            <div data-toggle="tooltip" title="💃Places to party can be hard to find" class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+            <div data-toggle="tooltip" title="🕺🏼💃Places to party can be hard to find" class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
               <b>okay</b>
             </div>
           </div>`;
@@ -437,47 +450,72 @@ db.collection("city").get().then(function(querySnapshot) {
           englishScore = " ";
         }
 
-        //Sets cityCrowdScore in #travel-guide table
-        if (cityCrowdScore == 5) {
-          cityCrowdScore = `<td class="text-center"><a data-toggle="tooltip" title="🏝Very uncrowded area">Very uncrowded</a></td>`;
-        } else if (cityCrowdScore == 4) {
-          cityCrowdScore = `<td class="text-center"><a data-toggle="tooltip" title="🏝Unsually an uncrowded area">Usually uncrowded</a></td>`;
-        } else if (cityCrowdScore == 3) {
-          cityCrowdScore = `<td class="text-center"><a data-toggle="tooltip" title="🎪Crowded area on weekends and ☀️nice weather">Crowded sometimes</a></td>`;
-        } else if (cityCrowdScore == 2) {
-          cityCrowdScore = `<td class="text-center"><a data-toggle="tooltip" title="🎪Crowded area most days">Crowded</a></td>`;
-        } else if (cityCrowdScore == 1) {
-          cityCrowdScore = `<td class="text-center"><a data-toggle="tooltip" title="🎪Crowded area almost everyday">Very crowded</a></td>`;
+        //Sets touristScore in #travel-guide table
+        if (touristScore == 5) {
+          touristScore =
+          `<div class="progress rounded-0" style="height: 30px;">
+            <div data-toggle="tooltip" title="🎪Touristy and crowded area almost everyday" class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+              <b>very</b>
+            </div>
+          </div>`;
+        } else if (touristScore == 4) {
+          touristScore =
+          `<div class="progress rounded-0" style="height: 30px;">
+            <div data-toggle="tooltip" title="🎪Touristy and crowded area most days" class="progress-bar bg-danger" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+              <b>often</b>
+            </div>
+          </div>`;
+        } else if (touristScore == 3) {
+          touristScore =
+          `<div class="progress rounded-0" style="height: 30px;">
+            <div data-toggle="tooltip" title="🎪Can be touristy and crowded area on weekends and with nice weather" class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+              <b>sometimes</b>
+            </div>
+          </div>`;
+        } else if (touristScore == 2) {
+          touristScore =
+          `<div class="progress rounded-0" style="height: 30px;">
+            <div data-toggle="tooltip" title="🎪Not touristy and pretty uncrowded area" class="progress-bar bg-success" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+              <b>rarely</b>
+            </div>
+          </div>`;
+        } else if (touristScore == 1) {
+          touristScore =
+          `<div class="progress rounded-0" style="height: 30px;">
+            <div data-toggle="tooltip" title="🎪No tourists and very uncrowded area" class="progress-bar bg-success" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+              <b>never</b>
+            </div>
+          </div>`;
         } else {
-          cityCrowdScore = " ";
+          touristScore = " ";
         }
 
         //Sets languageTip in #travel-guide table
         if (language == "english") {
           language = `<td data-toggle="tooltip" data-html="true" title="<p>🗣English speakers</p>" class="text-center">English</td>`;
         } else if (language == "spanish") {
-          language = `<td data-toggle="tooltip" data-html="true" title="<p>👋Hello: Hola.</p><p>😁Please: Por favor.</p><p>🙏Thank you: Gracias.</p><p>🍻Beer: Cerveza.</p><p>More Spanish phrases 👇</p>" class="text-center"><a href="http://www.omniglot.com/language/phrases/spanish.php">Spanish</a></td>`;
+          language = `<td data-toggle="tooltip" data-html="true" title="<p>👋Hello: Hola.</p><p>😁Please: Por favor.</p><p>🙏Thank you: Gracias.</p><p>🍻Beer: Cerveza.</p><p>More Spanish phrases 👇</p>" class="text-center"><a href="http://www.omniglot.com/language/phrases/spanish.php" target="_blank">Spanish</a></td>`;
         } else if (language == "portuguese") {
-          language = `<td data-toggle="tooltip" data-html="true" title="<p>👋Hello: Olá.</p><p>😁Please: Por favor.</p><p>🙏Thank you: Obrigado.</p><p>🍻Beer: Cerveja.</p><p>More Portuguese phrases 👇</p>" class="text-center"><a href="https://www.omniglot.com/language/phrases/portuguese.php">Portuguese</a></td>`;
+          language = `<td data-toggle="tooltip" data-html="true" title="<p>👋Hello: Olá.</p><p>😁Please: Por favor.</p><p>🙏Thank you: Obrigado.</p><p>🍻Beer: Cerveja.</p><p>More Portuguese phrases 👇</p>" class="text-center"><a href="https://www.omniglot.com/language/phrases/portuguese.php" target="_blank">Portuguese</a></td>`;
         } else if (language == "indonesian") {
-          language = `<td data-toggle="tooltip" data-html="true" title="<p>👋Hello: Halo.</p><p>😁Please: Silakan. (suh-LAH-kann).</p><p>🙏Thank you: Terima kasih. (Tuh-REE-mah KAH-see).</p><p>🍻Beer: Bir.</p><p>More Indonesian phrases 👇</p>" class="text-center"><a href="https://www.omniglot.com/language/phrases/indonesian.php">🇮🇩Indonesian</a></td>`;
+          language = `<td data-toggle="tooltip" data-html="true" title="<p>👋Hello: Halo.</p><p>😁Please: Silakan. (suh-LAH-kann).</p><p>🙏Thank you: Terima kasih. (Tuh-REE-mah KAH-see).</p><p>🍻Beer: Bir.</p><p>More Indonesian phrases 👇</p>" class="text-center"><a href="https://www.omniglot.com/language/phrases/indonesian.php" target="_blank">🇮🇩Indonesian</a></td>`;
         } else {
           language = " ";
         }
 
         //Sets cityRentals in #travel-guide table
-        if (cityRentals == "available") {
+        if (cityRentals == "yes") {
           cityRentals = `<td class="text-center"><p data-toggle="tooltip" title="👍Surfboard rentals are available">👍</p></td>`;
-        } else if (cityRentals == "not-available") {
+        } else if (cityRentals == "no") {
           cityRentals = `<td class="text-center"><p data-toggle="tooltip" title="👎No surfboard rentals available">👎</p></td>`;
         } else {
           cityRentals = `<td data-toggle="tooltip" title="Undefined." class="text-center"> </td>`;
         }
 
         //Sets cityLessons in #travel-guide table
-        if (cityLessons == "available") {
+        if (cityLessons == "yes") {
           cityLessons = `<td class="text-center"><p data-toggle="tooltip" title="👍Surf lessons are available">👍</p></td>`;
-        } else if (cityLessons == "not-available") {
+        } else if (cityLessons == "no") {
           cityLessons = `<td class="text-center"><p data-toggle="tooltip" title="👎No surf lessons available">👎</p></td>`;
         } else {
           cityLessons = `<td data-toggle="tooltip" title="Undefined." class="text-center"> </td>`;
@@ -541,77 +579,77 @@ db.collection("city").get().then(function(querySnapshot) {
           powerType = " "
         }
         if(powerType.indexOf("A") != -1){
-          var aType = `<a data-toggle="tooltip" title="USA, Canada, Mexico & Japan A-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/ab/"><img src='plugs/typeA.png'></img></a> `;
+          var aType = `<a data-toggle="tooltip" title="USA, Canada, Mexico & Japan A-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/ab/" target="_blank"><img src='plugs/typeA.png'></img></a> `;
         } else {
           var aType = ""
         }
         if(powerType.indexOf("B") != -1){
-          var bType = `<a data-toggle="tooltip" title="USA, Canada, Mexico & Japan B-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/ab/"><img src='plugs/typeB.png'></img></a> `;
+          var bType = `<a data-toggle="tooltip" title="USA, Canada, Mexico & Japan B-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/ab/" target="_blank"><img src='plugs/typeB.png'></img></a> `;
         } else {
           var bType = ""
         }
         if(powerType.indexOf("C") != -1){
-          var cType = `<a data-toggle="tooltip" title="Common in Europe, South America & Asia C-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/c/"><img src='plugs/typeC.png'></img></a> `;
+          var cType = `<a data-toggle="tooltip" title="Common in Europe, South America & Asia C-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/c/" target="_blank"><img src='plugs/typeC.png'></img></a> `;
         } else {
           var cType = ""
         }
         if(powerType.indexOf("D") != -1){
-          var dType = `<a data-toggle="tooltip" title="Mainly in India D-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/d/"><img src='plugs/typeD.png'></img></a> `;
+          var dType = `<a data-toggle="tooltip" title="Mainly in India D-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/d/" target="_blank"><img src='plugs/typeD.png'></img></a> `;
         } else {
           var dType = ""
         }
         if(powerType.indexOf("E") != -1){
-          var eType = `<a data-toggle="tooltip" title="Primarily in France, Belgium, Poland, Slovakia & Czechia E-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/e/"><img src='plugs/typeE.png'></img></a> `;
+          var eType = `<a data-toggle="tooltip" title="Primarily in France, Belgium, Poland, Slovakia & Czechia E-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/e/" target="_blank"><img src='plugs/typeE.png'></img></a> `;
         } else {
           var eType = ""
         }
         if(powerType.indexOf("F") != -1){
-          var fType = `<a data-toggle="tooltip" title="Almost everywhere in Europe & Russia, except for the UK & Ireland F-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/f/"><img src='plugs/typeF.png'></img></a> `;
+          var fType = `<a data-toggle="tooltip" title="Almost everywhere in Europe & Russia, except for the UK & Ireland F-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/f/" target="_blank"><img src='plugs/typeF.png'></img></a> `;
         } else {
           var fType = ""
         }
         if(powerType.indexOf("G") != -1){
-          var gType = `<a data-toggle="tooltip" title="Mainly used in United Kingdom, Ireland, Malta, Malaysia & Singapore G-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/g/"><img src='plugs/typeG.png'></img></a> `;
+          var gType = `<a data-toggle="tooltip" title="Mainly used in United Kingdom, Ireland, Malta, Malaysia & Singapore G-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/g/" target="_blank"><img src='plugs/typeG.png'></img></a> `;
         } else {
           var gType = ""
         }
         if(powerType.indexOf("H") != -1){
-          var hType = `<a data-toggle="tooltip" title="Used in Israel, the West Bank & the Gaza Strip H-plug" href="used exclusively in Israel, the West Bank & the Gaza Strip"><img src='plugs/typeH.png'></img></a> `;
+          var hType = `<a data-toggle="tooltip" title="Used in Israel, the West Bank & the Gaza Strip H-plug" href="used exclusively in Israel, the West Bank & the Gaza Strip" target="_blank"><img src='plugs/typeH.png'></img></a> `;
         } else {
           var hType = ""
         }
         if(powerType.indexOf("I") != -1){
-          var iType = `<a data-toggle="tooltip" title="Mainly in Australia, New Zealand, China & Argentina I-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/i/"><img src='plugs/typeI.png'></img></a> `;
+          var iType = `<a data-toggle="tooltip" title="Mainly in Australia, New Zealand, China & Argentina I-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/i/" target="_blank"><img src='plugs/typeI.png'></img></a> `;
         } else {
           var iType = ""
         }
         if(powerType.indexOf("J") != -1){
-          var jType = `<a data-toggle="tooltip" title="Used in Switzerland J-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/j/"><img src='plugs/typeJ.png'></img></a> `;
+          var jType = `<a data-toggle="tooltip" title="Used in Switzerland J-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/j/" target="_blank"><img src='plugs/typeJ.png'></img></a> `;
         } else {
           var jType = ""
         }
         if(powerType.indexOf("K") != -1){
-          var kType = `<a data-toggle="tooltip" title="Used in Denmark & Greenland K-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/k/"><img src='plugs/typeK.png'></img></a> `;
+          var kType = `<a data-toggle="tooltip" title="Used in Denmark & Greenland K-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/k/" target="_blank"><img src='plugs/typeK.png'></img></a> `;
         } else {
           var kType = ""
         }
         if(powerType.indexOf("L") != -1){
-          var lType = `<a data-toggle="tooltip" title="Used in Italy & Chile L-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/l/"><img src='plugs/typeL.png'></img></a> `;
+          var lType = `<a data-toggle="tooltip" title="Used in Italy & Chile L-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/l/" target="_blank"><img src='plugs/typeL.png'></img></a> `;
         } else {
           var lType = ""
         }
         if(powerType.indexOf("M") != -1){
-          var mType = `<a data-toggle="tooltip" title="Used South Africa M-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/m/"><img src='plugs/typeM.png'></img></a> `;
+          var mType = `<a data-toggle="tooltip" title="Used South Africa M-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/m/" target="_blank"><img src='plugs/typeM.png'></img></a> `;
         } else {
           var mType = ""
         }
         if(powerType.indexOf("N") != -1){
-          var nType = `<a data-toggle="tooltip" title="Used in Brazil N-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/n/"><img src='plugs/typeN.png'></img></a> `;
+          var nType = `<a data-toggle="tooltip" title="Used in Brazil N-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/n/" target="_blank"><img src='plugs/typeN.png'></img></a> `;
         } else {
           var nType = ""
         }
         if(powerType.indexOf("O") != -1){
-          var oType = `<a data-toggle="tooltip" title="Used in Thailand O-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/o/"><img src='plugs/typeO.png'></img></a> `;
+          var oType = `<a data-toggle="tooltip" title="Used in Thailand O-plug" href="https://www.worldstandards.eu/electricity/plugs-and-sockets/o/" target="_blank"><img src='plugs/typeO.png'></img></a> `;
         } else {
           var oType = ""
         }
@@ -721,7 +759,7 @@ db.collection("city").get().then(function(querySnapshot) {
                 <tr>
                     <td class="beaches">🏖Beaches: </td>
                     <td class="text-center"><p data-toggle="tooltip" title="🏖Comfortable beaches available">👍</p></td>
-                    <td class="partyScore">💃Party scene</td>
+                    <td class="partyScore">🕺🏼💃Party scene</td>
                     <td>${partyScore}</td>
                 </tr>
                 <tr>
@@ -733,56 +771,74 @@ db.collection("city").get().then(function(querySnapshot) {
                 <tr>
                     <td class="surf-lessons">👩‍🏫Surf lessons</td>
                     ${cityLessons}
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="rentals">🏄‍♂️Board rentals</td>
-                    ${cityRentals}
                     <td class="nature">🏞Nature</td>
                     <td>${natureScore}</td>
                 </tr>
                 <tr>
-                    <td class="power">🔌Power</td>
-                    <td class="text-center">${aType}${bType}${cType}${dType}${eType}${fType}${gType}${hType}${iType}${jType}${kType}${lType}${mType}${nType}${oType} <a data-toggle="tooltip" title="🔌${volts} Volts">${volts}V</a> <a data-toggle="tooltip" title="🔌${frequency} Hertz">${frequency}Hz</a></td>
+                    <td class="rentals">🏄‍♂️Board rentals</td>
+                    ${cityRentals}
                     <td class="safety">👮‍♂️Safety</td>
                     <td>${safetyScore}</td>
                 </tr>
                 <tr>
-                    <td class="tapWater">🚰Safe tap water</td>
-                    ${tapWater}
+                    <td class="power">🔌Power</td>
+                    <td class="text-center">${aType}${bType}${cType}${dType}${eType}${fType}${gType}${hType}${iType}${jType}${kType}${lType}${mType}${nType}${oType} <a data-toggle="tooltip" title="🔌${volts} Volts">${volts}V</a> <a data-toggle="tooltip" title="🔌${frequency} Hertz">${frequency}Hz</a></td>
                     <td class="femaleSafeScore">👩Female Friendly</td>
                     <td>${femaleSafeScore}</td>
                 </tr>
                 <tr>
+                    <td class="tapWater">🚰Safe tap water</td>
+                    ${tapWater}
+                    <td class="englishScore">🙊English speaking</td>
+                    <td>${englishScore}</td>
+                </tr>
+                <tr>
                   <td class="waterTemp">☀️Water temp</td>
                   ${waterTemp}
-                  <td class="englishScore">🙊English speaking</td>
-                  <td>${englishScore}</td>
+                  <td class="tourist">🎪Touristy</td>
+                    <td>${touristScore}</td>
                 </tr>
                 <tr>
                   <td class="insurance">🚑Travelers Insurance</td>
-                  <td class="text-center" data-toggle="tooltip" title="🚑Get travelers insurance" style="color: black;"><a href="https://www.worldnomads.com/">Get insurance</a></td>
+                  <td class="text-center" data-toggle="tooltip" title="🚑Get travelers insurance" style="color: black;"><a href="https://www.worldnomads.com/" target="_blank">Get insurance</a></td>
                   <td class="language">🗣Language</td>
                   ${language}
                 </tr>
                 <tr>
                   <td class="lp">🗺Travel Guide</td>
-                  <td class="text-center" data-toggle="tooltip" title="💻${locname} travel guide" style="color: black;"><a href="${lp}">Guidebook</a></td>
+                  <td class="text-center" data-toggle="tooltip" title="💻${locname} travel guide" style="color: black;"><a href="${lp}" target="_blank">Guidebook</a></td>
                   <td class="uber">🚘Uber available</td>
                   ${uber}
                 </tr>
                 <tr>
                   <td class="immigration">👮‍♂️Immigration</td>
-                  <td class="text-center" data-toggle="tooltip" title="👮‍♂️See immigration guide" style="color: black;"><a href="${immigration}">Immigration guide</a></td>
-                  <td class="crowd">🎪Crowd</td>
-                  ${cityCrowdScore}
+                  <td class="text-center" data-toggle="tooltip" title="👮‍♂️See immigration guide" style="color: black;"><a href="${immigration}" target="_blank">Immigration guide</a></td>
+                  <td class="meal">🌮Meal Price</td>
+                  <td class="text-center" data-toggle="tooltip" title="🌮Avg cost of a meal in an establishment">$${meal}</td>
                 </tr>
                 <tr>
                   <td class="immigration">🤐Cultural norms</td>
-                  <td class="text-center" data-toggle="tooltip" title="📖Learn the cultural norms" style="color: black;"><a href="${norms}">Cultural norm guide</a></td>
-                  <td></td>
-                  <td></td>
+                  <td class="text-center" data-toggle="tooltip" title="📖Learn the cultural norms" style="color: black;"><a href="${norms}" target="_blank">Cultural norm guide</a></td>
+                  <td class="beer">🍺.5L Beer</td>
+                  <td class="text-center" data-toggle="tooltip" title="🍺Cost of 0.5L beer in an establishment">$${beer}</td>
+                </tr>
+                <tr>
+                  <td class="rooms">🏡Airbnb (private room)</td>
+                  <td class="text-center" data-toggle="tooltip" title="🏡Avg cost per night of a private room in ${cityName}">$${roomCost}</td>
+                  <td class="currency">💸$1 USD in ${currencyName}</td>
+                  <td class="text-center" data-toggle="tooltip" title="💸Same as 1USD">${usdEquivalent} ${currencyName}</td>
+                </tr>
+                <tr>
+                  <td class="places">🏡Airbnb (entire place)</td>
+                  <td class="text-center" data-toggle="tooltip" title="🏡Avg cost per night of an entire place in ${cityName}">$${placeCost}</td>
+                  <td class="atm">🏧take out: ${atm} ${currencyName}</td>
+                  <td class="text-center" data-toggle="tooltip" title="🏧 Common ATM takeout amount">USD ${atmInUSD}</td>
+                </tr>
+                <tr>
+                  <td class="cost">💸Cost per day</td>
+                  <td class="text-center" data-toggle="tooltip" title="Cost of one private room, three meals out and a beer per day🤙">$${dailyCost}</td>
+                  <td class="culture">⛩Cultural sights nearby</td>
+                  <td>${cultureScore}</td>
                 </tr>
               </tbody>
             </table>
