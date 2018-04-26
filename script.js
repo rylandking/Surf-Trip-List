@@ -482,7 +482,7 @@ db.collection("city").get().then(function(querySnapshot) {
         } else if (touristScore == 1) {
           touristScore =
           `<div class="progress rounded-0" style="height: 30px;">
-            <div data-toggle="tooltip" title="🎪No tourists and very uncrowded area" class="progress-bar bg-success" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+            <div data-toggle="tooltip" title="🎪No tourists and very uncrowded area" class="progress-bar bg-success" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
               <b>never</b>
             </div>
           </div>`;

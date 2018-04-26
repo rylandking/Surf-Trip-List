@@ -31,163 +31,297 @@
     <p>🏙City: "salina-cruz"</p>
       <input id="inputCity" type="textfield" class="mb-5"></input>
 
-    <p>🌎Continent:</p>
-      <li>north-america</li>
-      <li>central-america</li>
-      <li>south-america</li>
-      <li>caribbean</li>
-      <li>pacific-ocean</li>
-      <li>indian-ocean</li>
-      <li>indonesia</li>
-      <li>australia</li>
-      <li>europe</li>
-      <li>africa</li>
-      <li>asia</li>
-      <li>middle-east</li>
-    <input id="inputContinent" type="textfield" class="mb-5"></input>
+    <p>🌎What continent is it on?</p>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="continent" id="inputCityContinent" autocomplete="off" value="north-america">North America</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="continent" id="inputCityContinent" autocomplete="off" value="central-america">Central America</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="continent" id="inputCityContinent" autocomplete="off" value="south-america">South America</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="continent" id="inputCityContinent" autocomplete="off" value="caribbean">Caribbean</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="continent" id="inputCityContinent" autocomplete="off" value="pacific-ocean">Pacific Ocean</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="continent" id="inputCityContinent" autocomplete="off" value="indian-ocean">Indian Ocean</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="continent" id="inputCityContinent" autocomplete="off" value="indonesia">Indonesia</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="continent" id="inputCityContinent" autocomplete="off" value="australia">Australia</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="continent" id="inputCityContinent" autocomplete="off" value="europe">Europe</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="continent" id="inputCityContinent" autocomplete="off" value="africa">Africa</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="continent" id="inputCityContinent" autocomplete="off" value="asia">Asia</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="continent" id="inputCityContinent" autocomplete="off" value="middle-east">Middle East</input>
+        </label>
+      </div>
 
-    <p>🎓Surf Lessons:</p>
-    <p class="font-weight-light mb-5">true or false in add-data.js</p>
-      <!-- <input id="inputSurfLessons" type="textfield" class="mb-5"></input> -->
+    <p>🎓Are their surf lessons available at the beach?</p>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="spotLessons" id="inputSpotLessons" autocomplete="off" value="yes">Yep!</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="spotLessons" id="inputSpotLessons" autocomplete="off" value="no">Nope</input>
+        </label>
+      </div>
 
-    <p>🏄‍♂️Rentals:</p>
-      <p class="font-weight-light mb-5">true or false in add-data.js</p>
-      <!-- <input id="inputBeach" type="textfield" class="mb-5"></input> -->
+    <p>🏄‍♂️Are their board rentals avialable at the beach?</p>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="spotRentals" id="inputSpotRentals" autocomplete="off" value="yes">Yep!</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="spotRentals" id="inputSpotRentals" autocomplete="off" value="no">Nope</input>
+        </label>
+      </div>
 
-    <p>☀️Water Temp</p>
-      <li>Trunks</li>
-      <li>Wetsuit</li>
-      <input id="inputTemp" type="textfield" class="mb-5"></input>
+    <p>☀️Is the water trunkable?</p>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="temp" id="inputTemp" autocomplete="off" value="bathing-suit">☀️Bathing Suit</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="temp" id="inputTemp" autocomplete="off" value="wetsuit">❄️Wetsuit</input>
+        </label>
+      </div>
 
-    <p>🏄🏽‍♀️Skill Level:</p>
-      <li>beginner</li>
-      <li>intermediate</li>
-      <li>advanced</li>
-      <li>expert</li>
-    <input id="inputSkill" type="textfield" class="mb-5"></input>
+      <p>🌎What's the skill level?</p>
+        <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="skill" id="inputSkill" autocomplete="off" value="beginner">Beginner</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="skill" id="inputSkill" autocomplete="off" value="intermediate">Intermediate</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="skill" id="inputSkill" autocomplete="off" value="advanced">Advanced</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="skill" id="inputSkill" autocomplete="off" value="expert">Expert</input>
+          </label>
+        </div>
 
-    <p>🏄‍♂️Best Board:</p>
-      <li>short-board</li>
-      <li>fun-board</li>
-      <li>long-board</li>
-      <input id="inputBoard" type="textfield" class="mb-5"></input>
+      <p>🏄‍♂️Best Board?</p>
+        <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="board" id="inputBoard" autocomplete="off" value="short-board">Short Boards</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="board" id="inputBoard" autocomplete="off" value="fun-board">Fun Boards</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="board" id="inputBoard" autocomplete="off" value="long-board">Long Boards</input>
+          </label>
+        </div>
 
-    <p>🌊Best Size:</p>
-      <li>waist-high</li>
-      <li>head-high</li>
-      <li>double-overhead</li>
-      <input id="inputSize" type="textfield" class="mb-5"></input>
+    <p>🌊Best size?</p>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="size" id="inputSize" autocomplete="off" value="waist-high">Waist High</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="size" id="inputSize" autocomplete="off" value="head-high">Head High</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="size" id="inputSize" autocomplete="off" value="double-overhead">Double Overhead</input>
+        </label>
+      </div>
 
-    <p>♒︎Best Tide:</p>
-      <li>low</li>
-      <li>medium</li>
-      <li>high</li>
-      <li>all</li>
-      <input id="inputTide" type="textfield" class="mb-5"></input>
+    <p>♒︎Best tide?</p>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="tide" id="inputTide" autocomplete="off" value="low">Low</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="tide" id="inputTide" autocomplete="off" value="medium">Medium</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="tide" id="inputTide" autocomplete="off" value="high">High</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="tide" id="inputTide" autocomplete="off" value="all">All tides</input>
+        </label>
+      </div>
 
-    <p>↖︎Best Wind:</p>
-      <li>N</li>
-      <li>NE</li>
-      <li>E</li>
-      <li>SE</li>
-      <li>S</li>
-      <li>SW</li>
-      <li>W</li>
-      <li>NW</li>
-      <input id="inputWind" type="textfield" class="mb-5"></input>
+      <p>💨Best wind?</p>
+        <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="wind" id="inputWind" autocomplete="off" value="N">N</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="wind" id="inputWind" autocomplete="off" value="NE">NE</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="wind" id="inputWind" autocomplete="off" value="E">E</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="wind" id="inputWind" autocomplete="off" value="SE">SE</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="wind" id="inputWind" autocomplete="off" value="S">S</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="wind" id="inputWind" autocomplete="off" value="SW">SW</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="wind" id="inputWind" autocomplete="off" value="W">W</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="wind" id="inputWind" autocomplete="off" value="NW">NW</input>
+          </label>
+        </div>
 
-    <p>🌊Wave Type:</p>
-      <li>point</li>
-      <li>beach</li>
-      <input id="inputType" type="textfield" class="mb-5"></input>
+    <p>🌊Wave type?</p>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="waveType" id="inputType" autocomplete="off" value="beach">Beach</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="waveType" id="inputType" autocomplete="off" value="point">Point</input>
+        </label>
+      </div>
 
     <p>➡️Wave Direction:</p>
-      <li>right</li>
-      <li>left</li>
-      <li>both</li>
-      <input id="inputDirection" type="textfield" class="mb-5"></input>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="waveDir" id="inputWaveDir" autocomplete="off" value="right">Right</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="waveDir" id="inputWaveDir" autocomplete="off" value="left">Left</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="waveDir" id="inputWaveDir" autocomplete="off" value="both">Rights & Lefts</input>
+        </label>
+      </div>
 
-    <p>🌊Barrel?</p>
-      <li>yes</li>
-      <li>sometimes</li>
-      <li>no</li>
-      <input id="inputBarrel" type="textfield" class="mb-5"></input>
+    <p>🌊Does it barrel?</p>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="barrel" id="inputBarrel" autocomplete="off" value="yes">Yes</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="barrel" id="inputBarrel" autocomplete="off" value="sometimes">Sometimes</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="barrel" id="inputBarrel" autocomplete="off" value="no">No</input>
+        </label>
+      </div>
 
-    <p>⚓️Bottom:</p>
-      <li>sand</li>
-      <li>rock</li>
-      <li>reef</li>
-      <input id="inputBottom" type="textfield" class="mb-5"></input>
+    <p>⚓️Bottom is:</p>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="bottom" id="inputBottom" autocomplete="off" value="sand">Mostly sand</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="bottom" id="inputBottom" autocomplete="off" value="rock">Mostly rock</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="bottom" id="inputBottom" autocomplete="off" value="reef">Mostly reef</input>
+        </label>
+      </div>
 
-    <p>🏖Beach:</p>
-      <li>comfortable</li>
-      <li>semi-comfortable</li>
-      <li>no-beach</li>
-      <input id="inputBeach" type="textfield" class="mb-5"></input>
+    <p>🏖Is the beach comfortable?</p>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="beach" id="inputBeach" autocomplete="off" value="comfortable">Very comfortable</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="beach" id="inputBeach" autocomplete="off" value="semi-comfortable">Semi comfortable</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="beach" id="inputBeach" autocomplete="off" value="no-beach">No beach</input>
+        </label>
+      </div>
 
-    <p>🎪Crowd:</p>
-      <li>a-zoo</li>
-      <li>spread-out</li>
-      <li>minimal</li>
-      <input id="inputCrowd" type="textfield" class="mb-5"></input>
+    <p>🎪Is the spot crowded?</p>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="crowd" id="inputCrowd" autocomplete="off" value="a-zoo">It's a zoo</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="crowd" id="inputCrowd" autocomplete="off" value="spread-out">It's spread out</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="crowd" id="inputCrowd" autocomplete="off" value="minimal">Minimal crowd</input>
+        </label>
+      </div>
 
-    <p>👺Localism:</p>
-      <li>yes</li>
-      <li>be-respectful</li>
-      <li>no</li>
-      <input id="inputLocalism" type="textfield" class="mb-5"></input>
+    <p>🎪Is their localism at the spot?</p>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="localism" id="inputLocalism" autocomplete="off" value="yes">Yes</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="localism" id="inputLocalism" autocomplete="off" value="be-respectful">Please be respectful</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="localism" id="inputLocalism" autocomplete="off" value="no">No</input>
+        </label>
+      </div>
 
-    <p>🚗Accessibility:</p>
-      <li>park</li>
-      <li>hike</li>
-      <li>boat</li>
-      <li>in-front</li>
-      <input id="inputAccess" type="textfield" class="mb-5"></input>
+    <p>🚗How do I access the spot?</p>
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="access" id="inputAccess" autocomplete="off" value="park">Park</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="access" id="inputAccess" autocomplete="off" value="hike">Hike</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="access" id="inputAccess" autocomplete="off" value="boat">Boat</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="access" id="inputAccess" autocomplete="off" value="in-front">It can be right out front!</input>
+        </label>
+      </div>
 
     <p>💻Forecast Link:</p>
       <input id="inputForecast" type="textfield" class="mb-5"></input>
 
-    <p>📆Jan:</p>
-      <input id="inputJan" type="textfield" class="mb-5"></input>
+    <p>📆Jan:<input id="inputJan" type="textfield" class="mb-5"></input></p>
 
-    <p>📆Feb:</p>
-      <input id="inputFeb" type="textfield" class="mb-5"></input>
+    <p>📆Feb:<input id="inputFeb" type="textfield" class="mb-5"></input></p>
 
-    <p>📆Mar:</p>
-      <input id="inputMar" type="textfield" class="mb-5"></input>
+    <p>📆Mar:<input id="inputMar" type="textfield" class="mb-5"></input></p>
 
-    <p>📆Apr:</p>
-      <input id="inputApr" type="textfield" class="mb-5"></input>
+    <p>📆Apr:<input id="inputApr" type="textfield" class="mb-5"></input></p>
 
-    <p>📆May:</p>
-      <input id="inputMay" type="textfield" class="mb-5"></input>
+    <p>📆May:<input id="inputMay" type="textfield" class="mb-5"></input></p>
 
-    <p>📆Jun:</p>
-      <input id="inputJun" type="textfield" class="mb-5"></input>
+    <p>📆Jun:<input id="inputJun" type="textfield" class="mb-5"></input></p>
 
-    <p>📆Jul:</p>
-      <input id="inputJul" type="textfield" class="mb-5"></input>
+    <p>📆Jul:<input id="inputJul" type="textfield" class="mb-5"></input></p>
 
-    <p>📆Aug:</p>
-      <input id="inputAug" type="textfield" class="mb-5"></input>
+    <p>📆Aug:<input id="inputAug" type="textfield" class="mb-5"></input></p>
 
-    <p>📆sep:</p>
-      <input id="inputSep" type="textfield" class="mb-5"></input>
+    <p>📆sep:<input id="inputSep" type="textfield" class="mb-5"></input></p>
 
-    <p>📆Oct:</p>
-      <input id="inputOct" type="textfield" class="mb-5"></input>
+    <p>📆Oct:<input id="inputOct" type="textfield" class="mb-5"></input></p>
 
-    <p>📆Nov:</p>
-      <input id="inputNov" type="textfield" class="mb-5"></input>
+    <p>📆Nov:<input id="inputNov" type="textfield" class="mb-5"></input></p>
 
-    <p>📆Dec:</p>
-      <input id="inputDec" type="textfield" class="mb-5"></input>
+    <p>📆Dec:<input id="inputDec" type="textfield" class="mb-5"></input></p>
+
 
   <p>🌍Map Center:</p>
-    <p class="font-weight-light mb-5">Lat</p>
-    <input id="inputLat" type="textfield" class="mb-5"></input>
-    <p class="font-weight-light mb-5">Lat</p>
-    <input id="inputLng" type="textfield" class="mb-5"></input>
+    <p class="font-weight-light mb-0">Lat:<input id="inputLat" type="textfield" class="mb-5"></input></p>
+    <p class="font-weight-light mb-2">Lng:<input id="inputLng" type="textfield" class="mb-5"></input></p>
 
   <div class="alert alert-danger" role="alert">
     Does ssDocRef have the correct spot name?
@@ -211,28 +345,53 @@
     <li>imageID</li>
   <input id="inputCityImage" type="textfield" class="mb-5"></input>
 
-  <p>🌎Region Name:</p>
-    <li>lower-case. like 'new-york'</li>
+  <p>🇱🇷Region Name:</p>
+    <li>(nation or state) lower-case. like 'new-york'</li>
   <input id="inputRegion" type="textfield" class="mb-5"></input>
 
   <p>🇺🇸Nation Name:</p>
     <li>lower-case. like 'united-states'</li>
   <input id="inputNation" type="textfield" class="mb-5"></input>
 
-  <p>🌎Continent:</p>
-    <li>north-america</li>
-    <li>central-america</li>
-    <li>south-america</li>
-    <li>caribbean</li>
-    <li>pacific-ocean</li>
-    <li>indian-ocean</li>
-    <li>indonesia</li>
-    <li>australia</li>
-    <li>europe</li>
-    <li>africa</li>
-    <li>asia</li>
-    <li>middle-east</li>
-  <input id="inputCityContinent" type="textfield" class="mb-5"></input>
+  <p>🌎What continent is it on?</p>
+    <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="cityContintent" id="inputCityContinent" autocomplete="off" value="north-america">North America</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="cityContintent" id="inputCityContinent" autocomplete="off" value="central-america">Central America</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="cityContintent" id="inputCityContinent" autocomplete="off" value="south-america">South America</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="cityContintent" id="inputCityContinent" autocomplete="off" value="caribbean">Caribbean</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="cityContintent" id="inputCityContinent" autocomplete="off" value="pacific-ocean">Pacific Ocean</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="cityContintent" id="inputCityContinent" autocomplete="off" value="indian-ocean">Indian Ocean</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="cityContintent" id="inputCityContinent" autocomplete="off" value="indonesia">Indonesia</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="cityContintent" id="inputCityContinent" autocomplete="off" value="australia">Australia</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="cityContintent" id="inputCityContinent" autocomplete="off" value="europe">Europe</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="cityContintent" id="inputCityContinent" autocomplete="off" value="africa">Africa</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="cityContintent" id="inputCityContinent" autocomplete="off" value="asia">Asia</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="cityContintent" id="inputCityContinent" autocomplete="off" value="middle-east">Middle East</input>
+      </label>
+    </div>
 
   <p>💻Lonely Planet (link)</p>
     <li>https://www.lonelyplanet.com/</li>
@@ -243,7 +402,7 @@
   <input id="inputInsurance" type="textfield" class="mb-5"></input>
 
   <p>👮‍♂️Immigration Rules (link)</p>
-    <li>TBD</li>
+    <li>Google it</li>
   <input id="inputImmigration" type="textfield" class="mb-5"></input>
 
   <p>Cultural Norms (link)</p>
@@ -258,7 +417,7 @@
   <p>💵1 USD = X</p>
   <input id="inputUsdEquivalent" type="textfield" class="mb-5"></input>
 
-  <p>💲Currency Type</p>
+  <p>💲Currency Code</p>
   <input id="inputCurrencyName" type="textfield" class="mb-5"></input>
 
   <p>🏧 take out (100,000 Rupee)</p>
@@ -270,19 +429,46 @@
   <p>🌮Cost of Meal Out</p>
   <input id="inputMeal" type="textfield" class="mb-5"></input>
 
-  <p>🤠Good for:</p>
+  <!-- Fix -->
+  <p>🤠Good for: (copy/paste all that apply)</p>
     <li>friendsTrip, </li>
     <li>soloAdventure, </li>
     <li>families, </li>
     <li>couples, </li>
   <input id="inputGoodFor" type="textfield" class="mb-5"></input>
+  <!-- /Fix -->
 
-  <p>🗣Dominant Language</p>
-    <li>english</li>
-    <li>spanish</li>
-    <li>portuguese</li>
-    <li>indonesian</li>
-  <input id="inputLanguage" type="textfield" class="mb-5"></input>
+  <!-- <p>🤠Who is this area good for?</p>
+    <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+      <label class="btn btn-outline-dark text-left">
+        <input type="checkbox" name="goodFor" id="inputGoodFor" autocomplete="off" value="friendsTrip">Friends Trips</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="checkbox" name="goodFor" id="inputGoodFor" autocomplete="off" value="soloAdventure">Solo Adventures</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="checkbox" name="goodFor" id="inputGoodFor" autocomplete="off" value="families">Families</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="checkbox" name="goodFor" id="inputGoodFor" autocomplete="off" value="couples">Couples</input>
+      </label>
+    </div> -->
+
+  <p>🗣What language is spoken?</p>
+    <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="language" id="inputLanguage" autocomplete="off" value="english">English</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="language" id="inputLanguage" autocomplete="off" value="portuguese">Portuguese</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="language" id="inputLanguage" autocomplete="off" value="spanish">Spanish</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="language" id="inputLanguage" autocomplete="off" value="indonesian">Indonesian</input>
+      </label>
+    </div>
 
   <p>🔌Voltage</p>
     <li>https://www.worldstandards.eu/electricity/plug-voltage-by-country/</li>
@@ -294,260 +480,245 @@
   <p>🔌Type</p>
   <input id="inputPowerType" type="textfield" class="mb-5"></input>
 
-  <p>☀️Water Temp</p>
-    <li>bathing-suit</li>
-    <li>wetsuit</li>
-  <input id="inputWaterTemp" type="textfield" class="mb-5"></input>
+  <p>☀️Is the water temp trunkable? Or do you need a wetsuit?</p>
+    <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="waterTemp" id="inputWaterTemp" autocomplete="off" value="bathing-suit">☀️Yep, trunkable.</input>
+      </label>
+      <label class="btn btn-outline-dark text-left">
+        <input type="radio" name="waterTemp" id="inputWaterTemp" autocomplete="off" value="wetsuit">❄️No, wetsuit.</input>
+      </label>
+    </div>
 
   <p>🏄‍♂️Are surf lessons available in the area?</p>
-    <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+    <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="cityLessons" id="inputCityLessons" autocomplete="off" value="yes">👍Yep, available.</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="cityLessons" id="inputCityLessons" autocomplete="off" value="no">👎No, not available.</input>
       </label>
     </div>
 
   <p>🏄‍♂️Are board rentals available in the area?</p>
-    <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+    <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="cityRentals" id="inputCityRentals" autocomplete="off" value="yes">👍Yep, available.</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="cityRentals" id="inputCityRentals" autocomplete="off" value="no">👎No, not available.</input>
       </label>
     </div>
 
   <p>🚰Is the tap water safe?</p>
-    <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+    <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="tapWater" id="inputTapWater" autocomplete="off" value="yes">👍Yep, it's safe.</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="tapWater" id="inputTapWater" autocomplete="off" value="no">👎No, it's dangerous.</input>
       </label>
     </div>
 
   <p>🚘Is uber available?</p>
-    <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+    <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="uber" id="inputUber" autocomplete="off" value="yes">👍Yep, Uber is available</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="uber" id="inputUber" autocomplete="off" value="no">👎No, Uber is not available</input>
       </label>
     </div>
 
   <p>🤳Is the area very touristy?</p>
     <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="touristScore" id="inputTourist" autocomplete="off" value="1">🎪No tourists and very uncrowded area</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="touristScore" id="inputTourist" autocomplete="off" value="2">🎪Not touristy and pretty uncrowded area</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="touristScore" id="inputTourist" autocomplete="off" value="3">🎪Can be touristy and crowded area on weekends and with nice weather</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="touristScore" id="inputTourist" autocomplete="off" value="4">🎪Touristy and crowded area most days</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="touristScore" id="inputTourist" autocomplete="off" value="5">🎪Touristy and crowded area almost everyday</input>
       </label>
     </div>
 
   <p>🏥How's the health care in the area?</p>
     <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="healthCareScore" id="inputHealthCare" autocomplete="off" value="1">😳Health care NOT available</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="healthCareScore" id="inputHealthCare" autocomplete="off" value="2">😳Mediocre health care here and there</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="healthCareScore" id="inputHealthCare" autocomplete="off" value="3">👩‍⚕️Decent health care here and there</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="healthCareScore" id="inputHealthCare" autocomplete="off" value="4">👩‍⚕️Good health care available</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="healthCareScore" id="inputHealthCare" autocomplete="off" value="5">👩‍⚕️Good health care readily available</input>
       </label>
     </div>
 
   <p>📱How's the internet in the area?</p>
     <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="internetScore" id="inputInternet" autocomplete="off" value="1">📱No internet available</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="internetScore" id="inputInternet" autocomplete="off" value="2">📱Internet tough to find</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="internetScore" id="inputInternet" autocomplete="off" value="3">📱Internet available here and there</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="internetScore" id="inputInternet" autocomplete="off" value="4">📱Fast internet most places</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="internetScore" id="inputInternet" autocomplete="off" value="5">📱Fast internet everywhere</input>
       </label>
     </div>
 
   <p>🍸How's the night life scene?</p>
     <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="nightLifeScore" id="inputNightlife" autocomplete="off" value="1">😢Almost no nightlife</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="nightLifeScore" id="inputNightlife" autocomplete="off" value="2">🍸Nightlife all hard to find</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="nightLifeScore" id="inputNightlife" autocomplete="off" value="3">🍸Nightlife here and there</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="nightLifeScore" id="inputNightlife" autocomplete="off" value="4">🍸Fun nightlife around</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="nightLifeScore" id="inputNightlife" autocomplete="off" value="5">🍸Fun nightlife all over the place</input>
       </label>
     </div>
 
   <p>🏞Are their many nature sights nearby?</p>
     <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="natureScore" id="inputNature" autocomplete="off" value="1">😢Almost no nature spots nearby</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="natureScore" id="inputNature" autocomplete="off" value="2">🏞Good nature spots hard to find</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="natureScore" id="inputNature" autocomplete="off" value="3">🏞Good nature spots hear and there</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="natureScore" id="inputNature" autocomplete="off" value="4">🏞Beautiful nature nearby</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="natureScore" id="inputNature" autocomplete="off" value="5">🏞Beautiful nature everywhere</input>
       </label>
     </div>
 
   <p>⛩Are their many cultural sights nearby?</p>
     <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="cultureScore" id="inputCulture" autocomplete="off" value="1">⛩No culture nearby</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="cultureScore" id="inputCulture" autocomplete="off" value="2">⛩Minimal interesting culture nearby</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="cultureScore" id="inputCulture" autocomplete="off" value="3">⛩Some interesting culture nearby</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="cultureScore" id="inputCulture" autocomplete="off" value="4">⛩Interesting culture in town</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="cultureScore" id="inputCulture" autocomplete="off" value="5">⛩Fascinating culture all over the place</input>
       </label>
     </div>
 
   <p>🙊How well do the locals speak English?</p>
     <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="englishScore" id="inputEnglish" autocomplete="off" value="1">🙊Almost no one speaks English</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="englishScore" id="inputEnglish" autocomplete="off" value="2">🙊Very few people speak English</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="englishScore" id="inputEnglish" autocomplete="off" value="3">🤓You can find English speaking locals</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="englishScore" id="inputEnglish" autocomplete="off" value="4">🤓Most people speak English</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="englishScore" id="inputEnglish" autocomplete="off" value="5">🤓Everyone speaks English</input>
       </label>
     </div>
 
   <p>👮‍♂️How safe is the area?</p>
     <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="safetyScore" id="inputSafety" autocomplete="off" value="1">😳Not usually a safe place</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="safetyScore" id="inputSafety" autocomplete="off" value="2">👮‍♂️Crime common. Don't lose sight of your belongings.</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="safetyScore" id="inputSafety" autocomplete="off" value="3">👮‍♂️Some crime. Keep an eye on your belongings.</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="safetyScore" id="inputSafety" autocomplete="off" value="4">👮‍♂️Mostly safe. Nothing big to worry about.</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="safetyScore" id="inputSafety" autocomplete="off" value="5">👮‍♂️Very safe</input>
       </label>
     </div>
 
   <p>🕺🏼💃How's the party scene?</p>
     <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="partyScore" id="inputParty" autocomplete="off" value="1">😢Little to no partying</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="partyScore" id="inputParty" autocomplete="off" value="2">😢Lacking much of a party scene</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="partyScore" id="inputParty" autocomplete="off" value="3">💃Places to party can be hard to find</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="partyScore" id="inputParty" autocomplete="off" value="4">💃Party spots nearby</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="partyScore" id="inputParty" autocomplete="off" value="5">💃Party on, Wayne!</input>
       </label>
     </div>
 
-
   <p>👩Solo Female Friendly?</p>
     <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="femaleSafeScore" id="inputFemaleSafe" autocomplete="off" value="1">👩Unsafe for solo-female travelers</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="femaleSafeScore" id="inputFemaleSafe" autocomplete="off" value="2">👩Likely unsafe for solo-female travelers</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="femaleSafeScore" id="inputFemaleSafe" autocomplete="off" value="3">👩Some areas aren't safe for solo-female travelers</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="femaleSafeScore" id="inputFemaleSafe" autocomplete="off" value="4">👩Mostly safe for solo-female travelers</input>
       </label>
-      <label class="btn btn-light text-left">
+      <label class="btn btn-outline-dark text-left">
         <input type="radio" name="femaleSafeScore" id="inputFemaleSafe" autocomplete="off" value="5">👩Very safe for solo-female travelers</input>
       </label>
     </div>
-
-  <!-- <div class="btn-group">
-    <i class="dropdown-arrow dropdown-arrow-inverse"></i>
-      <button class="btn btn-primary ratingTest">Select city rating</button>
-      <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span>
-      </button>
-      <ul id="inputRating" class="dropdown-menu dropdown-inverse">
-         <a href="#fakelink"><li>1
-         </li></a>
-         <a href="#fakelink"><li>2
-         </li></a>
-         <a href="#fakelink"><li>3
-         </li></a>
-         <a href="#fakelink"><li>4
-         </li></a>
-         <a href="#fakelink"><li>5
-         </li></a>
-      </ul>
-  </div> -->
 
   <br><button id="saveCityButton" class="btn btn-warning mb-5">Save NEW City</button>
   <!-- /Add City Data -->
@@ -558,42 +729,45 @@
     1. Refresh the page.
   </div>
 
-  <p>🏄‍♂️Surf Spot: "salina-cruz"</p>
-  <input id="inputMarkerSurfSpot" type="textfield" class="mb-5"></input>
+  <p>🏄‍♂️Surf Spot: "campus-point"</p>
+  <input id="inputMarkerSurfSpot" type="textfield" class="mb-4"></input>
 
-  <p>🏙City: "salina-cruz"</p>
-  <input id="inputMarkerCity" type="textfield" class="mb-5"></input>
+  <p>🏙City: "santa-barbara"</p>
+  <input id="inputMarkerCity" type="textfield" class="mb-4"></input>
 
-  <p>🗺Coords: "lat:"</p>
-  <input id="inputMarkerLat" type="textfield" class="mb-5"></input>
+  <p>Marker Icon</p>
+  <div class="btn-group btn-group-toggle mb-4" data-toggle="buttons">
+    <label class="btn btn-outline-dark text-left">
+      <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="expert">Expert</input>
+    </label>
+    <label class="btn btn-outline-dark text-left">
+      <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="advanced">Advanced</input>
+    </label>
+    <label class="btn btn-outline-dark text-left">
+      <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="intermediate">Intermediate</input>
+    </label>
+    <label class="btn btn-outline-dark text-left">
+      <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="beginner">Beginner</input>
+    </label>
+    <label class="btn btn-outline-dark text-left">
+      <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="surf-lessons">Surf Lessons</input>
+    </label>
+    <label class="btn btn-outline-dark text-left">
+      <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="comfortable-beach">Comfortable Beach</input>
+    </label>
+    <label class="btn btn-outline-dark text-left">
+      <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="localism">Localism</input>
+    </label>
+    <label class="btn btn-outline-dark text-left">
+      <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="crowded">Crowded</input>
+    </label>
+  </div>
 
-  <p>🗺Coords: "lng:"</p>
-  <input id="inputMarkerLng" type="textfield" class="mb-5"></input>
+  <p>🗺LAT:<input id="inputMarkerLat" type="textfield" class="mb-0"></input></p>
 
-  <p>📝Content: "advanced"</p>
-  <li>Add h3 tags!</li>
-  <li>Expert</li>
-  <li>Advanced</li>
-  <li>Intermediate</li>
-  <li>Beginner</li>
-  <li>Surf Lessons</li>
-  <li>Comfortable Beach</li>
-  <li>Localism</li>
-  <input id="inputContent" type="textfield" class="mb-5"></input>
+  <p>🗺LNG:<input id="inputMarkerLng" type="textfield" class="mb-2"></input></p>
 
-  <p>👆Icon "icon-image/advanced.png"</p>
-  <li>icon-images/expert.png</li>
-  <li>icon-images/advanced.png</li>
-  <li>icon-images/intermediate.png</li>
-  <li>icon-images/beginner.png</li>
-  <li>icon-images/surf-lessons.png</li>
-  <li>icon-images/beach.png</li>
-  <li>icon-images/crowd.png</li>
-  <li>icon-images/localism.png</li>
-  <input id="inputIconImage" type="textfield" class="mb-5"></input>
-
-
-  <br><button id="saveMarkerButton" class="btn btn-warning mb-5">Save NEW Marker</button>
+  <br><button id="saveMarkerButton" class="btn btn-warning mb-2">Save NEW Marker</button>
   <!-- /Add Marker Data -->
 
 </div>
@@ -614,13 +788,6 @@
         $('[data-toggle="tooltip"]').tooltip();
     });
   </script>
-
-  <!-- Drop downs -->
-  <!-- <script>
-    $('.dropdown-inverse a > li').click(function(e){
-        $('.ratingTest').text(this.innerHTML);
-    });
-  </script> -->
 
 </body>
 </html>
