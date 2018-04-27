@@ -85,8 +85,6 @@
         <b>$50</b></a>
       </div>
 
-
-
   <script>
     var map, popup, Popup;
 
@@ -111,17 +109,27 @@
       //New map
       var map = new google.maps.Map(document.getElementById('map'), options);
 
-      // Creates price marker
-      var priceMarker = new Popup(
-          new google.maps.LatLng(36.954803, -122.027115),
-          document.getElementById('content'));
-          priceMarker.setMap(map);
+      // // Creates price marker
+      // var priceMarker = new Popup(
+      //     new google.maps.LatLng(36.954803, -122.027115),
+      //     document.getElementById('content'));
+      //     priceMarker.setMap(map);
+      //
+      // // Add one airbnb marker
+      // var priceMarker2 = new Popup(
+      //     new google.maps.LatLng(36.954803, -122.031015),
+      //     document.getElementById('content2'));
+      //     priceMarker2.setMap(map);
 
-      // Add one airbnb marker
-      var priceMarker2 = new Popup(
-          new google.maps.LatLng(36.954803, -122.031015),
-          document.getElementById('content2'));
-          priceMarker2.setMap(map);
+      var priceMarkers = [
+        {
+          lat: 36.954803,
+          lng: -122.027115,
+          price: 59,
+          city: "santa-barbara",
+          photo: ""
+        },
+      ];
 
       // // Add one marker -- works
       // var marker = new google.maps.Marker({
@@ -134,12 +142,19 @@
       var markers = [
         {
           coords:{lat:36.9510, lng:-122.0250},
-          iconImage:expert,
-          content:'<h2>Expert</h2>'
+          iconImage:"pm/155.png",
+          content:
+          `<div class="iw-container">
+             <a href="https://www.airbnb.com/rooms/select/3741609"><img src="house.png" style="height=100%; width:100%"></a>
+             <b><p class="mb-2" style="color:brown">SHARED ROOM • 2 BEDS</p></b>
+             <h5 class="my-0">Surf Trip List House</h5>
+             <b><p class="mt-1">$29 per night • Ocean view • Walk to surf</p></b>
+          </div>`
+            ,
         },
         {
           coords:{lat:36.9530595, lng:-122.0245763},
-          iconImage:intermediate,
+          iconImage:"pm/15.png",
           content:'<h2>Intermediate</h2>'
         },
         {

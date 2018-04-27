@@ -1151,21 +1151,6 @@ db.collection("surf-spot").get().then(function(querySnapshot) {
       var accessTip = " ";
     }
 
-    //ssData.marker (cowells) logs CORRECT object w/ map:map & position: {lat:lng:}
-
-    // const a = [0, 1, 2];
-    // console.log( a[0] );
-    //
-    // const dbMarkers = ssData.markers;
-    // console.log( dbMarkers[0] );
-
-    // //Loop through markers
-    // for(var i = 0; i < dbMarkers.length; i++) {
-    //   //Add marker
-    //   // addMarker(markers[i]);
-    //   console.log(dbMarkers[i]);
-    // }
-
     initMap(
       ssData,
       spotname,
@@ -1389,20 +1374,3 @@ window.initMap = function(
   ); //end prepend
 
 };//End window.initMap
-
-
-
-  // // //TEST of marker from db
-  // var marker = new google.maps.Marker({
-  //   position:mapCenter,
-  //   map:map,
-  //   icon:localism
-  // });
-  //
-  // var infoWindow = new google.maps.InfoWindow({
-  //   content:'<h3>Localism</h3>'
-  // });
-  //
-  // marker.addListener('click', function(){
-  //   infoWindow.open(map, marker);
-  // });//End Test
