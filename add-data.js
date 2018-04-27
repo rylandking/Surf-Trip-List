@@ -383,4 +383,64 @@ saveMarkerButton.addEventListener("click", function(){
 });
 
 
-//END ADD MARKERS
+//END ADD PRICE MARKERS
+
+//START ADD PRICE MARKERS
+
+//Marker properties
+const inputPMCity = document.querySelector("#inputPMCity");
+const inputBookingUrl = document.querySelector("#inputBookingUrl");
+const inputPMTitle = document.querySelector("#inputPMTitle");
+const inputPMPrice = document.querySelector("#inputPMPrice");
+const inputPMPhotoUrl = document.querySelector("#inputPMPhotoUrl");
+const inputPMBeds = document.querySelector("#inputPMBeds");
+const inputPMLat = document.querySelector("#inputPMLat");
+const inputPMLng = document.querySelector("#inputPMLng");
+
+const savePMButton = document.querySelector("#savePMButton");
+
+//Changes inputs to values on click
+savePMButton.addEventListener("click", function(){
+
+  //Changes Marker inputs to values on click
+  const PMCityToSave = inputPMCity.value;
+  const PMBookingUrlToSave = inputBookingUrl.value;
+  const PMTitleToSave = inputPMTitle.value;
+  const PMPriceToSave = inputPMPrice.value;
+  const PMPhotoUrlToSave = inputPMPhotoUrl.value;
+  const PMBedsToSave = inputPMBeds.value;
+
+  const PMLatToSave = parseFloat(inputPMLat.value);
+  const PMLngToSave = parseFloat(inputPMLng.value);
+  var accommTypeToSave = document.querySelector('input[name = "accommType"]:checked').value;
+  var viewToSave = document.querySelector('input[name = "view"]:checked').value;
+  var proximityToSave = document.querySelector('input[name = "proximity"]:checked').value;
+
+  console.log("I am going to log PM DATA to Firestore. 🙃");
+
+  // Add a new document with a generated id.
+  db.collection("priceMarkers").add({
+    city: PMCityToSave,
+    bookingUrl: PMBookingUrlToSave,
+    title: PMTitleToSave,
+    price: PMPriceToSave,
+    photo: PMPhotoUrlToSave,
+    beds: PMBedsToSave,
+    coords: {
+      lat: PMLatToSave,
+      lng: PMLngToSave,
+    },
+    accommType: accommTypeToSave,
+    view: viewToSave,
+    proximity: proximityToSave,
+  })
+  .then(function(docRef) {
+      console.log("I saved the PM to Firestore. 👍", docRef.id);
+  })
+  .catch(function(error) {
+      console.error("Error adding document: ", error);
+  });
+});
+
+
+//END ADD PRICE MARKERS

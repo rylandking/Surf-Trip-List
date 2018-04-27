@@ -33,11 +33,9 @@ function toggleByClass(className) {
      $("."+className).toggle();
 }
 
-// Location Cards
+// START - Loop the city collection.
 db.collection("city").get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
-        // doc.data() is never undefined for query doc snapshots
-
         //format the name
         var citydata = doc.data();
         var cityName = doc.id;
@@ -846,9 +844,9 @@ db.collection("city").get().then(function(querySnapshot) {
         )
 
   });
-});
+});// END - Loop the city collection.
 
-//Add marker function
+//Add map marker function
 function addMarker(props, map) {
   var marker = new google.maps.Marker({
     position: props.coords,
@@ -856,16 +854,16 @@ function addMarker(props, map) {
     icon: props.iconImage
   });
 
- //Creates the info window
+ //Creates the marker info window
   var infoWindow = new google.maps.InfoWindow({
     content: props.content
   });
 
-  //Adds the listener
+  //Adds the marker listener
   marker.addListener('click', function(){
     infoWindow.open(map, marker);
 
-    //Closes windows when map is clicked
+    //Closes marker windows when map is clicked
     google.maps.event.addListener(map, "click", function(event) {
     //Close info window
         infoWindow.close();
@@ -874,7 +872,6 @@ function addMarker(props, map) {
 }//End of addMarker v2
 
 function renderMarkers(map) {
-  // console.log('map: ', map)
   //Getting the markers
   db.collection("markers").get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
@@ -883,8 +880,6 @@ function renderMarkers(map) {
         const mCity = mData.city;
         const mSurfSpot = mData.surfSpot;
 
-        // console.log('mData: ', mData);
-
         //Array of markers v2
         var markers = [
           mData
@@ -892,7 +887,7 @@ function renderMarkers(map) {
 
         //Loop through markers
         for(var i = 0; i < markers.length; i++) {
-          console.log('rendering markers', markers[i])
+          // console.log('rendering markers', markers[i])
           //Add marker
           addMarker(markers[i], map);
         }
@@ -903,7 +898,7 @@ function renderMarkers(map) {
 
 
 
-//Getting Surf Spot Maps
+//START - Loop the surf-spot collection
 db.collection("surf-spot").get().then(function(querySnapshot) {
   querySnapshot.forEach(function(doc) {
 
@@ -1211,23 +1206,10 @@ db.collection("surf-spot").get().then(function(querySnapshot) {
     //new map
     map = new google.maps.Map(document.getElementById('surf-spot-map'), options);
 
-    // // Add one marker -- markerDB works
-    // var marker = new google.maps.Marker(
-    //   markerDB
-      // {
-      // position:{lat:36.9510, lng:-122.0250},
-      // map:map,
-      // icon:beginner
-      // }
-    // );
-    // marker.setMap(map);
-
-
     renderMarkers(map)
 
-
   });
-});
+}); //END - Loop the surf-spot collection
 
 
 window.initMap = function(
