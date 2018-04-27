@@ -185,6 +185,8 @@ const inputCurrencyName = document.querySelector("#inputCurrencyName");
 const inputATM = document.querySelector("#inputATM");
 const inputBeer = document.querySelector("#inputBeer");
 const inputMeal = document.querySelector("#inputMeal");
+const inputCityLat = document.querySelector("#inputCityLat");
+const inputCityLng = document.querySelector("#inputCityLng");
 
 const saveCityButton = document.querySelector("#saveCityButton");
 
@@ -192,58 +194,26 @@ const saveCityButton = document.querySelector("#saveCityButton");
 saveCityButton.addEventListener("click", function(){
   const regionToSave = inputRegion.value;
   const nationToSave = inputNation.value;
-  const goodForToSave = inputGoodFor.value;
+  const cityLatToSave = parseFloat(inputCityLat.value);
+  const cityLngToSave = parseFloat(inputCityLng.value);
 
   var cityContinentToSave = document.querySelector('input[name = "cityContintent"]:checked').value;
-  console.log("Continent is " + cityContinentToSave + ".");
-
   var languageToSave = document.querySelector('input[name = "language"]:checked').value;
-  console.log("Language is " + languageToSave + ".");
-
   var healthCareToSave = document.querySelector('input[name = "healthCareScore"]:checked').value;
-  console.log("Health care score " + healthCareToSave + ".");
-
   var internetToSave = document.querySelector('input[name = "internetScore"]:checked').value;
-  console.log("Internet score " + internetToSave + ".");
-
   var nightLifeToSave = document.querySelector('input[name = "nightLifeScore"]:checked').value;
-  console.log("Night life score " + nightLifeToSave + ".");
-
   var natureToSave = document.querySelector('input[name = "natureScore"]:checked').value;
-  console.log("Nature score " + natureToSave + ".");
-
   var cultureToSave = document.querySelector('input[name = "cultureScore"]:checked').value;
-  console.log("Culture score " + cultureToSave + ".");
-
   var englishToSave = document.querySelector('input[name = "englishScore"]:checked').value;
-  console.log("English score " + englishToSave + ".");
-
   var safetyToSave = document.querySelector('input[name = "safetyScore"]:checked').value;
-  console.log("Safety score " + safetyToSave + ".");
-
   var partyToSave = document.querySelector('input[name = "partyScore"]:checked').value;
-  console.log("Party score " + partyToSave + ".");
-
   var femaleToSave = document.querySelector('input[name = "femaleSafeScore"]:checked').value;
-  console.log("Female score " + femaleToSave + ".");
-
   var touristToSave = document.querySelector('input[name = "touristScore"]:checked').value;
-  console.log("Touristy score " + touristToSave + ".");
-
   var uberToSave = document.querySelector('input[name = "uber"]:checked').value;
-  console.log("Uber available " + uberToSave + ".");
-
   var tapWaterToSave = document.querySelector('input[name = "tapWater"]:checked').value;
-  console.log("Tap water safe " + tapWaterToSave + ".");
-
   var rentalsToSave = document.querySelector('input[name = "cityRentals"]:checked').value;
-  console.log("City rentals available " + rentalsToSave + ".");
-
   var cityLessonsToSave = document.querySelector('input[name = "cityLessons"]:checked').value;
-  console.log("Surf lessons available " + cityLessonsToSave + ".");
-
   var waterTempToSave = document.querySelector('input[name = "waterTemp"]:checked').value;
-  console.log("Water temp " + waterTempToSave + ".");
 
   const insuranceToSave = inputInsurance.value;
   const immigrationToSave = inputImmigration.value;
@@ -268,6 +238,10 @@ cityDocRef.set({
   region: regionToSave,
   nation: nationToSave,
   contintent: cityContinentToSave,
+  cityCenter: {
+    lat: cityLatToSave,
+    lng: cityLngToSave,
+  },
   goodFor: goodForToSave,
   waterTemp: waterTempToSave,
   language: languageToSave,
