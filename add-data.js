@@ -40,56 +40,22 @@ saveButton.addEventListener("click", function(){
   const forecastToSave = inputForecast.value;
 
   var spotLessonsToSave = document.querySelector('input[name = "spotLessons"]:checked').value;
-  console.log("Lessons available " + spotLessonsToSave + ".");
-
   var spotRentalsToSave = document.querySelector('input[name = "spotRentals"]:checked').value;
-  console.log("Rentals available " + spotRentalsToSave + ".");
-
   var tempToSave = document.querySelector('input[name = "temp"]:checked').value;
-  console.log("Water temp is " + tempToSave + ".");
-
   var accessToSave = document.querySelector('input[name = "access"]:checked').value;
-  console.log("Access is " + accessToSave + ".");
-
   var localismToSave = document.querySelector('input[name = "localism"]:checked').value;
-  console.log("Localism is " + localismToSave + ".");
-
   var crowdToSave = document.querySelector('input[name = "crowd"]:checked').value;
-  console.log("Crowd is " + crowdToSave + ".");
-
   var beachToSave = document.querySelector('input[name = "beach"]:checked').value;
-  console.log("Beach is " + beachToSave + ".");
-
   var bottomToSave = document.querySelector('input[name = "bottom"]:checked').value;
-  console.log("Bottom is " + bottomToSave + ".");
-
   var barrelToSave = document.querySelector('input[name = "barrel"]:checked').value;
-  console.log("Wave barrels " + barrelToSave + ".");
-
   var directionToSave = document.querySelector('input[name = "waveDir"]:checked').value;
-  console.log("Wave type is " + directionToSave + ".");
-
   var typeToSave = document.querySelector('input[name = "waveType"]:checked').value;
-  console.log("Wave type is " + typeToSave + ".");
-
   var windToSave = document.querySelector('input[name = "wind"]:checked').value;
-  console.log("Best wind is " + windToSave + ".");
-
   var tideToSave = document.querySelector('input[name = "tide"]:checked').value;
-  console.log("Best tide is " + tideToSave + ".");
-
   var sizeToSave = document.querySelector('input[name = "size"]:checked').value;
-  console.log("Best wave size is " + sizeToSave + ".");
-
   var boardToSave = document.querySelector('input[name = "board"]:checked').value;
-  console.log("Best board is " + boardToSave + ".");
-
   var skillToSave = document.querySelector('input[name = "skill"]:checked').value;
-  console.log("Skill level is " + skillToSave + ".");
-
   var continentToSave = document.querySelector('input[name = "continent"]:checked').value;
-  console.log("Continent is " + continentToSave + ".");
-
   const janToSave = parseInt(inputJan.value);
   const febToSave = parseInt(inputFeb.value);
   const marToSave = parseInt(inputMar.value);
@@ -381,6 +347,7 @@ savePMButton.addEventListener("click", function(){
   const PMBookingUrlToSave = inputBookingUrl.value;
   const PMTitleToSave = inputPMTitle.value;
   const PMPriceToSave = inputPMPrice.value;
+  //Need to rethink PMPhotoUrlToSave if it's coming from firestore db
   const PMPhotoUrlToSave = inputPMPhotoUrl.value;
   const PMBedsToSave = inputPMBeds.value;
 
@@ -390,23 +357,30 @@ savePMButton.addEventListener("click", function(){
   var viewToSave = document.querySelector('input[name = "view"]:checked').value;
   var proximityToSave = document.querySelector('input[name = "proximity"]:checked').value;
 
+  var pmContentToSave =
+  `<div class="iw-container">
+     <a href="${PMBookingUrlToSave}"><img src="${PMPhotoUrlToSave}" style="height=100%; width:100%"></a>
+     <b><p class="mb-2" style="color:brown">${accommTypeToSave} • ${PMBedsToSave} BEDS</p></b>
+     <h5 class="my-0">${PMTitleToSave}</h5>
+     <b><p class="mt-1">${PMPriceToSave} per night • ${viewToSave} • ${proximityToSave}</p></b>
+  </div>`;
+
+  var pmIconImageToSave = `pm/${PMPriceToSave}.png`
+
+  console.log("content: " + pmContentToSave);
+  console.log("pmIcon: " + pmIconImageToSave);
   console.log("I am going to log PM DATA to Firestore. 🙃");
 
   // Add a new document with a generated id.
   db.collection("priceMarkers").add({
-    city: PMCityToSave,
-    bookingUrl: PMBookingUrlToSave,
-    title: PMTitleToSave,
-    price: PMPriceToSave,
-    photo: PMPhotoUrlToSave,
-    beds: PMBedsToSave,
     coords: {
       lat: PMLatToSave,
       lng: PMLngToSave,
     },
-    accommType: accommTypeToSave,
-    view: viewToSave,
-    proximity: proximityToSave,
+    city: PMCityToSave,
+    content: pmContentToSave,
+    iconImage: pmIconImageToSave,
+
   })
   .then(function(docRef) {
       console.log("I saved the PM to Firestore. 👍", docRef.id);

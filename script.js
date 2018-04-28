@@ -33,6 +33,104 @@ function toggleByClass(className) {
      $("."+className).toggle();
 }
 
+//Add map marker function
+function addMarker(props, map) {
+  var marker = new google.maps.Marker({
+    position: props.coords,
+    map: map,
+    icon: props.iconImage
+  });
+
+ //Creates the marker info window
+  var infoWindow = new google.maps.InfoWindow({
+    content: props.content
+  });
+
+  //Adds the marker listener
+  marker.addListener('click', function(){
+    infoWindow.open(map, marker);
+
+    //Closes marker windows when map is clicked
+    google.maps.event.addListener(map, "click", function(event) {
+    //Close info window
+        infoWindow.close();
+    });
+  });
+}//End of addMarker v2
+
+function renderMarkers(map) {
+  //Getting the markers
+  db.collection("markers").get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+
+        const mData = doc.data();
+        const mCity = mData.city;
+        const mSurfSpot = mData.surfSpot;
+
+        //Array of markers v2
+        var markers = [
+          mData
+        ];
+
+        //Loop through markers
+        for(var i = 0; i < markers.length; i++) {
+          // console.log('rendering markers', markers[i])
+          //Add marker
+          addMarker(markers[i], map);
+        }
+
+      });
+  });
+}
+
+//Add map priceMarker function
+function addPriceMarker(props, map) {
+  var priceMarker = new google.maps.Marker({
+    position: props.coords,
+    map: map,
+    icon: props.iconImage
+  });
+
+ //Creates the priceMarker info window
+  var infoWindow = new google.maps.InfoWindow({
+    content: props.content
+  });
+
+  //Adds the priceMarker listener
+  priceMarker.addListener('click', function(){
+    infoWindow.open(map, priceMarker);
+
+    //Closes marker windows when map is clicked
+    google.maps.event.addListener(map, "click", function(event) {
+    //Close info window
+        infoWindow.close();
+    });
+  });
+}//End of addPriceMarker v2
+
+function renderPriceMarkers(map) {
+  //Getting the markers
+  db.collection("priceMarkers").get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+
+        const pmData = doc.data();
+        const mCity = pmData.city;
+
+        //Array of markers v2
+        var priceMarkers = [
+          pmData
+        ];
+
+        //Loop through priceMarkers
+        for(var i=0; i<priceMarkers.length; i++) {
+          //Add priceMarkers
+          addPriceMarker(priceMarkers[i], map);
+        }
+
+      });
+  });
+}
+
 // START - Loop the city collection.
 db.collection("city").get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
@@ -40,11 +138,7 @@ db.collection("city").get().then(function(querySnapshot) {
         var citydata = doc.data();
         var cityName = doc.id;
         var locname = cityName.replace(/-/g,' ');
-
-        // console.log("doc.id " + doc.id);
-
-        let expIcons = []; //create empty array
-
+        let expIcons = [];
         //City Data from FORM
         let cityRegion = citydata.region;
         let cityContintent = citydata.contintent;
@@ -81,10 +175,8 @@ db.collection("city").get().then(function(querySnapshot) {
         let atm = citydata.atm;
         let roomCost = citydata.roomCost;
         let placeCost = citydata.placeCost;
-
         //Calculates the USD of a common ATM takeout
         const atmInUSD = parseInt(atm/usdEquivalent);
-
         //Calculates daily cost of staying in a city
         const dailyCost = parseInt(roomCost + (3 * meal) + beer);
 
@@ -674,7 +766,7 @@ db.collection("city").get().then(function(querySnapshot) {
             }
 
           })
-        });//End of the surf spot loop
+        });//End of the surf spot loop inside the city loop
 
         // we are inside a loop, so doc.id will go through each location in 'cities'
         // then get the document that matches doc.id which connects to a field in each surf spot
@@ -717,11 +809,24 @@ db.collection("city").get().then(function(querySnapshot) {
           //3. Place that download URL in the correct place int he cardcontainer
           var cityimage = citydata.cityimage;
 
+          //Initialize the AccommMap
+          initAccommMap()
+
+          //AccommMap options
+          var options = {
+            zoom:12,
+            center:{lat:36.9517, lng:-122.0258}
+          }
+
+          //new AccommMap
+          map = new google.maps.Map(document.getElementById('accomm-map'), options);
+
+          renderPriceMarkers(map);
+          renderMarkers(map);
 
         //add info to LOCATION CARD
         //$ is the same as getElementById
         $("#card-container").prepend(
-
           `<div class="card bg-dark text-white ${expFilter}">
             <img class="img-fluid card-img" src="${cityimage}" alt="location card">
               <div class="card-img-overlay">
@@ -841,62 +946,16 @@ db.collection("city").get().then(function(querySnapshot) {
               </tbody>
             </table>
           </div>`
-        )
+        );//End overview prepend
 
   });
 });// END - Loop the city collection.
 
-//Add map marker function
-function addMarker(props, map) {
-  var marker = new google.maps.Marker({
-    position: props.coords,
-    map: map,
-    icon: props.iconImage
-  });
-
- //Creates the marker info window
-  var infoWindow = new google.maps.InfoWindow({
-    content: props.content
-  });
-
-  //Adds the marker listener
-  marker.addListener('click', function(){
-    infoWindow.open(map, marker);
-
-    //Closes marker windows when map is clicked
-    google.maps.event.addListener(map, "click", function(event) {
-    //Close info window
-        infoWindow.close();
-    });
-  });
-}//End of addMarker v2
-
-function renderMarkers(map) {
-  //Getting the markers
-  db.collection("markers").get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-
-        const mData = doc.data();
-        const mCity = mData.city;
-        const mSurfSpot = mData.surfSpot;
-
-        //Array of markers v2
-        var markers = [
-          mData
-        ];
-
-        //Loop through markers
-        for(var i = 0; i < markers.length; i++) {
-          // console.log('rendering markers', markers[i])
-          //Add marker
-          addMarker(markers[i], map);
-        }
-
-      });
-  });
-}
-
-
+window.initAccommMap = function() {
+  $("#accomm-map__wrapper").prepend(
+  `<div id="accomm-map" class="mb-3" style="height:500px; width:100%;"></div>`
+  );//end accomm-map prepend
+};
 
 //START - Loop the surf-spot collection
 db.collection("surf-spot").get().then(function(querySnapshot) {
