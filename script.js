@@ -1,4 +1,4 @@
-var map; // making it global
+let map; // making it global
 //Map markers
 const mExpert = 'icon-images/expert.png';
 const mAdvanced = 'icon-images/advanced.png';
@@ -131,14 +131,127 @@ function renderPriceMarkers(map) {
   });
 }
 
-// START - Loop the city collection.
+// START - Loop the city collection. Populate location cards
 db.collection("city").get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
-        //format the name
+      //format the name
+      var citydata = doc.data();
+      var cityName = doc.id;
+      var locname = cityName.replace(/-/g,' ');
+      let expIcons = [];
+
+      // inside this loop, we want to get the document inside 'surf-spot' collection that matches doc.id
+      db.collection("surf-spot").get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          // doc.data() is never undefined for query doc snapshots
+          let ssData = doc.data();
+          let ssName = doc.id;
+          let ssCity = ssData.city;
+          let ssExperience = ssData.experience;
+          let ssLessons = ssData.surflessons;
+
+          //if the cityName is the same as the surf spot city, then get the name of the surf spot
+          if(cityName == ssCity){
+
+            //set icons to an array
+            expIcons.push(ssExperience); //push adds a new item to the array
+
+            // console.log(cityName + ": " + expIcons);
+
+            //then create a string with the fontawesome icons based on expIcons array - send that string to your HTML
+          }
+
+        })
+      });//End of the surf spot loop inside the city loop
+
+      // we are inside a loop, so doc.id will go through each location in 'cities'
+      // then get the document that matches doc.id which connects to a field in each surf spot
+
+      citydata = doc.data();
+      var region = citydata.region;
+
+      // //finds what month it is today and use that index of the rideable array
+      // var rideable = citydata.rideable[new Date().getMonth()];
+
+      //exp holds a string that displays an icon in our html
+      //it chooses which icon to display based on the value of citydata.experience in the database
+      var exp;
+      //expFilter places experience variable in class of card container
+      var expFilter;
+        //surf lessons
+      if(citydata.experience == 0){
+        exp = '<div data-toggle="tooltip" title="Surf lessons"><i style="color:orange" class="fas fa-plus"></i></div>';
+        expFilter = 'surf-lessons';
+        //beginner
+      }else if(citydata.experience == 1){
+        exp = '<div data-toggle="tooltip" title="Beginner"><i style="color:limegreen" class="fas fa-circle"></i></div>';
+        expFilter = 'beginner';
+        //intermediate
+      }else if(citydata.experience == 2){
+        exp = '<div data-toggle="tooltip" title="Intermediate"><i style="color:skyblue" class="fas fa-square"></i></div>';
+        expFilter = 'intermediate';
+        //advanced
+      }else if(citydata.experience == 3){
+        exp = '<div data-toggle="tooltip" title="Advanced"><i style="color:white" class="fas fa-chevron-up"></i></i></div>';
+        expFilter = 'advanced';
+      }else{
+        exp = '<div data-toggle="tooltip" title="Expert"><i style="color:white" class="fas fa-angle-double-up"></i></div>';
+        expFilter = 'expert';
+      }
+
+      // GET IMAGE from Firebase Storage
+        //1. Add downloadurl to firestore document
+        //2. Get downloadurl from that firestore document
+        //3. Place that download URL in the correct place int he cardcontainer
+        var cityimage = citydata.cityimage;
+
+        //add info to LOCATION CARD
+        //$ is the same as getElementById
+        $("#card-container").prepend(
+          `<a id="city-card" data-id="${cityName}" href="location-page.html"><div class="card bg-dark text-white ${expFilter}">
+            <img class="img-fluid card-img" src="${cityimage}">
+              <div class="card-img-overlay">
+
+                <div id="experience" class="lc-experience">${exp}</div>
+
+                <h4 id="locName" class="card-title" style="white-space: nowrap;">${locname}</h4>
+                <p id="region" class="card-text">${region}</p>
+                <div class="lc-flight"<div data-toggle="tooltip" data-placement="bottom" title="Flight cost">🛫 $187</div>
+                <div class="lc-cost" <div data-toggle="tooltip" data-placement="bottom" title="Avg accomm cost">🏡 $42/n</div>
+
+              </div>
+          </div></a>`
+        ); //end prepend
+
+    });
+});// END - Loop the city collection. Populate location cards
+
+
+//Click on city card takes you to location page for ONLY that city
+$('body').on('click','#city-card',function(e){
+    e.preventDefault();
+    //Stores data-id=${cityName} in variable cityPage
+    const cityPage = $(this).data('id');
+    // console.log(cityPage);
+
+    const docRef = db.collection("city").doc(cityPage);
+    docRef.get().then(function(doc) {
+      var citydata = doc.data();
+      var cityName = doc.id;
+      console.log("cityName: " + cityName);
+
+    });
+});
+//^^^NEXT -- Only get data where city = cityPage. Show that on location-page
+//^^^NEXT -- Populate related variables to cityPage
+
+// START - Loop the city collection. Populate the guide on the location page
+db.collection("city").get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
         var citydata = doc.data();
         var cityName = doc.id;
+        //format cityName name
         var locname = cityName.replace(/-/g,' ');
-        let expIcons = [];
         //City Data from FORM
         let cityRegion = citydata.region;
         let cityContintent = citydata.contintent;
@@ -744,71 +857,6 @@ db.collection("city").get().then(function(querySnapshot) {
           var oType = ""
         }
 
-        // inside this loop, we want to get the document inside 'surf-spot' collection that matches doc.id
-        db.collection("surf-spot").get().then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            let ssData = doc.data();
-            let ssName = doc.id;
-            let ssCity = ssData.city;
-            let ssExperience = ssData.experience;
-            let ssLessons = ssData.surflessons;
-
-            //if the cityName is the same as the surf spot city, then get the name of the surf spot
-            if(cityName == ssCity){
-
-              //set icons to an array
-              expIcons.push(ssExperience); //push adds a new item to the array
-
-              // console.log(cityName + ": " + expIcons);
-
-              //then create a string with the fontawesome icons based on expIcons array - send that string to your HTML
-            }
-
-          })
-        });//End of the surf spot loop inside the city loop
-
-        // we are inside a loop, so doc.id will go through each location in 'cities'
-        // then get the document that matches doc.id which connects to a field in each surf spot
-
-        citydata = doc.data();
-        var region = citydata.region;
-
-        // //finds what month it is today and use that index of the rideable array
-        // var rideable = citydata.rideable[new Date().getMonth()];
-
-        //exp holds a string that displays an icon in our html
-        //it chooses which icon to display based on the value of citydata.experience in the database
-        var exp;
-        //expFilter places experience variable in class of card container
-        var expFilter;
-          //surf lessons
-        if(citydata.experience == 0){
-          exp = '<div data-toggle="tooltip" title="Surf lessons"><i style="color:orange" class="fas fa-plus"></i></div>';
-          expFilter = 'surf-lessons';
-          //beginner
-        }else if(citydata.experience == 1){
-          exp = '<div data-toggle="tooltip" title="Beginner"><i style="color:limegreen" class="fas fa-circle"></i></div>';
-          expFilter = 'beginner';
-          //intermediate
-        }else if(citydata.experience == 2){
-          exp = '<div data-toggle="tooltip" title="Intermediate"><i style="color:skyblue" class="fas fa-square"></i></div>';
-          expFilter = 'intermediate';
-          //advanced
-        }else if(citydata.experience == 3){
-          exp = '<div data-toggle="tooltip" title="Advanced"><i style="color:white" class="fas fa-chevron-up"></i></i></div>';
-          expFilter = 'advanced';
-        }else{
-          exp = '<div data-toggle="tooltip" title="Expert"><i style="color:white" class="fas fa-angle-double-up"></i></div>';
-          expFilter = 'expert';
-        }
-
-        // GET IMAGE from Firebase Storage
-          //1. Add downloadurl to firestore document
-          //2. Get downloadurl from that firestore document
-          //3. Place that download URL in the correct place int he cardcontainer
-          var cityimage = citydata.cityimage;
-
           //Initialize the AccommMap
           initAccommMap()
 
@@ -824,27 +872,9 @@ db.collection("city").get().then(function(querySnapshot) {
           renderPriceMarkers(map);
           renderMarkers(map);
 
-        //add info to LOCATION CARD
-        //$ is the same as getElementById
-        $("#card-container").prepend(
-          `<div class="card bg-dark text-white ${expFilter}">
-            <img class="img-fluid card-img" src="${cityimage}" alt="location card">
-              <div class="card-img-overlay">
-
-                <div id="experience" class="lc-experience">${exp}</div>
-
-                <h4 id="locName" class="card-title" style="white-space: nowrap;">${locname}</h4>
-                <p id="region" class="card-text">${region}</p>
-                <div class="lc-flight"<div data-toggle="tooltip" data-placement="bottom" title="Flight cost">🛫 $187</div>
-                <div class="lc-cost" <div data-toggle="tooltip" data-placement="bottom" title="Avg accomm cost">🏡 $42/n</div>
-
-              </div>
-          </div>`
-        ); //end prepend
-
-        //add info to LOCATION OVERVIEW
+        //add info to LOCATION GUIDE
         $("#travel-guide").prepend(
-          `<div class="col-lg-12 mb-4">
+          `<div id="${cityName}" class="travel-guide col-lg-12 mb-4">
             <table class="table">
               <tbody>
                 <tr>
@@ -1270,7 +1300,6 @@ db.collection("surf-spot").get().then(function(querySnapshot) {
   });
 }); //END - Loop the surf-spot collection
 
-
 window.initMap = function(
     ssData,
     spotname,
@@ -1412,6 +1441,6 @@ window.initMap = function(
          </div>
         <div id="surf-spot-map" class="mb-3" style="max-height:auto; width:auto;"></div>
        </div>`
-  ); //end prepend
+  ); //End prepend
 
 };//End window.initMap

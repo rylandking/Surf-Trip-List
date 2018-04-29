@@ -10,7 +10,6 @@
 
     <!-- Link to custom CSS -->
     <link rel="stylesheet" href="style.css">
-
     <!-- JQUERY -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -74,50 +73,10 @@
               <button onclick="toggleByClass('expert');" type="button" class="btn btn-outline-danger" data-toggle="button" aria-pressed="false" autocomplete="off"><i style="color:black" class="fas fa-angle-double-up"></i> EXPERT</button>
             </div>
           </div><!-- /experience level available -->
-
-          <!-- high chance of rideable waves + warm water -->
-          <!-- <div class="row mb-4">
-            <button type="button" class="btn btn-outline-danger mr-1" data-toggle="button" aria-pressed="false" autocomplete="off">🏝 Warm Water</button>
-            <button type="button" class="btn btn-outline-danger mx-1" data-toggle="button" aria-pressed="false" autocomplete="off">🏄‍♂️ +80% Rideable Waves</button>
-          </div> -->
-          <!-- /high chance of rideable waves + warm water -->
-
-          <!-- months traveling -->
-          <!-- <div class="row mb-4">
-            <div class="btn-group mr-2" role="group">
-              <button type="button" class="btn btn-outline-danger" data-toggle="button" aria-pressed="false" autocomplete="off">JAN</button>
-              <button type="button" class="btn btn-outline-danger" data-toggle="button" aria-pressed="false" autocomplete="off">FEB</button>
-              <button type="button" class="btn btn-outline-danger" data-toggle="button" aria-pressed="false" autocomplete="off">MAR</button>
-              <button type="button" class="btn btn-outline-danger" data-toggle="button" aria-pressed="false" autocomplete="off">APR</button>
-              <button type="button" class="btn btn-outline-danger" data-toggle="button" aria-pressed="false" autocomplete="off">MAY</button>
-              <button type="button" class="btn btn-outline-danger" data-toggle="button" aria-pressed="false" autocomplete="off">JUN</button>
-              <button type="button" class="btn btn-outline-danger" data-toggle="button" aria-pressed="false" autocomplete="off">JUL</button>
-              <button type="button" class="btn btn-outline-danger" data-toggle="button" aria-pressed="false" autocomplete="off">AUG</button>
-              <button type="button" class="btn btn-outline-danger" data-toggle="button" aria-pressed="false" autocomplete="off">SEP</button>
-              <button type="button" class="btn btn-outline-danger" data-toggle="button" aria-pressed="false" autocomplete="off">OCT</button>
-              <button type="button" class="btn btn-outline-danger" data-toggle="button" aria-pressed="false" autocomplete="off">NOV</button>
-              <button type="button" class="btn btn-outline-danger" data-toggle="button" aria-pressed="false" autocomplete="off">DEC</button>
-            </div>
-          </div><!-- /months traveling -->
         </div><!-- /filter-->
 
     <!-- card-container -->
     <div id="card-container">
-
-      <!-- location cards -->
-      <!-- <div class="card bg-dark text-white">
-        <img class="img-fluid card-img" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/city%2Fsanta-cruz.jpg?alt=media&token=3540ceb9-6f80-4831-ace5-e3274cc51376" alt="sample card">
-          <div class="card-img-overlay">
-            <div id="experience" class="lc-experience" data-toggle="tooltip" title="Beginner"><i style=
-              "color:limegreen" class="fas fa-circle"></i></div>
-            <div class="lc-seasonality">82%</div>
-            <div class="lc-conditions">⭐️⭐️⭐️⭐️</div>
-            <h4 id="locName" class="card-title"></h4>
-            <p id="region" class="card-text"></p>
-            <div class="lc-flight">🛫 $187</div>
-            <div class="lc-cost">🏡 $42/n</div>
-          </div>
-      </div><!-- location cards -->
 
     </div><!-- end cardcontainer -->
   </div><!-- /end container-fluid -->
@@ -136,6 +95,9 @@
       };
       firebase.initializeApp(config);
     </script>
+
+    <!-- Initializes the map -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&callback=initMap"></script>
 
     <!-- your firebase code -->
     <script src="script.js"></script>
