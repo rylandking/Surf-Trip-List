@@ -231,13 +231,20 @@ var cityPage;
 
 $(document).ready(function(){
   $('body').on('click','#city-card',function(e){
+
     // e.preventDefault();
     //Stores data-id=${cityName} in variable cityPage
     window.cityPage = $(this).data('id');
-    window.location = "location-page.html/";
-
+    var newCityPage = window.cityPage;
+    return redirectPage(newCityPage)
   });
 });
+
+function redirectPage(newCityPage) {
+    window.location = "file:///Users/gabriel/Desktop/workspace/Surf-Trip-List/location-page.html";
+    window.cityPage = newCityPage;
+    return false;
+}
 
 if (cityPage !== undefined) {
   console.log("conditional ran");
