@@ -1289,7 +1289,8 @@ db.collection("surf-spot").where("city", "==", newCityPage)
       skillTip,
       board,
       boardIcon,
-      boardTip);
+      boardTip
+    );
 
     //Map options
     var options = {
@@ -1300,149 +1301,152 @@ db.collection("surf-spot").where("city", "==", newCityPage)
     //new map
     map = new google.maps.Map(document.getElementById('surf-spot-map'), options);
 
-    renderMarkers(map)
+    renderMarkers(map);
 
   });
 }); //END - Loop the surf-spot collection
 
 window.initMap = function(
-    ssData,
-    spotname,
-    mapCenter,
-    icon,
-    markerDB,
-    markersDB,
-    markers1DB,
-    size,
-    sizeTip,
-    tide,
-    tideTip,
-    wind,
-    windTip,
-    rentals,
-    lessons,
-    waveDir,
-    waveDirTip,
-    waveType,
-    waveTypeTip,
-    barrel,
-    barrelTip,
-    bottom,
-    bottomTip,
-    beach,
-    beachTip,
-    crowd,
-    crowdTip,
-    localism,
-    localismTip,
-    access,
-    accessTip,
-    jan,
-    feb,
-    mar,
-    apr,
-    may,
-    jun,
-    jul,
-    aug,
-    sep,
-    oct,
-    nov,
-    dec,
-    forecast,
-    skill,
-    skillTip,
-    board,
-    boardIcon,
-    boardTip
+        ssData,
+        spotname,
+        mapCenter,
+        icon,
+        markerDB,
+        markersDB,
+        markers1DB,
+        size,
+        sizeTip,
+        tide,
+        tideTip,
+        wind,
+        windTip,
+        rentals,
+        lessons,
+        waveDir,
+        waveDirTip,
+        waveType,
+        waveTypeTip,
+        barrel,
+        barrelTip,
+        bottom,
+        bottomTip,
+        beach,
+        beachTip,
+        crowd,
+        crowdTip,
+        localism,
+        localismTip,
+        access,
+        accessTip,
+        jan,
+        feb,
+        mar,
+        apr,
+        may,
+        jun,
+        jul,
+        aug,
+        sep,
+        oct,
+        nov,
+        dec,
+        forecast,
+        skill,
+        skillTip,
+        board,
+        boardIcon,
+        boardTip
   ) {
+
+    if(spotname != undefined) {
     //Build new surf spot on location page
-    $("#surf-spot-map__wrapper").prepend(
-        `<div class="col-lg-6 mb-5">
-         <h5 class="text-center mb-3" style="text-transform:capitalize;"><a href="${forecast}" target="_blank" data-toggle="tooltip" title="Click to view 7 day 🏄‍♂️ forecast" style="color:black;">${spotname}</a> - <img data-toggle="tooltip" title="${skillTip}" src="${skill}"></img></h5>
-           <div class="row">
-             <div class="col-sm">
-               <table class="table col-sm">
-                   <tbody>
-                     <tr>
-                         <td class="best-board">🏄🏽‍♀️Best board:</td>
-                         <td class="text-center" data-toggle="tooltip" title="${boardTip}"><img src="${boardIcon}"></img>${board}</td>
-                     </tr>
-                     <tr>
-                         <td class="best-size">🌊Best size:</td>
-                         <td class="text-center" data-toggle="tooltip" title="${sizeTip}">${size}</td>
-                     </tr>
-                     <tr>
-                         <td class="best-tide">〰️Best tide:</td>
-                         <td class="text-center" data-toggle="tooltip" title="${tideTip}">${tide}</td>
-                     </tr>
-                     <tr>
-                         <td class="wind-dir">💨Best wind:</td>
-                         <td class="text-center" data-toggle="tooltip" title="${windTip}">${wind}</td>
-                     </tr>
-                     <tr>
-                         <td class="beach">🏖Beach: </td>
-                         <td class="text-center" data-toggle="tooltip" title="${beachTip}">${beach}</td>
-                     </tr>
-                     <tr>
-                         <td class="access">🚗Access: </td>
-                         <td class="text-center" data-toggle="tooltip" title="${accessTip}">${access}</td>
-                     </tr>
+      $("#surf-spot-map__wrapper").prepend(
+          `<div class="col-lg-6 mb-5">
+           <h5 class="text-center mb-3" style="text-transform:capitalize;"><a href="${forecast}" target="_blank" data-toggle="tooltip" title="Click to view 7 day 🏄‍♂️ forecast" style="color:black;">${spotname}</a> - <img data-toggle="tooltip" title="${skillTip}" src="${skill}"></img></h5>
+             <div class="row">
+               <div class="col-sm">
+                 <table class="table col-sm">
+                     <tbody>
+                       <tr>
+                           <td class="best-board">🏄🏽‍♀️Best board:</td>
+                           <td class="text-center" data-toggle="tooltip" title="${boardTip}"><img src="${boardIcon}"></img>${board}</td>
+                       </tr>
+                       <tr>
+                           <td class="best-size">🌊Best size:</td>
+                           <td class="text-center" data-toggle="tooltip" title="${sizeTip}">${size}</td>
+                       </tr>
+                       <tr>
+                           <td class="best-tide">〰️Best tide:</td>
+                           <td class="text-center" data-toggle="tooltip" title="${tideTip}">${tide}</td>
+                       </tr>
+                       <tr>
+                           <td class="wind-dir">💨Best wind:</td>
+                           <td class="text-center" data-toggle="tooltip" title="${windTip}">${wind}</td>
+                       </tr>
+                       <tr>
+                           <td class="beach">🏖Beach: </td>
+                           <td class="text-center" data-toggle="tooltip" title="${beachTip}">${beach}</td>
+                       </tr>
+                       <tr>
+                           <td class="access">🚗Access: </td>
+                           <td class="text-center" data-toggle="tooltip" title="${accessTip}">${access}</td>
+                       </tr>
+                     </tbody>
+                 </table>
+               </div>
+               <div class="col-sm">
+                 <table class="table col-sm">
+                     <tbody>
+                       <tr>
+                           <td class="wave-dir">🌊Direction:</td>
+                           <td class="text-center" data-toggle="tooltip" title="${waveDirTip}">${waveDir}</td>
+                       </tr>
+                       <tr>
+                           <td class="wave-type">🌊Type:</td>
+                           <td class="text-center" data-toggle="tooltip" title="${waveTypeTip}">${waveType}</td>
+                       </tr>
+                       <tr>
+                           <td class="barrel">🤩Barrel:</td>
+                           <td class="text-center" data-toggle="tooltip" title="${barrelTip}">${barrel}</td>
+                       </tr>
+                       <tr>
+                           <td class="bottom">⚓️Bottom:</td>
+                           <td class="text-center" data-toggle="tooltip" title="${bottomTip}">${bottom}</td>
+                       </tr>
+                       <tr>
+                           <td class="crowd">🎪Crowd: </td>
+                           <td class="text-center" data-toggle="tooltip" title="${crowdTip}">${crowd}</td>
+                       </tr>
+                       <tr>
+                           <td class="localism">👺Localism: </td>
+                           <td class="text-center" data-toggle="tooltip" title="${localismTip}">${localism}</td>
+                       </tr>
                    </tbody>
-               </table>
+                 </table>
+               </div>
              </div>
-             <div class="col-sm">
-               <table class="table col-sm">
-                   <tbody>
-                     <tr>
-                         <td class="wave-dir">🌊Direction:</td>
-                         <td class="text-center" data-toggle="tooltip" title="${waveDirTip}">${waveDir}</td>
-                     </tr>
-                     <tr>
-                         <td class="wave-type">🌊Type:</td>
-                         <td class="text-center" data-toggle="tooltip" title="${waveTypeTip}">${waveType}</td>
-                     </tr>
-                     <tr>
-                         <td class="barrel">🤩Barrel:</td>
-                         <td class="text-center" data-toggle="tooltip" title="${barrelTip}">${barrel}</td>
-                     </tr>
-                     <tr>
-                         <td class="bottom">⚓️Bottom:</td>
-                         <td class="text-center" data-toggle="tooltip" title="${bottomTip}">${bottom}</td>
-                     </tr>
-                     <tr>
-                         <td class="crowd">🎪Crowd: </td>
-                         <td class="text-center" data-toggle="tooltip" title="${crowdTip}">${crowd}</td>
-                     </tr>
-                     <tr>
-                         <td class="localism">👺Localism: </td>
-                         <td class="text-center" data-toggle="tooltip" title="${localismTip}">${localism}</td>
-                     </tr>
+           <div class="col-sm">
+             <table class="table table-sm col-sm">
+               <tbody>
+                 <tr>
+                     <td data-toggle="tooltip" title="${jan}% chance of 🏄‍♂️ surfable waves in Jan"><small>${jan}%</small><br><b>Jan<b></td>
+                     <td data-toggle="tooltip" title="${feb}% chance of 🏄‍♂️ surfable waves in Feb"><small>${feb}%</small><br><b>Feb<b></td>
+                     <td data-toggle="tooltip" title="${mar}% chance of 🏄‍♂️ surfable waves in Mar"><small>${mar}%</small><br><b>Mar<b></td>
+                     <td data-toggle="tooltip" title="${apr}% chance of 🏄‍♂️ surfable waves in Apr"><small>${apr}%</small><br><b>Apr<b></td>
+                     <td data-toggle="tooltip" title="${may}% chance of 🏄‍♂️ surfable waves in May"><small>${may}%</small><br><b>May<b></td>
+                     <td data-toggle="tooltip" title="${jun}% chance of 🏄‍♂️ surfable waves in Jun"><small>${jun}%</small><br><b>Jun<b></td>
+                     <td data-toggle="tooltip" title="${jul}% chance of 🏄‍♂️ surfable waves in Jul"><small>${jul}%</small><br><b>Jul<b></td>
+                     <td data-toggle="tooltip" title="${aug}% chance of 🏄‍♂️ surfable waves in Aug"><small>${aug}%</small><br><b>Aug<b></td>
+                     <td data-toggle="tooltip" title="${sep}% chance of 🏄‍♂️ surfable waves in Sep"><small>${sep}%</small><br><b>Sep<b></td>
+                     <td data-toggle="tooltip" title="${oct}% chance of 🏄‍♂️ surfable waves in Oct"><small>${oct}%</small><br><b>Oct<b></td>
+                     <td data-toggle="tooltip" title="${nov}% chance of 🏄‍♂️ surfable waves in Nov"><small>${nov}%</small><br><b>Nov<b></td>
+                     <td data-toggle="tooltip" title="${dec}% chance of 🏄‍♂️ surfable waves in Dec"><small>${dec}%</small><br><b>Dec<b></td>
+                   </tr>
                  </tbody>
                </table>
              </div>
-           </div>
-         <div class="col-sm">
-           <table class="table table-sm col-sm">
-             <tbody>
-               <tr>
-                   <td data-toggle="tooltip" title="${jan}% chance of 🏄‍♂️ surfable waves in Jan"><small>${jan}%</small><br><b>Jan<b></td>
-                   <td data-toggle="tooltip" title="${feb}% chance of 🏄‍♂️ surfable waves in Feb"><small>${feb}%</small><br><b>Feb<b></td>
-                   <td data-toggle="tooltip" title="${mar}% chance of 🏄‍♂️ surfable waves in Mar"><small>${mar}%</small><br><b>Mar<b></td>
-                   <td data-toggle="tooltip" title="${apr}% chance of 🏄‍♂️ surfable waves in Apr"><small>${apr}%</small><br><b>Apr<b></td>
-                   <td data-toggle="tooltip" title="${may}% chance of 🏄‍♂️ surfable waves in May"><small>${may}%</small><br><b>May<b></td>
-                   <td data-toggle="tooltip" title="${jun}% chance of 🏄‍♂️ surfable waves in Jun"><small>${jun}%</small><br><b>Jun<b></td>
-                   <td data-toggle="tooltip" title="${jul}% chance of 🏄‍♂️ surfable waves in Jul"><small>${jul}%</small><br><b>Jul<b></td>
-                   <td data-toggle="tooltip" title="${aug}% chance of 🏄‍♂️ surfable waves in Aug"><small>${aug}%</small><br><b>Aug<b></td>
-                   <td data-toggle="tooltip" title="${sep}% chance of 🏄‍♂️ surfable waves in Sep"><small>${sep}%</small><br><b>Sep<b></td>
-                   <td data-toggle="tooltip" title="${oct}% chance of 🏄‍♂️ surfable waves in Oct"><small>${oct}%</small><br><b>Oct<b></td>
-                   <td data-toggle="tooltip" title="${nov}% chance of 🏄‍♂️ surfable waves in Nov"><small>${nov}%</small><br><b>Nov<b></td>
-                   <td data-toggle="tooltip" title="${dec}% chance of 🏄‍♂️ surfable waves in Dec"><small>${dec}%</small><br><b>Dec<b></td>
-                 </tr>
-               </tbody>
-             </table>
-           </div>
-          <div id="surf-spot-map" class="mb-3" style="max-height:auto; width:auto;"></div>
-         </div>`
-    ); //End prepend
+            <div id="surf-spot-map" class="mb-3" style="max-height:auto; width:auto;"></div>
+           </div>`
+      ); //End prepend
+    }
   };//End window.initMap

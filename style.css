@@ -121,6 +121,11 @@ body {
   width: 100%;
 }
 
+#surf-spot-map {
+  height:300px;
+  width:500px;
+}
+
 #accomm-map__wrapper {
   height: 500px;
   width: 100%;
