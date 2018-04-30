@@ -226,26 +226,46 @@ db.collection("city").get().then(function(querySnapshot) {
     });
 });// END - Loop the city collection. Populate location cards
 
-
 //START_DRAFT Click on city card takes you to location page for ONLY that city
+var cityPage;
+
 $(document).ready(function(){
   $('body').on('click','#city-card',function(e){
     // e.preventDefault();
     //Stores data-id=${cityName} in variable cityPage
-    var cityPage = $(this).data('id');
-    console.log(cityPage);
+    window.cityPage = $(this).data('id');
+    window.location = "location-page.html/";
 
-    const docRef = db.collection("city").doc(cityPage)
-    docRef.get().then(function(doc) {
-      var citydata = doc.data();
-      var cityName = doc.id;
-      console.log("cityName: " + cityName);
-
-    window.location.href = "location-page.html";
-
-      });
-    });
   });
+});
+
+if (cityPage !== undefined) {
+  console.log("conditional ran");
+
+  const docRef = db.collection("city").doc(cityPage)
+
+  docRef.get().then(function(doc) {
+    var citydata = doc.data();
+    var cityName = doc.id;
+    console.log("cityName: " + cityName);
+
+    $("#travel-guide").prepend(
+      `<p>PENIS TEST</p>`
+    );
+  });
+}
+
+
+
+  // const docRef = db.collection("city").doc(cityPage)
+  // docRef.get().then(function(doc) {
+  //   var citydata = doc.data();
+  //   var cityName = doc.id;
+  //   console.log("cityName: " + cityName);
+  //
+  //   $("#travel-guide").prepend(
+  //     `<p>Oh, yeah. What's up.</p>`
+  //   );
   //END_DRAFT Click on city card takes you to location page for ONLY that city
 
 
@@ -1288,7 +1308,7 @@ db.collection("surf-spot").get().then(function(querySnapshot) {
       skillTip,
       board,
       boardIcon,
-      boardTip)
+      boardTip);
 
     //Map options
     var options = {
