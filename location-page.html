@@ -35,39 +35,33 @@
     </div><!-- /jumbotron -->
 
     <!-- nav -->
-    <nav class="navbar navbar-expand justify-content-center navbar-light bg-white">
-      <div class="container">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#guide">Guide</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#surf-spots">Surf Spots</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#accommodations">Accommodations</a>
-          </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link " href="#flights">Flights</a>
-          </li> -->
-        </ul>
-      </div>
-    </div>
+    <nav class="navbar navbar-expand justify-content-center navbar-light">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a id="nav1" class="nav-link active" href="#" data-type="travel-guide">City Guide</a>
+        </li>
+        <li class="nav-item">
+          <a id="nav2" class="nav-link" href="#" data-type="surf-spot-map__wrapper">Surf Spots</a>
+        </li>
+        <li class="nav-item">
+          <a id="nav3" class="nav-link" href="#" data-type="accomm-map__wrapper">Accommodations</a>
+        </li>
+      </ul>
     </nav><!-- /nav -->
 
     <!-- containter -->
     <div class="container-fluid">
 
       <!-- location overview -->
-        <div id="travel-guide" class="row mb-5">
+        <div id="travel-guide" class="row mb-5 Hide">
         </div><!-- /location overview -->
 
       <!-- surf spots -->
-        <div id="surf-spot-map__wrapper" class="row" style="display:block;">
+        <div id="surf-spot-map__wrapper" class="row Hide">
         </div><!-- /surf spots -->
 
       <!-- accommodations -->
-        <div id="accomm-map__wrapper" class="row">
+        <div id="accomm-map__wrapper" class="row Hide">
         </div><!-- /accommodations -->
 
       <!-- flights -->

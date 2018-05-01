@@ -126,7 +126,30 @@ body {
   width:500px;
 }
 
+#accomm-map {
+  height:700px;
+  width:100%;
+}
+
 #accomm-map__wrapper {
-  height: 500px;
-  width: 100%;
+  display: none;
+}
+#surf-spot-map__wrapper {
+  display: none;
+}
+
+#navbar {
+  background-color: white;
+  color: grey;
+}
+
+.navbar a:hover {
+  border-bottom: 3px solid red;
+}
+
+.navbar a.active {
+  border-bottom: 3px solid red;
+  color: red;
+  text-transform: uppercase;
+  font-weight: bold;
 }

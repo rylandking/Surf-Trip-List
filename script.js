@@ -132,8 +132,11 @@ function renderPriceMarkers(map) {
 }
 
 // START - Loop the city collection. Populate location cards
-db.collection("city").get().then(function(querySnapshot) {
-    querySnapshot.forEach(function(doc) {
+// db.collection("city").get().then(function(querySnapshot) {
+//     querySnapshot.forEach(function(doc) {
+db.collection("city").where("beta", "==", true)
+    .get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
       //format the name
       var citydata = doc.data();
       var cityName = doc.id;
@@ -268,6 +271,7 @@ docRef.get().then(function(doc) {
   let cityRegion = citydata.region;
   let cityContintent = citydata.contintent;
   let nation = citydata.nation;
+  let cityCenter = citydata.cityCenter;
   let goodFor = citydata.goodFor;
   let waterTemp = citydata.waterTemp;
   let language = citydata.language;
@@ -287,19 +291,19 @@ docRef.get().then(function(doc) {
   let tapWater = citydata.tapWater;
   let power;
   let uber = citydata.uber;
-  let insurance;
-  let immigration = citydata.immigration;
-  let norms = citydata.norms;
+  // let insurance;
+  // let immigration = citydata.immigration;
+  // let norms = citydata.norms;
   let volts = citydata.volts;
   let frequency = citydata.frequency;
   let powerType = citydata.powerType;
-  let meal = citydata.meal;
-  let beer = citydata.beer;
+  let meal = parseInt(citydata.meal);
+  let beer = parseInt(citydata.beer);
   let currencyName = citydata.currencyName;
   let usdEquivalent = citydata.usdEquivalent;
   let atm = citydata.atm;
-  let roomCost = citydata.roomCost;
-  let placeCost = citydata.placeCost;
+  let roomCost = parseInt(citydata.roomCost);
+  let placeCost = parseInt(citydata.placeCost);
   //Calculates the USD of a common ATM takeout
   const atmInUSD = parseInt(atm/usdEquivalent);
   //Calculates daily cost of staying in a city
@@ -563,7 +567,7 @@ docRef.get().then(function(doc) {
   } else if (partyScore == 3) {
     partyScore =
     `<div class="progress rounded-0" style="height: 30px;">
-      <div data-toggle="tooltip" title="🕺🏼💃Places to party can be hard to find" class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+      <div data-toggle="tooltip" title="🕺🏼💃Places to party here and there" class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
         <b>okay</b>
       </div>
     </div>`;
@@ -936,21 +940,21 @@ docRef.get().then(function(doc) {
           </tr>
           <tr>
             <td class="lp">🗺Travel Guide</td>
-            <td class="text-center" data-toggle="tooltip" title="💻${locname} travel guide" style="color: black;"><a href="${lp}" target="_blank">Guidebook</a></td>
+            <td class="text-center" data-toggle="tooltip" title="💻Travel guide" style="color: black;"><a href="${lp}" target="_blank">Guidebook</a></td>
             <td class="uber">🚘Uber available</td>
             ${uber}
           </tr>
           <tr>
-            <td class="immigration">👮‍♂️Immigration</td>
-            <td class="text-center" data-toggle="tooltip" title="👮‍♂️See immigration guide" style="color: black;"><a href="${immigration}" target="_blank">Immigration guide</a></td>
+            <td></td>
+            <td></td>
             <td class="meal">🌮Meal Price</td>
-            <td class="text-center" data-toggle="tooltip" title="🌮Avg cost of a meal in an establishment">$${meal}</td>
+            <td class="text-center" data-toggle="tooltip" title="🌮Avg cost of a meal at a restaurant">$${meal}</td>
           </tr>
           <tr>
-            <td class="immigration">🤐Cultural norms</td>
-            <td class="text-center" data-toggle="tooltip" title="📖Learn the cultural norms" style="color: black;"><a href="${norms}" target="_blank">Cultural norm guide</a></td>
+            <td></td>
+            <td></td>
             <td class="beer">🍺.5L Beer</td>
-            <td class="text-center" data-toggle="tooltip" title="🍺Cost of 0.5L beer in an establishment">$${beer}</td>
+            <td class="text-center" data-toggle="tooltip" title="🍺Avg cost of 0.5L beer at a bar">$${beer}</td>
           </tr>
           <tr>
             <td class="rooms">🏡Airbnb (private room)</td>
@@ -979,9 +983,8 @@ docRef.get().then(function(doc) {
   initAccommMap();
   //AccommMap options
   var options = {
-    zoom:12,
-    //NEED TO CHANGE LAT/LNG TO cityCenter variable
-    center:{lat:36.9517, lng:-122.0258}
+    zoom:15,
+    center:cityCenter,
   }
   //new AccommMap
   map = new google.maps.Map(document.getElementById('accomm-map'), options);
@@ -993,7 +996,7 @@ docRef.get().then(function(doc) {
 
 window.initAccommMap = function() {
   $("#accomm-map__wrapper").prepend(
-  `<div id="accomm-map" class="mb-3" style="height:500px; width:100%;"></div>`
+  `<div id="accomm-map" class="mb-3"></div>`
   );//end accomm-map prepend
 };
 
@@ -1357,12 +1360,12 @@ window.initMap = function(
         boardIcon,
         boardTip
   ) {
-
+    //If a variable is undefined don't show the surf spot
     if(spotname != undefined) {
     //Build new surf spot on location page
       $("#surf-spot-map__wrapper").prepend(
           `<div class="col-lg-6 mb-5">
-           <h5 class="text-center mb-3" style="text-transform:capitalize;"><a href="${forecast}" target="_blank" data-toggle="tooltip" title="Click to view 7 day 🏄‍♂️ forecast" style="color:black;">${spotname}</a> - <img data-toggle="tooltip" title="${skillTip}" src="${skill}"></img></h5>
+            <h5 class="text-center mb-3" style="text-transform:capitalize;"><a href="${forecast}" target="_blank" data-toggle="tooltip" title="Click to view 7 day 🏄‍♂️ forecast" style="color:black;">${spotname}</a> - <img data-toggle="tooltip" title="${skillTip}" src="${skill}"></img></h5>
              <div class="row">
                <div class="col-sm">
                  <table class="table col-sm">
@@ -1450,3 +1453,22 @@ window.initMap = function(
       ); //End prepend
     }
   };//End window.initMap
+
+//Click the location page menu to hide and show each section
+$(".nav-link").click(function () {
+  $(".Hide").hide("fast");
+  $("#" + $(this).data('type')).show("fast");
+});
+
+
+//Click on the location page menu and show which section is active
+// When we click on the a tag
+$("a").click(function(){
+  // If this isn't already active
+  if (!$(this).hasClass("active")) {
+    // Remove the class from anything that is active
+    $("a.active").removeClass("active");
+    // And make this active
+    $(this).addClass("active");
+  }
+});

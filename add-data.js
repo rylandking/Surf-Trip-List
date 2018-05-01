@@ -12,7 +12,7 @@ firebase.initializeApp(config);
 var db = firebase.firestore();
 
 //ADD SURF SPOT DATA
-const ssDocRef = db.doc("surf-spot/hammonds");
+const ssDocRef = db.doc("surf-spot/steamer-lane");
 //Surf Spot properties
 const inputCity = document.querySelector("#inputCity");
 const inputForecast = document.querySelector("#inputForecast");
@@ -128,7 +128,7 @@ saveButton.addEventListener("click", function(){
 
 
 //START ADD CITY DATA
-const cityDocRef = db.doc("city/zTest");
+const cityDocRef = db.doc("city/santa-cruz");
 
 // console.log(document.querySelector("#inputFemaleSafe").value);
 
@@ -136,9 +136,9 @@ const cityDocRef = db.doc("city/zTest");
 const inputRegion = document.querySelector("#inputRegion");
 const inputNation = document.querySelector("#inputNation");
 const inputGoodFor = document.querySelector("#inputGoodFor");
-const inputInsurance = document.querySelector("#inputInsurance");
-const inputImmigration = document.querySelector("#inputImmigration");
-const inputNorms = document.querySelector("#inputNorms");
+// const inputInsurance = document.querySelector("#inputInsurance");
+// const inputImmigration = document.querySelector("#inputImmigration");
+// const inputNorms = document.querySelector("#inputNorms");
 const inputPowerType = document.querySelector("#inputPowerType");
 const inputFrequency = document.querySelector("#inputFrequency");
 const inputVolts = document.querySelector("#inputVolts");
@@ -181,9 +181,9 @@ saveCityButton.addEventListener("click", function(){
   var cityLessonsToSave = document.querySelector('input[name = "cityLessons"]:checked').value;
   var waterTempToSave = document.querySelector('input[name = "waterTemp"]:checked').value;
 
-  const insuranceToSave = inputInsurance.value;
-  const immigrationToSave = inputImmigration.value;
-  const normsToSave = inputNorms.value;
+  // const insuranceToSave = inputInsurance.value;
+  // const immigrationToSave = inputImmigration.value;
+  // const normsToSave = inputNorms.value;
   const voltsToSave = inputVolts.value;
   const frequencyToSave = inputFrequency.value;
   const powerTypeToSave = inputPowerType.value;
@@ -196,6 +196,7 @@ saveCityButton.addEventListener("click", function(){
   const aTMToSave = inputATM.value;
   const beerToSave = inputBeer.value;
   const mealToSave = inputMeal.value;
+  const goodForToSave = inputGoodFor.value;
 
 console.log("I am going to log CITY DATA to Firestore. 🙃");
 
@@ -227,9 +228,9 @@ cityDocRef.set({
   cityLessons: cityLessonsToSave,
   tapWater: tapWaterToSave,
   uber: uberToSave,
-  insurance: insuranceToSave,
-  immigration: immigrationToSave,
-  norms: normsToSave,
+  // insurance: insuranceToSave,
+  // immigration: immigrationToSave,
+  // norms: normsToSave,
   powerType: powerTypeToSave,
   frequency: frequencyToSave,
   volts: voltsToSave,
