@@ -1460,8 +1460,7 @@ $(".nav-link").click(function () {
   $("#" + $(this).data('type')).show("fast");
 });
 
-
-//Click on the location page menu and show which section is active
+//Show which section is active in the location page nav bar
 // When we click on the a tag
 $("a").click(function(){
   // If this isn't already active
