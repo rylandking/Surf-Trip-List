@@ -103,9 +103,10 @@
           </label>
         </div>
 
-      <p>🗺City LAT (for map):<input id="inputCityLat" type="textfield" class="mb-0"></input></p>
+      <p>🌎Where should the center of the city map be? (consider surf spots + accomm)</p>
+      <p>🗺City LAT:<input id="inputCityLat" type="textfield" class="mb-0"></input></p>
 
-      <p>🗺City LNG (for map):<input id="inputCityLng" type="textfield" class="mb-2"></input></p>
+      <p>🗺City LNG:<input id="inputCityLng" type="textfield" class="mb-2"></input></p>
 
       <p>💻Lonely Planet (link)</p>
         <li>https://www.lonelyplanet.com/</li>
@@ -137,10 +138,10 @@
       <p>🏧 take out (100,000 Rupee)</p>
       <input id="inputATM" type="textfield" class="mb-5"></input>
 
-      <p>🍺Cost of Beer</p>
+      <p><a href="https://www.expatistan.com/cost-of-living">🍺Cost of Beer</a></p>
       <input id="inputBeer" type="textfield" class="mb-5"></input>
 
-      <p>🌮Cost of Meal Out</p>
+      <p><a href="https://www.expatistan.com/cost-of-living">🌮Cost of Meal Out</a></p>
       <input id="inputMeal" type="textfield" class="mb-5"></input>
 
       <!-- Fix -->
@@ -184,8 +185,7 @@
           </label>
         </div>
 
-      <p>🔌Voltage</p>
-        <li>https://www.worldstandards.eu/electricity/plug-voltage-by-country/</li>
+      <p><a href="https://www.worldstandards.eu/electricity/plug-voltage-by-country/">🔌Voltage</a></p>
       <input id="inputVolts" type="textfield" class="mb-5"></input>
 
       <p>🔌Frequency</p>
@@ -611,13 +611,16 @@
             </label>
           </div>
 
-      <p>🌊Wave type?</p>
+      <p>🌊What does the wave break on?</p>
         <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
           <label class="btn btn-outline-dark text-left">
             <input type="radio" name="waveType" id="inputType" autocomplete="off" value="beach">Beach</input>
           </label>
           <label class="btn btn-outline-dark text-left">
             <input type="radio" name="waveType" id="inputType" autocomplete="off" value="point">Point</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="waveType" id="inputType" autocomplete="off" value="ocean">Open ocean</input>
           </label>
         </div>
 
@@ -702,16 +705,16 @@
       <p>🚗How do I access the spot?</p>
         <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
           <label class="btn btn-outline-dark text-left">
-            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="park">Park</input>
+            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="park">🚗Park and surf</input>
           </label>
           <label class="btn btn-outline-dark text-left">
-            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="hike">Hike</input>
+            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="hike">👟A bit of a hike</input>
           </label>
           <label class="btn btn-outline-dark text-left">
-            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="boat">Boat</input>
+            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="boat">🛥Likely need a boat</input>
           </label>
           <label class="btn btn-outline-dark text-left">
-            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="in-front">It can be right out front!</input>
+            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="in-front">🤩Can be walking distance</input>
           </label>
         </div>
 
@@ -831,13 +834,13 @@
         <input type="radio" name="accommType" id="inputAccommType" autocomplete="off" value="Hostel">Hostel</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="accommType" id="inputAccommType" autocomplete="off" value="Airbnb Shared Room">Airbnb Shared Room</input>
+        <input type="radio" name="accommType" id="inputAccommType" autocomplete="off" value="Shared Room">Airbnb Shared Room</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="accommType" id="inputAccommType" autocomplete="off" value="Airbnb Private Room">Airbnb Private Room</input>
+        <input type="radio" name="accommType" id="inputAccommType" autocomplete="off" value="Private Room">Airbnb Private Room</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="accommType" id="inputAccommType" autocomplete="off" value="Airbnb Entire Place">Airbnb Entire Place</input>
+        <input type="radio" name="accommType" id="inputAccommType" autocomplete="off" value="Entire Place">Airbnb Entire Place</input>
       </label>
       <label class="btn btn-outline-dark text-left">
         <input type="radio" name="accommType" id="inputAccommType" autocomplete="off" value="Surf Camp">Surf Camp</input>
@@ -853,32 +856,35 @@
     <p>🛏Number of Beds</p>
     <input id="inputPMBeds" type="textfield" class="mb-4"></input>
 
+    <p>👫Number of Guests</p>
+    <input id="inputPMGuests" type="textfield" class="mb-4"></input>
+
     <p>🏞How is the view?</p>
     <div class="btn-group btn-group-toggle mb-4" data-toggle="buttons">
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="view" id="inputView" autocomplete="off" value="No Ocean View">No Ocean View</input>
+        <input type="radio" name="view" id="inputView" autocomplete="off" value="No ocean view">No Ocean View</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="view" id="inputView" autocomplete="off" value="Ocean View">Ocean View</input>
+        <input type="radio" name="view" id="inputView" autocomplete="off" value="🤩Ocean view">Ocean View</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="view" id="inputView" autocomplete="off" value="Surf View">View of the Surf</input>
+        <input type="radio" name="view" id="inputView" autocomplete="off" value="🤩Surf view">View of the Surf</input>
       </label>
     </div>
 
     <p>🤳How close is the surf?</p>
     <div class="btn-group btn-group-toggle mb-4" data-toggle="buttons">
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="proximity" id="inputProximity" autocomplete="off" value="🚶‍♂️Walk">🚶‍♂️Walking</input>
+        <input type="radio" name="proximity" id="inputProximity" autocomplete="off" value="🚶‍♂️Walk to surf">🚶‍♂️Walking</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="proximity" id="inputProximity" autocomplete="off" value="🚲Bike">🚲Biking</input>
+        <input type="radio" name="proximity" id="inputProximity" autocomplete="off" value="🚲Bike to surf">🚲Biking</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="proximity" id="inputProximity" autocomplete="off" value="🚗Drive">🚗Driving</input>
+        <input type="radio" name="proximity" id="inputProximity" autocomplete="off" value="🚗Drive to surf">🚗Driving</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="proximity" id="inputProximity" autocomplete="off" value="🏡Right out front!">🏡Right out front!</input>
+        <input type="radio" name="proximity" id="inputProximity" autocomplete="off" value="🤩Surf's out front!">🤩Right out front!</input>
       </label>
     </div>
 

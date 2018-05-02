@@ -265,10 +265,9 @@ saveCityDocNameButton.addEventListener("click", function(){
       console.log("I saved the CITY DATA to Firestore. 👍");
     }).catch(function (error) {
       console.log("Oops! There was an error: ", error);
-  })
-});//End add city data
+    })
+  });//End add city data
 });//End of set city name
-
 
 //START ADD MARKERS
 //Marker properties
@@ -339,12 +338,9 @@ saveMarkerButton.addEventListener("click", function(){
       console.error("Error adding document: ", error);
   });
 });
+//END ADD MARKERS
 
-
-//END ADD PRICE MARKERS
-
-//START ADD PRICE MARKERS
-
+//START ADD ACCOMM MARKERS
 //Marker properties
 const inputPMCity = document.querySelector("#inputPMCity");
 const inputBookingUrl = document.querySelector("#inputBookingUrl");
@@ -352,6 +348,7 @@ const inputPMTitle = document.querySelector("#inputPMTitle");
 const inputPMPrice = document.querySelector("#inputPMPrice");
 const inputPMPhotoUrl = document.querySelector("#inputPMPhotoUrl");
 const inputPMBeds = document.querySelector("#inputPMBeds");
+const inputPMGuests = document.querySelector("#inputPMGuests");
 const inputPMLat = document.querySelector("#inputPMLat");
 const inputPMLng = document.querySelector("#inputPMLng");
 
@@ -367,21 +364,36 @@ savePMButton.addEventListener("click", function(){
   const PMPriceToSave = inputPMPrice.value;
   //Need to rethink PMPhotoUrlToSave if it's coming from firestore db
   const PMPhotoUrlToSave = inputPMPhotoUrl.value;
-  const PMBedsToSave = inputPMBeds.value;
-
+  let PMBedsToSave = inputPMBeds.value;
+  let PMGuestsToSave = inputPMGuests.value;
   const PMLatToSave = parseFloat(inputPMLat.value);
   const PMLngToSave = parseFloat(inputPMLng.value);
   var accommTypeToSave = document.querySelector('input[name = "accommType"]:checked').value;
   var viewToSave = document.querySelector('input[name = "view"]:checked').value;
   var proximityToSave = document.querySelector('input[name = "proximity"]:checked').value;
 
+  console.log(PMBedsToSave);
+  console.log(PMGuestsToSave);
+
+  if (PMBedsToSave == "1") {
+    var PMBedsPlural = "Bed"
+  } else {
+    var PMBedsPlural = "Beds"
+  }
+
+  if (PMGuestsToSave == "1") {
+    var PMGuestsPlural = "Guest"
+  } else {
+    var PMGuestsPlural = "Guests"
+  }
+
   var pmContentToSave =
   `<div class="iw-container">
      <a href="${PMBookingUrlToSave}"><img src="${PMPhotoUrlToSave}" style="height=100%; width:100%"></a>
-     <b><p class="mb-2" style="color:brown">${accommTypeToSave} • ${PMBedsToSave} BEDS</p></b>
+     <b><p class="my-2 nounderline" style="color:brown">🏡${accommTypeToSave} • 🛌${PMBedsToSave} ${PMBedsPlural} • 👫${PMGuestsToSave} ${PMGuestsPlural}</p></b>
      <h5 class="my-0">${PMTitleToSave}</h5>
-     <b><p class="mt-1">${PMPriceToSave} per night • ${viewToSave} • ${proximityToSave}</p></b>
-  </div>`;
+     <b><p class="mt-2">$${PMPriceToSave} per night • ${viewToSave} • ${proximityToSave}</p></b>
+   </div>`;
 
   var pmIconImageToSave = `pm/${PMPriceToSave}.png`
 
@@ -498,9 +510,9 @@ function ClearPMFields() {
     $("#city-doc-success-alert").hide();
       $("#saveCityDocNameButton").click(function showAlert() {
         $("#city-doc-success-alert").prepend(
-          `<p>👍The city name: "${CityDocNameToSave}" saved.</p>`
+          `<p>👍Ready to submit: "${CityDocNameToSave}."</p>`
         );
-        $("#city-doc-success-alert").fadeTo(2000, 500).slideUp(500, function(){
+        $("#city-doc-success-alert").fadeTo(10000, 500).slideUp(500, function(){
              $("#city-doc-success-alert").slideUp(500);
         });
       });
@@ -517,9 +529,9 @@ function ClearPMFields() {
     $("#ss-doc-success-alert").hide();
     $("#saveSSDocNameButton").click(function showAlert() {
       $("#ss-doc-success-alert").prepend(
-        `<p>👍The surf spot name: "${SSDocNameToSave}" saved.</p>`
+        `<p>👍Ready to submit: "${SSDocNameToSave}."</p>`
       );
-      $("#ss-doc-success-alert").fadeTo(2000, 500).slideUp(500, function(){
+      $("#ss-doc-success-alert").fadeTo(10000, 500).slideUp(500, function(){
            $("#ss-doc-success-alert").slideUp(500);
       });
     });
@@ -535,7 +547,7 @@ function ClearPMFields() {
 //Alerts a success message when adding a new marker
   $("#save-marker-success-alert").hide();
   $("#saveMarkerButton").click(function showAlert() {
-    $("#save-marker-success-alert").fadeTo(10000, 500).slideUp(500, function(){
+    $("#save-marker-success-alert").fadeTo(20000, 500).slideUp(500, function(){
          $("#save-marker-success-alert").slideUp(500);
     });
   });
@@ -543,7 +555,7 @@ function ClearPMFields() {
 //Alerts a success message when adding a new price marker
   $("#save-pm-success-alert").hide();
   $("#savePMButton").click(function showAlert() {
-    $("#save-pm-success-alert").fadeTo(10000, 500).slideUp(500, function(){
+    $("#save-pm-success-alert").fadeTo(20000, 500).slideUp(500, function(){
          $("#save-pm-success-alert").slideUp(500);
     });
   });

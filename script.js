@@ -983,7 +983,7 @@ docRef.get().then(function(doc) {
   initAccommMap();
   //AccommMap options
   var options = {
-    zoom:15,
+    zoom:12,
     center:cityCenter,
   }
   //new AccommMap
@@ -1151,6 +1151,9 @@ db.collection("surf-spot").where("city", "==", newCityPage)
     } else if (waveType == "point") {
       waveType = "Point break";
       var waveTypeTip = "🌊Breaks off a point";
+    } else if (waveType == "ocean") {
+      waveType = "Open ocean break";
+      var waveTypeTip = "🌊Breaks in open ocean";
     } else {
       waveType = " ";
       var waveTypeTip = " ";
