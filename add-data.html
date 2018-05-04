@@ -45,10 +45,22 @@
 
         <p>🏙What's the name of city? (san-francisco)</p>
           <input id="inputCityDocName" type="textfield" class="mb-2"></input>
-
         <br><button id="saveCityDocNameButton" class="btn btn-warning mb-2">SAVE</button>
         <div id="city-doc-success-alert" class="alert alert-success" role="alert">
         </div>
+
+        <!-- <p class="mt-3">🔀Is this a merge?</p>
+          <div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
+            <label class="btn btn-outline-dark text-left">
+              <input type="radio" name="merge" id="inputMerge" autocomplete="off" value="true">👍Yes</input>
+            </label>
+            <label class="btn btn-outline-dark text-left">
+              <input type="radio" name="merge" id="inputMerge" autocomplete="off" value="false">No, this is a NEW city</input>
+            </label>
+          </div>
+        <br><button id="saveMergeButton" class="btn btn-warning mb-2">SAVE</button>
+        <div id="merge-success-alert" class="alert alert-success" role="alert">
+        </div> -->
       <hr>
 
       <p>📸City Image Link</p>
@@ -103,13 +115,17 @@
           </label>
         </div>
 
-      <p>🌎Where should the center of the city map be? (consider surf spots + accomm)</p>
+      <p><a href="https://www.latlong.net/" target="_blank">🌎Where should the center of the city map be? (consider surf spots + accomm)</a></p>
       <p>🗺City LAT:<input id="inputCityLat" type="textfield" class="mb-0"></input></p>
+      <p>🗺City LNG:<input id="inputCityLng" type="textfield" class="mb-4"></input></p>
 
-      <p>🗺City LNG:<input id="inputCityLng" type="textfield" class="mb-2"></input></p>
+      <p>🗺What should the zoom be to see the entire city surf area?:</p>
+        <p class="font-weight-light mb-2">Zoom (1-15):<input id="inputCityZoom" type="textfield" class="mb-1"></input></p>
 
-      <p>💻Lonely Planet (link)</p>
-        <li>https://www.lonelyplanet.com/</li>
+      <p>✈️What's the airport code?</p>
+      <input id="inputAirport" type="textfield" class="mb-5"></input>
+
+      <p><a href="https://www.lonelyplanet.com/" target="_blank">💻Lonely Planet (link)</a></p>
       <input id="inputLP" type="textfield" class="mb-5"></input>
 
       <!-- <p>🚑Travelers Insurance (link)</p>
@@ -122,6 +138,9 @@
 
       <p>Cultural Norms (link)</p>
       <input id="inputNorms" type="textfield" class="mb-5"></input> -->
+
+      <p>🏡What's city's the Airbnb link? (airbnb.com/s/NAME)</p>
+      <input id="inputAirbnb" type="textfield" class="mb-5"></input>
 
       <p>🏡Avg Cost of a Private Room</p>
       <input id="inputRooms" type="textfield" class="mb-5"></input>
@@ -138,10 +157,10 @@
       <p>🏧 take out (100,000 Rupee)</p>
       <input id="inputATM" type="textfield" class="mb-5"></input>
 
-      <p><a href="https://www.expatistan.com/cost-of-living">🍺Cost of Beer</a></p>
+      <p><a href="https://www.expatistan.com/cost-of-living" target="_blank">🍺Cost of Beer</a></p>
       <input id="inputBeer" type="textfield" class="mb-5"></input>
 
-      <p><a href="https://www.expatistan.com/cost-of-living">🌮Cost of Meal Out</a></p>
+      <p><a href="https://www.expatistan.com/cost-of-living" target="_blank">🌮Cost of Meal Out</a></p>
       <input id="inputMeal" type="textfield" class="mb-5"></input>
 
       <!-- Fix -->
@@ -689,7 +708,7 @@
           </label>
         </div>
 
-      <p>🎪Is their localism at the spot?</p>
+      <p>👺Is their localism at the spot?</p>
         <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
           <label class="btn btn-outline-dark text-left">
             <input type="radio" name="localism" id="inputLocalism" autocomplete="off" value="yes">Yes</input>
@@ -703,18 +722,24 @@
         </div>
 
       <p>🚗How do I access the spot?</p>
+        <p>📝Written Directions:</p>
+        <p><textarea id="inputAccessTip" class="my-1" name="accessTip" cols="30" rows="6"></textarea></p>
+
         <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
           <label class="btn btn-outline-dark text-left">
-            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="park">🚗Park and surf</input>
+            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="🚗Parking nearby">🚗Parking nearby</input>
           </label>
           <label class="btn btn-outline-dark text-left">
-            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="hike">👟A bit of a hike</input>
+            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="👟Park and walk">👟Park and walk</input>
           </label>
           <label class="btn btn-outline-dark text-left">
-            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="boat">🛥Likely need a boat</input>
+            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="👟Park and hike">👟Park and hike</input>
           </label>
           <label class="btn btn-outline-dark text-left">
-            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="in-front">🤩Can be walking distance</input>
+            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="🛥Likely need a boat">🛥Likely need a boat</input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="🤩Right out front!">🤩Can be walking distance</input>
           </label>
         </div>
 
@@ -750,6 +775,8 @@
       <p class="font-weight-light mb-0">Lat:<input id="inputLat" type="textfield" class="mb-1"></input></p>
       <p class="font-weight-light mb-2">Lng:<input id="inputLng" type="textfield" class="mb-2"></input></p>
 
+    <p>🗺What should the zoom be to see the entire surf spot?:</p>
+      <p class="font-weight-light mb-2">Zoom (1-15):<input id="inputSSZoom" type="textfield" class="mb-1"></input></p>
 
     <br><button id="saveButton" class="btn btn-danger mb-2">Save NEW Surf Spot</button>
     <div id="save-ss-success-alert" class="alert alert-success" role="alert">

@@ -153,3 +153,17 @@ body {
   text-transform: uppercase;
   font-weight: bold;
 }
+
+#travel-guide a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+#travel-guide a:hover {
+  color: inherit;
+  font-weight: bold;
+}
+
+.white-link {
+  color: white;
+}

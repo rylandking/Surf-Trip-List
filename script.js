@@ -211,12 +211,10 @@ db.collection("city").where("beta", "==", true)
         //add info to LOCATION CARD
         //$ is the same as getElementById
         $("#card-container").prepend(
-          `<a id="city-card" data-id="${cityName}"><div class="card bg-dark text-white ${expFilter}">
-            <img class="img-fluid card-img" src="${cityimage}">
+          `<a id="city-card" data-id="${cityName}" href=""><div class="card bg-dark text-white ${expFilter}">
+            <img class="img-fluid card-img" src="${cityimage}"></img>
               <div class="card-img-overlay">
-
                 <div id="experience" class="lc-experience">${exp}</div>
-
                 <h4 id="locName" class="card-title" style="white-space: nowrap;">${locname}</h4>
                 <p id="region" class="card-text">${region}</p>
                 <div class="lc-flight"<div data-toggle="tooltip" data-placement="bottom" title="Flight cost">🛫 $187</div>
@@ -230,7 +228,7 @@ db.collection("city").where("beta", "==", true)
 });// END - Loop the city collection. Populate location cards
 
 
-//START_DRAFT New location page after click on city card
+//START New location page after click on city card
 var cityPage;
 //Click location card on homepage
 $(document).ready(function(){
@@ -267,10 +265,14 @@ docRef.get().then(function(doc) {
   var cityName = doc.id;
   //format cityName name
   var locname = cityName.replace(/-/g,' ');
-  //City Data from FORM
   let cityRegion = citydata.region;
+  //Format the state name (cityRegion)
+  var stateName = cityRegion.replace(/-/g,' ');
   let cityContintent = citydata.contintent;
   let nation = citydata.nation;
+  const cityZoom = citydata.zoom;
+  const cityImage = citydata.cityimage;
+  const airbnb = citydata.airbnb;
   let cityCenter = citydata.cityCenter;
   let goodFor = citydata.goodFor;
   let waterTemp = citydata.waterTemp;
@@ -291,6 +293,7 @@ docRef.get().then(function(doc) {
   let tapWater = citydata.tapWater;
   let power;
   let uber = citydata.uber;
+  let airport = citydata.airport;
   // let insurance;
   // let immigration = citydata.immigration;
   // let norms = citydata.norms;
@@ -773,22 +776,22 @@ docRef.get().then(function(doc) {
     goodFor = " "
   }
   if(goodFor.indexOf("couples") != -1){
-    var couples = `<a data-toggle="tooltip" title="Good for couples">💑</a>`;
+    var couples = `<a data-toggle="tooltip" title="Good for couples" style="text-decoration: none">💑</a>`;
   } else {
     var couples = ""
   }
   if(goodFor.indexOf("families") != -1){
-    var families = `<a data-toggle="tooltip" title="Good for families">👨‍👩‍👧‍👦 </a>`;
+    var families = `<a data-toggle="tooltip" title="Good for families"  style="text-decoration: none">👨‍👩‍👧‍👦 </a>`;
   } else {
     var families = ""
   }
   if(goodFor.indexOf("soloAdventure") != -1){
-    var soloAdventure = `<a data-toggle="tooltip" title="Good for a solo adventure">🎒 </a>`;
+    var soloAdventure = `<a data-toggle="tooltip" title="Good for a solo adventure" style="text-decoration: none">🎒 </a>`;
   } else {
     var soloAdventure = ""
   }
   if(goodFor.indexOf("friendsTrip") != -1){
-    var friendsTrip = `<a data-toggle="tooltip" title="Good for friend trips">🙌 </a>`;
+    var friendsTrip = `<a data-toggle="tooltip" title="Good for friend trips" style="text-decoration: none">🙌 </a>`;
   } else {
     var friendsTrip = ""
   }
@@ -873,106 +876,109 @@ docRef.get().then(function(doc) {
     var oType = ""
   }
 
+  //Add Location Page header
+  $("#loc-page-title").prepend(
+    `<div class="jumbotron jumbotron-fluid" style="background-image:url(${cityImage}); background-size: cover; background-position: center; color: white;">
+      <div class="container-fluid row mt-3">
+        <a href="javascript:history.back()"><i class="fas fa-chevron-left fa-3x ml-4 white-link"></i></a>
+        <h3 id="city" class="text-center text-capitalize mx-auto">${locname}<br><p class="h5 mt-2">${stateName}</p><h3>
+      </div>
+    </div>`
+  );
+
   //add info to LOCATION GUIDE
   $("#travel-guide").prepend(
     `<div id="${cityName}" class="travel-guide col-lg-12 mb-4">
       <table class="table">
         <tbody>
           <tr>
-              <td class="flightPrice">✈️Flight cost</td>
-              <td data-toggle="tooltip" title="✈️Round trip flight is $196" class="text-center">$196</td>
+              <td class="rooms"><a href="${airbnb}">🏡Airbnb (private room)</a></td>
+              <td class="text-center" data-toggle="tooltip" title="🏡Avg cost per night of a private room is $${roomCost}">$${roomCost}</td>
               <td class="health-care">🏥Health care</td>
               <td>${healthCareScore}</td>
           </tr>
           <tr>
-              <td class="accommodationPrice">🏡Accommodations</td>
-              <td data-toggle="tooltip" title="🏡Avg stay is $47/n" class="text-center">$47/n</td>
+              <td class="places"><a href="${airbnb}">🏡Airbnb (entire place)</a></td>
+              <td class="text-center" data-toggle="tooltip" title="🏡Avg cost per night of an entire place is $${placeCost}">$${placeCost}</td>
               <td class="intenet">📱Internet</td>
               <td>${internetScore}</td>
           </tr>
           <tr>
-              <td class="beaches">🏖Beaches: </td>
-              <td class="text-center"><p data-toggle="tooltip" title="🏖Comfortable beaches available">👍</p></td>
+              <td class="cost">💸Cost per day</td>
+              <td class="text-center" data-toggle="tooltip" title="Cost of one private room, three meals out and a beer per day🤙">$${dailyCost}</td>
               <td class="partyScore">🕺🏼💃Party scene</td>
               <td>${partyScore}</td>
           </tr>
           <tr>
-              <td class="good-for">👫Good for:</td>
-              <td class="text-center">${friendsTrip}${soloAdventure}${families}${couples}</td>
+              <td class="flightPrice">✈️Flight cost</td>
+              <td data-toggle="tooltip" title="✈️Click to view flights" class="text-center"><a href="https://www.google.com/flights/#search;f=;t=${airport}" target="_blank">Check flights!</a></td>
               <td class="nightlife">🍸Nightlife</td>
               <td>${nightLifeScore}</td>
           </tr>
           <tr>
-              <td class="surf-lessons">👩‍🏫Surf lessons</td>
-              ${cityLessons}
+              <td class="good-for">👫Good for:</td>
+              <td class="text-center">${friendsTrip}${soloAdventure}${families}${couples}</td>
               <td class="nature">🏞Nature</td>
               <td>${natureScore}</td>
           </tr>
           <tr>
-              <td class="rentals">🏄‍♂️Board rentals</td>
-              ${cityRentals}
+              <td class="beaches">🏖Beaches: </td>
+              <td class="text-center"><p data-toggle="tooltip" title="🏖Comfortable beaches available">👍</p></td>
               <td class="safety">👮‍♂️Safety</td>
               <td>${safetyScore}</td>
           </tr>
           <tr>
-              <td class="power">🔌Power</td>
-              <td class="text-center">${aType}${bType}${cType}${dType}${eType}${fType}${gType}${hType}${iType}${jType}${kType}${lType}${mType}${nType}${oType} <a data-toggle="tooltip" title="🔌${volts} Volts">${volts}V</a> <a data-toggle="tooltip" title="🔌${frequency} Hertz">${frequency}Hz</a></td>
+              <td class="surf-lessons">👩‍🏫Surf lessons</td>
+              ${cityLessons}
               <td class="femaleSafeScore">👩Female Friendly</td>
               <td>${femaleSafeScore}</td>
           </tr>
           <tr>
-              <td class="tapWater">🚰Safe tap water</td>
-              ${tapWater}
+              <td class="rentals">🏄‍♂️Board rentals</td>
+              ${cityRentals}
               <td class="englishScore">🙊English speaking</td>
               <td>${englishScore}</td>
           </tr>
           <tr>
-            <td class="waterTemp">☀️Water temp</td>
-            ${waterTemp}
-            <td class="tourist">🎪Touristy</td>
+              <td class="tapWater">🚰Safe tap water</td>
+              ${tapWater}
+              <td class="tourist">🎪Touristy</td>
               <td>${touristScore}</td>
           </tr>
           <tr>
-            <td class="insurance">🚑Travelers Insurance</td>
-            <td class="text-center" data-toggle="tooltip" title="🚑Get travelers insurance" style="color: black;"><a href="https://www.worldnomads.com/" target="_blank">Get insurance</a></td>
-            <td class="language">🗣Language</td>
-            ${language}
+              <td class="power">🔌Power</td>
+              <td class="text-center">${aType}${bType}${cType}${dType}${eType}${fType}${gType}${hType}${iType}${jType}${kType}${lType}${mType}${nType}${oType} <a data-toggle="tooltip" style="text-decoration: none" title="🔌${volts} Volts">${volts}V</a> <a data-toggle="tooltip" style="text-decoration: none" title="🔌${frequency} Hertz">${frequency}Hz</a></td>
+              <td class="culture">⛩Cultural sights nearby</td>
+              <td>${cultureScore}</td>
+          </tr>
+          <tr>
+              <td class="waterTemp">☀️Water temp</td>
+              ${waterTemp}
+              <td class="language">🗣Language</td>
+              ${language}
+          </tr>
+          <tr>
+              <td class="insurance">🚑Travelers Insurance</td>
+              <td class="text-center" data-toggle="tooltip" title="🚑Click to get travelers insurance" style="color: black;"><a href="https://www.worldnomads.com/" target="_blank">Get insurance</a></td>
+              <td class="uber">🚘Uber available</td>
+              ${uber}
           </tr>
           <tr>
             <td class="lp">🗺Travel Guide</td>
-            <td class="text-center" data-toggle="tooltip" title="💻Travel guide" style="color: black;"><a href="${lp}" target="_blank">Guidebook</a></td>
-            <td class="uber">🚘Uber available</td>
-            ${uber}
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td class="meal">🌮Meal Price</td>
-            <td class="text-center" data-toggle="tooltip" title="🌮Avg cost of a meal at a restaurant">$${meal}</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
+            <td class="text-center" data-toggle="tooltip" title="💻Click to see a travel guide" style="color: black;"><a href="${lp}" target="_blank">Guidebook</a></td>
             <td class="beer">🍺.5L Beer</td>
             <td class="text-center" data-toggle="tooltip" title="🍺Avg cost of 0.5L beer at a bar">$${beer}</td>
           </tr>
           <tr>
-            <td class="rooms">🏡Airbnb (private room)</td>
-            <td class="text-center" data-toggle="tooltip" title="🏡Avg cost per night of a private room in ${cityName}">$${roomCost}</td>
             <td class="currency">💸$1 USD in ${currencyName}</td>
             <td class="text-center" data-toggle="tooltip" title="💸Same as 1USD">${usdEquivalent} ${currencyName}</td>
+            <td class="meal">🌮Meal Price</td>
+            <td class="text-center" data-toggle="tooltip" title="🌮Avg cost of a meal at a restaurant">$${meal}</td>
           </tr>
           <tr>
-            <td class="places">🏡Airbnb (entire place)</td>
-            <td class="text-center" data-toggle="tooltip" title="🏡Avg cost per night of an entire place in ${cityName}">$${placeCost}</td>
+
             <td class="atm">🏧take out: ${atm} ${currencyName}</td>
             <td class="text-center" data-toggle="tooltip" title="🏧 Common ATM takeout amount">USD ${atmInUSD}</td>
-          </tr>
-          <tr>
-            <td class="cost">💸Cost per day</td>
-            <td class="text-center" data-toggle="tooltip" title="Cost of one private room, three meals out and a beer per day🤙">$${dailyCost}</td>
-            <td class="culture">⛩Cultural sights nearby</td>
-            <td>${cultureScore}</td>
           </tr>
         </tbody>
       </table>
@@ -983,7 +989,7 @@ docRef.get().then(function(doc) {
   initAccommMap();
   //AccommMap options
   var options = {
-    zoom:12,
+    zoom:cityZoom,
     center:cityCenter,
   }
   //new AccommMap
@@ -1010,6 +1016,8 @@ db.collection("surf-spot").where("city", "==", newCityPage)
     const ssName = doc.id;
     const spotname = ssName.replace(/-/g,' ');
     const mapCenter = ssData.surfspot;
+    const ssLat = mapCenter.lat;
+    const ssLng = mapCenter.lng;
     const forecast = ssData.forecast;
     let skill = ssData.skill;
     let board = ssData.board;
@@ -1025,23 +1033,25 @@ db.collection("surf-spot").where("city", "==", newCityPage)
     let beach = ssData.beach;
     let crowd = ssData.crowd;
     let localism = ssData.localism;
-    let access = ssData.access;
-    const jan = ssData.jan;
-    const feb = ssData.feb;
-    const mar = ssData.mar;
-    const apr = ssData.apr;
-    const may = ssData.may;
-    const jun = ssData.jun;
-    const jul = ssData.jul;
-    const aug = ssData.aug;
-    const sep = ssData.sep;
-    const oct = ssData.oct;
-    const nov = ssData.nov;
-    const dec = ssData.dec;
+    const access = ssData.access;
+    const accessTip = ssData.accessTip;
+    let jan = ssData.jan;
+    let feb = ssData.feb;
+    let mar = ssData.mar;
+    let apr = ssData.apr;
+    let may = ssData.may;
+    let jun = ssData.jun;
+    let jul = ssData.jul;
+    let aug = ssData.aug;
+    let sep = ssData.sep;
+    let oct = ssData.oct;
+    let nov = ssData.nov;
+    let dec = ssData.dec;
     const icon = ssData.iconImage;
     const markerDB = ssData.marker;
     const markers1DB = ssData.markers1;
     const markersDB = ssData.markers;
+    const zoom = ssData.zoom;
 
     //Sets skill icon in surf spot heading
     if (skill == "intermediate") {
@@ -1228,23 +1238,269 @@ db.collection("surf-spot").where("city", "==", newCityPage)
       localism = " ";
       var localismTip = " ";
     }
-    //Sets access in surf spot specs
-    if (access == "park") {
-      access = "Parking available";
-      var accessTip = "🚗Park and surf";
-    } else if (access == "hike") {
-      access = "Need to hike";
-      var accessTip = "👟A bit of a hike";
-    } else if (access == "boat") {
-      access = "Boat access";
-      var accessTip = "🛥Likely need a boat";
-    } else if (access == "in-front") {
-      access = "Right out front!";
-      var accessTip = "🤩Can be walking distance";
-    } else {
-      access = " ";
-      var accessTip = " ";
+
+    //Sets chance of rideable waves for JAN
+    if (jan >= 90) {
+      janEmoji = "🤩";
+      var janTip = "🤩+90% of rideable waves";
+      var janColor = "4fd600";
+    } else if (jan >= 70) {
+      janEmoji = "😃";
+      var janTip = "😃70-90% of rideable waves";
+      var janColor = "90EE90";
     }
+    else if (jan >= 50) {
+      janEmoji = "🙂";
+      var janTip = "🙂50-70% of rideable waves";
+      var janColor = "F5D327";
+    }
+    else if (jan < 50) {
+      janEmoji = "😥";
+      var janTip = "😥<50% of rideable waves";
+      var janColor = "EC5D57";
+    }
+
+    //Sets chance of rideable waves for FEB
+    if (feb >= 90) {
+      febEmoji = "🤩";
+      var febTip = "🤩+90% of rideable waves";
+      var febColor = "4fd600";
+    } else if (feb >= 70) {
+      febEmoji = "😃";
+      var febTip = "😃70-90% of rideable waves";
+      var febColor = "90EE90";
+    }
+    else if (feb >= 50) {
+      febEmoji = "🙂";
+      var febTip = "🙂50-70% of rideable waves";
+      var febColor = "F5D327";
+    }
+    else if (feb < 50) {
+      febEmoji = "😥";
+      var febTip = "😥<50% of rideable waves";
+      var febColor = "EC5D57";
+    }
+
+    //Sets chance of rideable waves for MAR
+    if (mar >= 90) {
+      marEmoji = "🤩";
+      var marTip = "🤩+90% of rideable waves";
+      var marColor = "4fd600";
+    } else if (mar >= 70) {
+      marEmoji = "😃";
+      var marTip = "😃70-90% of rideable waves";
+      var marColor = "90EE90";
+    }
+    else if (mar >= 50) {
+      marEmoji = "🙂";
+      var marTip = "🙂50-70% of rideable waves";
+      var marColor = "F5D327";
+    }
+    else if (mar < 50) {
+      marEmoji = "😥";
+      var marTip = "😥<50% of rideable waves";
+      var marColor = "EC5D57";
+    }
+
+    //Sets chance of rideable waves for APR
+    if (apr >= 90) {
+      aprEmoji = "🤩";
+      var aprTip = "🤩+90% of rideable waves";
+      var aprColor = "4fd600";
+    } else if (apr >= 70) {
+      aprEmoji = "😃";
+      var aprTip = "😃70-90% of rideable waves";
+      var aprColor = "90EE90";
+    }
+    else if (apr >= 50) {
+      aprEmoji = "🙂";
+      var aprTip = "🙂50-70% of rideable waves";
+      var aprColor = "F5D327";
+    }
+    else if (apr < 50) {
+      aprEmoji = "😥";
+      var aprTip = "😥<50% of rideable waves";
+      var aprColor = "EC5D57";
+    }
+
+    //Sets chance of rideable waves for MAY
+    if (may >= 90) {
+      mayEmoji = "🤩";
+      var mayTip = "🤩+90% of rideable waves";
+      var mayColor = "4fd600";
+    } else if (may >= 70) {
+      mayEmoji = "😃";
+      var mayTip = "😃70-90% of rideable waves";
+      var mayColor = "90EE90";
+    }
+    else if (may >= 50) {
+      mayEmoji = "🙂";
+      var mayTip = "🙂50-70% of rideable waves";
+      var mayColor = "F5D327";
+    }
+    else if (may < 50) {
+      mayEmoji = "😥";
+      var mayTip = "😥<50% of rideable waves";
+      var mayColor = "EC5D57";
+    }
+
+    //Sets chance of rideable waves for JUN
+    if (jun >= 90) {
+      junEmoji = "🤩";
+      var junTip = "🤩+90% of rideable waves";
+      var junColor = "4fd600";
+    } else if (jun >= 70) {
+      junEmoji = "😃";
+      var junTip = "😃70-90% of rideable waves";
+      var junColor = "90EE90";
+    }
+    else if (jun >= 50) {
+      junEmoji = "🙂";
+      var junTip = "🙂50-70% of rideable waves";
+      var junColor = "F5D327";
+    }
+    else if (jun < 50) {
+      junEmoji = "😥";
+      var junTip = "😥<50% of rideable waves";
+      var junColor = "EC5D57";
+    }
+
+    //Sets chance of rideable waves for JUL
+    if (jul >= 90) {
+      julEmoji = "🤩";
+      var julTip = "🤩+90% of rideable waves";
+      var julColor = "4fd600";
+    } else if (jul >= 70) {
+      julEmoji = "😃";
+      var julTip = "😃70-90% of rideable waves";
+      var julColor = "90EE90";
+    }
+    else if (jul >= 50) {
+      julEmoji = "🙂";
+      var julTip = "🙂50-70% of rideable waves";
+      var julColor = "F5D327";
+    }
+    else if (jul < 50) {
+      julEmoji = "😥";
+      var julTip = "😥<50% of rideable waves";
+      var julColor = "EC5D57";
+    }
+
+    //Sets chance of rideable waves for AUG
+    if (aug >= 90) {
+      augEmoji = "🤩";
+      var augTip = "🤩+90% of rideable waves";
+      var augColor = "4fd600";
+    } else if (aug >= 70) {
+      augEmoji = "😃";
+      var augTip = "😃70-90% of rideable waves";
+      var augColor = "90EE90";
+    }
+    else if (aug >= 50) {
+      augEmoji = "🙂";
+      var augTip = "🙂50-70% of rideable waves";
+      var augColor = "F5D327";
+    }
+    else if (aug < 50) {
+      augEmoji = "😥";
+      var augTip = "😥<50% of rideable waves";
+      var augColor = "EC5D57";
+    }
+
+    //Sets chance of rideable waves for SEP
+    if (sep >= 90) {
+      sepEmoji = "🤩";
+      var sepTip = "🤩+90% of rideable waves";
+      var sepColor = "4fd600";
+    } else if (sep >= 70) {
+      sepEmoji = "😃";
+      var sepTip = "😃70-90% of rideable waves";
+      var sepColor = "90EE90";
+    }
+    else if (sep >= 50) {
+      sepEmoji = "🙂";
+      var sepTip = "🙂50-70% of rideable waves";
+      var sepColor = "F5D327";
+    }
+    else if (sep < 50) {
+      sepEmoji = "😥";
+      var sepTip = "😥<50% of rideable waves";
+      var sepColor = "EC5D57";
+    }
+
+    //Sets chance of rideable waves for OCT
+    if (oct >= 90) {
+      octEmoji = "🤩";
+      var octTip = "🤩+90% of rideable waves";
+      var octColor = "4fd600";
+    } else if (oct >= 70) {
+      octEmoji = "😃";
+      var octTip = "😃70-90% of rideable waves";
+      var octColor = "90EE90";
+    }
+    else if (oct >= 50) {
+      octEmoji = "🙂";
+      var octTip = "🙂50-70% of rideable waves";
+      var octColor = "F5D327";
+    }
+    else if (oct < 50) {
+      octEmoji = "😥";
+      var octTip = "😥<50% of rideable waves";
+      var octColor = "EC5D57";
+    }
+
+    //Sets chance of rideable waves for NOV
+    if (nov >= 90) {
+      novEmoji = "🤩";
+      var novTip = "🤩+90% of rideable waves";
+      var novColor = "4fd600";
+    } else if (nov >= 70) {
+      novEmoji = "😃";
+      var novTip = "😃70-90% of rideable waves";
+      var novColor = "90EE90";
+    }
+    else if (nov >= 50) {
+      novEmoji = "🙂";
+      var novTip = "🙂50-70% of rideable waves";
+      var novColor = "F5D327";
+    }
+    else if (nov < 50) {
+      novEmoji = "😥";
+      var novTip = "😥<50% of rideable waves";
+      var novColor = "EC5D57";
+    }
+
+    //Sets chance of rideable waves for DEC
+    if (dec >= 90) {
+      decEmoji = "🤩";
+      var decTip = "🤩+90% of rideable waves";
+      var decColor = "4fd600";
+    } else if (dec >= 70) {
+      decEmoji = "😃";
+      var decTip = "😃70-90% of rideable waves";
+      var decColor = "90EE90";
+    }
+    else if (dec >= 50) {
+      decEmoji = "🙂";
+      var decTip = "🙂50-70% of rideable waves";
+      var decColor = "F5D327";
+    }
+    else if (dec < 50) {
+      decEmoji = "😥";
+      var decTip = "😥<50% of rideable waves";
+      var decColor = "EC5D57";
+    }
+
+    // console.log(jan);
+    //   //Sets chance of rideable waves progress bars
+    //   if (jan > 90 ) {
+    //     var janBar =
+    //    `<div class="progress rounded-0" style="height: 30px;">
+    //       <div data-toggle="tooltip" title="🤩+90% of rideable waves" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+    //         <b>great</b>
+    //       </div>
+    //     </div>`
+    //   }
 
     initMap(
       ssData,
@@ -1279,6 +1535,30 @@ db.collection("surf-spot").where("city", "==", newCityPage)
       access,
       accessTip,
       jan,
+      janTip,
+      janColor,
+      febTip,
+      febColor,
+      marTip,
+      marColor,
+      aprTip,
+      aprColor,
+      mayTip,
+      mayColor,
+      junTip,
+      junColor,
+      julTip,
+      julColor,
+      augTip,
+      augColor,
+      sepTip,
+      sepColor,
+      octTip,
+      octColor,
+      novTip,
+      novColor,
+      decTip,
+      decColor,
       feb,
       mar,
       apr,
@@ -1295,15 +1575,16 @@ db.collection("surf-spot").where("city", "==", newCityPage)
       skillTip,
       board,
       boardIcon,
-      boardTip
+      boardTip,
+      ssLat,
+      ssLng
     );
 
     //Map options
     var options = {
-      zoom:15,
+      zoom:zoom,
       center:mapCenter
     }
-
     //new map
     map = new google.maps.Map(document.getElementById('surf-spot-map'), options);
 
@@ -1345,6 +1626,30 @@ window.initMap = function(
         access,
         accessTip,
         jan,
+        janTip,
+        janColor,
+        febTip,
+        febColor,
+        marTip,
+        marColor,
+        aprTip,
+        aprColor,
+        mayTip,
+        mayColor,
+        junTip,
+        junColor,
+        julTip,
+        julColor,
+        augTip,
+        augColor,
+        sepTip,
+        sepColor,
+        octTip,
+        octColor,
+        novTip,
+        novColor,
+        decTip,
+        decColor,
         feb,
         mar,
         apr,
@@ -1361,14 +1666,51 @@ window.initMap = function(
         skillTip,
         board,
         boardIcon,
-        boardTip
+        boardTip,
+        ssLat,
+        ssLng
   ) {
+
     //If a variable is undefined don't show the surf spot
     if(spotname != undefined) {
     //Build new surf spot on location page
       $("#surf-spot-map__wrapper").prepend(
-          `<div class="col-lg-6 mb-5">
+          `<div class="col-lg-6 mb-5" style="display:inline-block;">
             <h5 class="text-center mb-3" style="text-transform:capitalize;"><a href="${forecast}" target="_blank" data-toggle="tooltip" title="Click to view 7 day 🏄‍♂️ forecast" style="color:black;">${spotname}</a> - <img data-toggle="tooltip" title="${skillTip}" src="${skill}"></img></h5>
+            <div class="col-sm">
+              <table class="table table-sm col-sm">
+                <tbody class="container-fluid">
+                    <tr>
+                      <td class="text-center" style="background:#${janColor};" data-toggle="tooltip" title="${janTip}">${janEmoji}</td>
+                      <td class="text-center" style="background:#${febColor};" data-toggle="tooltip" title="${febTip}">${febEmoji}</td>
+                      <td class="text-center" style="background:#${marColor};" data-toggle="tooltip" title="${marTip}">${marEmoji}</td>
+                      <td class="text-center" style="background:#${aprColor};" data-toggle="tooltip" title="${aprTip}">${aprEmoji}</td>
+                      <td class="text-center" style="background:#${mayColor};" data-toggle="tooltip" title="${mayTip}">${mayEmoji}</td>
+                      <td class="text-center" style="background:#${junColor};" data-toggle="tooltip" title="${junTip}">${junEmoji}</td>
+                      <td class="text-center" style="background:#${julColor};" data-toggle="tooltip" title="${julTip}">${julEmoji}</td>
+                      <td class="text-center" style="background:#${augColor};" data-toggle="tooltip" title="${augTip}">${augEmoji}</td>
+                      <td class="text-center" style="background:#${sepColor};" data-toggle="tooltip" title="${sepTip}">${sepEmoji}</td>
+                      <td class="text-center" style="background:#${octColor};" data-toggle="tooltip" title="${octTip}">${octEmoji}</td>
+                      <td class="text-center" style="background:#${novColor};" data-toggle="tooltip" title="${novTip}">${novEmoji}</td>
+                      <td class="text-center" style="background:#${decColor};" data-toggle="tooltip" title="${decTip}">${decEmoji}</td>
+                    </tr>
+                    <tr>
+                      <td class="text-center"><b>Jan</b></td>
+                      <td class="text-center"><b>Feb</b></td>
+                      <td class="text-center"><b>Mar</b></td>
+                      <td class="text-center"><b>Apr</b></td>
+                      <td class="text-center"><b>May</b></td>
+                      <td class="text-center"><b>Jun</b></td>
+                      <td class="text-center"><b>Jul</b></td>
+                      <td class="text-center"><b>Aug</b></td>
+                      <td class="text-center"><b>Sep</b></td>
+                      <td class="text-center"><b>Oct</b></td>
+                      <td class="text-center"><b>Nov</b></td>
+                      <td class="text-center"><b>Dec</b></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
              <div class="row">
                <div class="col-sm">
                  <table class="table col-sm">
@@ -1376,80 +1718,48 @@ window.initMap = function(
                        <tr>
                            <td class="best-board">🏄🏽‍♀️Best board:</td>
                            <td class="text-center" data-toggle="tooltip" title="${boardTip}"><img src="${boardIcon}"></img>${board}</td>
-                       </tr>
-                       <tr>
-                           <td class="best-size">🌊Best size:</td>
-                           <td class="text-center" data-toggle="tooltip" title="${sizeTip}">${size}</td>
-                       </tr>
-                       <tr>
-                           <td class="best-tide">〰️Best tide:</td>
-                           <td class="text-center" data-toggle="tooltip" title="${tideTip}">${tide}</td>
-                       </tr>
-                       <tr>
-                           <td class="wind-dir">💨Best wind:</td>
-                           <td class="text-center" data-toggle="tooltip" title="${windTip}">${wind}</td>
-                       </tr>
-                       <tr>
-                           <td class="beach">🏖Beach: </td>
-                           <td class="text-center" data-toggle="tooltip" title="${beachTip}">${beach}</td>
-                       </tr>
-                       <tr>
-                           <td class="access">🚗Access: </td>
-                           <td class="text-center" data-toggle="tooltip" title="${accessTip}">${access}</td>
-                       </tr>
-                     </tbody>
-                 </table>
-               </div>
-               <div class="col-sm">
-                 <table class="table col-sm">
-                     <tbody>
-                       <tr>
                            <td class="wave-dir">🌊Direction:</td>
                            <td class="text-center" data-toggle="tooltip" title="${waveDirTip}">${waveDir}</td>
                        </tr>
                        <tr>
+                           <td class="best-size">🌊Best size:</td>
+                           <td class="text-center" data-toggle="tooltip" title="${sizeTip}">${size}</td>
                            <td class="wave-type">🌊Type:</td>
                            <td class="text-center" data-toggle="tooltip" title="${waveTypeTip}">${waveType}</td>
                        </tr>
                        <tr>
+                           <td class="best-tide">〰️Best tide:</td>
+                           <td class="text-center" data-toggle="tooltip" title="${tideTip}">${tide}</td>
                            <td class="barrel">🤩Barrel:</td>
                            <td class="text-center" data-toggle="tooltip" title="${barrelTip}">${barrel}</td>
                        </tr>
                        <tr>
+                           <td class="wind-dir">💨Best wind:</td>
+                           <td class="text-center" data-toggle="tooltip" title="${windTip}">${wind}</td>
                            <td class="bottom">⚓️Bottom:</td>
                            <td class="text-center" data-toggle="tooltip" title="${bottomTip}">${bottom}</td>
                        </tr>
                        <tr>
+                           <td class="beach">🏖Beach: </td>
+                           <td class="text-center" data-toggle="tooltip" title="${beachTip}">${beach}</td>
                            <td class="crowd">🎪Crowd: </td>
                            <td class="text-center" data-toggle="tooltip" title="${crowdTip}">${crowd}</td>
                        </tr>
                        <tr>
+                           <td class="access">🚗Access: </td>
+                           <td class="text-center" data-toggle="tooltip" title="${accessTip}">${access}</td>
                            <td class="localism">👺Localism: </td>
                            <td class="text-center" data-toggle="tooltip" title="${localismTip}">${localism}</td>
                        </tr>
-                   </tbody>
+                       <tr>
+                          <td colspan="12" class="text-center">
+                            <p class="mt-2"><b>➹Directions</b></p>
+                            <p id="directions">${accessTip}Be kind and surf respectfully.🤙</p>
+                          </td>
+                       </tr>
+                     </tbody>
                  </table>
                </div>
-             </div>
-           <div class="col-sm">
-             <table class="table table-sm col-sm">
-               <tbody>
-                 <tr>
-                     <td data-toggle="tooltip" title="${jan}% chance of 🏄‍♂️ surfable waves in Jan"><small>${jan}%</small><br><b>Jan<b></td>
-                     <td data-toggle="tooltip" title="${feb}% chance of 🏄‍♂️ surfable waves in Feb"><small>${feb}%</small><br><b>Feb<b></td>
-                     <td data-toggle="tooltip" title="${mar}% chance of 🏄‍♂️ surfable waves in Mar"><small>${mar}%</small><br><b>Mar<b></td>
-                     <td data-toggle="tooltip" title="${apr}% chance of 🏄‍♂️ surfable waves in Apr"><small>${apr}%</small><br><b>Apr<b></td>
-                     <td data-toggle="tooltip" title="${may}% chance of 🏄‍♂️ surfable waves in May"><small>${may}%</small><br><b>May<b></td>
-                     <td data-toggle="tooltip" title="${jun}% chance of 🏄‍♂️ surfable waves in Jun"><small>${jun}%</small><br><b>Jun<b></td>
-                     <td data-toggle="tooltip" title="${jul}% chance of 🏄‍♂️ surfable waves in Jul"><small>${jul}%</small><br><b>Jul<b></td>
-                     <td data-toggle="tooltip" title="${aug}% chance of 🏄‍♂️ surfable waves in Aug"><small>${aug}%</small><br><b>Aug<b></td>
-                     <td data-toggle="tooltip" title="${sep}% chance of 🏄‍♂️ surfable waves in Sep"><small>${sep}%</small><br><b>Sep<b></td>
-                     <td data-toggle="tooltip" title="${oct}% chance of 🏄‍♂️ surfable waves in Oct"><small>${oct}%</small><br><b>Oct<b></td>
-                     <td data-toggle="tooltip" title="${nov}% chance of 🏄‍♂️ surfable waves in Nov"><small>${nov}%</small><br><b>Nov<b></td>
-                     <td data-toggle="tooltip" title="${dec}% chance of 🏄‍♂️ surfable waves in Dec"><small>${dec}%</small><br><b>Dec<b></td>
-                   </tr>
-                 </tbody>
-               </table>
              </div>
             <div id="surf-spot-map" class="mb-3" style="max-height:auto; width:auto;"></div>
            </div>`

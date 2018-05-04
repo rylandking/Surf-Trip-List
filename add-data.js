@@ -11,132 +11,6 @@ firebase.initializeApp(config);
 
 var db = firebase.firestore();
 
-//Set surf spot name.
-const inputSSDocName = document.querySelector("#inputSSDocName");
-const saveSSDocNameButton = document.querySelector("#saveSSDocNameButton");
-let SSDocNameToSave;
-//Sets Firestore's surf spot doc name on click
-saveSSDocNameButton.addEventListener("click", function(){
-    SSDocNameToSave = inputSSDocName.value;
-    console.log("Surf spot name: " + SSDocNameToSave);
-
-  //Adds surf spot data
-  const ssDocRef = db.doc("surf-spot/"+SSDocNameToSave);
-  //Surf Spot properties
-  const inputCity = document.querySelector("#inputCity");
-  const inputForecast = document.querySelector("#inputForecast");
-  const inputJan = document.querySelector("#inputJan");
-  const inputFeb = document.querySelector("#inputFeb");
-  const inputMar = document.querySelector("#inputMar");
-  const inputApr = document.querySelector("#inputApr");
-  const inputMay = document.querySelector("#inputMay");
-  const inputJun = document.querySelector("#inputJun");
-  const inputJul = document.querySelector("#inputJul");
-  const inputAug = document.querySelector("#inputAug");
-  const inputSep = document.querySelector("#inputSep");
-  const inputOct = document.querySelector("#inputOct");
-  const inputNov = document.querySelector("#inputNov");
-  const inputDec = document.querySelector("#inputDec");
-  const inputLat = document.querySelector("#inputLat");
-  const inputLng = document.querySelector("#inputLng");
-  const saveButton = document.querySelector("#saveButton");
-
-  //Saves surf-spot properties to the ssDocRef surf spot on line 14
-  saveButton.addEventListener("click", function(){
-    const cityToSave = inputCity.value;
-    const forecastToSave = inputForecast.value;
-
-    var spotLessonsToSave = document.querySelector('input[name = "spotLessons"]:checked').value;
-    var spotRentalsToSave = document.querySelector('input[name = "spotRentals"]:checked').value;
-    var tempToSave = document.querySelector('input[name = "temp"]:checked').value;
-    var accessToSave = document.querySelector('input[name = "access"]:checked').value;
-    var localismToSave = document.querySelector('input[name = "localism"]:checked').value;
-    var crowdToSave = document.querySelector('input[name = "crowd"]:checked').value;
-    var beachToSave = document.querySelector('input[name = "beach"]:checked').value;
-    var bottomToSave = document.querySelector('input[name = "bottom"]:checked').value;
-    var barrelToSave = document.querySelector('input[name = "barrel"]:checked').value;
-    var directionToSave = document.querySelector('input[name = "waveDir"]:checked').value;
-    var typeToSave = document.querySelector('input[name = "waveType"]:checked').value;
-    var windToSave = document.querySelector('input[name = "wind"]:checked').value;
-    var tideToSave = document.querySelector('input[name = "tide"]:checked').value;
-    var sizeToSave = document.querySelector('input[name = "size"]:checked').value;
-    var boardToSave = document.querySelector('input[name = "board"]:checked').value;
-    var skillToSave = document.querySelector('input[name = "skill"]:checked').value;
-    var continentToSave = document.querySelector('input[name = "continent"]:checked').value;
-    const janToSave = parseInt(inputJan.value);
-    const febToSave = parseInt(inputFeb.value);
-    const marToSave = parseInt(inputMar.value);
-    const aprToSave = parseInt(inputApr.value);
-    const mayToSave = parseInt(inputMay.value);
-    const junToSave = parseInt(inputJun.value);
-    const julToSave = parseInt(inputJul.value);
-    const augToSave = parseInt(inputAug.value);
-    const sepToSave = parseInt(inputSep.value);
-    const octToSave = parseInt(inputOct.value);
-    const novToSave = parseInt(inputNov.value);
-    const decToSave = parseInt(inputDec.value);
-
-    const latToSave = parseFloat(inputLat.value);
-    const lngToSave = parseFloat(inputLng.value);
-
-    const mapCenterToSave = {
-      lat: latToSave,
-      lng: lngToSave
-    };
-
-    console.log("I am going to log SURF SPOT DATA to Firestore. 🙃");
-
-    //Add fields to the document
-    ssDocRef.set({
-      city: cityToSave,
-      board: boardToSave,
-      size: sizeToSave,
-      tide: tideToSave,
-      wind: windToSave,
-      type: typeToSave,
-      bottom: bottomToSave,
-      forecast: forecastToSave,
-      barrel: barrelToSave,
-      beach: beachToSave,
-      localism: localismToSave,
-      access: accessToSave,
-      rentals: spotRentalsToSave,
-      lessons: spotLessonsToSave,
-
-      crowd: crowdToSave,
-      direction: directionToSave,
-      skill: skillToSave,
-      temp: tempToSave,
-      contintent: continentToSave,
-
-      jan: janToSave,
-      feb: febToSave,
-      mar: marToSave,
-      apr: aprToSave,
-      may: mayToSave,
-      jun: junToSave,
-      jul: julToSave,
-      aug: augToSave,
-      sep: sepToSave,
-      oct: octToSave,
-      nov: novToSave,
-      dec: decToSave,
-
-      surfspot: mapCenterToSave
-
-
-    }).then(function() {
-      $("#save-ss-success-alert").prepend(
-        `👍I saved all of "${SSDocNameToSave}" info.`
-      );
-      console.log("I saved the SURF SPOT DATA to Firestore. 👍");
-    }).catch(function (error) {
-      console.log("Oops! There was an error: ", error);
-    })
-  });//END ADD SURF SPOT DATA
-});//End of set surf spot name
-
-
 //Set city name.
 const inputCityDocName = document.querySelector("#inputCityDocName");
 const saveCityDocNameButton = document.querySelector("#saveCityDocNameButton");
@@ -152,6 +26,8 @@ saveCityDocNameButton.addEventListener("click", function(){
   const inputRegion = document.querySelector("#inputRegion");
   const inputNation = document.querySelector("#inputNation");
   const inputGoodFor = document.querySelector("#inputGoodFor");
+  const inputAirport = document.querySelector("#inputAirport");
+  const inputAirbnb = document.querySelector("#inputAirbnb");
   // const inputInsurance = document.querySelector("#inputInsurance");
   // const inputImmigration = document.querySelector("#inputImmigration");
   // const inputNorms = document.querySelector("#inputNorms");
@@ -169,6 +45,7 @@ saveCityDocNameButton.addEventListener("click", function(){
   const inputMeal = document.querySelector("#inputMeal");
   const inputCityLat = document.querySelector("#inputCityLat");
   const inputCityLng = document.querySelector("#inputCityLng");
+  const inputCityZoom = document.querySelector("#inputCityZoom");
 
   const saveCityButton = document.querySelector("#saveCityButton");
 
@@ -178,7 +55,9 @@ saveCityDocNameButton.addEventListener("click", function(){
     const nationToSave = inputNation.value;
     const cityLatToSave = parseFloat(inputCityLat.value);
     const cityLngToSave = parseFloat(inputCityLng.value);
-
+    const cityZoomToSave = parseInt(inputCityZoom.value);
+    const airportToSave = inputAirport.value;
+    const airbnbToSave = inputAirbnb.value;
     var cityContinentToSave = document.querySelector('input[name = "cityContintent"]:checked').value;
     var languageToSave = document.querySelector('input[name = "language"]:checked').value;
     var healthCareToSave = document.querySelector('input[name = "healthCareScore"]:checked').value;
@@ -225,7 +104,10 @@ saveCityDocNameButton.addEventListener("click", function(){
       lat: cityLatToSave,
       lng: cityLngToSave,
     },
+    zoom: cityZoomToSave,
     goodFor: goodForToSave,
+    airport: airportToSave,
+    airbnb: airbnbToSave,
     waterTemp: waterTempToSave,
     language: languageToSave,
     healthCareScore: parseInt(healthCareToSave),
@@ -268,6 +150,133 @@ saveCityDocNameButton.addEventListener("click", function(){
     })
   });//End add city data
 });//End of set city name
+
+//Set surf spot name.
+const inputSSDocName = document.querySelector("#inputSSDocName");
+const saveSSDocNameButton = document.querySelector("#saveSSDocNameButton");
+let SSDocNameToSave;
+//Sets Firestore's surf spot doc name on click
+saveSSDocNameButton.addEventListener("click", function(){
+    SSDocNameToSave = inputSSDocName.value;
+    console.log("Surf spot name: " + SSDocNameToSave);
+
+  //Adds surf spot data
+  const ssDocRef = db.doc("surf-spot/"+SSDocNameToSave);
+  //Surf Spot properties
+  const inputCity = document.querySelector("#inputCity");
+  const inputForecast = document.querySelector("#inputForecast");
+  const inputJan = document.querySelector("#inputJan");
+  const inputFeb = document.querySelector("#inputFeb");
+  const inputMar = document.querySelector("#inputMar");
+  const inputApr = document.querySelector("#inputApr");
+  const inputMay = document.querySelector("#inputMay");
+  const inputJun = document.querySelector("#inputJun");
+  const inputJul = document.querySelector("#inputJul");
+  const inputAug = document.querySelector("#inputAug");
+  const inputSep = document.querySelector("#inputSep");
+  const inputOct = document.querySelector("#inputOct");
+  const inputNov = document.querySelector("#inputNov");
+  const inputDec = document.querySelector("#inputDec");
+  const inputLat = document.querySelector("#inputLat");
+  const inputLng = document.querySelector("#inputLng");
+  const inputAccessTip = document.querySelector("#inputAccessTip");
+  const inputSSZoom = document.querySelector("#inputSSZoom");
+  const saveButton = document.querySelector("#saveButton");
+
+  //Saves surf-spot properties to the ssDocRef surf spot on line 14
+  saveButton.addEventListener("click", function(){
+    const cityToSave = inputCity.value;
+    const forecastToSave = inputForecast.value;
+
+    var spotLessonsToSave = document.querySelector('input[name = "spotLessons"]:checked').value;
+    var spotRentalsToSave = document.querySelector('input[name = "spotRentals"]:checked').value;
+    var tempToSave = document.querySelector('input[name = "temp"]:checked').value;
+    var accessToSave = document.querySelector('input[name = "access"]:checked').value;
+    const accessTipToSave = inputAccessTip.value;
+    var localismToSave = document.querySelector('input[name = "localism"]:checked').value;
+    var crowdToSave = document.querySelector('input[name = "crowd"]:checked').value;
+    var beachToSave = document.querySelector('input[name = "beach"]:checked').value;
+    var bottomToSave = document.querySelector('input[name = "bottom"]:checked').value;
+    var barrelToSave = document.querySelector('input[name = "barrel"]:checked').value;
+    var directionToSave = document.querySelector('input[name = "waveDir"]:checked').value;
+    var typeToSave = document.querySelector('input[name = "waveType"]:checked').value;
+    var windToSave = document.querySelector('input[name = "wind"]:checked').value;
+    var tideToSave = document.querySelector('input[name = "tide"]:checked').value;
+    var sizeToSave = document.querySelector('input[name = "size"]:checked').value;
+    var boardToSave = document.querySelector('input[name = "board"]:checked').value;
+    var skillToSave = document.querySelector('input[name = "skill"]:checked').value;
+    var continentToSave = document.querySelector('input[name = "continent"]:checked').value;
+    const janToSave = parseInt(inputJan.value);
+    const febToSave = parseInt(inputFeb.value);
+    const marToSave = parseInt(inputMar.value);
+    const aprToSave = parseInt(inputApr.value);
+    const mayToSave = parseInt(inputMay.value);
+    const junToSave = parseInt(inputJun.value);
+    const julToSave = parseInt(inputJul.value);
+    const augToSave = parseInt(inputAug.value);
+    const sepToSave = parseInt(inputSep.value);
+    const octToSave = parseInt(inputOct.value);
+    const novToSave = parseInt(inputNov.value);
+    const decToSave = parseInt(inputDec.value);
+
+    const latToSave = parseFloat(inputLat.value);
+    const lngToSave = parseFloat(inputLng.value);
+    const ssZoomToSave = parseInt(inputSSZoom.value);
+    const mapCenterToSave = {
+      lat: latToSave,
+      lng: lngToSave
+    };
+
+    console.log("I am going to log SURF SPOT DATA to Firestore. 🙃");
+
+    //Add fields to the document
+    ssDocRef.set({
+      city: cityToSave,
+      board: boardToSave,
+      size: sizeToSave,
+      tide: tideToSave,
+      wind: windToSave,
+      type: typeToSave,
+      bottom: bottomToSave,
+      forecast: forecastToSave,
+      barrel: barrelToSave,
+      beach: beachToSave,
+      localism: localismToSave,
+      access: accessToSave,
+      accessTip: accessTipToSave,
+      rentals: spotRentalsToSave,
+      lessons: spotLessonsToSave,
+      crowd: crowdToSave,
+      direction: directionToSave,
+      skill: skillToSave,
+      temp: tempToSave,
+      contintent: continentToSave,
+      jan: janToSave,
+      feb: febToSave,
+      mar: marToSave,
+      apr: aprToSave,
+      may: mayToSave,
+      jun: junToSave,
+      jul: julToSave,
+      aug: augToSave,
+      sep: sepToSave,
+      oct: octToSave,
+      nov: novToSave,
+      dec: decToSave,
+      surfspot: mapCenterToSave,
+      zoom: ssZoomToSave,
+
+
+    }).then(function() {
+      $("#save-ss-success-alert").prepend(
+        `👍I saved all of "${SSDocNameToSave}" info.`
+      );
+      console.log("I saved the SURF SPOT DATA to Firestore. 👍");
+    }).catch(function (error) {
+      console.log("Oops! There was an error: ", error);
+    })
+  });//END ADD SURF SPOT DATA
+});//End of set surf spot name
 
 //START ADD MARKERS
 //Marker properties
