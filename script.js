@@ -1002,7 +1002,59 @@ docRef.get().then(function(doc) {
 
 window.initAccommMap = function() {
   $("#accomm-map__wrapper").prepend(
-  `<div id="accomm-map" class="mb-3"></div>`
+   `<div class="row">
+     <div id="accomm-card-list" class="col-lg-4">
+      <a id="accomm-card-link" data-id="unique-accomm-id" href="https://www.airbnb.com/s/santa-cruz">
+       <div class="card accomm-card bg-dark text-white">
+         <img class="img-fluid accomm-card-img" src="Private room FULL size bed next to BEACH and SBCC.png"></img>
+           <div class="card-img-overlay">
+             <div id="ac-bed-guests" class="ac-top-left" data-toggle="tooltip" title="Has 1🛌 Bed • 👫2 Guests">Entire Place<br/>1🛌 • 2👫</div>
+             <div id="ac-accomm-cost" class="ac-top-right" data-toggle="tooltip" title="💳Listed at $58/n">💳$58/n</div>
+             <h4 id="locName" class="card-title" style="white-space: nowrap;">Surf Trip List House</h4>
+             <div id="ac-view" class="ac-bottom-left" data-toggle="tooltip" title="🤩Ocean view available">🤩Ocean view</div>
+             <div id="ac-dist-to-surf" class="ac-bottom-right" data-toggle="tooltip" title="🤩Surf is out front!">🤩Out front</div>
+           </div>
+       </div>
+     </a>
+       <a id="accomm-card-link" data-id="unique-accomm-id" href="https://www.airbnb.com/s/santa-cruz">
+        <div class="card accomm-card bg-dark text-white">
+          <img class="img-fluid accomm-card-img" src="Private room FULL size bed next to BEACH and SBCC.png"></img>
+            <div class="card-img-overlay">
+             <div id="ac-dist-to-surf" class="ac-top-left">🤩Out front</div>
+              <div id=ac-accomm-coste" class="ac-top-right">🏡$58/n</div>
+              <h4 id="locName" class="card-title" style="white-space: nowrap;">Surf Trip List House</h4>
+              <div id="ac-view" class="ac-bottom-left"<div data-toggle="tooltip" data-placement="bottom" title="Accomm cost">🛫 $187</div>
+              <div id="ac-bed-guests" class="ac-bottom-right" <div data-toggle="tooltip" data-placement="bottom" title="Avg accomm cost">🛌1 Bed • 👫2 Guests</div>
+            </div>
+        </div>
+      </a>
+      <a id="accomm-card-link" data-id="unique-accomm-id" href="https://www.airbnb.com/s/santa-cruz">
+       <div class="card accomm-card bg-dark text-white">
+         <img class="img-fluid accomm-card-img" src="Private room FULL size bed next to BEACH and SBCC.png"></img>
+           <div class="card-img-overlay">
+             <div id="ac-dist-to-surf" class="ac-top-left">🤩Out front</div>
+             <div id="ac-accomm-cost" class="ac-top-right">🏡$58/n</div>
+             <h4 id="locName" class="card-title" style="white-space: nowrap;">Surf Trip List House</h4>
+             <div id="ac-view" class="ac-bottom-left"<div data-toggle="tooltip" data-placement="bottom" title="Accomm cost">🛫 $187</div>
+             <div id="ac-bed-guests" class="ac-bottom-right" <div data-toggle="tooltip" data-placement="bottom" title="Avg accomm cost">🛌1 Bed • 👫2 Guests</div>
+           </div>
+       </div>
+     </a>
+     <a id="accomm-card-link" data-id="unique-accomm-id" href="https://www.airbnb.com/s/santa-cruz">
+      <div class="card accomm-card bg-dark text-white">
+        <img class="img-fluid accomm-card-img" src="Private room FULL size bed next to BEACH and SBCC.png"></img>
+          <div class="card-img-overlay">
+            <div id="ac-dist-to-surf" class="ac-top-left">🤩Out front</div>
+            <div id="ac-accomm-cost" class="ac-top-right">🏡$58/n</div>
+            <h4 id="locName" class="card-title" style="white-space: nowrap;">Surf Trip List House</h4>
+            <div id="ac-view" class="ac-bottom-left" <div data-toggle="tooltip" data-placement="bottom" title="Accomm cost">🛫 $187</div>
+            <div id="ac-bed-guests" class="ac-bottom-right" <div data-toggle="tooltip" data-placement="bottom" title="Avg accomm cost">🛌1 Bed • 👫2 Guests</div>
+          </div>
+      </div>
+    </a>
+    </div>
+     <div id="accomm-map" class="col-lg-8 mb-3"></div>
+   </div>`
   );//end accomm-map prepend
 };
 

@@ -127,7 +127,7 @@ body {
 }
 
 #accomm-map {
-  height:700px;
+  height:800px;
   width:100%;
 }
 
@@ -166,4 +166,75 @@ body {
 
 .white-link {
   color: white;
+}
+
+.accomm-card {
+  border: none;
+  width: 450px;
+  height: 300px;
+  margin: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.accomm-card-img {
+  width:auto;
+  height:100%;
+  border-radius: 30px;
+}
+
+#accomm-card-list {
+  width: 450px;
+  height: 800px;
+  overflow-y: auto; // Only add scroll to vertical column
+  position:relative;
+}
+
+.ac-top-left {
+  text-align: left;
+  float: left;
+  vertical-align: top;
+  display: inline-block;
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.ac-top-right {
+  text-align: right;
+  float: right;
+  vertical-align: top;
+  display: inline-block;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.ac-bottom-left {
+  text-align: left;
+  float: left;
+  vertical-align: bottom;
+  display: inline-block;
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.ac-bottom-right {
+  text-align: right;
+  float: right;
+  vertical-align: bottom;
+  display: inline-block;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  font-size: 20px;
+  font-weight: bold;
 }

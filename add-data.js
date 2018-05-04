@@ -381,9 +381,6 @@ savePMButton.addEventListener("click", function(){
   var viewToSave = document.querySelector('input[name = "view"]:checked').value;
   var proximityToSave = document.querySelector('input[name = "proximity"]:checked').value;
 
-  console.log(PMBedsToSave);
-  console.log(PMGuestsToSave);
-
   if (PMBedsToSave == "1") {
     var PMBedsPlural = "Bed"
   } else {
