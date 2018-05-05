@@ -13,6 +13,9 @@
   <!-- JQUERY -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+  <!-- FONT AWESOME - for icons -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+
   <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
   <title>Adding STL Data</title>
@@ -34,6 +37,12 @@
       </li>
       <li class="nav-item">
         <a id="nav3" class="nav-link" href="#" data-type="add-pm">Accomm Markers</a>
+      </li>
+      <li class="nav-item">
+        <a id="nav4" class="nav-link" href="#" data-type="add-rentals">Rental Markers</a>
+      </li>
+      <li class="nav-item">
+        <a id="nav5" class="nav-link" href="#" data-type="add-lessons">Lesson Markers</a>
       </li>
     </ul>
   </nav><!-- /nav -->
@@ -926,7 +935,129 @@
   </div>
   <!-- /End add Price Marker data -->
 
-</div><!-- /End container -->
+    <!-- Add Rentals -->
+    <div id="add-rentals" class="Hide">
+      <h3 class="my-3">🏄🏽‍♀️Add a rental shop</h3>
+
+      <p>👩What the rental shop's name?</p>
+      <input id="inputRentalName" type="textfield" class="mb-4"></input>
+
+      <p>💻What the rental shop's website?</p>
+      <input id="inputRentalWebsite" type="textfield" class="mb-4"></input>
+
+      <p>📱What's the phone number? "(650) 555-5555"</p>
+      <input id="inputRentalPhone" type="textfield" class="mb-4"></input>
+
+      <p>🏙What city is the shop in? "santa-barbara"</p>
+      <input id="inputRentalCity" type="textfield" class="mb-4"></input>
+
+      <p>👩‍🎓What board types are available? (copy/paste all that apply)</p>
+        <li>shortboards,</li>
+        <li>funboards,</li>
+        <li>longboards,</li>
+      <input id="inputRentalType" type="textfield" class="mb-4"></input>
+
+      <p>🕺🏼Are wetsuits available?</p>
+      <div class="btn-group btn-group-toggle mb-4" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="rentalWetsuit" id="inputWetsuit" autocomplete="off" value="👍">👍Yes</input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="rentalWetsuit" id="inputWetsuit" autocomplete="off" value="👎">👎No</input>
+        </label>
+      </div>
+
+      <p>⭐️Yelp Stars?</p>
+      <div class="btn-group btn-group-toggle mb-4" data-toggle="buttons">
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="rentalReview" id="inputRentalReview" autocomplete="off" value='<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>'><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="rentalReview" id="inputRentalReview" autocomplete="off" value='<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>'><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="rentalReview" id="inputRentalReview" autocomplete="off" value='<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>'><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="rentalReview" id="inputRentalReview" autocomplete="off" value='<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>'><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="rentalReview" id="inputRentalReview" autocomplete="off" value='<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>'><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></input>
+        </label>
+        <label class="btn btn-outline-dark text-left">
+          <input type="radio" name="rentalReview" id="inputRentalReview" autocomplete="off" value="n/a">n/a</input>
+        </label>
+      </div>
+
+      <p>🏄‍♂️Where do you pick up the rentals?</p>
+      <p>🗺LAT:<input id="inputRentalLat" type="textfield" class="mb-0"></input></p>
+      <p>🗺LNG:<input id="inputRentalLng" type="textfield" class="mb-2"></input></p>
+    </div><!-- /End Add Rentals -->
+
+    <!-- Add Lessons -->
+    <div id="add-lessons" class="Hide">
+      <h3 class="my-3">🏄‍♂️🎓Add a surf lesson instructor/camp</h3>
+        <p>👩What the surf lessons' name?</p>
+        <input id="inputLessonsName" type="textfield" class="mb-4"></input>
+
+        <p>💻What the surf lessons' website?</p>
+        <input id="inputLessonsWebsite" type="textfield" class="mb-4"></input>
+
+        <p>📱What's the surf lessons phone number? "(650) 555-5555"</p>
+        <input id="inputLessonsPhone" type="textfield" class="mb-4"></input>
+
+        <p>🏙What surf spots do the lessons take place at? "campus-point"</p>
+        <input id="inputLessonsSpots" type="textfield" class="mb-4"></input>
+
+        <p>🏙What city are the lessons in? "santa-barbara"</p>
+        <input id="inputLessonsCity" type="textfield" class="mb-4"></input>
+
+        <p>👩‍🎓What size lessons do they offer? (copy/paste all that apply)</p>
+          <li>1-on-1,</li>
+          <li>small-group,</li>
+          <li>large-group,</li>
+          <li>multi-day-camps,</li>
+        <input id="inputLessonsSize" type="textfield" class="mb-4"></input>
+
+        <p>🏙What is the cost?</p>
+        <p>1-on-1<input id="input1on1Cost" type="textfield" class="mb-1"></input></p>
+        <p>Small Group (2-3)<input id="input1on1Cost" type="textfield" class="mb-1"></input></p>
+        <p>Large Group (3+)<input id="input1on1Cost" type="textfield" class="mb-1"></input></p>
+        <p>Multi Day Camps<input id="input1on1Cost" type="textfield" class="mb-1"></input></p>
+
+        <p>👩‍🎓What equipment do they provide? (copy/paste all that apply)</p>
+          <li>wetsuit,</li>
+          <li>boards,</li>
+        <input id="inputLessonsSize" type="textfield" class="mb-4"></input>
+
+        <p>⭐️Yelp Stars?</p>
+        <div class="btn-group btn-group-toggle mb-4" data-toggle="buttons">
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="lessonsReview" id="inputLessonsReview" autocomplete="off" value='<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>'><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="lessonsReview" id="inputLessonsReview" autocomplete="off" value='<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>'><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="lessonsReview" id="inputLessonsReview" autocomplete="off" value='<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>'><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="lessonsReview" id="inputLessonsReview" autocomplete="off" value='<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>'><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="lessonsReview" id="inputLessonsReview" autocomplete="off" value='<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>'><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></input>
+          </label>
+          <label class="btn btn-outline-dark text-left">
+            <input type="radio" name="lessonsReview" id="inputLessonsReview" autocomplete="off" value="n/a">n/a</input>
+          </label>
+        </div>
+
+        <p>🏄‍♂️Where do the lessons take place?</p>
+        <p>🗺LAT:<input id="inputLessonsLat" type="textfield" class="mb-0"></input></p>
+        <p>🗺LNG:<input id="inputLessonsLng" type="textfield" class="mb-2"></input></p>
+    </div><!-- /End Add Lessons -->
+
+  </div><!-- /End container -->
 
   <script src="add-data.js"></script>
 
