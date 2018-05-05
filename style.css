@@ -187,7 +187,7 @@ body {
 }
 
 #accomm-card::after {
-  box-shadow: inset 0px 0px 225px 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0px 0px 225px 10px rgba(0,0,0,0.9);
   content: '';
   display: block;
   height: 100%;
@@ -212,6 +212,7 @@ body {
 .ac-text {
   position:absolute;
   z-index:1;
+  font-weight:700;
 }
 
 .ac-top-left {
@@ -264,4 +265,26 @@ body {
   font-size: 20px;
   font-weight: bold;
   z-index: 1;
+}
+
+.ac-hover-card {
+  color:white;
+  font-size:21px;
+  position:absolute;
+  z-index:1;
+  width:450px;
+  height:300px;
+}
+
+#ac-hover-button {
+  width:450px;
+  height:300px;
+  display: flex;
+  align-items: center;/*Aligns vertically center */
+  justify-content: right;/*Aligns horizontally center */
+}
+
+.ac-hover-button {
+  position:absolute;
+  z-index:1;
 }

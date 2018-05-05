@@ -1062,11 +1062,25 @@ window.initAccommMap = function() {
   );//end accomm-map prepend
 };
 
-//Hover over accomm card, high the relevant marker on map
-$(document).on('mouseenter', '#accomm-card', function(){
+//Hover over accomm card, card changes to show more info show the relevant marker on map
+$(document).on('mouseenter', '.card-img-overlay', function(){
   $("#test").css("border", "solid 5px red");
+  $(this).html(`
+    <div id="ac-specs" class="row">
+      <div class="ac-hover-card font-weight-bold ml-2 my-5">
+        <p class="mb-1">🏡Shared room</p>
+        <p class="mb-1">👫1 Bed • 2 Guests</p>
+        <p class="mb-1">🏄‍♂️Surf's right out front!</p>
+        <p class="mb-1">😎Ocean view</p>
+        <p class="mb-1">💳$58/n</p>
+      </div>
+      <div id="ac-hover-button">
+        <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-4 mr-3">TAP TO OPEN</button>
+      </div>
+    </div>
+    `);
 })
-.on('mouseleave', '#accomm-card', function(){
+.on('mouseleave', '#accomm-card-link', function(){
   $("#test").css("border", "solid 0px red");
 });
 
