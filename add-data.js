@@ -409,14 +409,25 @@ savePMButton.addEventListener("click", function(){
 
   // Add a new document with a generated id.
   db.collection("priceMarkers").add({
+    city: PMCityToSave,
+    surfSpot: PMSurfSpotToSave,
+    bookingURL: PMBookingUrlToSave,
+    price: PMPriceToSave,
+    photo: PMPhotoUrlToSave,
+    bedAmount: PMBedsToSave,
+    bedWord: PMBedsPlural,
+    guestAmount: PMGuestsToSave,
+    guestWord: PMGuestsPlural,
+    accommType: accommTypeToSave,
+    title: PMTitleToSave,
+    view: viewToSave,
+    proximity: proximityToSave,
+    content: pmContentToSave,
+    iconImage: pmIconImageToSave,
     coords: {
       lat: PMLatToSave,
       lng: PMLngToSave,
     },
-    city: PMCityToSave,
-    content: pmContentToSave,
-    iconImage: pmIconImageToSave,
-    surfSpot: PMSurfSpotToSave,
 
   })
   .then(function(docRef) {

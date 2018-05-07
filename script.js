@@ -34,7 +34,7 @@ function toggleByClass(className) {
 }
 
 //Add map marker function
-function addMarker(props, map) {
+function addSurfMarker(props, map) {
   var marker = new google.maps.Marker({
     position: props.coords,
     map: map,
@@ -56,9 +56,9 @@ function addMarker(props, map) {
         infoWindow.close();
     });
   });
-}//End of addMarker v2
+}//End of addSurfMarker v2
 
-function renderMarkers(map) {
+function renderSurfMarkers(map) {
   //Getting the markers
   db.collection("markers").get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
@@ -76,7 +76,7 @@ function renderMarkers(map) {
         for(var i = 0; i < markers.length; i++) {
           // console.log('rendering markers', markers[i])
           //Add marker
-          addMarker(markers[i], map);
+          addSurfMarker(markers[i], map);
         }
 
       });
@@ -131,7 +131,7 @@ function renderPriceMarkers(map) {
   });
 }
 
-// START - Loop the city collection. Populate location cards
+// START - Loop the city collection. Populate location cards.
 // db.collection("city").get().then(function(querySnapshot) {
 //     querySnapshot.forEach(function(doc) {
 db.collection("city").where("beta", "==", true)
@@ -202,7 +202,7 @@ db.collection("city").where("beta", "==", true)
         expFilter = 'expert';
       }
 
-      // GET IMAGE from Firebase Storage
+      // GET IMAGE from Firebase Storage. Manual TO DOs:
         //1. Add downloadurl to firestore document
         //2. Get downloadurl from that firestore document
         //3. Place that download URL in the correct place int he cardcontainer
@@ -996,7 +996,7 @@ docRef.get().then(function(doc) {
   map = new google.maps.Map(document.getElementById('accomm-map'), options);
   //These functions render the price markers and markers onto the AccommMap
   renderPriceMarkers(map);
-  renderMarkers(map);
+  renderSurfMarkers(map);
 
 });//End of city document from Firestore
 
@@ -1017,167 +1017,106 @@ window.initAccommMap = function() {
          </div>
        </div>
       </a>
-      <a id="accomm-card-link" data-id="unique-accomm-id" target="_blank" href="https://www.airbnb.com/s/santa-cruz">
-       <div id="accomm-card" class="card accomm-card bg-dark text-white">
-         <img class="img-fluid accomm-card-img rounded" src="accomm-test.png"></img>
-         <div class="card-img-overlay">
-           <div id="ac-bed-guests" class="ac-top-left">💳$58/n</div>
-           <div id="ac-dist-to-surf" class="ac-top-right">🏡Entire place</div>
-           <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Beautiful Surf Cottage</h3>
-           <h6 id="ac-accomm-type" class="card-text ac-text"><img src="icon-images/marker.png"/>Near Steamer Lane</h6>
-           <div id="ac-view" class="ac-bottom-left">😎Ocean view</div>
-           <div id="ac-accomm-cost" class="ac-bottom-right">🏄‍♂️Walk to surf</div>
-         </div>
-       </div>
-      </a>
-      <a id="accomm-card-link" data-id="unique-accomm-id" target="_blank" href="https://www.airbnb.com/s/santa-cruz">
-       <div id="accomm-card" class="card accomm-card bg-dark text-white">
-         <img class="img-fluid accomm-card-img rounded" src="accomm-test.png"></img>
-         <div class="card-img-overlay">
-           <div id="ac-bed-guests" class="ac-top-left">💳$58/n</div>
-           <div id="ac-dist-to-surf" class="ac-top-right">🏡Entire place</div>
-           <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Beautiful Surf Cottage</h3>
-           <h6 id="ac-accomm-type" class="card-text ac-text"><img src="icon-images/marker.png"/>Near Steamer Lane</h6>
-           <div id="ac-view" class="ac-bottom-left">😎Ocean view</div>
-           <div id="ac-accomm-cost" class="ac-bottom-right">🏄‍♂️Walk to surf</div>
-         </div>
-       </div>
-      </a>
-      <a id="accomm-card-link" data-id="unique-accomm-id" target="_blank" href="https://www.airbnb.com/s/santa-cruz">
-       <div id="accomm-card" class="card accomm-card bg-dark text-white">
-         <img class="img-fluid accomm-card-img rounded" src="accomm-test.png"></img>
-         <div class="card-img-overlay">
-           <div id="ac-bed-guests" class="ac-top-left">💳$58/n</div>
-           <div id="ac-dist-to-surf" class="ac-top-right">🏡Entire place</div>
-           <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Beautiful Surf Cottage</h3>
-           <h6 id="ac-accomm-type" class="card-text ac-text"><img src="icon-images/marker.png"/>Near Steamer Lane</h6>
-           <div id="ac-view" class="ac-bottom-left">😎Ocean view</div>
-           <div id="ac-accomm-cost" class="ac-bottom-right">🏄‍♂️Walk to surf</div>
-         </div>
-       </div>
-      </a>
      </div>
     <div id="accomm-map" class="col-lg-8 mb-3"></div>
    </div>
   `);//end accomm-map prepend
-};
+
+  //START - Inside window.initAccommMap, populate accomm cards on the Accomm Section of the Location Page
+  db.collection("priceMarkers").where("city", "==", newCityPage)
+      .get().then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+             const pmData = doc.data();
+             const pmDocs = doc.id;
+             const pmCity = pmData.city;
+             const pmSurfSpot = pmData.surfSpot;
+             const pmbookingURL = pmData.bookingURL;
+             const pmPhoto = pmData.photo;
+             const pmPrice = pmData.price;
+             const pmAccommType = pmData.accommType;
+             const pmTitle = pmData.title;
+             const pmView = pmData.view;
+             const pmProximity = pmData.proximity;
+             const pmBedAmount = pmData.bedAmount;
+             const pmBedWord = pmData.bedWord;
+             const pmGuestAmount = pmData.guestAmount;
+             const pmGuestWord = pmData.guestWord;
+
+    $("#accomm-card-list").prepend(`
+      <a id="accomm-card-link" data-id="unique-accomm-id" target="_blank" href="${pmbookingURL}">
+       <div id="accomm-card" class="card accomm-card bg-dark text-white">
+         <img class="img-fluid accomm-card-img rounded" src="${pmPhoto}"></img>
+         <div id="img-overlay" class="card-img-overlay">
+           <div id="ac-accomm-cost" class="ac-top-left">💳$${pmPrice}/n</div>
+           <div id="ac-accomm-type" class="ac-top-right">${pmAccommType}</div>
+           <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">${pmTitle}</h3>
+           <h6 id="ac-nearby-spot" class="card-text ac-text"><img src="icon-images/marker.png"/>Near ${pmSurfSpot}</h6>
+           <div id="ac-view" class="ac-bottom-left">😎${pmView}</div>
+           <div id="ac-dist-to-surf" class="ac-bottom-right">🏄‍♂️${pmProximity}</div>
+         </div>
+         <div id="hover-overlay" class="card-img-overlay row">
+           <div class="ac-hover-specs font-weight-bold ml-2 my-5">
+             <p class="mb-1">${pmAccommType}</p>
+             <p class="mb-1">👫${pmBedAmount} ${pmBedWord} • ${pmGuestAmount} ${pmGuestWord}</p>
+             <p class="mb-1">🏄‍♂️${pmProximity}</p>
+             <p class="mb-1">😎${pmView}</p>
+             <p class="mb-1">💳$${pmPrice}/n</p>
+           </div>
+           <div id="ac-hover-button">
+             <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-4 mr-3">TAP TO OPEN</button>
+           </div>
+         </div>
+       </div>
+      </a>
+    `);//End Accomm card prepend
 
 
-// //Hover over accomm card, card changes to show more info + the relevant marker on map
-// $(document).on('mouseenter', '#accomm-card', function(){
-//   $("#accomm-card").children("#hover-overlay").show();
-//   $("#accomm-card").children(".card-img-overlay").hide();
-//
-//   $("#test").css("border", "solid 5px red");
-// })
-// .on('mouseleave', '#accomm-card', function(){
-//   $("#accomm-card").children("#hover-overlay").hide();
-//   $("#accomm-card").children(".card-img-overlay").show();
-//
-//   $("#test").css("border", "solid 0px red");
-// });
+    //Hover over accomm card, card changes to show more info + the relevant marker on map
+    $(document).on('mouseenter', '.accomm-card', function(){
+      $(this).find('#img-overlay').hide();
+      $(this).find('#hover-overlay').show();
+    })//END Accomm Card mouseenter function
+    .on('mouseleave', '.accomm-card', function(){
+      $(this).find('#img-overlay').show();
+      $(this).find('#hover-overlay').hide();
+    });//END Accomm Card mouseleave function
+  });
+ });//END Price Markers loop
+};//END window.initAccommMap
 
 
-//BEST SO FAR -- Hover over accomm card, card changes to show more info + the relevant marker on map
-$(document).on('mouseenter', '.accomm-card', function(){
-  $(this).children(".card-img-overlay").html(`
-    <div id="hover-overlay" class="row">
-      <div class="ac-hover-specs font-weight-bold ml-2 my-5">
-        <p class="mb-1">🏡Entire place</p>
-        <p class="mb-1">👫1 Bed • 2 Guests</p>
-        <p class="mb-1">🏄‍♂️Walk to surf</p>
-        <p class="mb-1">😎Ocean view</p>
-        <p class="mb-1">💳$58/n</p>
-      </div>
-      <div id="ac-hover-button">
-        <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-4 mr-3">TAP TO OPEN</button>
-      </div>
-    </div>
-    `);
-
-})
-.on('mouseleave', '.accomm-card', function(){
-  $(this).children().html(`
-   <div class="card-img-overlay">
-     <div id="ac-bed-guests" class="ac-top-left">💳$58/n</div>
-     <div id="ac-dist-to-surf" class="ac-top-right">🏡Entire place</div>
-     <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Beautiful Surf Cottage</h3>
-     <h6 id="ac-accomm-type" class="card-text ac-text"><img src="icon-images/marker.png"/>Steamer Lane</h6>
-     <div id="ac-view" class="ac-bottom-left">😎Ocean view</div>
-     <div id="ac-accomm-cost" class="ac-bottom-right">🏄‍♂️Walk to surf</div>
-   </div>
-  `)
-
-});
-
-
-// //BEST SO FAR -- Hover over accomm card, card changes to show more info + the relevant marker on map
-// $(document).on('mouseenter', '.accomm-card', function(){
-//   $(this).children(".card-img-overlay").html(`
-//     <div id="hover-overlay" class="row">
-//       <div class="ac-hover-specs font-weight-bold ml-2 my-5">
-//         <p class="mb-1">🏡Shared room</p>
-//         <p class="mb-1">👫1 Bed • 2 Guests</p>
-//         <p class="mb-1">🏄‍♂️Surf's right out front!</p>
-//         <p class="mb-1">😎Ocean view</p>
-//         <p class="mb-1">💳$58/n</p>
-//       </div>
-//       <div id="ac-hover-button">
-//         <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-4 mr-3">TAP TO OPEN</button>
-//       </div>
-//     </div>
-//     `);
-//     $("#test").css("border", "solid 5px red");
-// })
-// .on('mouseleave', '.accomm-card', function(){
-//   $("#accomm-card").html(`
-//    <img class="img-fluid accomm-card-img rounded" src="accomm-test.png"></img>
-//    <div class="card-img-overlay">
-//      <div id="ac-bed-guests" class="ac-top-left">1🛌 • 2👫</div>
-//      <div id="ac-dist-to-surf" class="ac-top-right">🏄‍♂️Out front</div>
-//      <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Surf Cottage (Steamer Lane)</h3>
-//      <h6 id="ac-accomm-type" class="card-text ac-text">🏡Airbnb Entire Place</h6>
-//      <div id="ac-view" class="ac-bottom-left">🤩Ocean view</div>
-//      <div id="ac-accomm-cost" class="ac-bottom-right">$58/n</div>
-//    </div>
-//   `)
-//   $("#test").css("border", "solid 0px red");
-// });
-
-
-// //Hover over accomm card, card changes to show more info + the relevant marker on map
-// $(document).on('mouseenter', '.card-img-overlay', function(){
-//   $(this).html(`
-//     <div id="hover-overlay" class="row">
-//       <div class="ac-hover-specs font-weight-bold ml-2 my-5">
-//         <p class="mb-1">🏡Shared room</p>
-//         <p class="mb-1">👫1 Bed • 2 Guests</p>
-//         <p class="mb-1">🏄‍♂️Surf's right out front!</p>
-//         <p class="mb-1">😎Ocean view</p>
-//         <p class="mb-1">💳$58/n</p>
-//       </div>
-//       <div id="ac-hover-button">
-//         <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-4 mr-3">TAP TO OPEN</button>
-//       </div>
-//     </div>
-//     `);
-//     $("#test").css("border", "solid 5px red");
-// })
-// .on('mouseleave', '#accomm-card', function(){
-//   $("#accomm-card").html(`
-//    <img class="img-fluid accomm-card-img rounded" src="Near the West Cliffs of Santa Cruz!.png"></img>
-//    <div class="card-img-overlay">
-//      <div id="ac-bed-guests" class="ac-top-left">1🛌 • 2👫</div>
-//      <div id="ac-dist-to-surf" class="ac-top-right">🏄‍♂️Out front</div>
-//      <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Surf Cottage (Steamer Lane)</h3>
-//      <h6 id="ac-accomm-type" class="card-text ac-text">🏡Airbnb Entire Place</h6>
-//      <div id="ac-view" class="ac-bottom-left">🤩Ocean view</div>
-//      <div id="ac-accomm-cost" class="ac-bottom-right">$58/n</div>
-//    </div>
-//   `)
-//   $("#test").css("border", "solid 0px red");
-// });
-
+//     //Hover over accomm card, card changes to show more info + the relevant marker on map
+//     $(document).on('mouseenter', '.accomm-card', function(){
+//       $(this).children(".card-img-overlay").html(`
+//         <div id="hover-overlay" class="row">
+//           <div class="ac-hover-specs font-weight-bold ml-2 my-5">
+//             <p class="mb-1">🏡${pmAccommType}</p>
+//             <p class="mb-1">👫1 Bed • 2 Guests</p>
+//             <p class="mb-1">🏄‍♂️Walk to surf</p>
+//             <p class="mb-1">😎Ocean view</p>
+//             <p class="mb-1">💳$${pmPrice}/n</p>
+//           </div>
+//           <div id="ac-hover-button">
+//             <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-4 mr-3">TAP TO OPEN</button>
+//           </div>
+//         </div>
+//       `);
+//     })//END Accomm Card mouseenter function
+//     .on('mouseleave', '.accomm-card', function(){
+//       $(this).children().html(`
+//        <div class="card-img-overlay">
+//          <div id="ac-bed-guests" class="ac-top-left">💳$${pmPrice}/n</div>
+//          <div id="ac-dist-to-surf" class="ac-top-right">🏡${pmAccommType}</div>
+//          <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Beautiful Surf Cottage</h3>
+//          <h6 id="ac-accomm-type" class="card-text ac-text"><img src="icon-images/marker.png"/>Steamer Lane</h6>
+//          <div id="ac-view" class="ac-bottom-left">😎Ocean view</div>
+//          <div id="ac-accomm-cost" class="ac-bottom-right">🏄‍♂️Walk to surf</div>
+//        </div>
+//       `)
+//     });//END Accomm Card mouseleave function
+//   });
+//  });//END Price Markers loop
+// };//END window.initAccommMap
 
 
 //START - Populate surf spots on the location page
@@ -1664,17 +1603,6 @@ db.collection("surf-spot").where("city", "==", newCityPage)
       var decColor = "EC5D57";
     }
 
-    // console.log(jan);
-    //   //Sets chance of rideable waves progress bars
-    //   if (jan > 90 ) {
-    //     var janBar =
-    //    `<div class="progress rounded-0" style="height: 30px;">
-    //       <div data-toggle="tooltip" title="🤩+90% of rideable waves" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-    //         <b>great</b>
-    //       </div>
-    //     </div>`
-    //   }
-
     initMap(
       ssData,
       spotname,
@@ -1761,7 +1689,7 @@ db.collection("surf-spot").where("city", "==", newCityPage)
     //new map
     map = new google.maps.Map(document.getElementById('surf-spot-map'), options);
 
-    renderMarkers(map);
+    renderSurfMarkers(map);
 
   });
 }); //END - Loop the surf-spot collection
