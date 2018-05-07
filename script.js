@@ -1001,76 +1001,91 @@ docRef.get().then(function(doc) {
 });//End of city document from Firestore
 
 window.initAccommMap = function() {
-  $("#accomm-map__wrapper").prepend(
-   `<div class="row">
+  $("#accomm-map__wrapper").prepend(`
+    <div class="row">
      <div id="accomm-card-list" class="col-lg-4">
-      <a id="accomm-card-link" data-id="unique-accomm-id" href="https://www.airbnb.com/s/santa-cruz">
+      <a id="accomm-card-link" data-id="unique-accomm-id" target="_blank" href="https://www.airbnb.com/s/santa-cruz">
        <div id="accomm-card" class="card accomm-card bg-dark text-white">
-           <img class="img-fluid accomm-card-img rounded" src="Near the West Cliffs of Santa Cruz!.png"></img>
-           <div class="card-img-overlay">
-             <div id="ac-bed-guests" class="ac-top-left" data-toggle="tooltip" title="For 👫2 Guests with 1🛌 Bed">1🛌 • 2👫</div>
-             <div id="ac-accomm-cost" class="ac-top-right" data-toggle="tooltip" title="💳Listed at $58/n">💳$58/n</div>
-             <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Surf Cottage (Steamer Lane)</h3>
-             <h6 id="ac-accomm-type" class="card-text ac-text">🏡Airbnb Entire Place</h6>
-             <div id="ac-view" class="ac-bottom-left" data-toggle="tooltip" title="🤩Ocean view available">🤩Ocean view</div>
-             <div id="ac-dist-to-surf" class="ac-bottom-right" data-toggle="tooltip" title="🤩Surf is out front!">🤩Out front</div>
-           </div>
-       </div>
-     </a>
-     <a id="accomm-card-link" data-id="unique-accomm-id" href="https://www.airbnb.com/s/santa-cruz">
-      <div id="accomm-card" class="card accomm-card bg-dark text-white">
-          <img class="img-fluid accomm-card-img rounded" src="Surf Cottage (Steamer Lane).png"></img>
-          <div class="card-img-overlay">
-            <div id="ac-bed-guests" class="ac-top-left" data-toggle="tooltip" title="For 👫2 Guests with 1🛌 Bed">1🛌 • 2👫</div>
-            <div id="ac-accomm-cost" class="ac-top-right" data-toggle="tooltip" title="💳Listed at $58/n">💳$58/n</div>
-            <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Surf Cottage (Steamer Lane)</h3>
-            <h6 id="ac-accomm-type" class="card-text ac-text">🏡Airbnb Entire Place</h6>
-            <div id="ac-view" class="ac-bottom-left" data-toggle="tooltip" title="🤩Ocean view available">🤩Ocean view</div>
-            <div id="ac-dist-to-surf" class="ac-bottom-right" data-toggle="tooltip" title="🤩Surf is out front!">🤩Out front</div>
-          </div>
-      </div>
-    </a>
-    <a id="accomm-card-link" data-id="unique-accomm-id" href="https://www.airbnb.com/s/santa-cruz">
-     <div id="accomm-card" class="card accomm-card bg-dark text-white">
-         <img class="img-fluid accomm-card-img rounded" src="Surf Cottage (Steamer Lane).png"></img>
+         <img class="img-fluid accomm-card-img rounded" src="accomm-test.png"></img>
          <div class="card-img-overlay">
-           <div id="ac-bed-guests" class="ac-top-left" data-toggle="tooltip" title="For 👫2 Guests with 1🛌 Bed">1🛌 • 2👫</div>
-           <div id="ac-accomm-cost" class="ac-top-right" data-toggle="tooltip" title="💳Listed at $58/n">💳$58/n</div>
-           <h3 id="ac-title" class="card-title ac-title">Surf Cottage (Steamer Lane)</h3>
-           <h6 id="ac-accomm-type" class="card-text ac-text">🏡Airbnb Entire Place</h6>
-           <div id="ac-view" class="ac-bottom-left" data-toggle="tooltip" title="🤩Ocean view available">🤩Ocean view</div>
-           <div id="ac-dist-to-surf" class="ac-bottom-right" data-toggle="tooltip" title="🤩Surf is out front!">🤩Out front</div>
+           <div id="ac-bed-guests" class="ac-top-left">💳$58/n</div>
+           <div id="ac-dist-to-surf" class="ac-top-right">🏡Entire place</div>
+           <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Beautiful Surf Cottage</h3>
+           <h6 id="ac-accomm-type" class="card-text ac-text"><img src="icon-images/marker.png"/>Near Steamer Lane</h6>
+           <div id="ac-view" class="ac-bottom-left">😎Ocean view</div>
+           <div id="ac-accomm-cost" class="ac-bottom-right">🏄‍♂️Walk to surf</div>
          </div>
+       </div>
+      </a>
+      <a id="accomm-card-link" data-id="unique-accomm-id" target="_blank" href="https://www.airbnb.com/s/santa-cruz">
+       <div id="accomm-card" class="card accomm-card bg-dark text-white">
+         <img class="img-fluid accomm-card-img rounded" src="accomm-test.png"></img>
+         <div class="card-img-overlay">
+           <div id="ac-bed-guests" class="ac-top-left">💳$58/n</div>
+           <div id="ac-dist-to-surf" class="ac-top-right">🏡Entire place</div>
+           <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Beautiful Surf Cottage</h3>
+           <h6 id="ac-accomm-type" class="card-text ac-text"><img src="icon-images/marker.png"/>Near Steamer Lane</h6>
+           <div id="ac-view" class="ac-bottom-left">😎Ocean view</div>
+           <div id="ac-accomm-cost" class="ac-bottom-right">🏄‍♂️Walk to surf</div>
+         </div>
+       </div>
+      </a>
+      <a id="accomm-card-link" data-id="unique-accomm-id" target="_blank" href="https://www.airbnb.com/s/santa-cruz">
+       <div id="accomm-card" class="card accomm-card bg-dark text-white">
+         <img class="img-fluid accomm-card-img rounded" src="accomm-test.png"></img>
+         <div class="card-img-overlay">
+           <div id="ac-bed-guests" class="ac-top-left">💳$58/n</div>
+           <div id="ac-dist-to-surf" class="ac-top-right">🏡Entire place</div>
+           <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Beautiful Surf Cottage</h3>
+           <h6 id="ac-accomm-type" class="card-text ac-text"><img src="icon-images/marker.png"/>Near Steamer Lane</h6>
+           <div id="ac-view" class="ac-bottom-left">😎Ocean view</div>
+           <div id="ac-accomm-cost" class="ac-bottom-right">🏄‍♂️Walk to surf</div>
+         </div>
+       </div>
+      </a>
+      <a id="accomm-card-link" data-id="unique-accomm-id" target="_blank" href="https://www.airbnb.com/s/santa-cruz">
+       <div id="accomm-card" class="card accomm-card bg-dark text-white">
+         <img class="img-fluid accomm-card-img rounded" src="accomm-test.png"></img>
+         <div class="card-img-overlay">
+           <div id="ac-bed-guests" class="ac-top-left">💳$58/n</div>
+           <div id="ac-dist-to-surf" class="ac-top-right">🏡Entire place</div>
+           <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Beautiful Surf Cottage</h3>
+           <h6 id="ac-accomm-type" class="card-text ac-text"><img src="icon-images/marker.png"/>Near Steamer Lane</h6>
+           <div id="ac-view" class="ac-bottom-left">😎Ocean view</div>
+           <div id="ac-accomm-cost" class="ac-bottom-right">🏄‍♂️Walk to surf</div>
+         </div>
+       </div>
+      </a>
      </div>
-   </a>
-   <a id="accomm-card-link" data-id="unique-accomm-id" href="https://www.airbnb.com/s/santa-cruz">
-    <div id="accomm-card" class="card accomm-card bg-dark text-white">
-        <img class="img-fluid accomm-card-img rounded" src="Surf Cottage (Steamer Lane).png"></img>
-        <div class="card-img-overlay">
-          <div id="ac-bed-guests" class="ac-top-left" data-toggle="tooltip" title="For 👫2 Guests with 1🛌 Bed">1🛌 • 2👫</div>
-          <div id="ac-accomm-cost" class="ac-top-right" data-toggle="tooltip" title="💳Listed at $58/n">💳$58/n</div>
-          <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Surf Cottage (Steamer Lane)</h3>
-          <h6 id="ac-accomm-type" class="card-text ac-text">🏡Airbnb Entire Place</h6>
-          <div id="ac-view" class="ac-bottom-left" data-toggle="tooltip" title="🤩Ocean view available">🤩Ocean view</div>
-          <div id="ac-dist-to-surf" class="ac-bottom-right" data-toggle="tooltip" title="🤩Surf is out front!">🤩Out front</div>
-        </div>
-    </div>
-  </a>
-    </div>
-     <div id="accomm-map" class="col-lg-8 mb-3"></div>
-   </div>`
-  );//end accomm-map prepend
+    <div id="accomm-map" class="col-lg-8 mb-3"></div>
+   </div>
+  `);//end accomm-map prepend
 };
 
-//Hover over accomm card, card changes to show more info show the relevant marker on map
-$(document).on('mouseenter', '.card-img-overlay', function(){
-  $("#test").css("border", "solid 5px red");
-  $(this).html(`
-    <div id="ac-specs" class="row">
-      <div class="ac-hover-card font-weight-bold ml-2 my-5">
-        <p class="mb-1">🏡Shared room</p>
+
+// //Hover over accomm card, card changes to show more info + the relevant marker on map
+// $(document).on('mouseenter', '#accomm-card', function(){
+//   $("#accomm-card").children("#hover-overlay").show();
+//   $("#accomm-card").children(".card-img-overlay").hide();
+//
+//   $("#test").css("border", "solid 5px red");
+// })
+// .on('mouseleave', '#accomm-card', function(){
+//   $("#accomm-card").children("#hover-overlay").hide();
+//   $("#accomm-card").children(".card-img-overlay").show();
+//
+//   $("#test").css("border", "solid 0px red");
+// });
+
+
+//BEST SO FAR -- Hover over accomm card, card changes to show more info + the relevant marker on map
+$(document).on('mouseenter', '.accomm-card', function(){
+  $(this).children(".card-img-overlay").html(`
+    <div id="hover-overlay" class="row">
+      <div class="ac-hover-specs font-weight-bold ml-2 my-5">
+        <p class="mb-1">🏡Entire place</p>
         <p class="mb-1">👫1 Bed • 2 Guests</p>
-        <p class="mb-1">🏄‍♂️Surf's right out front!</p>
+        <p class="mb-1">🏄‍♂️Walk to surf</p>
         <p class="mb-1">😎Ocean view</p>
         <p class="mb-1">💳$58/n</p>
       </div>
@@ -1079,10 +1094,91 @@ $(document).on('mouseenter', '.card-img-overlay', function(){
       </div>
     </div>
     `);
+
 })
-.on('mouseleave', '#accomm-card-link', function(){
-  $("#test").css("border", "solid 0px red");
+.on('mouseleave', '.accomm-card', function(){
+  $(this).children().html(`
+   <div class="card-img-overlay">
+     <div id="ac-bed-guests" class="ac-top-left">💳$58/n</div>
+     <div id="ac-dist-to-surf" class="ac-top-right">🏡Entire place</div>
+     <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Beautiful Surf Cottage</h3>
+     <h6 id="ac-accomm-type" class="card-text ac-text"><img src="icon-images/marker.png"/>Steamer Lane</h6>
+     <div id="ac-view" class="ac-bottom-left">😎Ocean view</div>
+     <div id="ac-accomm-cost" class="ac-bottom-right">🏄‍♂️Walk to surf</div>
+   </div>
+  `)
+
 });
+
+
+// //BEST SO FAR -- Hover over accomm card, card changes to show more info + the relevant marker on map
+// $(document).on('mouseenter', '.accomm-card', function(){
+//   $(this).children(".card-img-overlay").html(`
+//     <div id="hover-overlay" class="row">
+//       <div class="ac-hover-specs font-weight-bold ml-2 my-5">
+//         <p class="mb-1">🏡Shared room</p>
+//         <p class="mb-1">👫1 Bed • 2 Guests</p>
+//         <p class="mb-1">🏄‍♂️Surf's right out front!</p>
+//         <p class="mb-1">😎Ocean view</p>
+//         <p class="mb-1">💳$58/n</p>
+//       </div>
+//       <div id="ac-hover-button">
+//         <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-4 mr-3">TAP TO OPEN</button>
+//       </div>
+//     </div>
+//     `);
+//     $("#test").css("border", "solid 5px red");
+// })
+// .on('mouseleave', '.accomm-card', function(){
+//   $("#accomm-card").html(`
+//    <img class="img-fluid accomm-card-img rounded" src="accomm-test.png"></img>
+//    <div class="card-img-overlay">
+//      <div id="ac-bed-guests" class="ac-top-left">1🛌 • 2👫</div>
+//      <div id="ac-dist-to-surf" class="ac-top-right">🏄‍♂️Out front</div>
+//      <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Surf Cottage (Steamer Lane)</h3>
+//      <h6 id="ac-accomm-type" class="card-text ac-text">🏡Airbnb Entire Place</h6>
+//      <div id="ac-view" class="ac-bottom-left">🤩Ocean view</div>
+//      <div id="ac-accomm-cost" class="ac-bottom-right">$58/n</div>
+//    </div>
+//   `)
+//   $("#test").css("border", "solid 0px red");
+// });
+
+
+// //Hover over accomm card, card changes to show more info + the relevant marker on map
+// $(document).on('mouseenter', '.card-img-overlay', function(){
+//   $(this).html(`
+//     <div id="hover-overlay" class="row">
+//       <div class="ac-hover-specs font-weight-bold ml-2 my-5">
+//         <p class="mb-1">🏡Shared room</p>
+//         <p class="mb-1">👫1 Bed • 2 Guests</p>
+//         <p class="mb-1">🏄‍♂️Surf's right out front!</p>
+//         <p class="mb-1">😎Ocean view</p>
+//         <p class="mb-1">💳$58/n</p>
+//       </div>
+//       <div id="ac-hover-button">
+//         <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-4 mr-3">TAP TO OPEN</button>
+//       </div>
+//     </div>
+//     `);
+//     $("#test").css("border", "solid 5px red");
+// })
+// .on('mouseleave', '#accomm-card', function(){
+//   $("#accomm-card").html(`
+//    <img class="img-fluid accomm-card-img rounded" src="Near the West Cliffs of Santa Cruz!.png"></img>
+//    <div class="card-img-overlay">
+//      <div id="ac-bed-guests" class="ac-top-left">1🛌 • 2👫</div>
+//      <div id="ac-dist-to-surf" class="ac-top-right">🏄‍♂️Out front</div>
+//      <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Surf Cottage (Steamer Lane)</h3>
+//      <h6 id="ac-accomm-type" class="card-text ac-text">🏡Airbnb Entire Place</h6>
+//      <div id="ac-view" class="ac-bottom-left">🤩Ocean view</div>
+//      <div id="ac-accomm-cost" class="ac-bottom-right">$58/n</div>
+//    </div>
+//   `)
+//   $("#test").css("border", "solid 0px red");
+// });
+
+
 
 //START - Populate surf spots on the location page
 db.collection("surf-spot").where("city", "==", newCityPage)

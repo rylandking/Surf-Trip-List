@@ -352,6 +352,7 @@ saveMarkerButton.addEventListener("click", function(){
 //START ADD ACCOMM MARKERS
 //Marker properties
 const inputPMCity = document.querySelector("#inputPMCity");
+const inputPMSurfSpot = document.querySelector("#inputPMSurfSpot");
 const inputBookingUrl = document.querySelector("#inputBookingUrl");
 const inputPMTitle = document.querySelector("#inputPMTitle");
 const inputPMPrice = document.querySelector("#inputPMPrice");
@@ -368,6 +369,7 @@ savePMButton.addEventListener("click", function(){
 
   //Changes Marker inputs to values on click
   const PMCityToSave = inputPMCity.value;
+  const PMSurfSpotToSave = inputPMSurfSpot.value;
   const PMBookingUrlToSave = inputBookingUrl.value;
   const PMTitleToSave = inputPMTitle.value;
   const PMPriceToSave = inputPMPrice.value;
@@ -414,6 +416,7 @@ savePMButton.addEventListener("click", function(){
     city: PMCityToSave,
     content: pmContentToSave,
     iconImage: pmIconImageToSave,
+    surfSpot: PMSurfSpotToSave,
 
   })
   .then(function(docRef) {
