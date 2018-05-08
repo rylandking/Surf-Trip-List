@@ -434,6 +434,159 @@ savePMButton.addEventListener("click", function(){
 });
 //END ADD PRICE MARKERS
 
+
+//START ADD RENTAL MARKERS + CARDS
+//RENTAL Marker properties
+const inputRentalName = document.querySelector("#inputRentalName");
+const inputRentalCity = document.querySelector("#inputRentalCity");
+const inputRentalSurfSpot = document.querySelector("#inputRentalSurfSpot");
+const inputRentalAddress = document.querySelector("#inputRentalAddress");
+const inputRentalZip = document.querySelector("#inputRentalZip");
+const inputRentalWebsite = document.querySelector("#inputRentalWebsite");
+const inputRentalPhone = document.querySelector("#inputRentalPhone");
+const inputRentalType = document.querySelector("#inputRentalType");
+const inputRentalBoardHourly = document.querySelector("#inputRentalBoardHourly");
+const inputRentalBoardDaily = document.querySelector("#inputRentalBoardDaily");
+const inputRentalWetsuitHourly = document.querySelector("#inputRentalWetsuitHourly");
+const inputRentalWetsuitDaily = document.querySelector("#inputRentalWetsuitDaily");
+const inputRentalLat = document.querySelector("#inputRentalLat");
+const inputRentalLng = document.querySelector("#inputRentalLng");
+
+const saveRentalButton = document.querySelector("#saveRentalButton");
+
+//Changes inputs to values on click
+saveRentalButton.addEventListener("click", function(){
+
+  //Changes Marker inputs to values on click
+  const RentalNameToSave = inputRentalName.value;
+  const RentalCityToSave = inputRentalCity.value;
+  const RentalSurfSpotToSave = inputRentalSurfSpot.value;
+  const RentalAddressToSave = inputRentalAddress.value;
+  const RentalZipToSave = inputRentalZip.value;
+  const RentalWebsiteToSave = inputRentalWebsite.value;
+  const RentalPhoneToSave = inputRentalPhone.value;
+  const RentalTypeToSave = inputRentalType.value;
+  const RentalBoardHourlyToSave = inputRentalBoardHourly.value;
+  const RentalBoardDailyToSave = inputRentalBoardDaily.value;
+  const RentalWetsuitHourlyToSave = inputRentalWetsuitHourly.value;
+  const RentalWetsuitDailyToSave = inputRentalWetsuitDaily.value;
+  const RentalLatToSave = parseFloat(inputRentalLat.value);
+  const RentalLngToSave = parseFloat(inputRentalLng.value);
+
+  const rentalReviewToSave = document.querySelector('input[name = "rentalReview"]:checked').value;
+  const rentalWetsuitToSave = document.querySelector('input[name = "rentalWetsuit"]:checked').value;
+
+  console.log("I am going to log RENTAL DATA to Firestore. 🙃");
+
+  // Add a new document with a generated id.
+  db.collection("boardRentalMarkers").add({
+    name: RentalNameToSave,
+    city: RentalCityToSave,
+    surfSpot: RentalSurfSpotToSave,
+    address: RentalAddressToSave,
+    zip: RentalZipToSave,
+    website: RentalWebsiteToSave,
+    phone: RentalPhoneToSave,
+    boardType: RentalTypeToSave,
+    boardHourly: RentalBoardHourlyToSave,
+    boardDaily: RentalBoardDailyToSave,
+    wetsuitHourly: RentalWetsuitHourlyToSave,
+    wetsuitDaily: RentalWetsuitDailyToSave,
+    review: rentalReviewToSave,
+    wetsuitAvail: rentalWetsuitToSave,
+    coords: {
+      lat: RentalLatToSave,
+      lng: RentalLngToSave,
+    },
+
+  })
+  .then(function(docRef) {
+    const rentalID = docRef.id;
+    $("#save-rental-success-alert").prepend(
+      `👍I saved the "${rentalID}" rental shop.`
+    );
+      console.log("I saved the Rental Shop to Firestore. 👍", docRef.id);
+  })
+  .catch(function(error) {
+      console.error("Error adding document: ", error);
+  });
+});
+//END ADD RENTAL MARKERS + CARDS
+
+
+//START ADD LESSON MARKERS + CARDS
+//LESSON Marker properties
+const inputLessonName = document.querySelector("#inputLessonName");
+const inputLessonCity = document.querySelector("#inputLessonCity");
+const inputLessonSpots = document.querySelector("#inputLessonSpots");
+const inputLessonWebsite = document.querySelector("#inputLessonWebsite");
+const inputLessonPhone = document.querySelector("#inputLessonPhone");
+const inputLessonSize = document.querySelector("#inputLessonSize");
+const inputLesson1on1Cost = document.querySelector("#inputLesson1on1Cost");
+const inputLessonSmCost = document.querySelector("#inputLessonSmCost");
+const inputLessonLgCost = document.querySelector("#inputLessonLgCost");
+const inputLessonMultiDayCost = document.querySelector("#inputLessonMultiDayCost");
+const inputLessonEquipAvail = document.querySelector("#inputLessonEquipAvail");
+const inputLessonLat = document.querySelector("#inputLessonLat");
+const inputLessonLng = document.querySelector("#inputLessonLng");
+
+const saveLessonButton = document.querySelector("#saveLessonButton");
+
+//Changes inputs to values on click
+saveLessonButton.addEventListener("click", function(){
+
+  //Changes Marker inputs to values on click
+  const lessonNameToSave = inputLessonName.value;
+  const lessonCityToSave = inputLessonCity.value;
+  const lessonSpotsToSave = inputLessonSpots.value;
+  const lessonWebsiteToSave = inputLessonWebsite.value;
+  const lessonPhoneToSave = inputLessonPhone.value;
+  const lessonSizeToSave = inputLessonSize.value;
+  const lesson1on1ToSave = inputLesson1on1Cost.value;
+  const lessonSmCostToSave = inputLessonSmCost.value;
+  const lessonLgCostToSave = inputLessonLgCost.value;
+  const lessonMultiDayCostToSave = inputLessonMultiDayCost.value;
+  const lessonEquipAvailToSave = inputLessonEquipAvail.value;
+  const lessonLatToSave = parseFloat(inputLessonLat.value);
+  const lessonLngToSave = parseFloat(inputLessonLng.value);
+
+  const lessonReviewToSave = document.querySelector('input[name = "lessonReview"]:checked').value;
+
+  console.log("I am going to log LESSON COMPANY DATA to Firestore. 🙃");
+
+  // Add a new document with a generated id.
+  db.collection("lessonMarkers").add({
+    name: lessonNameToSave,
+    city: lessonCityToSave,
+    surfSpot: lessonSpotsToSave,
+    website: lessonWebsiteToSave,
+    sizeAvail: lessonSizeToSave,
+    oneOnOneCost: lesson1on1ToSave,
+    smCost: lessonSmCostToSave,
+    lgCost: lessonLgCostToSave,
+    multiDayCost: lessonMultiDayCostToSave,
+    equipAvail: lessonEquipAvailToSave,
+    review: lessonReviewToSave,
+    coords: {
+      lat: lessonLatToSave,
+      lng: lessonLngToSave,
+    },
+
+  })
+  .then(function(docRef) {
+    const lessonID = docRef.id;
+    $("#save-lesson-success-alert").prepend(
+      `👍I saved the "${lessonID}" lesson company.`
+    );
+      console.log("I saved the Lesson Company to Firestore. 👍", docRef.id);
+  })
+  .catch(function(error) {
+      console.error("Error adding document: ", error);
+  });
+});
+//END ADD LESSON MARKERS + CARDS
+
+
 //Refreshes the page so buttons refresh on click of #refreshCityForm
 function refreshCityForm() {
     location.reload();
@@ -517,43 +670,87 @@ function ClearPMFields() {
     document.getElementById("inputPMLng").value = "";
 }
 
+//Refreshes the page so Rental buttons refresh on click of #refreshRentalForm
+function refreshRentalForm() {
+    location.reload();
+}
+
+//Clears all Rental Marker form fields on click of #refreshRentalForm
+function ClearRentalFields() {
+    document.getElementById("inputRentalName").value = "";
+    document.getElementById("inputRentalCity").value = "";
+    document.getElementById("inputRentalSurfSpot").value = "";
+    document.getElementById("inputRentalAddress").value = "";
+    document.getElementById("inputRentalZip").value = "";
+    document.getElementById("inputRentalWebsite").value = "";
+    document.getElementById("inputRentalPhone").value = "";
+    document.getElementById("inputRentalType").value = "";
+    document.getElementById("inputRentalBoardHourly").value = "";
+    document.getElementById("inputRentalBoardDaily").value = "";
+    document.getElementById("inputRentalWetsuitHourly").value = "";
+    document.getElementById("inputRentalWetsuitDaily").value = "";
+    document.getElementById("inputRentalLat").value = "";
+    document.getElementById("inputRentalLng").value = "";
+}
+
+//Refreshes the page so Lesson buttons refresh on click of #refreshLessonForm
+function refreshLessonForm() {
+    location.reload();
+}
+
+//Clears all Lesson Marker form fields on click of #refreshLessonForm
+function ClearLessonFields() {
+    document.getElementById("inputLessonName").value = "";
+    document.getElementById("inputLessonCity").value = "";
+    document.getElementById("inputLessonSpots").value = "";
+    document.getElementById("inputLessonWebsite").value = "";
+    document.getElementById("inputLessonPhone").value = "";
+    document.getElementById("inputLessonSize").value = "";
+    document.getElementById("inputLesson1on1Cost").value = "";
+    document.getElementById("inputLessonSmCost").value = "";
+    document.getElementById("inputLessonMultiDayCost").value = "";
+    document.getElementById("inputLessonEquipAvail").value = "";
+    document.getElementById("inputLessonLat").value = "";
+    document.getElementById("inputLessonLng").value = "";
+}
+
 //Alerts a success message after City Name is saved
-    $("#city-doc-success-alert").hide();
-      $("#saveCityDocNameButton").click(function showAlert() {
-        $("#city-doc-success-alert").prepend(
-          `<p>👍Ready to submit: "${CityDocNameToSave}."</p>`
-        );
-        $("#city-doc-success-alert").fadeTo(10000, 500).slideUp(500, function(){
-             $("#city-doc-success-alert").slideUp(500);
-        });
+  $("#city-doc-success-alert").hide();
+    $("#saveCityDocNameButton").click(function showAlert() {
+      $("#city-doc-success-alert").prepend(
+        `<p>👍Ready to submit: "${CityDocNameToSave}."</p>`
+      );
+      $("#city-doc-success-alert").fadeTo(10000, 500).slideUp(500, function(){
+           $("#city-doc-success-alert").slideUp(500);
       });
+    });
 
 //Alerts a success message once ready to add a new city
-    $("#save-city-success-alert").hide();
-      $("#saveCityButton").click(function showAlert() {
-        $("#save-city-success-alert").fadeTo(4000, 500).slideUp(500, function(){
-             $("#save-city-success-alert").slideUp(500);
-        });
+  $("#save-city-success-alert").hide();
+    $("#saveCityButton").click(function showAlert() {
+      $("#save-city-success-alert").fadeTo(4000, 500).slideUp(500, function(){
+           $("#save-city-success-alert").slideUp(500);
       });
+    });
 
 //Alerts a success message after Surf Spot Name is saved
-    $("#ss-doc-success-alert").hide();
-    $("#saveSSDocNameButton").click(function showAlert() {
-      $("#ss-doc-success-alert").prepend(
-        `<p>👍Ready to submit: "${SSDocNameToSave}."</p>`
-      );
-      $("#ss-doc-success-alert").fadeTo(10000, 500).slideUp(500, function(){
-           $("#ss-doc-success-alert").slideUp(500);
-      });
+  $("#ss-doc-success-alert").hide();
+  $("#saveSSDocNameButton").click(function showAlert() {
+    $("#ss-doc-success-alert").prepend(
+      `<p>👍Ready to submit: "${SSDocNameToSave}."</p>`
+    );
+    $("#ss-doc-success-alert").fadeTo(10000, 500).slideUp(500, function(){
+         $("#ss-doc-success-alert").slideUp(500);
     });
+  });
 
 //Alerts a success message when adding a new surf spot
-    $("#save-ss-success-alert").hide();
-    $("#saveButton").click(function showAlert() {
-      $("#save-ss-success-alert").fadeTo(4000, 500).slideUp(500, function(){
-           $("#save-ss-success-alert").slideUp(500);
-      });
+  $("#save-ss-success-alert").hide();
+  $("#saveButton").click(function showAlert() {
+    $("#save-ss-success-alert").fadeTo(4000, 500).slideUp(500, function(){
+         $("#save-ss-success-alert").slideUp(500);
     });
+  });
 
 //Alerts a success message when adding a new marker
   $("#save-marker-success-alert").hide();
@@ -568,6 +765,22 @@ function ClearPMFields() {
   $("#savePMButton").click(function showAlert() {
     $("#save-pm-success-alert").fadeTo(20000, 500).slideUp(500, function(){
          $("#save-pm-success-alert").slideUp(500);
+    });
+  });
+
+//Alerts a success message when adding a new rental marker
+  $("#save-rental-success-alert").hide();
+  $("#saveRentalButton").click(function showAlert() {
+    $("#save-rental-success-alert").fadeTo(20000, 500).slideUp(500, function(){
+         $("#save-rental-success-alert").slideUp(500);
+    });
+  });
+
+//Alerts a success message when adding a new lesson marker
+  $("#save-lesson-success-alert").hide();
+  $("#saveLessonButton").click(function showAlert() {
+    $("#save-lesson-success-alert").fadeTo(20000, 500).slideUp(500, function(){
+         $("#save-lesson-success-alert").slideUp(500);
     });
   });
 

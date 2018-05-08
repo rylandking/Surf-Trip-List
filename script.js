@@ -112,7 +112,7 @@ function addPriceMarker(props, map) {
  //Creates the priceMarker info window
   var infoWindow = new google.maps.InfoWindow({
     content: `
-    <div class="iw-container">
+    <div class="iw-container" data-id="${pmbookingURL}">
        <a href="${pmbookingURL}"><img src="ac-images/${pmPhoto}" style="height=100%; width:100%"></a>
        <b><p class="my-2 nounderline" style="color:brown">${pmAccommType} • 🛌${pmBedAmount} ${pmBedWord} • 👫${pmGuestAmount} ${pmGuestWord}</p></b>
        <h5 class="my-0">${pmTitle}</h5>
@@ -141,6 +141,7 @@ function renderPriceMarkers(map) {
 
         const pmData = doc.data();
         const pmCity = pmData.city;
+        const pmDocs = doc.id;
 
         //Array of markers v2
         var priceMarkers = [
@@ -1040,7 +1041,7 @@ window.initAccommMap = function() {
       .get().then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
              const pmData = doc.data();
-             const pmDocs = doc.id;
+             const pmDoc = doc.id;
              const pmCity = pmData.city;
              //PRICE MARKERS IN TWO PLACES! 1. CARDS + 2. MARKERS. Change both
              const pmSurfSpot = pmData.surfSpot;
@@ -1061,7 +1062,7 @@ window.initAccommMap = function() {
              }
 
     $("#accomm-card-list").prepend(`
-      <a id="accomm-card-link" data-id="${pmDocs}" target="_blank" href="${pmbookingURL}">
+      <a id="accomm-card-link" data-id="${pmbookingURL}" data-doc="${pmDoc}" target="_blank" href="${pmbookingURL}">
        <div id="accomm-card" class="card accomm-card bg-dark text-white">
          <img class="img-fluid accomm-card-img rounded" src="ac-images/${pmPhoto}"></img>
          <div id="img-overlay" class="card-img-overlay">
@@ -1073,7 +1074,7 @@ window.initAccommMap = function() {
            <div id="ac-dist-to-surf" class="ac-bottom-right">🏄‍♂️${pmProximity}</div>
          </div>
          <div id="hover-overlay" class="card-img-overlay row">
-           <div class="ac-hover-specs font-weight-bold ml-2 my-5">
+           <div class="ac-hover-specs font-weight-bold ml-2 my-4">
              <p class="mb-1">${pmAccommType}</p>
              <p class="mb-1">👫${pmBedAmount} ${pmBedWord} • ${pmGuestAmount} ${pmGuestWord}</p>
              <p class="mb-1">🏄‍♂️${pmProximity}</p>
@@ -1081,7 +1082,7 @@ window.initAccommMap = function() {
              <p class="mb-1">💳$${pmPrice}/n</p>
            </div>
            <div id="ac-hover-button">
-             <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-4 mr-3">TAP TO OPEN</button>
+             <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-5 mr-3">TAP TO OPEN</button>
            </div>
          </div>
        </div>
@@ -1100,40 +1101,6 @@ window.initAccommMap = function() {
   });
  });//END Price Markers loop
 };//END window.initAccommMap
-
-
-//     //Hover over accomm card, card changes to show more info + the relevant marker on map
-//     $(document).on('mouseenter', '.accomm-card', function(){
-//       $(this).children(".card-img-overlay").html(`
-//         <div id="hover-overlay" class="row">
-//           <div class="ac-hover-specs font-weight-bold ml-2 my-5">
-//             <p class="mb-1">🏡${pmAccommType}</p>
-//             <p class="mb-1">👫1 Bed • 2 Guests</p>
-//             <p class="mb-1">🏄‍♂️Walk to surf</p>
-//             <p class="mb-1">😎Ocean view</p>
-//             <p class="mb-1">💳$${pmPrice}/n</p>
-//           </div>
-//           <div id="ac-hover-button">
-//             <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-4 mr-3">TAP TO OPEN</button>
-//           </div>
-//         </div>
-//       `);
-//     })//END Accomm Card mouseenter function
-//     .on('mouseleave', '.accomm-card', function(){
-//       $(this).children().html(`
-//        <div class="card-img-overlay">
-//          <div id="ac-bed-guests" class="ac-top-left">💳$${pmPrice}/n</div>
-//          <div id="ac-dist-to-surf" class="ac-top-right">🏡${pmAccommType}</div>
-//          <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Beautiful Surf Cottage</h3>
-//          <h6 id="ac-accomm-type" class="card-text ac-text"><img src="icon-images/marker.png"/>Steamer Lane</h6>
-//          <div id="ac-view" class="ac-bottom-left">😎Ocean view</div>
-//          <div id="ac-accomm-cost" class="ac-bottom-right">🏄‍♂️Walk to surf</div>
-//        </div>
-//       `)
-//     });//END Accomm Card mouseleave function
-//   });
-//  });//END Price Markers loop
-// };//END window.initAccommMap
 
 
 //START - Populate surf spots on the location page
