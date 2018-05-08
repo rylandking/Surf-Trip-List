@@ -85,6 +85,24 @@ function renderSurfMarkers(map) {
 
 //Add map priceMarker function
 function addPriceMarker(props, map) {
+  //PRICE MARKERS IN TWO PLACES! 1. CARDS + 2. MARKERS. Change both
+  const pmSurfSpot = props.surfSpot;
+  const pmbookingURL = props.bookingURL;
+  const pmPhoto = props.photo;
+  const pmPrice = props.price;
+  const pmAccommType = props.accommType;
+  const pmTitle = props.title;
+  const pmView = props.view;
+  const pmProximity = props.proximity;
+  const pmBedAmount = props.bedAmount;
+  const pmBedWord = props.bedWord;
+  const pmGuestAmount = props.guestAmount;
+  const pmGuestWord = props.guestWord;
+
+  if(pmSurfSpot != undefined) {
+     pmSurfSpotName = pmSurfSpot.replace(/-/g,' ');
+  }
+
   var priceMarker = new google.maps.Marker({
     position: props.coords,
     map: map,
@@ -93,7 +111,15 @@ function addPriceMarker(props, map) {
 
  //Creates the priceMarker info window
   var infoWindow = new google.maps.InfoWindow({
-    content: props.content
+    content: `
+    <div class="iw-container">
+       <a href="${pmbookingURL}"><img src="ac-images/${pmPhoto}" style="height=100%; width:100%"></a>
+       <b><p class="my-2 nounderline" style="color:brown">${pmAccommType} • 🛌${pmBedAmount} ${pmBedWord} • 👫${pmGuestAmount} ${pmGuestWord}</p></b>
+       <h5 class="my-0">${pmTitle}</h5>
+       <b><p class="mt-2">💳$${pmPrice}/n • 😎${pmView} • 🏄‍♂️${pmProximity}</p></b>
+     </div>
+    `
+    // props.content
   });
 
   //Adds the priceMarker listener
@@ -109,12 +135,12 @@ function addPriceMarker(props, map) {
 }//End of addPriceMarker v2
 
 function renderPriceMarkers(map) {
-  //Getting the markers
+  //Getting the price markers to use in the addPriceMarker function
   db.collection("priceMarkers").get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
 
         const pmData = doc.data();
-        const mCity = pmData.city;
+        const pmCity = pmData.city;
 
         //Array of markers v2
         var priceMarkers = [
@@ -1000,25 +1026,12 @@ docRef.get().then(function(doc) {
 
 });//End of city document from Firestore
 
+//Populates content on Accommodations section
 window.initAccommMap = function() {
   $("#accomm-map__wrapper").prepend(`
-    <div class="row">
-     <div id="accomm-card-list" class="col-lg-4">
-      <a id="accomm-card-link" data-id="unique-accomm-id" target="_blank" href="https://www.airbnb.com/s/santa-cruz">
-       <div id="accomm-card" class="card accomm-card bg-dark text-white">
-         <img class="img-fluid accomm-card-img rounded" src="accomm-test.png"></img>
-         <div class="card-img-overlay">
-           <div id="ac-bed-guests" class="ac-top-left">💳$58/n</div>
-           <div id="ac-dist-to-surf" class="ac-top-right">🏡Entire place</div>
-           <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">Beautiful Surf Cottage</h3>
-           <h6 id="ac-accomm-type" class="card-text ac-text"><img src="icon-images/marker.png"/>Near Steamer Lane</h6>
-           <div id="ac-view" class="ac-bottom-left">😎Ocean view</div>
-           <div id="ac-accomm-cost" class="ac-bottom-right">🏄‍♂️Walk to surf</div>
-         </div>
-       </div>
-      </a>
-     </div>
-    <div id="accomm-map" class="col-lg-8 mb-3"></div>
+   <div class="row">
+     <div id="accomm-card-list" class="col-lg-4"></div>
+     <div id="accomm-map" class="col-lg-8 mb-3"></div>
    </div>
   `);//end accomm-map prepend
 
@@ -1029,6 +1042,7 @@ window.initAccommMap = function() {
              const pmData = doc.data();
              const pmDocs = doc.id;
              const pmCity = pmData.city;
+             //PRICE MARKERS IN TWO PLACES! 1. CARDS + 2. MARKERS. Change both
              const pmSurfSpot = pmData.surfSpot;
              const pmbookingURL = pmData.bookingURL;
              const pmPhoto = pmData.photo;
@@ -1042,15 +1056,19 @@ window.initAccommMap = function() {
              const pmGuestAmount = pmData.guestAmount;
              const pmGuestWord = pmData.guestWord;
 
+             if(pmSurfSpot != undefined) {
+                pmSurfSpotName = pmSurfSpot.replace(/-/g,' ');
+             }
+
     $("#accomm-card-list").prepend(`
-      <a id="accomm-card-link" data-id="unique-accomm-id" target="_blank" href="${pmbookingURL}">
+      <a id="accomm-card-link" data-id="${pmDocs}" target="_blank" href="${pmbookingURL}">
        <div id="accomm-card" class="card accomm-card bg-dark text-white">
-         <img class="img-fluid accomm-card-img rounded" src="${pmPhoto}"></img>
+         <img class="img-fluid accomm-card-img rounded" src="ac-images/${pmPhoto}"></img>
          <div id="img-overlay" class="card-img-overlay">
            <div id="ac-accomm-cost" class="ac-top-left">💳$${pmPrice}/n</div>
            <div id="ac-accomm-type" class="ac-top-right">${pmAccommType}</div>
            <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">${pmTitle}</h3>
-           <h6 id="ac-nearby-spot" class="card-text ac-text"><img src="icon-images/marker.png"/>Near ${pmSurfSpot}</h6>
+           <h6 id="ac-nearby-spot" class="card-text ac-text"><img src="icon-images/marker.png"/>Near ${pmSurfSpotName}</h6>
            <div id="ac-view" class="ac-bottom-left">😎${pmView}</div>
            <div id="ac-dist-to-surf" class="ac-bottom-right">🏄‍♂️${pmProximity}</div>
          </div>
@@ -1069,7 +1087,6 @@ window.initAccommMap = function() {
        </div>
       </a>
     `);//End Accomm card prepend
-
 
     //Hover over accomm card, card changes to show more info + the relevant marker on map
     $(document).on('mouseenter', '.accomm-card', function(){

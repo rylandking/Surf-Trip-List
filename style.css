@@ -134,7 +134,16 @@ body {
 #accomm-map__wrapper {
   display: none;
 }
-#surf-spot-map__wrapper {
+
+#travel-guide {
+  display: none;
+}
+
+#lessons__wrapper {
+  display: none;
+}
+
+#rentals__wrapper {
   display: none;
 }
 

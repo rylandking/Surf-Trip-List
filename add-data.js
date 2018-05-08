@@ -373,7 +373,7 @@ savePMButton.addEventListener("click", function(){
   const PMBookingUrlToSave = inputBookingUrl.value;
   const PMTitleToSave = inputPMTitle.value;
   const PMPriceToSave = inputPMPrice.value;
-  //Need to rethink PMPhotoUrlToSave if it's coming from firestore db
+  //Need to rethink PMPhotoUrlToSave if it's coming from firestore db. Currently stored in ac-images folder.
   const PMPhotoUrlToSave = inputPMPhotoUrl.value;
   let PMBedsToSave = inputPMBeds.value;
   let PMGuestsToSave = inputPMGuests.value;
@@ -395,14 +395,6 @@ savePMButton.addEventListener("click", function(){
     var PMGuestsPlural = "Guests"
   }
 
-  var pmContentToSave =
-  `<div class="iw-container">
-     <a href="${PMBookingUrlToSave}"><img src="${PMPhotoUrlToSave}" style="height=100%; width:100%"></a>
-     <b><p class="my-2 nounderline" style="color:brown">🏡${accommTypeToSave} • 🛌${PMBedsToSave} ${PMBedsPlural} • 👫${PMGuestsToSave} ${PMGuestsPlural}</p></b>
-     <h5 class="my-0">${PMTitleToSave}</h5>
-     <b><p class="mt-2">$${PMPriceToSave} per night • ${viewToSave} • ${proximityToSave}</p></b>
-   </div>`;
-
   var pmIconImageToSave = `pm/${PMPriceToSave}.png`
 
   console.log("I am going to log PM DATA to Firestore. 🙃");
@@ -422,7 +414,6 @@ savePMButton.addEventListener("click", function(){
     title: PMTitleToSave,
     view: viewToSave,
     proximity: proximityToSave,
-    content: pmContentToSave,
     iconImage: pmIconImageToSave,
     coords: {
       lat: PMLatToSave,
