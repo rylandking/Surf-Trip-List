@@ -449,6 +449,7 @@ const inputRentalBoardHourly = document.querySelector("#inputRentalBoardHourly")
 const inputRentalBoardDaily = document.querySelector("#inputRentalBoardDaily");
 const inputRentalWetsuitHourly = document.querySelector("#inputRentalWetsuitHourly");
 const inputRentalWetsuitDaily = document.querySelector("#inputRentalWetsuitDaily");
+const inputRentalPhoto = document.querySelector("#inputRentalPhoto");
 const inputRentalLat = document.querySelector("#inputRentalLat");
 const inputRentalLng = document.querySelector("#inputRentalLng");
 
@@ -470,6 +471,8 @@ saveRentalButton.addEventListener("click", function(){
   const RentalBoardDailyToSave = inputRentalBoardDaily.value;
   const RentalWetsuitHourlyToSave = inputRentalWetsuitHourly.value;
   const RentalWetsuitDailyToSave = inputRentalWetsuitDaily.value;
+  const RentalPhotoToSave = inputRentalPhoto.value;
+  const RentalIconImageToSave = "icon-images/boardRental.png"
   const RentalLatToSave = parseFloat(inputRentalLat.value);
   const RentalLngToSave = parseFloat(inputRentalLng.value);
 
@@ -494,10 +497,12 @@ saveRentalButton.addEventListener("click", function(){
     wetsuitDaily: RentalWetsuitDailyToSave,
     review: rentalReviewToSave,
     wetsuitAvail: rentalWetsuitToSave,
+    photo: RentalPhotoToSave,
     coords: {
       lat: RentalLatToSave,
       lng: RentalLngToSave,
     },
+    iconImage: RentalIconImageToSave,
 
   })
   .then(function(docRef) {
@@ -527,6 +532,7 @@ const inputLessonSmCost = document.querySelector("#inputLessonSmCost");
 const inputLessonLgCost = document.querySelector("#inputLessonLgCost");
 const inputLessonMultiDayCost = document.querySelector("#inputLessonMultiDayCost");
 const inputLessonEquipAvail = document.querySelector("#inputLessonEquipAvail");
+const inputLessonPhoto = document.querySelector ("#inputLessonPhoto");
 const inputLessonLat = document.querySelector("#inputLessonLat");
 const inputLessonLng = document.querySelector("#inputLessonLng");
 
@@ -547,6 +553,8 @@ saveLessonButton.addEventListener("click", function(){
   const lessonLgCostToSave = inputLessonLgCost.value;
   const lessonMultiDayCostToSave = inputLessonMultiDayCost.value;
   const lessonEquipAvailToSave = inputLessonEquipAvail.value;
+  const lessonPhotoToSave = inputLessonPhoto.value;
+  const lessonIconImageToSave = "icon-images/surfLesson.png"
   const lessonLatToSave = parseFloat(inputLessonLat.value);
   const lessonLngToSave = parseFloat(inputLessonLng.value);
 
@@ -567,10 +575,12 @@ saveLessonButton.addEventListener("click", function(){
     multiDayCost: lessonMultiDayCostToSave,
     equipAvail: lessonEquipAvailToSave,
     review: lessonReviewToSave,
+    photo: lessonPhotoToSave,
     coords: {
       lat: lessonLatToSave,
       lng: lessonLngToSave,
     },
+    iconImage: lessonIconImageToSave,
 
   })
   .then(function(docRef) {
@@ -691,6 +701,7 @@ function ClearRentalFields() {
     document.getElementById("inputRentalWetsuitDaily").value = "";
     document.getElementById("inputRentalLat").value = "";
     document.getElementById("inputRentalLng").value = "";
+    document.getElementById("inputRentalPhoto").value = "";
 }
 
 //Refreshes the page so Lesson buttons refresh on click of #refreshLessonForm
@@ -712,6 +723,7 @@ function ClearLessonFields() {
     document.getElementById("inputLessonEquipAvail").value = "";
     document.getElementById("inputLessonLat").value = "";
     document.getElementById("inputLessonLng").value = "";
+    document.getElementById("inputLessonPhoto").value = "";
 }
 
 //Alerts a success message after City Name is saved

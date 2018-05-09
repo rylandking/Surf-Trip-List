@@ -158,6 +158,91 @@ function renderPriceMarkers(map) {
   });
 }
 
+
+
+
+//DRAFT Add map boardRentalMarker function
+function addBoardRentalMarker(props, map) {
+  //BOARD RENTAL MARKERS IN TWO PLACES! 1. CARDS + 2. MARKERS. Change both
+  const address = props.address;
+  const boardDailyCost = props.boardDaily;
+  const boardHourlyCost = props.boardHourly;
+  const boardType = props.boardType;
+  const city = props.city;
+  const name = props.name;
+  const phone = props.phone;
+  const review = props.review;
+  const surfSpot = props.surfSpot;
+  const website = props.website;
+  const wetsuitAvail = props.wetsuitAvail;
+  const wetsuitDailyCost = props.wetsuitDaily;
+  const wetsuitHourlyCost = props.wetsuitHourly;
+  const zip = props.zip;
+  const photo = props.photo;
+
+  if(surfSpot != undefined) {
+     surfSpotName = surfSpot.replace(/-/g,' ');
+  }
+
+  var boardRentalMarker = new google.maps.Marker({
+    position: props.coords,
+    map: map,
+    icon: props.iconImage
+  });
+
+ //Creates the boardRentalMarker info window
+  var infoWindow = new google.maps.InfoWindow({
+    content: `
+    <div class="iw-container" data-id="${website}">
+       <a href="${website}"><img src="${photo}" style="height=100%; width:100%"></a>
+       <b><p class="my-2 nounderline" style="color:brown">📱${phone} • 🏡${address}, ${zip}</p></b>
+       <h5 class="my-0">${name}</h5>
+       <b><p class="mt-2">💳$${boardDailyCost} board/day • ${boardType} • ${review}</p></b>
+     </div>
+    `
+  });
+
+  //Adds the boardRentalMarker listener
+  boardRentalMarker.addListener('click', function(){
+    infoWindow.open(map, boardRentalMarker);
+
+    //Closes marker windows when map is clicked
+    google.maps.event.addListener(map, "click", function(event) {
+    //Close info window
+        infoWindow.close();
+    });
+  });
+}//DRAFT End of addBoardRentalMarker
+
+//DRAFT START renderBoardRentalMarkers
+function renderBoardRentalMarkers(map) {
+  //Getting the price markers to use in the addPriceMarker function
+  db.collection("boardRentalMarkers").get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+
+        const brData = doc.data();
+        const brCity = brData.city;
+        const brDocs = doc.id;
+
+        //Array of board rental markers
+        var boardRentalMarkers = [
+          brData
+        ];
+
+        //Loop through boardRentalMarkers
+        for(var i=0; i<boardRentalMarkers.length; i++) {
+          //Add boardRentalMarkers
+          addBoardRentalMarker(boardRentalMarkers[i], map);
+        }
+
+      });
+  });
+}//DRAFT END renderBoardRentalMarkers
+
+
+
+
+
 // START - Loop the city collection. Populate location cards.
 // db.collection("city").get().then(function(querySnapshot) {
 //     querySnapshot.forEach(function(doc) {
@@ -257,6 +342,7 @@ db.collection("city").where("beta", "==", true)
 
 //START New location page after click on city card
 var cityPage;
+
 //Click location card on homepage
 $(document).ready(function(){
   $('body').on('click','#city-card',function(e){
@@ -267,12 +353,14 @@ $(document).ready(function(){
     return redirectPage(newCityPage)
   });
 });
+
 //Opens new window with newCityPage in the query perams
 function redirectPage(newCityPage) {
     window.location = "file:///Users/macbookpro/Desktop/Surf-Trip/location-page.html?newCityPage="+newCityPage;
     window.cityPage = newCityPage;
     return false;
 }
+
 //Gets query perams by name
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
@@ -283,8 +371,10 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
 //Storing the query perams in a constant
 const newCityPage = getParameterByName('newCityPage');
+
 //Pings Firestore for relevant newCityPage document
 const docRef = db.collection("city").doc(newCityPage);
 docRef.get().then(function(doc) {
@@ -1040,10 +1130,10 @@ window.initAccommMap = function() {
   db.collection("priceMarkers").where("city", "==", newCityPage)
       .get().then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
+            //PRICE MARKERS IN TWO PLACES! 1. CARDS + 2. MARKERS. Change both
              const pmData = doc.data();
              const pmDoc = doc.id;
              const pmCity = pmData.city;
-             //PRICE MARKERS IN TWO PLACES! 1. CARDS + 2. MARKERS. Change both
              const pmSurfSpot = pmData.surfSpot;
              const pmbookingURL = pmData.bookingURL;
              const pmPhoto = pmData.photo;
@@ -1061,46 +1151,158 @@ window.initAccommMap = function() {
                 pmSurfSpotName = pmSurfSpot.replace(/-/g,' ');
              }
 
-    $("#accomm-card-list").prepend(`
-      <a id="accomm-card-link" data-id="${pmbookingURL}" data-doc="${pmDoc}" target="_blank" href="${pmbookingURL}">
-       <div id="accomm-card" class="card accomm-card bg-dark text-white">
-         <img class="img-fluid accomm-card-img rounded" src="ac-images/${pmPhoto}"></img>
-         <div id="img-overlay" class="card-img-overlay">
-           <div id="ac-accomm-cost" class="ac-top-left">💳$${pmPrice}/n</div>
-           <div id="ac-accomm-type" class="ac-top-right">${pmAccommType}</div>
-           <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">${pmTitle}</h3>
-           <h6 id="ac-nearby-spot" class="card-text ac-text"><img src="icon-images/marker.png"/>Near ${pmSurfSpotName}</h6>
-           <div id="ac-view" class="ac-bottom-left">😎${pmView}</div>
-           <div id="ac-dist-to-surf" class="ac-bottom-right">🏄‍♂️${pmProximity}</div>
-         </div>
-         <div id="hover-overlay" class="card-img-overlay row">
-           <div class="ac-hover-specs font-weight-bold ml-2 my-4">
-             <p class="mb-1">${pmAccommType}</p>
-             <p class="mb-1">👫${pmBedAmount} ${pmBedWord} • ${pmGuestAmount} ${pmGuestWord}</p>
-             <p class="mb-1">🏄‍♂️${pmProximity}</p>
-             <p class="mb-1">😎${pmView}</p>
-             <p class="mb-1">💳$${pmPrice}/n</p>
-           </div>
-           <div id="ac-hover-button">
-             <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-5 mr-3">TAP TO OPEN</button>
-           </div>
-         </div>
-       </div>
-      </a>
-    `);//End Accomm card prepend
+            $("#accomm-card-list").prepend(`
+              <a id="accomm-card-link" data-id="${pmbookingURL}" data-doc="${pmDoc}" target="_blank" href="${pmbookingURL}">
+               <div id="accomm-card" class="card accomm-card bg-dark text-white">
+                 <img class="img-fluid accomm-card-img rounded" src="ac-images/${pmPhoto}"></img>
+                 <div id="img-overlay" class="card-img-overlay">
+                   <div id="ac-accomm-cost" class="ac-top-left">💳$${pmPrice}/n</div>
+                   <div id="ac-accomm-type" class="ac-top-right">${pmAccommType}</div>
+                   <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">${pmTitle}</h3>
+                   <h6 id="ac-nearby-spot" class="card-text ac-text"><img src="icon-images/marker.png"/>Near ${pmSurfSpotName}</h6>
+                   <div id="ac-view" class="ac-bottom-left">😎${pmView}</div>
+                   <div id="ac-dist-to-surf" class="ac-bottom-right">🏄‍♂️${pmProximity}</div>
+                 </div>
+                 <div id="hover-overlay" class="card-img-overlay row">
+                   <div class="ac-hover-specs font-weight-bold ml-2 my-4">
+                     <p class="mb-1">${pmAccommType}</p>
+                     <p class="mb-1">👫${pmBedAmount} ${pmBedWord} • ${pmGuestAmount} ${pmGuestWord}</p>
+                     <p class="mb-1">🏄‍♂️${pmProximity}</p>
+                     <p class="mb-1">😎${pmView}</p>
+                     <p class="mb-1">💳$${pmPrice}/n</p>
+                   </div>
+                   <div id="ac-hover-button">
+                     <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-5 mr-3">TAP TO OPEN</button>
+                   </div>
+                 </div>
+               </div>
+              </a>
+            `);//End Accomm card prepend
 
-    //Hover over accomm card, card changes to show more info + the relevant marker on map
-    $(document).on('mouseenter', '.accomm-card', function(){
-      $(this).find('#img-overlay').hide();
-      $(this).find('#hover-overlay').show();
-    })//END Accomm Card mouseenter function
-    .on('mouseleave', '.accomm-card', function(){
-      $(this).find('#img-overlay').show();
-      $(this).find('#hover-overlay').hide();
-    });//END Accomm Card mouseleave function
-  });
- });//END Price Markers loop
+            //Hover over accomm card, card changes to show more info + the relevant marker on map
+            $(document).on('mouseenter', '.accomm-card', function(){
+              $(this).find('#img-overlay').hide();
+              $(this).find('#hover-overlay').show();
+            })//END Accomm Card mouseenter function
+            .on('mouseleave', '.accomm-card', function(){
+              $(this).find('#img-overlay').show();
+              $(this).find('#hover-overlay').hide();
+            });//END Accomm Card mouseleave function
+        });
+    });//END Price Markers loop
 };//END window.initAccommMap
+
+
+
+
+
+//DRAFT START Populates the relevant board rental map per city
+// QUERY: const docRef = db.collection("city").doc(newCityPage);
+docRef.get().then(function(doc) {
+  let citydata = doc.data();
+  const cityZoom = citydata.zoom;
+  let cityCenter = citydata.cityCenter;
+
+  //Initialize the boardRentalMap
+  initBoardRentalMap();
+  //boardRentalMap options = {
+  var options = {
+    zoom:cityZoom,
+    center:cityCenter,
+  }
+  //new boardRentalMap
+  map = new google.maps.Map(document.getElementById('board-rental-map'), options);
+  //These functions render the board rental, accomm and surf markers onto the boardRentalMap
+  renderPriceMarkers(map);
+  renderSurfMarkers(map);
+  renderBoardRentalMarkers(map);
+
+});//END OF POPULATING BOARD RENTAL MAP
+
+//Populates contents of Rentals section
+window.initBoardRentalMap = function () {
+  $("#board-rentals__wrapper").prepend(`
+    <div class="row">
+      <div id="board-rental-card-list" class="col-lg-4"></div>
+      <div id="board-rental-map" class="col-lg-8 mb-3"></div>
+    </div>
+  `);//End board rental prepend
+
+  //START - Inside window.initBoardRentalMap, populate the board rental cards on the Rentals section of Location Page
+  db.collection("boardRentalMarkers").where("city", "==", newCityPage)
+    .get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        //BOARD RENTAL MARKERS IN TWO PLACES! 1. CARDS + 2. MARKERS. Change both
+        const brData = doc.data();
+        const brDoc = doc.id;
+        const address = brData.address;
+        const boardDailyCost = brData.boardDaily;
+        const boardHourlyCost = brData.boardHourly;
+        const boardType = brData.boardType;
+        const city = brData.city;
+        const name = brData.name;
+        const phone = brData.phone;
+        const review = brData.review;
+        const surfSpot = brData.surfSpot;
+        const website = brData.website;
+        const wetsuitAvail = brData.wetsuitAvail;
+        const wetsuitDailyCost = brData.wetsuitDaily;
+        const wetsuitHourlyCost = brData.wetsuitHourly;
+        const zip = brData.zip;
+        const photo = brData.photo;
+
+        if(surfSpot != undefined) {
+           brSurfSpotName = surfSpot.replace(/-/g,' ');
+        }
+
+        $("#board-rental-card-list").prepend(`
+          <a id="accomm-card-link" data-id="${website}" data-doc="${brDoc}" target="_blank" href="${website}">
+           <div id="accomm-card" class="card accomm-card bg-dark text-white">
+             <img class="img-fluid accomm-card-img rounded" src="board-rental-images/${photo}"></img>
+             <div id="img-overlay" class="card-img-overlay">
+               <div id="ac-accomm-cost" class="ac-top-left">💳$${boardDailyCost}/board/day</div>
+               <div id="ac-accomm-type" class="ac-top-right">${boardType}</div>
+               <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">${name}</h3>
+               <h6 id="ac-nearby-spot" class="card-text ac-text"><img src="icon-images/marker.png"/>Near ${brSurfSpotName}</h6>
+               <div id="ac-dist-to-surf" class="ac-bottom-right">${review}</div>
+             </div>
+             <div id="hover-overlay" class="card-img-overlay row">
+               <div class="ac-hover-specs font-weight-bold ml-2 my-4">
+                 <p class="mb-1">${boardType}</p>
+                 <p class="mb-1">💳$${boardDailyCost}/board/day</p>
+                 <p class="mb-1">💳$${wetsuitDailyCost}/wetsuit/day</p>
+                 <p class="mb-1">📱${phone}</p>
+                 <p class="mb-1">🗺$${address}, ${zip}/n</p>
+               </div>
+               <div id="ac-hover-button">
+                 <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-5 mr-3">TAP TO OPEN</button>
+               </div>
+             </div>
+           </div>
+          </a>
+        `);//END Board Rental card prepend
+
+        //Hover over board rental card, card changes to show more info + the relevant marker on map
+        $(document).on('mouseenter', '.accomm-card', function(){
+          $(this).find('#img-overlay').hide();
+          $(this).find('#hover-overlay').show();
+        })//END Accomm Card mouseenter function
+        .on('mouseleave', '.accomm-card', function(){
+          $(this).find('#img-overlay').show();
+          $(this).find('#hover-overlay').hide();
+        });//END Accomm Card mouseleave function
+
+      });
+    });//END boardRentalMarkers loop
+};//END window.initBoardRentalMap
+
+
+//DRAFT LOOP THE BOARD RENTAL CONTENT END
+
+
+
+
+
 
 
 //START - Populate surf spots on the location page
@@ -1839,7 +2041,7 @@ window.initMap = function(
                        <tr>
                           <td colspan="12" class="text-center">
                             <p class="mt-2"><b>➹Directions</b></p>
-                            <p id="directions">${accessTip}Be kind and surf respectfully.🤙</p>
+                            <p id="directions">${accessTip} Be kind and surf respectfully.🤙</p>
                           </td>
                        </tr>
                      </tbody>

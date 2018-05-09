@@ -132,6 +132,12 @@ body {
   z-index: 1;
 }
 
+#board-rental-map {
+  height:600px;
+  width:90%;
+  z-index: 1;
+}
+
 #accomm-map__wrapper {
   display: none;
 }
@@ -144,7 +150,7 @@ body {
   display: none;
 }
 
-#rentals__wrapper {
+#board-rentals__wrapper {
   display: none;
 }
 
