@@ -138,6 +138,12 @@ body {
   z-index: 1;
 }
 
+#lesson-map {
+  height:600px;
+  width:90%;
+  z-index: 1;
+}
+
 #accomm-map__wrapper {
   display: none;
 }
@@ -180,11 +186,35 @@ body {
   font-weight: bold;
 }
 
+#cost__wrapper a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+#cost__wrapper a:hover {
+  color: inherit;
+  font-weight: bold;
+}
+
 .white-link {
   color: white;
 }
 
 #accomm-card-list {
+  width: 400px;
+  height: 600px;
+  overflow-y: auto; // Only add scroll to vertical column
+  position:relative;
+}
+
+#board-rental-card-list {
+  width: 400px;
+  height: 600px;
+  overflow-y: auto; // Only add scroll to vertical column
+  position:relative;
+}
+
+#lesson-card-list {
   width: 400px;
   height: 600px;
   overflow-y: auto; // Only add scroll to vertical column
@@ -258,6 +288,20 @@ body {
   z-index: 1;
 }
 
+.ac-top-middle {
+  text-align: center;
+  vertical-align: top;
+  display: inline-block;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 1;
+  width: 400px;
+
+}
+
 .ac-bottom-left {
   text-align: left;
   float: left;
@@ -308,4 +352,9 @@ body {
 .ac-hover-button {
   position:absolute;
   z-index:1;
+}
+
+.no-padding p {
+  margin: 0px;
+  padding-bottom: 0px;
 }

@@ -65,6 +65,7 @@ saveCityDocNameButton.addEventListener("click", function(){
     var nightLifeToSave = document.querySelector('input[name = "nightLifeScore"]:checked').value;
     var natureToSave = document.querySelector('input[name = "natureScore"]:checked').value;
     var cultureToSave = document.querySelector('input[name = "cultureScore"]:checked').value;
+    var sharkToSave = document.querySelector('input[name = "sharkScore"]:checked').value;
     var englishToSave = document.querySelector('input[name = "englishScore"]:checked').value;
     var safetyToSave = document.querySelector('input[name = "safetyScore"]:checked').value;
     var partyToSave = document.querySelector('input[name = "partyScore"]:checked').value;
@@ -115,6 +116,7 @@ saveCityDocNameButton.addEventListener("click", function(){
     nightLifeScore: parseInt(nightLifeToSave),
     natureScore: parseInt(natureToSave),
     cultureScore: parseInt(cultureToSave),
+    sharkScore: parseInt(sharkToSave),
     englishScore: parseInt(englishToSave),
     safetyScore: parseInt(safetyToSave),
     partyScore: parseInt(partyToSave),
@@ -295,31 +297,21 @@ saveMarkerButton.addEventListener("click", function(){
   const markerCityToSave = inputMarkerCity.value;
   const markerLatToSave = parseFloat(inputMarkerLat.value);
   const markerLngToSave = parseFloat(inputMarkerLng.value);
-  var markerSkillToSave = document.querySelector('input[name = "markerSkill"]:checked').value;
+  var markerContentToSave = document.querySelector('input[name = "markerContent"]:checked').value;
 
-  if (markerSkillToSave == "expert") {
-    var markerContentToSave = "<h4>Expert</4>";
+  if (markerContentToSave == "🏄‍♂️Expert wave") {
     var iconImageToSave = 'icon-images/expert.png';
-  } else if (markerSkillToSave == "advanced") {
-    var markerContentToSave = "<h4>Advanced</4>";
+  } else if (markerContentToSave == "🏄‍♂️Advanced wave") {
     var iconImageToSave = 'icon-images/advanced.png';
-  } else if (markerSkillToSave == "intermediate") {
-    var markerContentToSave = "<h4>Intermediate</4>";
+  } else if (markerContentToSave == "🏄‍♂️Intermediate wave") {
     var iconImageToSave = 'icon-images/intermediate.png';
-  } else if (markerSkillToSave == "beginner") {
-    var markerContentToSave = "<h4>Beginner</4>";
+  } else if (markerContentToSave == "🏄‍♂️Beginner wave") {
     var iconImageToSave = 'icon-images/beginner.png';
-  } else if (markerSkillToSave == "surf-lessons") {
-    var markerContentToSave = "<h4>Surf Lessons</4>";
-    var iconImageToSave = 'icon-images/surf-lessons.png';
-  } else if (markerSkillToSave == "comfortable-beach") {
-    var markerContentToSave = "<h4>Comfortable Beach</4>";
+  } else if (markerContentToSave == "🏖Comfortable beach") {
     var iconImageToSave = 'icon-images/beach.png';
-  } else if (markerSkillToSave == "localism") {
-    var markerContentToSave = "<h4>Localism</4>";
+  } else if (markerContentToSave == "👺Localism here") {
     var iconImageToSave = 'icon-images/localism.png';
-  } else if (markerSkillToSave == "crowded") {
-    var markerContentToSave = "<h4>Crowded</4>";
+  } else if (markerContentToSave == "🎪Crowded area") {
     var iconImageToSave = 'icon-images/crowd.png';
   }
 
@@ -526,7 +518,7 @@ const inputLessonCity = document.querySelector("#inputLessonCity");
 const inputLessonSpots = document.querySelector("#inputLessonSpots");
 const inputLessonWebsite = document.querySelector("#inputLessonWebsite");
 const inputLessonPhone = document.querySelector("#inputLessonPhone");
-const inputLessonSize = document.querySelector("#inputLessonSize");
+// const inputLessonSize = document.querySelector("#inputLessonSize");
 const inputLesson1on1Cost = document.querySelector("#inputLesson1on1Cost");
 const inputLessonSmCost = document.querySelector("#inputLessonSmCost");
 const inputLessonLgCost = document.querySelector("#inputLessonLgCost");
@@ -547,14 +539,14 @@ saveLessonButton.addEventListener("click", function(){
   const lessonSpotsToSave = inputLessonSpots.value;
   const lessonWebsiteToSave = inputLessonWebsite.value;
   const lessonPhoneToSave = inputLessonPhone.value;
-  const lessonSizeToSave = inputLessonSize.value;
-  const lesson1on1ToSave = inputLesson1on1Cost.value;
-  const lessonSmCostToSave = inputLessonSmCost.value;
-  const lessonLgCostToSave = inputLessonLgCost.value;
-  const lessonMultiDayCostToSave = inputLessonMultiDayCost.value;
+  // const lessonSizeToSave = inputLessonSize.value;
+  const lesson1on1ToSave = parseInt(inputLesson1on1Cost.value);
+  const lessonSmCostToSave = parseInt(inputLessonSmCost.value);
+  const lessonLgCostToSave = parseInt(inputLessonLgCost.value);
+  const lessonMultiDayCostToSave = parseInt(inputLessonMultiDayCost.value);
   const lessonEquipAvailToSave = inputLessonEquipAvail.value;
   const lessonPhotoToSave = inputLessonPhoto.value;
-  const lessonIconImageToSave = "icon-images/surfLesson.png"
+  const lessonIconImageToSave = "icon-images/surfLesson.png";
   const lessonLatToSave = parseFloat(inputLessonLat.value);
   const lessonLngToSave = parseFloat(inputLessonLng.value);
 
@@ -568,7 +560,8 @@ saveLessonButton.addEventListener("click", function(){
     city: lessonCityToSave,
     surfSpot: lessonSpotsToSave,
     website: lessonWebsiteToSave,
-    sizeAvail: lessonSizeToSave,
+    phone: lessonPhoneToSave,
+    // lessonTypesAvail: lessonSizeToSave,
     oneOnOneCost: lesson1on1ToSave,
     smCost: lessonSmCostToSave,
     lgCost: lessonLgCostToSave,

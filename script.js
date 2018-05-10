@@ -33,17 +33,28 @@ function toggleByClass(className) {
      $("."+className).toggle();
 }
 
-//Add map marker function
+//START add surf marker function
 function addSurfMarker(props, map) {
+  const smSurfSpot = props.surfSpot;
+  const smContent = props.content;
+
+  if(smSurfSpot != undefined) {
+     smSurfSpotName = smSurfSpot.replace(/-/g,' ');
+  }
+
   var marker = new google.maps.Marker({
     position: props.coords,
     map: map,
-    icon: props.iconImage
+    icon: props.iconImage,
+    id: surfMarkerID,
   });
 
  //Creates the marker info window
   var infoWindow = new google.maps.InfoWindow({
-    content: props.content
+    content: `
+      <h6 data-id="${surfMarkerID}">${smContent} at <a class="text-capitalize">${smSurfSpotName}</a></h6>
+    `
+    //props.content
   });
 
   //Adds the marker listener
@@ -64,6 +75,7 @@ function renderSurfMarkers(map) {
       querySnapshot.forEach(function(doc) {
 
         const mData = doc.data();
+        surfMarkerID = doc.id;
         const mCity = mData.city;
         const mSurfSpot = mData.surfSpot;
 
@@ -82,6 +94,7 @@ function renderSurfMarkers(map) {
       });
   });
 }
+//END add surf marker
 
 //Add map priceMarker function
 function addPriceMarker(props, map) {
@@ -106,20 +119,20 @@ function addPriceMarker(props, map) {
   var priceMarker = new google.maps.Marker({
     position: props.coords,
     map: map,
-    icon: props.iconImage
+    icon: props.iconImage,
+    id: pmID,
   });
 
  //Creates the priceMarker info window
   var infoWindow = new google.maps.InfoWindow({
     content: `
-    <div class="iw-container" data-id="${pmbookingURL}">
-       <a href="${pmbookingURL}"><img src="ac-images/${pmPhoto}" style="height=100%; width:100%"></a>
+    <div class="iw-container" data-id="${pmID}">
+       <a href="${pmbookingURL}" target="_blank"><img src="ac-images/${pmPhoto}" style="height=100%; width:100%"></a>
        <b><p class="my-2 nounderline" style="color:brown">${pmAccommType} • 🛌${pmBedAmount} ${pmBedWord} • 👫${pmGuestAmount} ${pmGuestWord}</p></b>
        <h5 class="my-0">${pmTitle}</h5>
        <b><p class="mt-2">💳$${pmPrice}/n • 😎${pmView} • 🏄‍♂️${pmProximity}</p></b>
      </div>
     `
-    // props.content
   });
 
   //Adds the priceMarker listener
@@ -141,7 +154,7 @@ function renderPriceMarkers(map) {
 
         const pmData = doc.data();
         const pmCity = pmData.city;
-        const pmDocs = doc.id;
+        pmID = doc.id;
 
         //Array of markers v2
         var priceMarkers = [
@@ -158,16 +171,13 @@ function renderPriceMarkers(map) {
   });
 }
 
-
-
-
-//DRAFT Add map boardRentalMarker function
+//Add map boardRentalMarker function
 function addBoardRentalMarker(props, map) {
   //BOARD RENTAL MARKERS IN TWO PLACES! 1. CARDS + 2. MARKERS. Change both
   const address = props.address;
   const boardDailyCost = props.boardDaily;
   const boardHourlyCost = props.boardHourly;
-  const boardType = props.boardType;
+  let boardType = props.boardType;
   const city = props.city;
   const name = props.name;
   const phone = props.phone;
@@ -183,21 +193,42 @@ function addBoardRentalMarker(props, map) {
   if(surfSpot != undefined) {
      surfSpotName = surfSpot.replace(/-/g,' ');
   }
+  //Set boardType in #board-rentals__wrapper MAP
+  //If boardType is "undefined", run nothing.
+  if (boardType == null) {
+    boardType = " "
+  }
+  if(boardType.indexOf("shortboards") != -1){
+    var brIWShortBoard = `Shortboard`;
+  } else {
+    var brIWShortBoard = ""
+  }
+  if(boardType.indexOf("funboards") != -1){
+    var brIWFunBoard = `Funboards`;
+  } else {
+    var brIWFunBoard = ""
+  }
+  if(boardType.indexOf("longboards") != -1){
+    var brIWLongBoard = `Longboards`;
+  } else {
+    var brIWLongBoard = ""
+  }
 
   var boardRentalMarker = new google.maps.Marker({
     position: props.coords,
     map: map,
-    icon: props.iconImage
+    icon: props.iconImage,
+    id: brMarkerID
   });
 
  //Creates the boardRentalMarker info window
   var infoWindow = new google.maps.InfoWindow({
     content: `
-    <div class="iw-container" data-id="${website}">
-       <a href="${website}"><img src="${photo}" style="height=100%; width:100%"></a>
+    <div class="iw-container" data-id="${brMarkerID}">
+       <a href="${website}" target="_blank"><img src="board-rental-images/${photo}" style="height=100%; width:100%"></a>
        <b><p class="my-2 nounderline" style="color:brown">📱${phone} • 🏡${address}, ${zip}</p></b>
        <h5 class="my-0">${name}</h5>
-       <b><p class="mt-2">💳$${boardDailyCost} board/day • ${boardType} • ${review}</p></b>
+       <b><p class="mt-2">💳$${boardDailyCost} board/day • ${brIWShortBoard} ${brIWFunBoard} ${brIWLongBoard} • ${review}</p></b>
      </div>
     `
   });
@@ -212,9 +243,9 @@ function addBoardRentalMarker(props, map) {
         infoWindow.close();
     });
   });
-}//DRAFT End of addBoardRentalMarker
+}//End of addBoardRentalMarker
 
-//DRAFT START renderBoardRentalMarkers
+//START renderBoardRentalMarkers
 function renderBoardRentalMarkers(map) {
   //Getting the price markers to use in the addPriceMarker function
   db.collection("boardRentalMarkers").get().then(function(querySnapshot) {
@@ -222,7 +253,7 @@ function renderBoardRentalMarkers(map) {
 
         const brData = doc.data();
         const brCity = brData.city;
-        const brDocs = doc.id;
+        brMarkerID = doc.id;
 
         //Array of board rental markers
         var boardRentalMarkers = [
@@ -237,11 +268,108 @@ function renderBoardRentalMarkers(map) {
 
       });
   });
-}//DRAFT END renderBoardRentalMarkers
+}//END renderBoardRentalMarkers
 
+//Add map lessonMarker function
+function addLessonMarker(props, map) {
+  //LESSON MARKERS IN TWO PLACES! 1. CARDS + 2. MARKERS. Change both
+  const name = props.name;
+  const city = props.city;
+  const surfSpot = props.surfSpot;
+  const website = props.website;
+  // const lessonTypesAvail = props.lessonTypesAvail;
+  const equipAvail = props.equipAvail;
+  const review = props.review;
+  const photo = props.photo;
+  const phone = props.phone;
 
+  if(surfSpot != undefined) {
+     surfSpotName = surfSpot.replace(/-/g,' ');
+  }
+  //Set cost of different lessons in #lessons__wrapper
+  if(props.oneOnOneCost > 1){
+    var oneOnOneCost = props.oneOnOneCost;
+    var lessonOneonOne = `Private $${oneOnOneCost} |`;
+  } else {
+    var oneOnOneCost = "";
+    var lessonOneonOne = "";
+  }
+  if(props.smCost > 1){
+    var smGroupCost = props.smCost;
+    var lessonSmGroup = `2-3 people $${smGroupCost} |`;
+  } else {
+    var smGroupCost = "";
+    var lessonSmGroup = "";
+  }
+  if(props.lgCost > 1){
+    var lgGroupCost = props.lgCost;
+    var lessonLgGroup = `4-8 people $${lgGroupCost} |`;
+  } else {
+    var lgGroupCost = "";
+    var lessonLgGroup = "";
+  }
+  if(props.multiDayCost > 1){
+    var campCost = props.multiDayCost;
+    var lessonCamp = `Camp $${campCost}/day`;
+  } else {
+    var campCost = "";
+    var lessonCamp = "";
+  }
 
+  var lessonMarker = new google.maps.Marker({
+    position: props.coords,
+    map: map,
+    icon: props.iconImage,
+    id: lessonMarkerID
+  });
 
+ //Creates the lessonMarker info window
+  var infoWindow = new google.maps.InfoWindow({
+    content: `
+    <div class="iw-container" data-id="${lessonMarkerID}">
+       <a href="${website}" target="_blank"><img src="lesson-images/${photo}" style="height=100%; width:100%"></a>
+       <b><p class="my-2 nounderline" style="color:brown">💳${lessonOneonOne} ${lessonSmGroup} ${lessonLgGroup} ${lessonCamp}</p></b>
+       <h5 class="my-0">${name}</h5>
+       <b><p class="mt-2">📱${phone} • ${review}</p></b>
+     </div>
+    `
+  });
+  //Adds the lessonMarker listener
+  lessonMarker.addListener('click', function(){
+    infoWindow.open(map, lessonMarker);
+
+    //Closes marker windows when map is clicked
+    google.maps.event.addListener(map, "click", function(event) {
+    //Close info window
+        infoWindow.close();
+    });
+  });
+}//End of addLessonMarker
+
+//START renderLessonMarkers
+function renderLessonMarkers(map) {
+  //Getting the lesson markers to use in the addLessonMarker function
+  db.collection("lessonMarkers").get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+
+        const lData = doc.data();
+        const lCity = lData.city;
+        lessonMarkerID = doc.id;
+
+        //Array of lesson markers
+        var lessonMarkers = [
+          lData
+        ];
+
+        //Loop through lessonMarkers
+        for(var i=0; i<lessonMarkers.length; i++) {
+          //Add lessonMarkers
+          addLessonMarker(lessonMarkers[i], map);
+        }
+
+      });
+  });
+}//END renderLessonMarkers
 
 // START - Loop the city collection. Populate location cards.
 // db.collection("city").get().then(function(querySnapshot) {
@@ -399,6 +527,7 @@ docRef.get().then(function(doc) {
   let nightLifeScore = citydata.nightLifeScore;
   let natureScore = citydata.natureScore;
   let cultureScore = citydata.cultureScore;
+  let sharkScore = citydata.sharkScore;
   let englishScore = citydata.englishScore;
   let safetyScore = citydata.safetyScore;
   let partyScore = citydata.partyScore;
@@ -474,7 +603,7 @@ docRef.get().then(function(doc) {
     internetScore =
     `<div class="progress rounded-0" style="height: 30px;">
       <div data-toggle="tooltip" title="📱Fast internet everywhere" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-        <b>good</b>
+        <b>great</b>
       </div>
     </div>`;
   } else if (internetScore == 4) {
@@ -749,7 +878,7 @@ docRef.get().then(function(doc) {
     femaleSafeScore = " ";
   }
 
-  //Sets femaleSafeScore in #travel-guide table
+  //Sets englishScore in #travel-guide table
   if (englishScore == 5) {
     englishScore =
     `<div class="progress rounded-0" style="height: 30px;">
@@ -829,6 +958,46 @@ docRef.get().then(function(doc) {
     touristScore = " ";
   }
 
+  //Sets sharkScore in #travel-guide table
+  if (sharkScore == 5) {
+    sharkScore =
+    `<div class="progress rounded-0" style="height: 30px;">
+      <div data-toggle="tooltip" title="🤩No shark attacks here" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+        <b>very safe</b>
+      </div>
+    </div>`;
+  } else if (sharkScore == 4) {
+    sharkScore =
+    `<div class="progress rounded-0" style="height: 30px;">
+      <div data-toggle="tooltip" title="🤩Sharks are not a problem" class="progress-bar bg-success" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+        <b>safe</b>
+      </div>
+    </div>`;
+  } else if (sharkScore == 3) {
+    sharkScore =
+    `<div class="progress rounded-0" style="height: 30px;">
+      <div data-toggle="tooltip" title="🦈Sharks have been seen. Attacks almost never happen." class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+        <b>very rare</b>
+      </div>
+    </div>`;
+  } else if (sharkScore == 2) {
+    sharkScore =
+    `<div class="progress rounded-0" style="height: 30px;">
+      <div data-toggle="tooltip" title="🦈Sharks can be around. Attacks do happen 1-2 times a year." class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+        <b>caution</b>
+      </div>
+    </div>`;
+  } else if (sharkScore == 1) {
+    sharkScore =
+    `<div class="progress rounded-0" style="height: 30px;">
+      <div data-toggle="tooltip" title="🦈Sharky region. Attacks do happen a few times a year." class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+        <b>caution</b>
+      </div>
+    </div>`;
+  } else {
+    englishScore = " ";
+  }
+
   //Sets languageTip in #travel-guide table
   if (language == "english") {
     language = `<td data-toggle="tooltip" data-html="true" title="<p>🗣English speakers</p>" class="text-center">English</td>`;
@@ -871,7 +1040,7 @@ docRef.get().then(function(doc) {
 
   //Sets tapWater in #travel-guide table
   if (tapWater == "yes") {
-    tapWater = `<td data-toggle="tooltip" title="💧It's okay to drink the tap water" class="text-center">👍</td>`;
+    tapWater = `<td data-toggle="tooltip" title="💧It's okay to drink the tap water" class="text-center">👌Tap water safe</td>`;
   } else if (tapWater == "no") {
     tapWater = `<td data-toggle="tooltip" title="🚫Do not drink the tap water" class="text-center">🚫No, dangerous</td>`;
   } else {
@@ -1003,99 +1172,104 @@ docRef.get().then(function(doc) {
     </div>`
   );
 
-  //add info to LOCATION GUIDE
-  $("#travel-guide").prepend(
-    `<div id="${cityName}" class="travel-guide col-lg-12 mb-4">
+  //add Guide Info to LOCATION GUIDE
+  $("#cost__wrapper").prepend(`
+    <div id="${cityName}" class="travel-guide col-lg-12 mb-4">
       <table class="table">
         <tbody>
           <tr>
-              <td class="rooms"><a href="${airbnb}">🏡Airbnb (private room)</a></td>
-              <td class="text-center" data-toggle="tooltip" title="🏡Avg cost per night of a private room is $${roomCost}">$${roomCost}</td>
-              <td class="health-care">🏥Health care</td>
-              <td>${healthCareScore}</td>
+            <td class="rooms font-weight-bold"><a href="${airbnb}">🏡Airbnb (private room)</a></td>
+            <td class="text-center" data-toggle="tooltip" title="🏡Avg cost per night of a private room is $${roomCost}">$${roomCost}</td>
+            <td class="flightPrice font-weight-bold">✈️Flight cost</td>
+            <td data-toggle="tooltip" title="✈️Click to view flights" class="text-center"><a href="https://www.google.com/flights/#search;f=;t=${airport}" target="_blank">Check flights!</a></td>
           </tr>
           <tr>
-              <td class="places"><a href="${airbnb}">🏡Airbnb (entire place)</a></td>
-              <td class="text-center" data-toggle="tooltip" title="🏡Avg cost per night of an entire place is $${placeCost}">$${placeCost}</td>
-              <td class="intenet">📱Internet</td>
-              <td>${internetScore}</td>
+            <td class="places font-weight-bold"><a href="${airbnb}">🏡Airbnb (entire place)</a></td>
+            <td class="text-center" data-toggle="tooltip" title="🏡Avg cost per night of an entire place is $${placeCost}">$${placeCost}</td>
+            <td class="dinner font-weight-bold">🥘Dinner Price</td>
+            <td class="text-center" data-toggle="tooltip" title="🥘Avg cost of a dinner at a restaurant">$${meal}</td>
           </tr>
           <tr>
-              <td class="cost">💸Cost per day</td>
-              <td class="text-center" data-toggle="tooltip" title="Cost of one private room, three meals out and a beer per day🤙">$${dailyCost}</td>
-              <td class="partyScore">🕺🏼💃Party scene</td>
-              <td>${partyScore}</td>
-          </tr>
-          <tr>
-              <td class="flightPrice">✈️Flight cost</td>
-              <td data-toggle="tooltip" title="✈️Click to view flights" class="text-center"><a href="https://www.google.com/flights/#search;f=;t=${airport}" target="_blank">Check flights!</a></td>
-              <td class="nightlife">🍸Nightlife</td>
-              <td>${nightLifeScore}</td>
-          </tr>
-          <tr>
-              <td class="good-for">👫Good for:</td>
-              <td class="text-center">${friendsTrip}${soloAdventure}${families}${couples}</td>
-              <td class="nature">🏞Nature</td>
-              <td>${natureScore}</td>
-          </tr>
-          <tr>
-              <td class="beaches">🏖Beaches: </td>
-              <td class="text-center"><p data-toggle="tooltip" title="🏖Comfortable beaches available">👍</p></td>
-              <td class="safety">👮‍♂️Safety</td>
-              <td>${safetyScore}</td>
-          </tr>
-          <tr>
-              <td class="surf-lessons">👩‍🏫Surf lessons</td>
-              ${cityLessons}
-              <td class="femaleSafeScore">👩Female Friendly</td>
-              <td>${femaleSafeScore}</td>
-          </tr>
-          <tr>
-              <td class="rentals">🏄‍♂️Board rentals</td>
-              ${cityRentals}
-              <td class="englishScore">🙊English speaking</td>
-              <td>${englishScore}</td>
-          </tr>
-          <tr>
-              <td class="tapWater">🚰Safe tap water</td>
-              ${tapWater}
-              <td class="tourist">🎪Touristy</td>
-              <td>${touristScore}</td>
-          </tr>
-          <tr>
-              <td class="power">🔌Power</td>
-              <td class="text-center">${aType}${bType}${cType}${dType}${eType}${fType}${gType}${hType}${iType}${jType}${kType}${lType}${mType}${nType}${oType} <a data-toggle="tooltip" style="text-decoration: none" title="🔌${volts} Volts">${volts}V</a> <a data-toggle="tooltip" style="text-decoration: none" title="🔌${frequency} Hertz">${frequency}Hz</a></td>
-              <td class="culture">⛩Cultural sights nearby</td>
-              <td>${cultureScore}</td>
-          </tr>
-          <tr>
-              <td class="waterTemp">☀️Water temp</td>
-              ${waterTemp}
-              <td class="language">🗣Language</td>
-              ${language}
-          </tr>
-          <tr>
-              <td class="insurance">🚑Travelers Insurance</td>
-              <td class="text-center" data-toggle="tooltip" title="🚑Click to get travelers insurance" style="color: black;"><a href="https://www.worldnomads.com/" target="_blank">Get insurance</a></td>
-              <td class="uber">🚘Uber available</td>
-              ${uber}
-          </tr>
-          <tr>
-            <td class="lp">🗺Travel Guide</td>
-            <td class="text-center" data-toggle="tooltip" title="💻Click to see a travel guide" style="color: black;"><a href="${lp}" target="_blank">Guidebook</a></td>
-            <td class="beer">🍺.5L Beer</td>
+          <td class="cost font-weight-bold">💸Cost per day</td>
+          <td class="text-center" data-toggle="tooltip" title="Cost of one private room, three meals out and a beer per day🤙">$${dailyCost}</td>
+            <td class="beer font-weight-bold">🍺.5L Beer</td>
             <td class="text-center" data-toggle="tooltip" title="🍺Avg cost of 0.5L beer at a bar">$${beer}</td>
           </tr>
           <tr>
-            <td class="currency">💸$1 USD in ${currencyName}</td>
+            <td class="atm font-weight-bold">🏧take out: ${atm} ${currencyName}</td>
+            <td class="text-center" data-toggle="tooltip" title="🏧 Common ATM takeout amount">USD ${atmInUSD}</td>
+            <td class="currency font-weight-bold">💸$1 USD in ${currencyName}</td>
             <td class="text-center" data-toggle="tooltip" title="💸Same as 1USD">${usdEquivalent} ${currencyName}</td>
-            <td class="meal">🌮Meal Price</td>
-            <td class="text-center" data-toggle="tooltip" title="🌮Avg cost of a meal at a restaurant">$${meal}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  `);
+
+  //add Guide Info to LOCATION GUIDE
+  $("#travel-guide").prepend(`
+    <div id="${cityName}" class="travel-guide col-lg-12 mb-4">
+      <table class="table">
+        <tbody>
+          <tr>
+              <td class="good-for font-weight-bold">👫Good for:</td>
+              <td class="text-center">${friendsTrip}${soloAdventure}${families}${couples}</td>
+              <td class="sharkScore font-weight-bold">🦈Shark safety</td>
+              <td>${sharkScore}</td>
           </tr>
           <tr>
-
-            <td class="atm">🏧take out: ${atm} ${currencyName}</td>
-            <td class="text-center" data-toggle="tooltip" title="🏧 Common ATM takeout amount">USD ${atmInUSD}</td>
+              <td class="language font-weight-bold">🗣Language</td>
+              ${language}
+              <td class="health-care font-weight-bold">🏥Health care</td>
+              <td>${healthCareScore}</td>
+          </tr>
+          <tr>
+              <td class="beaches font-weight-bold">🏖Beaches: </td>
+              <td class="text-center"><p data-toggle="tooltip" title="🏖Comfortable beaches available">👍</p></td>
+              <td class="intenet font-weight-bold">📱Internet</td>
+              <td>${internetScore}</td>
+          </tr>
+          <tr>
+              <td class="surf-lessons font-weight-bold">👩‍🏫Surf lessons</td>
+              ${cityLessons}
+              <td class="partyScore font-weight-bold">🕺🏼💃Party scene</td>
+              <td>${partyScore}</td>
+          </tr>
+          <tr>
+              <td class="rentals font-weight-bold">🏄‍♂️Board rentals</td>
+              ${cityRentals}
+              <td class="nightlife font-weight-bold">🍸Nightlife</td>
+              <td>${nightLifeScore}</td>
+          </tr>
+          <tr>
+              <td class="uber font-weight-bold">🚘Uber available</td>
+              ${uber}
+              <td class="nature font-weight-bold">🏞Nature</td>
+              <td>${natureScore}</td>
+          </tr>
+          <tr>
+              <td class="tapWater font-weight-bold">🚰Safe tap water</td>
+              ${tapWater}
+              <td class="touristScore font-weight-bold">🎪Touristy</td>
+              <td>${touristScore}</td>
+          </tr>
+          <tr>
+              <td class="power font-weight-bold">🔌Power</td>
+              <td class="text-center">${aType}${bType}${cType}${dType}${eType}${fType}${gType}${hType}${iType}${jType}${kType}${lType}${mType}${nType}${oType} <a data-toggle="tooltip" style="text-decoration: none" title="🔌${volts} Volts">${volts}V</a> <a data-toggle="tooltip" style="text-decoration: none" title="🔌${frequency} Hertz">${frequency}Hz</a></td>
+              <td class="safetyScore font-weight-bold">👮‍♂️Safety</td>
+              <td>${safetyScore}</td>
+          </tr>
+          <tr>
+              <td class="insurance font-weight-bold">🚑Travelers Insurance</td>
+              <td class="text-center" data-toggle="tooltip" title="🚑Click to get travelers insurance" style="color: black;"><a href="https://www.worldnomads.com/" target="_blank">Get insurance</a></td>
+              <td class="femaleSafeScore font-weight-bold">👩Female friendly</td>
+              <td>${femaleSafeScore}</td>
+          </tr>
+          <tr>
+              <td class="lp font-weight-bold">🗺Travel Guide</td>
+              <td class="text-center" data-toggle="tooltip" title="💻Click to see a travel guide" style="color: black;"><a href="${lp}" target="_blank">Guidebook</a></td>
+              <td class="englishScore font-weight-bold">🙊English speaking</td>
+              <td>${englishScore}</td>
           </tr>
         </tbody>
       </table>
@@ -1132,7 +1306,7 @@ window.initAccommMap = function() {
           querySnapshot.forEach(function(doc) {
             //PRICE MARKERS IN TWO PLACES! 1. CARDS + 2. MARKERS. Change both
              const pmData = doc.data();
-             const pmDoc = doc.id;
+             const pmID = doc.id;
              const pmCity = pmData.city;
              const pmSurfSpot = pmData.surfSpot;
              const pmbookingURL = pmData.bookingURL;
@@ -1152,8 +1326,8 @@ window.initAccommMap = function() {
              }
 
             $("#accomm-card-list").prepend(`
-              <a id="accomm-card-link" data-id="${pmbookingURL}" data-doc="${pmDoc}" target="_blank" href="${pmbookingURL}">
-               <div id="accomm-card" class="card accomm-card bg-dark text-white">
+              <a id="accomm-card-link" target="_blank" href="${pmbookingURL}">
+               <div id="accomm-card" data-id="${pmID}" class="card accomm-card bg-dark text-white">
                  <img class="img-fluid accomm-card-img rounded" src="ac-images/${pmPhoto}"></img>
                  <div id="img-overlay" class="card-img-overlay">
                    <div id="ac-accomm-cost" class="ac-top-left">💳$${pmPrice}/n</div>
@@ -1193,10 +1367,7 @@ window.initAccommMap = function() {
 };//END window.initAccommMap
 
 
-
-
-
-//DRAFT START Populates the relevant board rental map per city
+//START Populates the relevant board rental map per city
 // QUERY: const docRef = db.collection("city").doc(newCityPage);
 docRef.get().then(function(doc) {
   let citydata = doc.data();
@@ -1234,7 +1405,7 @@ window.initBoardRentalMap = function () {
       querySnapshot.forEach(function(doc) {
         //BOARD RENTAL MARKERS IN TWO PLACES! 1. CARDS + 2. MARKERS. Change both
         const brData = doc.data();
-        const brDoc = doc.id;
+        const brID = doc.id;
         const address = brData.address;
         const boardDailyCost = brData.boardDaily;
         const boardHourlyCost = brData.boardHourly;
@@ -1255,27 +1426,55 @@ window.initBoardRentalMap = function () {
            brSurfSpotName = surfSpot.replace(/-/g,' ');
         }
 
+        //Set boardType in #board-rentals__wrapper
+        //If boardType is "undefined", run nothing.
+        if (boardType == null) {
+          boardType = " "
+        }
+        if(boardType.indexOf("shortboards") != -1){
+          var brShortBoardOverlay = `<img src="icon-images/short-board-white.png"/><small><b>Advanced</b></small>`;
+          var brShortBoardHover = `<small><b>Shortboards</b></small>`;
+        } else {
+          var brShortBoardOverlay = ""
+          var brShortBoardHover = ""
+        }
+        if(boardType.indexOf("funboards") != -1){
+          var brFunBoardOverlay = `<img src="icon-images/fun-board-white.png"/><small><b>Intermediate</b></small>`;
+          var brFunBoardHover = `<small><b>Funboards</b></small>`;
+        } else {
+          var brFunBoardOverlay = ""
+          var brFunBoardHover = ""
+        }
+        if(boardType.indexOf("longboards") != -1){
+          var brLongBoardOverlay = `<img src="icon-images/long-board-white.png"/><small><b>Beginner</b></small>`;
+          var brLongBoardHover = `<small><b>Longboards</b></small>`;
+        } else {
+          var brLongBoardOverlay = ""
+          var brLongBoardHover = ""
+        }
+
         $("#board-rental-card-list").prepend(`
-          <a id="accomm-card-link" data-id="${website}" data-doc="${brDoc}" target="_blank" href="${website}">
-           <div id="accomm-card" class="card accomm-card bg-dark text-white">
+          <a id="accomm-card-link" target="_blank" href="${website}">
+           <div id="accomm-card" data-id="${brID}" class="card accomm-card bg-dark text-white">
              <img class="img-fluid accomm-card-img rounded" src="board-rental-images/${photo}"></img>
              <div id="img-overlay" class="card-img-overlay">
-               <div id="ac-accomm-cost" class="ac-top-left">💳$${boardDailyCost}/board/day</div>
-               <div id="ac-accomm-type" class="ac-top-right">${boardType}</div>
-               <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">${name}</h3>
-               <h6 id="ac-nearby-spot" class="card-text ac-text"><img src="icon-images/marker.png"/>Near ${brSurfSpotName}</h6>
+               <div id="ac-accomm-cost" class="ac-top-left"></div>
+               <div id="ac-accomm-type" class="ac-top-middle pl-4">${brLongBoardOverlay}${brFunBoardOverlay}${brShortBoardOverlay}</div>
+               <h4 id="ac-title" class="card-title ac-title br-title" style="white-space:nowrap; font-weight:700;">${name}</h4>
+               <p id="ac-nearby-spot" class="card-text ac-text text-capitalize"><small><img src="icon-images/marker-small.png"/><b>Near ${brSurfSpotName}</b></small></p>
+               <div id="ac-accomm-cost" class="ac-bottom-left text-left no-padding"><p><small><b>💳$${boardDailyCost}/board/day</b></small></p><p><small><b>💳$${wetsuitDailyCost}/wetsuit/day</b></small></p></div>
                <div id="ac-dist-to-surf" class="ac-bottom-right">${review}</div>
              </div>
              <div id="hover-overlay" class="card-img-overlay row">
                <div class="ac-hover-specs font-weight-bold ml-2 my-4">
-                 <p class="mb-1">${boardType}</p>
-                 <p class="mb-1">💳$${boardDailyCost}/board/day</p>
-                 <p class="mb-1">💳$${wetsuitDailyCost}/wetsuit/day</p>
-                 <p class="mb-1">📱${phone}</p>
-                 <p class="mb-1">🗺$${address}, ${zip}/n</p>
+                 <p class="mb-1">🏄‍♂️ ${brShortBoardHover} ${brFunBoardHover} ${brLongBoardHover}</p>
+                 <p class="mb-1">💳$<small><b>${boardDailyCost}/board/day</b></small></p>
+                 <p class="mb-1">💳$<small><b>${wetsuitDailyCost}/wetsuit/day</b></small></p>
+                 <p class="mb-1">📱<small><b>${phone}</b></small></p>
+                 <p class="mb-1">${review}</p>
                </div>
                <div id="ac-hover-button">
-                 <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-5 mr-3">TAP TO OPEN</button>
+                 <button class="btn btn-danger ac-hover-button font-weight-bold mb-5 mr-5">TAP TO OPEN</button>
                </div>
              </div>
            </div>
@@ -1295,14 +1494,133 @@ window.initBoardRentalMap = function () {
       });
     });//END boardRentalMarkers loop
 };//END window.initBoardRentalMap
+//END - LOOP THE BOARD RENTAL CONTENT
 
 
-//DRAFT LOOP THE BOARD RENTAL CONTENT END
+//START Populates the relevant lesson map per city
+// QUERY: const docRef = db.collection("city").doc(newCityPage);
+docRef.get().then(function(doc) {
+  let citydata = doc.data();
+  const cityZoom = citydata.zoom;
+  let cityCenter = citydata.cityCenter;
 
+  //Initialize the lessonMap
+  initLessonMap();
 
+  var options = {
+    zoom:cityZoom,
+    center:cityCenter,
+  }
+  //new lessonMap
+  map = new google.maps.Map(document.getElementById('lesson-map'), options);
+  //These functions render the lesson, accomm and surf markers onto the boardRentalMap
+  renderPriceMarkers(map);
+  renderSurfMarkers(map);
+  renderLessonMarkers(map);
 
+});//END OF POPULATING BOARD RENTAL MAP
 
+//Populates contents of Lessons section
+window.initLessonMap = function () {
+  $("#lessons__wrapper").prepend(`
+    <div class="row">
+      <div id="lesson-card-list" class="col-lg-4"></div>
+      <div id="lesson-map" class="col-lg-8 mb-3"></div>
+    </div>
+  `);//End Lessons section prepend
 
+  //START - Inside window.initLessonMap, populate the lesson cards on the Lessons section of Location Page
+  db.collection("lessonMarkers").where("city", "==", newCityPage)
+    .get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        const lData = doc.data();
+        const lessonID = doc.id;
+        //LESSON MARKERS IN TWO PLACES! 1. CARDS + 2. MARKERS. Change both
+        const name = lData.name;
+        const city = lData.city;
+        const surfSpot = lData.surfSpot;
+        const website = lData.website;
+        // const lessonTypesAvail = lData.lessonTypesAvail;
+        const equipAvail = lData.equipAvail;
+        const review = lData.review;
+        const photo = lData.photo;
+        const phone = lData.phone;
+
+        if(surfSpot != undefined) {
+           surfSpotName = surfSpot.replace(/-/g,' ');
+        }
+        //Set cost of different lessons in #lessons__wrapper
+        if(lData.oneOnOneCost > 1){
+          var oneOnOneCost = lData.oneOnOneCost;
+          var lessonOneonOne = `😎Private $${oneOnOneCost}`;
+        } else {
+          var oneOnOneCost = "";
+          var lessonOneonOne = "";
+        }
+        if(lData.smCost > 1){
+          var smGroupCost = lData.smCost;
+          var lessonSmGroup = `💳 $${smGroupCost}/sm group`;
+        } else {
+          var smGroupCost = "";
+          var lessonSmGroup = "";
+        }
+        if(lData.lgCost > 1){
+          var lgGroupCost = lData.lgCost;
+          var lessonLgGroup = `💳 $${lgGroupCost}/lg group`;
+        } else {
+          var lgGroupCost = "";
+          var lessonLgGroup = "";
+        }
+        if(lData.multiDayCost > 1){
+          var campCost = lData.multiDayCost;
+          var lessonCamp = `🎉Camp $${campCost}/day`;
+        } else {
+          var campCost = "";
+          var lessonCamp = "";
+        }
+
+        $("#lesson-card-list").prepend(`
+          <a id="accomm-card-link" target="_blank" href="${website}">
+           <div id="accomm-card" data-id="${lessonID}" class="card accomm-card bg-dark text-white">
+             <img class="img-fluid accomm-card-img rounded" src="lesson-images/${photo}"></img>
+             <div id="img-overlay" class="card-img-overlay">
+               <div id="ac-accomm-cost" class="ac-top-left"></div>
+               <div id="ac-accomm-type" class="ac-top-right">${lessonOneonOne}</div>
+               <h4 id="ac-title" class="card-title ac-title br-title" style="white-space:nowrap; font-weight:700;">${name}</h4>
+               <p id="ac-nearby-spot" class="card-text ac-text text-capitalize"><small><img src="icon-images/marker-small.png"/><b>At ${surfSpotName}</b></small></p>
+               <div id="ac-accomm-cost" class="ac-bottom-left text-left no-padding"><p>${lessonSmGroup}</p><p>${lessonLgGroup}</p></div>
+               <div id="ac-dist-to-surf" class="ac-bottom-right">${review}</div>
+             </div>
+             <div id="hover-overlay" class="card-img-overlay row">
+               <div class="ac-hover-specs font-weight-bold ml-2 my-4">
+                 <p class="mb-1">💳$<small><b>${oneOnOneCost}/private</b></small></p>
+                 <p class="mb-1">💳$<small><b>${smGroupCost}/sm group</b></small></p>
+                 <p class="mb-1">💳$<small><b>${lgGroupCost}/lg group</b></small></p>
+                 <p class="mb-1">📱<small><b>${phone}</b></small></p>
+                 <p class="mb-1">${review}</p>
+               </div>
+               <div id="ac-hover-button">
+                 <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-5 mr-4">TAP TO OPEN</button>
+               </div>
+             </div>
+           </div>
+          </a>
+        `);//END Lesson card prepend
+
+        //Hover over board rental card, card changes to show more info + the relevant marker on map
+        $(document).on('mouseenter', '.accomm-card', function(){
+          $(this).find('#img-overlay').hide();
+          $(this).find('#hover-overlay').show();
+        })//END Accomm Card mouseenter function
+        .on('mouseleave', '.accomm-card', function(){
+          $(this).find('#img-overlay').show();
+          $(this).find('#hover-overlay').hide();
+        });//END Accomm Card mouseleave function
+
+      });
+    });//END lessonMarkers loop
+};//END window.initLessonMap
+//END - LOOP THE LESSON CONTENT
 
 
 //START - Populate surf spots on the location page

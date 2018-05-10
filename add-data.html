@@ -386,6 +386,25 @@
           </label>
         </div>
 
+        <p>🦈How common are shark attacks?</p>
+          <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
+            <label class="btn btn-outline-dark text-left">
+              <input type="radio" name="sharkScore" id="inputShark" autocomplete="off" value="1">🦈Sharky area. Attacks do happen a few times a year.</input>
+            </label>
+            <label class="btn btn-outline-dark text-left">
+              <input type="radio" name="sharkScore" id="inputShark" autocomplete="off" value="2">🦈Area is sharky. Attacks do happen 1-2 times a year.</input>
+            </label>
+            <label class="btn btn-outline-dark text-left">
+              <input type="radio" name="sharkScore" id="inputShark" autocomplete="off" value="3">🦈Sharks have been seen. Attacks almost never happen.</input>
+            </label>
+            <label class="btn btn-outline-dark text-left">
+              <input type="radio" name="sharkScore" id="inputShark" autocomplete="off" value="4">🤩Sharks are not a problem</input>
+            </label>
+            <label class="btn btn-outline-dark text-left">
+              <input type="radio" name="sharkScore" id="inputShark" autocomplete="off" value="5">🤩No shark attacks here</input>
+            </label>
+          </div>
+
       <p>🙊How well do the locals speak English?</p>
         <div class="btn-group-vertical btn-group-toggle mb-5" data-toggle="buttons">
           <label class="btn btn-outline-dark text-left">
@@ -805,28 +824,25 @@
     <p>Marker Icon</p>
     <div class="btn-group btn-group-toggle mb-4" data-toggle="buttons">
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="expert">Expert</input>
+        <input type="radio" name="markerContent" id="inputMarkerContent" autocomplete="off" value="🏄‍♂️Expert wave">Expert</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="advanced">Advanced</input>
+        <input type="radio" name="markerContent" id="inputMarkerContent" autocomplete="off" value="🏄‍♂️Advanced wave">Advanced</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="intermediate">Intermediate</input>
+        <input type="radio" name="markerContent" id="inputMarkerContent" autocomplete="off" value="🏄‍♂️Intermediate wave">Intermediate</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="beginner">Beginner</input>
+        <input type="radio" name="markerContent" id="inputMarkerContent" autocomplete="off" value="🏄‍♂️Beginner wave">Beginner</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="surf-lessons">Surf Lessons</input>
+        <input type="radio" name="markerContent" id="inputMarkerContent" autocomplete="off" value="🏖Comfortable beach">Comfortable Beach</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="comfortable-beach">Comfortable Beach</input>
+        <input type="radio" name="markerContent" id="inputMarkerContent" autocomplete="off" value="👺Localism here">Localism</input>
       </label>
       <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="localism">Localism</input>
-      </label>
-      <label class="btn btn-outline-dark text-left">
-        <input type="radio" name="markerSkill" id="inputMarkerSkill" autocomplete="off" value="crowded">Crowded</input>
+        <input type="radio" name="markerContent" id="inputMarkerContent" autocomplete="off" value="🎪Crowded area">Crowded</input>
       </label>
     </div>
 
@@ -1047,18 +1063,18 @@
         <p>📱What's the surf lessons phone number? "(650) 555-5555"</p>
         <input id="inputLessonPhone" type="textfield" class="mb-4"></input>
 
-        <p>👩‍🎓What size lessons do they offer? (copy/paste all that apply)</p>
+        <!-- <p>👩‍🎓What size lessons do they offer? (copy/paste all that apply)</p>
           <li>1-on-1,</li>
           <li>small-group,</li>
           <li>large-group,</li>
           <li>multi-day-camps,</li>
-        <input id="inputLessonSize" type="textfield" class="mb-4"></input>
+        <input id="inputLessonSize" type="textfield" class="mb-4"></input> -->
 
-        <p>🏙What is the cost?</p>
-        <p>1-on-1<input id="inputLesson1on1Cost" type="textfield" class="mb-1"></input></p>
-        <p>Small Group (2-3)<input id="inputLessonSmCost" type="textfield" class="mb-1"></input></p>
-        <p>Large Group (3+)<input id="inputLessonLgCost" type="textfield" class="mb-1"></input></p>
-        <p>Multi Day Camps<input id="inputLessonMultiDayCost" type="textfield" class="mb-1"></input></p>
+        <p>🏙What is the cost? (If not available, input "0".)</p>
+        <p>1-on-1 $<input id="inputLesson1on1Cost" type="textfield" class="mb-1"></input></p>
+        <p>Small Group (2-3) $<input id="inputLessonSmCost" type="textfield" class="mb-1"></input></p>
+        <p>Large Group (3+) $<input id="inputLessonLgCost" type="textfield" class="mb-1"></input></p>
+        <p>Multi Day Camps $<input id="inputLessonMultiDayCost" type="textfield" class="mb-1"></input></p>
 
         <p>👩‍🎓What equipment do they provide? (copy/paste all that apply)</p>
           <li>wetsuit,</li>
