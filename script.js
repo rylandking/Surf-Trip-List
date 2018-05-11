@@ -762,7 +762,7 @@ docRef.get().then(function(doc) {
   if (safetyScore == 5) {
     safetyScore =
     `<div class="progress rounded-0" style="height: 30px;">
-      <div data-toggle="tooltip" title="👮‍♂️Very safe" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+      <div data-toggle="tooltip" title="👮‍♂️Very safe area" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
         <b>great</b>
       </div>
     </div>`;
@@ -1632,6 +1632,8 @@ db.collection("surf-spot").where("city", "==", newCityPage)
     const ssName = doc.id;
     const spotname = ssName.replace(/-/g,' ');
     const mapCenter = ssData.surfspot;
+    const parkingLat = ssData.parkingLat;
+    const parkingLng = ssData.parkingLng;
     const ssLat = mapCenter.lat;
     const ssLng = mapCenter.lng;
     const forecast = ssData.forecast;
@@ -1650,7 +1652,7 @@ db.collection("surf-spot").where("city", "==", newCityPage)
     let crowd = ssData.crowd;
     let localism = ssData.localism;
     const access = ssData.access;
-    const accessTip = ssData.accessTip;
+    const spotNote = ssData.spotNote;
     let jan = ssData.jan;
     let feb = ssData.feb;
     let mar = ssData.mar;
@@ -1858,252 +1860,252 @@ db.collection("surf-spot").where("city", "==", newCityPage)
     //Sets chance of rideable waves for JAN
     if (jan >= 90) {
       janEmoji = "🤩";
-      var janTip = "🤩+90% of rideable waves";
+      var janTip = "🤩+90% chance of rideable waves";
       var janColor = "4fd600";
     } else if (jan >= 70) {
       janEmoji = "😃";
-      var janTip = "😃70-90% of rideable waves";
+      var janTip = "😃70-90% chance of rideable waves";
       var janColor = "90EE90";
     }
     else if (jan >= 50) {
       janEmoji = "🙂";
-      var janTip = "🙂50-70% of rideable waves";
+      var janTip = "🙂50-70% chance of rideable waves";
       var janColor = "F5D327";
     }
     else if (jan < 50) {
       janEmoji = "😥";
-      var janTip = "😥<50% of rideable waves";
+      var janTip = "😥<50% chance of rideable waves";
       var janColor = "EC5D57";
     }
 
-    //Sets chance of rideable waves for FEB
+    //Sets chance chance of rideable waves for FEB
     if (feb >= 90) {
       febEmoji = "🤩";
-      var febTip = "🤩+90% of rideable waves";
+      var febTip = "🤩+90% chance of rideable waves";
       var febColor = "4fd600";
     } else if (feb >= 70) {
       febEmoji = "😃";
-      var febTip = "😃70-90% of rideable waves";
+      var febTip = "😃70-90% chance of rideable waves";
       var febColor = "90EE90";
     }
     else if (feb >= 50) {
       febEmoji = "🙂";
-      var febTip = "🙂50-70% of rideable waves";
+      var febTip = "🙂50-70% chance of rideable waves";
       var febColor = "F5D327";
     }
     else if (feb < 50) {
       febEmoji = "😥";
-      var febTip = "😥<50% of rideable waves";
+      var febTip = "😥<50% chance of rideable waves";
       var febColor = "EC5D57";
     }
 
-    //Sets chance of rideable waves for MAR
+    //Sets chance chance of rideable waves for MAR
     if (mar >= 90) {
       marEmoji = "🤩";
-      var marTip = "🤩+90% of rideable waves";
+      var marTip = "🤩+90% chance of rideable waves";
       var marColor = "4fd600";
     } else if (mar >= 70) {
       marEmoji = "😃";
-      var marTip = "😃70-90% of rideable waves";
+      var marTip = "😃70-90% chance of rideable waves";
       var marColor = "90EE90";
     }
     else if (mar >= 50) {
       marEmoji = "🙂";
-      var marTip = "🙂50-70% of rideable waves";
+      var marTip = "🙂50-70% chance of rideable waves";
       var marColor = "F5D327";
     }
     else if (mar < 50) {
       marEmoji = "😥";
-      var marTip = "😥<50% of rideable waves";
+      var marTip = "😥<50% chance of rideable waves";
       var marColor = "EC5D57";
     }
 
-    //Sets chance of rideable waves for APR
+    //Sets chance chance of rideable waves for APR
     if (apr >= 90) {
       aprEmoji = "🤩";
-      var aprTip = "🤩+90% of rideable waves";
+      var aprTip = "🤩+90% chance of rideable waves";
       var aprColor = "4fd600";
     } else if (apr >= 70) {
       aprEmoji = "😃";
-      var aprTip = "😃70-90% of rideable waves";
+      var aprTip = "😃70-90% chance of rideable waves";
       var aprColor = "90EE90";
     }
     else if (apr >= 50) {
       aprEmoji = "🙂";
-      var aprTip = "🙂50-70% of rideable waves";
+      var aprTip = "🙂50-70% chance of rideable waves";
       var aprColor = "F5D327";
     }
     else if (apr < 50) {
       aprEmoji = "😥";
-      var aprTip = "😥<50% of rideable waves";
+      var aprTip = "😥<50% chance of rideable waves";
       var aprColor = "EC5D57";
     }
 
-    //Sets chance of rideable waves for MAY
+    //Sets chance chance of rideable waves for MAY
     if (may >= 90) {
       mayEmoji = "🤩";
-      var mayTip = "🤩+90% of rideable waves";
+      var mayTip = "🤩+90% chance of rideable waves";
       var mayColor = "4fd600";
     } else if (may >= 70) {
       mayEmoji = "😃";
-      var mayTip = "😃70-90% of rideable waves";
+      var mayTip = "😃70-90% chance of rideable waves";
       var mayColor = "90EE90";
     }
     else if (may >= 50) {
       mayEmoji = "🙂";
-      var mayTip = "🙂50-70% of rideable waves";
+      var mayTip = "🙂50-70% chance of rideable waves";
       var mayColor = "F5D327";
     }
     else if (may < 50) {
       mayEmoji = "😥";
-      var mayTip = "😥<50% of rideable waves";
+      var mayTip = "😥<50% chance of rideable waves";
       var mayColor = "EC5D57";
     }
 
-    //Sets chance of rideable waves for JUN
+    //Sets chance chance of rideable waves for JUN
     if (jun >= 90) {
       junEmoji = "🤩";
-      var junTip = "🤩+90% of rideable waves";
+      var junTip = "🤩+90% chance of rideable waves";
       var junColor = "4fd600";
     } else if (jun >= 70) {
       junEmoji = "😃";
-      var junTip = "😃70-90% of rideable waves";
+      var junTip = "😃70-90% chance of rideable waves";
       var junColor = "90EE90";
     }
     else if (jun >= 50) {
       junEmoji = "🙂";
-      var junTip = "🙂50-70% of rideable waves";
+      var junTip = "🙂50-70% chance of rideable waves";
       var junColor = "F5D327";
     }
     else if (jun < 50) {
       junEmoji = "😥";
-      var junTip = "😥<50% of rideable waves";
+      var junTip = "😥<50% chance of rideable waves";
       var junColor = "EC5D57";
     }
 
-    //Sets chance of rideable waves for JUL
+    //Sets chance chance of rideable waves for JUL
     if (jul >= 90) {
       julEmoji = "🤩";
-      var julTip = "🤩+90% of rideable waves";
+      var julTip = "🤩+90% chance of rideable waves";
       var julColor = "4fd600";
     } else if (jul >= 70) {
       julEmoji = "😃";
-      var julTip = "😃70-90% of rideable waves";
+      var julTip = "😃70-90% chance of rideable waves";
       var julColor = "90EE90";
     }
     else if (jul >= 50) {
       julEmoji = "🙂";
-      var julTip = "🙂50-70% of rideable waves";
+      var julTip = "🙂50-70% chance of rideable waves";
       var julColor = "F5D327";
     }
     else if (jul < 50) {
       julEmoji = "😥";
-      var julTip = "😥<50% of rideable waves";
+      var julTip = "😥<50% chance of rideable waves";
       var julColor = "EC5D57";
     }
 
-    //Sets chance of rideable waves for AUG
+    //Sets chance chance of rideable waves for AUG
     if (aug >= 90) {
       augEmoji = "🤩";
-      var augTip = "🤩+90% of rideable waves";
+      var augTip = "🤩+90% chance of rideable waves";
       var augColor = "4fd600";
     } else if (aug >= 70) {
       augEmoji = "😃";
-      var augTip = "😃70-90% of rideable waves";
+      var augTip = "😃70-90% chance of rideable waves";
       var augColor = "90EE90";
     }
     else if (aug >= 50) {
       augEmoji = "🙂";
-      var augTip = "🙂50-70% of rideable waves";
+      var augTip = "🙂50-70% chance of rideable waves";
       var augColor = "F5D327";
     }
     else if (aug < 50) {
       augEmoji = "😥";
-      var augTip = "😥<50% of rideable waves";
+      var augTip = "😥<50% chance of rideable waves";
       var augColor = "EC5D57";
     }
 
-    //Sets chance of rideable waves for SEP
+    //Sets chance chance of rideable waves for SEP
     if (sep >= 90) {
       sepEmoji = "🤩";
-      var sepTip = "🤩+90% of rideable waves";
+      var sepTip = "🤩+90% chance of rideable waves";
       var sepColor = "4fd600";
     } else if (sep >= 70) {
       sepEmoji = "😃";
-      var sepTip = "😃70-90% of rideable waves";
+      var sepTip = "😃70-90% chance of rideable waves";
       var sepColor = "90EE90";
     }
     else if (sep >= 50) {
       sepEmoji = "🙂";
-      var sepTip = "🙂50-70% of rideable waves";
+      var sepTip = "🙂50-70% chance of rideable waves";
       var sepColor = "F5D327";
     }
     else if (sep < 50) {
       sepEmoji = "😥";
-      var sepTip = "😥<50% of rideable waves";
+      var sepTip = "😥<50% chance of rideable waves";
       var sepColor = "EC5D57";
     }
 
-    //Sets chance of rideable waves for OCT
+    //Sets chance chance of rideable waves for OCT
     if (oct >= 90) {
       octEmoji = "🤩";
-      var octTip = "🤩+90% of rideable waves";
+      var octTip = "🤩+90% chance of rideable waves";
       var octColor = "4fd600";
     } else if (oct >= 70) {
       octEmoji = "😃";
-      var octTip = "😃70-90% of rideable waves";
+      var octTip = "😃70-90% chance of rideable waves";
       var octColor = "90EE90";
     }
     else if (oct >= 50) {
       octEmoji = "🙂";
-      var octTip = "🙂50-70% of rideable waves";
+      var octTip = "🙂50-70% chance of rideable waves";
       var octColor = "F5D327";
     }
     else if (oct < 50) {
       octEmoji = "😥";
-      var octTip = "😥<50% of rideable waves";
+      var octTip = "😥<50% chance of rideable waves";
       var octColor = "EC5D57";
     }
 
-    //Sets chance of rideable waves for NOV
+    //Sets chance chance of rideable waves for NOV
     if (nov >= 90) {
       novEmoji = "🤩";
-      var novTip = "🤩+90% of rideable waves";
+      var novTip = "🤩+90% chance of rideable waves";
       var novColor = "4fd600";
     } else if (nov >= 70) {
       novEmoji = "😃";
-      var novTip = "😃70-90% of rideable waves";
+      var novTip = "😃70-90% chance of rideable waves";
       var novColor = "90EE90";
     }
     else if (nov >= 50) {
       novEmoji = "🙂";
-      var novTip = "🙂50-70% of rideable waves";
+      var novTip = "🙂50-70% chance of rideable waves";
       var novColor = "F5D327";
     }
     else if (nov < 50) {
       novEmoji = "😥";
-      var novTip = "😥<50% of rideable waves";
+      var novTip = "😥<50% chance of rideable waves";
       var novColor = "EC5D57";
     }
 
-    //Sets chance of rideable waves for DEC
+    //Sets chance chance of rideable waves for DEC
     if (dec >= 90) {
       decEmoji = "🤩";
-      var decTip = "🤩+90% of rideable waves";
+      var decTip = "🤩+90% chance of rideable waves";
       var decColor = "4fd600";
     } else if (dec >= 70) {
       decEmoji = "😃";
-      var decTip = "😃70-90% of rideable waves";
+      var decTip = "😃70-90% chance of rideable waves";
       var decColor = "90EE90";
     }
     else if (dec >= 50) {
       decEmoji = "🙂";
-      var decTip = "🙂50-70% of rideable waves";
+      var decTip = "🙂50-70% chance of rideable waves";
       var decColor = "F5D327";
     }
     else if (dec < 50) {
       decEmoji = "😥";
-      var decTip = "😥<50% of rideable waves";
+      var decTip = "😥<50% chance of rideable waves";
       var decColor = "EC5D57";
     }
 
@@ -2111,6 +2113,8 @@ db.collection("surf-spot").where("city", "==", newCityPage)
       ssData,
       spotname,
       mapCenter,
+      parkingLat,
+      parkingLng,
       icon,
       markerDB,
       markersDB,
@@ -2138,7 +2142,7 @@ db.collection("surf-spot").where("city", "==", newCityPage)
       localism,
       localismTip,
       access,
-      accessTip,
+      spotNote,
       jan,
       janTip,
       janColor,
@@ -2202,6 +2206,8 @@ window.initMap = function(
         ssData,
         spotname,
         mapCenter,
+        parkingLat,
+        parkingLng,
         icon,
         markerDB,
         markersDB,
@@ -2229,7 +2235,7 @@ window.initMap = function(
         localism,
         localismTip,
         access,
-        accessTip,
+        spotNote,
         jan,
         janTip,
         janColor,
@@ -2352,14 +2358,20 @@ window.initMap = function(
                        </tr>
                        <tr>
                            <td class="access">🚗Access: </td>
-                           <td class="text-center" data-toggle="tooltip" title="${accessTip}">${access}</td>
+                           <td class="text-center" data-toggle="tooltip" title="${access}">${access}</td>
                            <td class="localism">👺Localism: </td>
                            <td class="text-center" data-toggle="tooltip" title="${localismTip}">${localism}</td>
                        </tr>
                        <tr>
                           <td colspan="12" class="text-center">
-                            <p class="mt-2"><b>➹Directions</b></p>
-                            <p id="directions">${accessTip} Be kind and surf respectfully.🤙</p>
+                            <p class="mt-2"><b>📝Notes</b></p>
+                            <p id="spot-notes">Be kind and surf respectfully.🤙</p>
+                            <p id="spot-directions">
+                              <a href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank"><img src="icon-images/dir-drive.png"></img></a>
+                              <a href="https://maps.google.com/?saddr=Current+Location&dirflg=w&daddr=${parkingLat},${parkingLng}" target="_blank"><img src="icon-images/dir-walk.png"></img></a>
+                              <a href="https://maps.google.com/?saddr=Current+Location&dirflg=r&daddr=${parkingLat},${parkingLng}&mode=transit" target="_blank"><img src="icon-images/dir-bus.png"></img></a>
+                              <a href="https://maps.google.com/?saddr=Current+Location&dirflg=b&daddr=${parkingLat},${parkingLng}&mode=bicycling" target="_blank"><img src="icon-images/dir-bike.png"></img></a>
+                            </p>
                           </td>
                        </tr>
                      </tbody>
@@ -2371,6 +2383,77 @@ window.initMap = function(
       ); //End prepend
     }
   };//End window.initMap
+
+//Logs the surf spot and it's marker IDs (Firestore doc name) to console so I can edit them when need be.
+db.collection("markers").where("city", "==", newCityPage)
+    .get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          var mData = doc.data();
+          var mID = doc.id;
+          var mSurfSpot = mData.surfSpot;
+          var mContent = mData.content;
+          var mCoords = mData.coords;
+          var mLat = mCoords.lat;
+          var mLng = mCoords.lng;
+
+          //Logs the surf spot and it's marker IDs (Firestore doc name) to console so I can edit them when need be.
+          $(".surf-spot-nav").click(function(){
+            console.log(`${mSurfSpot}: ${mContent} LAT:${mLat} LNG:${mLng} ID:${mID}`)
+          });
+
+        });
+      });//END of surf marker identification console.log
+
+//Logs the priceMarkers and it's marker IDs (Firestore doc name) to console so I can edit them when need be.
+db.collection("priceMarkers").where("city", "==", newCityPage)
+  .get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        var pmData = doc.data();
+        var pmID = doc.id;
+        var pmTitle = pmData.title;
+        var priceMarkerSurfSpot = pmData.surfSpot;
+        var pmCoords = pmData.coords;
+        var pmLat = pmCoords.lat;
+        var pmLng = pmCoords.lng;
+
+        $(".accomm-nav").click(function(){
+          console.log(`${pmTitle}: ${pmID}`)
+        });
+
+      });
+    });//END of price marker identification console.log
+
+//Logs the boardRentalMarkers and it's marker IDs (Firestore doc name) to console so I can edit them when need be.
+db.collection("boardRentalMarkers").where("city", "==", newCityPage)
+  .get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        var brData = doc.data();
+        var brID = doc.id;
+        var brName = brData.name;
+        var brSurfSpot = brData.surfSpot;
+
+        $(".board-rentals-nav").click(function(){
+          console.log(`${brName}: ${brID}`)
+        });
+
+      });
+    });//END of board rental marker identification console.log
+
+//Logs the lessonMarkers and it's marker IDs (Firestore doc name) to console so I can edit them when need be.
+db.collection("lessonMarkers").where("city", "==", newCityPage)
+  .get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        var lData = doc.data();
+        var lID = doc.id;
+        var lName = lData.name;
+        var lSurfSpot = lData.surfSpot;
+
+        $(".lessons-nav").click(function(){
+          console.log(`${lName}: ${lID}:`)
+        });
+
+      });
+    });//END of price marker identification console.log
 
 //Click the location page menu to hide and show each section
 $(".nav-link").click(function () {

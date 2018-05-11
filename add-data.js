@@ -181,7 +181,9 @@ saveSSDocNameButton.addEventListener("click", function(){
   const inputDec = document.querySelector("#inputDec");
   const inputLat = document.querySelector("#inputLat");
   const inputLng = document.querySelector("#inputLng");
-  const inputAccessTip = document.querySelector("#inputAccessTip");
+  const inputSpotParkingLat = document.querySelector("#inputSpotParkingLat");
+  const inputSpotParkingLng = document.querySelector("#inputSpotParkingLng");
+  const inputSpotNote = document.querySelector("#inputSpotNote");
   const inputSSZoom = document.querySelector("#inputSSZoom");
   const saveButton = document.querySelector("#saveButton");
 
@@ -194,7 +196,7 @@ saveSSDocNameButton.addEventListener("click", function(){
     var spotRentalsToSave = document.querySelector('input[name = "spotRentals"]:checked').value;
     var tempToSave = document.querySelector('input[name = "temp"]:checked').value;
     var accessToSave = document.querySelector('input[name = "access"]:checked').value;
-    const accessTipToSave = inputAccessTip.value;
+    const SpotNoteToSave = inputSpotNote.value;
     var localismToSave = document.querySelector('input[name = "localism"]:checked').value;
     var crowdToSave = document.querySelector('input[name = "crowd"]:checked').value;
     var beachToSave = document.querySelector('input[name = "beach"]:checked').value;
@@ -223,6 +225,8 @@ saveSSDocNameButton.addEventListener("click", function(){
 
     const latToSave = parseFloat(inputLat.value);
     const lngToSave = parseFloat(inputLng.value);
+    const spotParkingLatToSave = parseFloat(inputSpotParkingLat.value);
+    const spotParkingLngToSave = parseFloat(inputSpotParkingLng.value);
     const ssZoomToSave = parseInt(inputSSZoom.value);
     const mapCenterToSave = {
       lat: latToSave,
@@ -245,7 +249,7 @@ saveSSDocNameButton.addEventListener("click", function(){
       beach: beachToSave,
       localism: localismToSave,
       access: accessToSave,
-      accessTip: accessTipToSave,
+      spotNote: SpotNoteToSave,
       rentals: spotRentalsToSave,
       lessons: spotLessonsToSave,
       crowd: crowdToSave,
@@ -267,7 +271,8 @@ saveSSDocNameButton.addEventListener("click", function(){
       dec: decToSave,
       surfspot: mapCenterToSave,
       zoom: ssZoomToSave,
-
+      parkingLat: spotParkingLatToSave,
+      parkingLng: spotParkingLngToSave,
 
     }).then(function() {
       $("#save-ss-success-alert").prepend(
@@ -309,6 +314,8 @@ saveMarkerButton.addEventListener("click", function(){
     var iconImageToSave = 'icon-images/beginner.png';
   } else if (markerContentToSave == "🏖Comfortable beach") {
     var iconImageToSave = 'icon-images/beach.png';
+  } else if (markerContentToSave == "🚗Parking") {
+    var iconImageToSave = 'icon-images/parking.png';
   } else if (markerContentToSave == "👺Localism here") {
     var iconImageToSave = 'icon-images/localism.png';
   } else if (markerContentToSave == "🎪Crowded area") {

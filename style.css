@@ -160,6 +160,10 @@ body {
   display: none;
 }
 
+#cost__wrapper {
+  display: none;
+}
+
 #navbar {
   background-color: white;
   color: grey;
@@ -194,6 +198,11 @@ body {
 #cost__wrapper a:hover {
   color: inherit;
   font-weight: bold;
+}
+
+#spot-directions a:hover {
+  filter: hue-rotate(180deg);
+  -webkit-filter: hue-rotate(180deg);
 }
 
 .white-link {

@@ -749,13 +749,13 @@
           </label>
         </div>
 
-      <p>🚗How do I access the spot?</p>
-        <p>📝Written Directions:</p>
-        <p><textarea id="inputAccessTip" class="my-1" name="accessTip" cols="30" rows="6"></textarea></p>
+      <p>📝Notes about the spot.</p>
+        <p>Written Directions:</p>
+        <p><textarea id="inputSpotNote" class="my-1" name="SpotNote" cols="30" rows="6"></textarea></p>
 
         <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
           <label class="btn btn-outline-dark text-left">
-            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="🚗Parking nearby">🚗Parking nearby</input>
+            <input type="radio" name="access" id="inputAccess" autocomplete="off" value="Parking nearby">🚗Parking nearby</input>
           </label>
           <label class="btn btn-outline-dark text-left">
             <input type="radio" name="access" id="inputAccess" autocomplete="off" value="👟Park and walk">👟Park and walk</input>
@@ -802,6 +802,10 @@
     <p>🌍Map Center:</p>
       <p class="font-weight-light mb-0">Lat:<input id="inputLat" type="textfield" class="mb-1"></input></p>
       <p class="font-weight-light mb-2">Lng:<input id="inputLng" type="textfield" class="mb-2"></input></p>
+
+    <p>🚗Where is the parking located?</p>
+      <p>🗺LAT:<input id="inputSpotParkingLat" type="textfield" class="mb-0"></input></p>
+      <p>🗺LNG:<input id="inputSpotParkingLng" type="textfield" class="mb-2"></input></p>
 
     <p>🗺What should the zoom be to see the entire surf spot?:</p>
       <p class="font-weight-light mb-2">Zoom (1-15):<input id="inputSSZoom" type="textfield" class="mb-1"></input></p>
