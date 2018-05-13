@@ -1820,7 +1820,7 @@ db.collection("surf-spot").where("city", "==", newCityPage)
       var beachTip = "🏖Great beach to hang at";
     } else if (beach == "semi-comfortable") {
       beach = "Semi-comfortable";
-      var beachTip = "🏖Rocky or weathery. Can be good!";
+      var beachTip = "🏖Rocks, weather or tide affect it. Can be good!";
     } else if (beach == "no-beach") {
       beach = "No beach";
       var beachTip = "😢No beach";
@@ -2382,7 +2382,58 @@ window.initMap = function(
            </div>`
       ); //End prepend
     }
-  };//End window.initMap
+  };//End window.initMap for Surf Spot Section
+
+
+
+
+//DRAFT START Flights
+  $.ajax({
+    type: 'GET',
+    url:'https://api.skypicker.com/flights?flyFrom=SFO&to=LAX&curr=USD&partner=picky',
+    success: function(flights){
+      const cityFrom = flights.data[0].cityFrom;
+      const cityTo = flights.data[0].cityTo;
+      const flyFrom = flights.data[0].flyFrom;
+      const flyTo = flights.data[0].flyTo;
+      const price = flights.data[0].price;
+      const airlines = flights.data[0].airlines;
+      const deeplink = flights.data[0].deep_link;
+
+      console.log('success', flights);
+
+      //Click on table row and opens relevant flight page via data-url="${deeplink}"
+      $(document).on("click", ".flight", function(){
+        window.open($(this).data("url"), '_blank');
+      });
+
+      $.each(flights, function(i, flight){
+        $('#flights__wrapper').prepend(`
+          <div id="flights" class="row">
+            <table class="table table-hover">
+              <tr class="flight" data-url="${deeplink}">
+                <th class="price">$${price}</th>
+                <td class="airline"><img src="https://images.kiwi.com/airlines/64/${airlines}.png" style="height:32px; width:32px;"</img></td>
+                <td class="times">🗓 Sat May 21 (in 17 days)</td>
+                <td class="from">🛫${cityFrom} (${flyFrom})</td>
+                <td class="to">${cityTo} (${flyTo})</td>
+                <td class="duration">⌚️5h 5m</td>
+              </tr>
+            </table>
+          </div>
+          `)
+      });
+    },
+    error: function(){
+      console.log("Error getting flights");
+    }
+  });
+
+
+//DRAFT END Flights
+
+
+
 
 //Logs the surf spot and it's marker IDs (Firestore doc name) to console so I can edit them when need be.
 db.collection("markers").where("city", "==", newCityPage)

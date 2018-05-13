@@ -164,6 +164,10 @@ body {
   display: none;
 }
 
+#flights__wrapper {
+  display: none;
+}
+
 #navbar {
   background-color: white;
   color: grey;
