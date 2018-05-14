@@ -11,6 +11,11 @@
     <!-- Link to custom CSS -->
     <link rel="stylesheet" href="style.css">
 
+    <!-- Airport Autocomplete -->
+    <script src="https://screenfeedcontent.blob.core.windows.net/html/airports.js"></script>
+    <script src="https://unpkg.com/fuse.js@2.5.0/src/fuse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.1/lodash.min.js"></script>
+
     <!-- JQUERY -->
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -86,15 +91,16 @@
         </div><!-- /guide -->
 
       <!-- flights  -->
-        <div id="flights__wrapper" class="row mb-5 Hide">
-          <div class="input-group mb-3">
+        <div id="flights__wrapper" class="row my-3 Hide">
+          <div class="flight-search-menu input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text font-weight-bold" id="basic-addon3">📍 From:</span>
             </div>
-            <input type="text" class="form-control" id="fromDestSearch" aria-describedby="basic-addon3" placeholder="San Francisco (SFO)">
+            <input type="text" class="form-control col-md-4" id="fromDestSearch" aria-describedby="basic-addon3" placeholder="San Francisco (SFO)">
             <button id="flightSearch" class="btn btn-danger ml-2">🔍SEARCH</button>
           </div>
           <input type="text" name="daterange" value="Pick"></input>
+          <div id="flights__list" class="row mb-5"></div>
         </div><!-- /flights -->
 
       <!-- footer -->

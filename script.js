@@ -2409,11 +2409,136 @@ $('input[name="daterange"]').daterangepicker({
   console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 });
 
-//START Flight search. Changes departure city
+//START Airport autocomplete (https://codepen.io/anon/pen/QrBdog)
+var options = {
+  shouldSort: true,
+  threshold: 0.4,
+  maxPatternLength: 32,
+  keys: [{
+    name: 'iata',
+    weight: 0.5
+  }, {
+    name: 'name',
+    weight: 0.3
+  }, {
+    name: 'city',
+    weight: 0.2
+  }]
+};
+
+var fuse = new Fuse(airports, options)
+
+
+var ac = $('#fromDestSearch')
+  .on('click', function(e) {
+    e.stopPropagation();
+  })
+  .on('focus keyup', search)
+  .on('keydown', onKeyDown);
+
+var wrap = $('<div>')
+  .addClass('autocomplete-wrapper')
+  .insertBefore(ac)
+  .append(ac);
+
+var list = $('<div>')
+  .addClass('autocomplete-results')
+  .on('click', '.autocomplete-result', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    selectIndex($(this).data('index'));
+  })
+  .appendTo(wrap);
+
+$(document)
+  .on('mouseover', '.autocomplete-result', function(e) {
+    var index = parseInt($(this).data('index'), 10);
+    if (!isNaN(index)) {
+      list.attr('data-highlight', index);
+    }
+  })
+  .on('click', clearResults);
+
+function clearResults() {
+  results = [];
+  numResults = 0;
+  list.empty();
+}
+
+function selectIndex(index) {
+  if (results.length >= index + 1) {
+    ac.val(results[index].iata);
+    clearResults();
+  }
+}
+
+var results = [];
+var numResults = 0;
+var selectedIndex = -1;
+
+function search(e) {
+  if (e.which === 38 || e.which === 13 || e.which === 40) {
+    return;
+  }
+
+  if (ac.val().length > 0) {
+    results = _.take(fuse.search(ac.val()), 7);
+    numResults = results.length;
+
+    var divs = results.map(function(r, i) {
+        return '<div class="autocomplete-result" data-index="'+ i +'">'
+             + '<div><b>'+ r.iata +'</b> - '+ r.name +'</div>'
+             + '<div class="autocomplete-location">'+ r.city +', '+ r.country +'</div>'
+             + '</div>';
+     });
+
+    selectedIndex = -1;
+    list.html(divs.join(''))
+      .attr('data-highlight', selectedIndex);
+
+  } else {
+    numResults = 0;
+    list.empty();
+  }
+}
+
+function onKeyDown(e) {
+  switch(e.which) {
+    case 38: // up
+      selectedIndex--;
+      if (selectedIndex <= -1) {
+        selectedIndex = -1;
+      }
+      list.attr('data-highlight', selectedIndex);
+      break;
+    case 13: // enter
+      selectIndex(selectedIndex);
+      break;
+    case 9: // enter
+      selectIndex(selectedIndex);
+      e.stopPropagation();
+      return;
+    case 40: // down
+      selectedIndex++;
+      if (selectedIndex >= numResults) {
+        selectedIndex = numResults-1;
+      }
+      list.attr('data-highlight', selectedIndex);
+      break;
+
+    default: return; // exit this handler for other keys
+  }
+  e.stopPropagation();
+  e.preventDefault(); // prevent the default action (scroll / move caret)
+}
+//END Airport autocomplete (https://codepen.io/anon/pen/QrBdog)
+
+
 $('#flightSearch').click(function(){
-   fromDest = $('#fromDestSearch').val();
-   console.log(fromDest);
-   flightSearch(fromDest);
+   fromDest = $('#autocomplete').val();
+   console.log(fromDest, today);
+   $('#flights__list').empty();
+   flightSearch();
 });//END Flight search
 
 //START flightSearch function with the skypicker AJAX call
@@ -2422,11 +2547,11 @@ function flightSearch(){
     type: 'GET',
     url:`https://api.skypicker.com/flights?flyFrom=${fromDest}&to=SFO&curr=USD&dateFrom=${today}&dateTo=31/05/2018&sort=date&partner=picky`,
     success: function(flights){
-
       //Click on table row and opens relevant flight page via data-url="${deeplink}"
       $(document).on("click", ".flight", function(){
         window.open($(this).data("url"), '_blank');
       });
+
       //Loop through Skypicker's flights.data from the url: specified in the ajax call.
       $.each(flights.data, function(i, flight){
         const cityFrom = flights.data[i].cityFrom;
@@ -2476,9 +2601,9 @@ function flightSearch(){
         var aMinutes = ('0'+aDate.getMinutes()).slice(-2);
 
         //Builds the flights section
-        $('#flights__wrapper').append(`
-          <div id="flights" class="row">
-            <table class="table table-hover">
+        $('#flights__list').append(`
+          <div id="flights" class="row col-12">
+            <table id="flightsTable" class="table table-hover">
               <tr class="flight" data-url="${deeplink}">
                 <th class="price">$${price}</th>
                 <td class="airline"><img src="https://images.kiwi.com/airlines/64/${airlines}.png" style="height:32px; width:32px;"</img></td>
