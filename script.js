@@ -2387,10 +2387,27 @@ window.initMap = function(
   };//End window.initMap for Surf Spot Section
 
 //DRAFT START Flights
+//Adds days so the dateFrom and returnDate in the flights search menu don't start on today
+Date.prototype.addDays = function(days) {
+  this.setDate(this.getDate() + parseInt(days));
+  return this;
+};
+
 var today = new Date();
 var dd = today.getDate();
 var mm = today.getMonth()+1; //January is 0!
 var yyyy = today.getFullYear();
+
+//Using dateFrom because it's the variable that comes out of the daterangepicker when date range is edited
+var dateFrom = new Date().addDays(0); //+2 days
+var ddFrom = dateFrom.getDate();
+var mmFrom = dateFrom.getMonth()+1; //January is 0!
+var yyyyFrom = dateFrom.getFullYear();
+
+var dateTo = new Date().addDays(10); //+2 days
+var ddTo = dateTo.getDate();
+var mmTo = dateTo.getMonth()+1; //January is 0!
+var yyyyTo = dateTo.getFullYear();
 
 if(dd<10){
     dd='0'+dd;
@@ -2399,15 +2416,11 @@ if(mm<10){
     mm='0'+mm;
 }
 var today = dd+'/'+mm+'/'+yyyy;
+var dateFrom = ddFrom+'/'+mmFrom+'/'+yyyyFrom;
+var dateTo = ddTo+'/'+mmTo+'/'+yyyyTo;
+console.log(dateFrom, dateTo);
 //Sets from destination in flight search menu
 var fromDest = "LAX";
-
-//Drops down a calendar to pick departure adn return dates
-$('input[name="daterange"]').daterangepicker({
-  opens: 'left',
-}, function(start, end, label) {
-  console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-});
 
 //START Airport autocomplete (https://codepen.io/anon/pen/QrBdog)
 var options = {
@@ -2427,7 +2440,6 @@ var options = {
 };
 
 var fuse = new Fuse(airports, options)
-
 
 var ac = $('#fromDestSearch')
   .on('click', function(e) {
@@ -2533,19 +2545,32 @@ function onKeyDown(e) {
 }
 //END Airport autocomplete (https://codepen.io/anon/pen/QrBdog)
 
+//Drops down a calendar to pick departure adn return dates (http://www.daterangepicker.com/)
+$('input[name="daterange"]').daterangepicker({
+  opens: 'center',
+  drops: 'down',
+  buttonClasses: 'btn',
+  applyButtonClasses: 'btn-danger',
+  cancelButtonClasses: 'btn-outline-danger',
+}, function(start, end, label) {
+  console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+  dateFrom = start.format('DD/MM/YYYY');
+  dateTo = end.format('DD/MM/YYYY');
+});
 
+//START Flight search
 $('#flightSearch').click(function(){
-   fromDest = $('#autocomplete').val();
-   console.log(fromDest, today);
+   fromDest = $('#fromDestSearch').val();
+   // console.log(fromDest, today);
    $('#flights__list').empty();
    flightSearch();
 });//END Flight search
-
+console.log(today);
 //START flightSearch function with the skypicker AJAX call
 function flightSearch(){
   $.ajax({
     type: 'GET',
-    url:`https://api.skypicker.com/flights?flyFrom=${fromDest}&to=SFO&curr=USD&dateFrom=${today}&dateTo=31/05/2018&sort=date&partner=picky`,
+    url:`https://api.skypicker.com/flights?flyFrom=${fromDest}&to=SFO&curr=USD&dateFrom=${dateFrom}&dateTo=${dateTo}&sort=date&partner=picky`,
     success: function(flights){
       //Click on table row and opens relevant flight page via data-url="${deeplink}"
       $(document).on("click", ".flight", function(){

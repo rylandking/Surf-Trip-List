@@ -91,15 +91,18 @@
         </div><!-- /guide -->
 
       <!-- flights  -->
-        <div id="flights__wrapper" class="row my-3 Hide">
-          <div class="flight-search-menu input-group mb-3">
+        <div id="flights__wrapper" class="row my-3 Hide container-fluid">
+          <div class="row flight-search-menu input-group mb-4 justify-content-center">
             <div class="input-group-prepend">
               <span class="input-group-text font-weight-bold" id="basic-addon3">📍 From:</span>
             </div>
-            <input type="text" class="form-control col-md-4" id="fromDestSearch" aria-describedby="basic-addon3" placeholder="San Francisco (SFO)">
-            <button id="flightSearch" class="btn btn-danger ml-2">🔍SEARCH</button>
+            <input type="text" class="form-control" id="fromDestSearch" aria-describedby="basic-addon3" placeholder="Where are you now?"></input>
+              <div class="input-group-prepend ml-3">
+                <span class="input-group-text font-weight-bold" id="basic-addon3">🗓 Date:</span>
+              </div>
+              <input type="text" name="daterange" value="" class="form-control" aria-describedby="basic-addon3"></input>
+            <button id="flightSearch" class="btn btn-danger ml-3">🔍SEARCH</button>
           </div>
-          <input type="text" name="daterange" value="Pick"></input>
           <div id="flights__list" class="row mb-5"></div>
         </div><!-- /flights -->
 
