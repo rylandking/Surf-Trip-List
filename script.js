@@ -2287,7 +2287,15 @@ window.initMap = function(
     //Build new surf spot on location page
       $("#surf-spot-map__wrapper").prepend(
           `<div class="col-lg-6 mb-5" style="display:inline-block;">
-            <h5 class="text-center mb-3" style="text-transform:capitalize;"><a href="${forecast}" target="_blank" data-toggle="tooltip" title="Click to view 7 day 🏄‍♂️ forecast" style="color:black;">${spotname}</a> - <img data-toggle="tooltip" title="${skillTip}" src="${skill}"></img></h5>
+            <h5 class="text-center mt-4 mb-1" style="text-transform:capitalize;"><a href="${forecast}" target="_blank" data-toggle="tooltip" title="Click to view 7 day 🏄‍♂️ forecast" style="color:black;">${spotname}</a> - <img data-toggle="tooltip" title="${skillTip}" src="${skill}"></img></h5>
+            <p id="spot-directions" class="text-center">
+              <a href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank"><img src="icon-images/dir-drive.png"></img></a>
+              <a href="https://maps.google.com/?saddr=Current+Location&dirflg=w&daddr=${parkingLat},${parkingLng}" target="_blank"><img src="icon-images/dir-walk.png"></img></a>
+              <a href="https://maps.google.com/?saddr=Current+Location&dirflg=r&daddr=${parkingLat},${parkingLng}&mode=transit" target="_blank"><img src="icon-images/dir-bus.png"></img></a>
+              <a href="https://maps.google.com/?saddr=Current+Location&dirflg=b&daddr=${parkingLat},${parkingLng}&mode=bicycling" target="_blank"><img src="icon-images/dir-bike.png"></img></a>
+              <br>
+              <small class="text-muted">Directions</small>
+            </p>
             <div class="col-sm">
               <table class="table table-sm col-sm">
                 <tbody class="container-fluid">
@@ -2306,18 +2314,18 @@ window.initMap = function(
                       <td class="text-center" style="background:#${decColor};" data-toggle="tooltip" title="${decTip}">${decEmoji}</td>
                     </tr>
                     <tr>
-                      <td class="text-center"><b>Jan</b></td>
-                      <td class="text-center"><b>Feb</b></td>
-                      <td class="text-center"><b>Mar</b></td>
-                      <td class="text-center"><b>Apr</b></td>
-                      <td class="text-center"><b>May</b></td>
-                      <td class="text-center"><b>Jun</b></td>
-                      <td class="text-center"><b>Jul</b></td>
-                      <td class="text-center"><b>Aug</b></td>
-                      <td class="text-center"><b>Sep</b></td>
-                      <td class="text-center"><b>Oct</b></td>
-                      <td class="text-center"><b>Nov</b></td>
-                      <td class="text-center"><b>Dec</b></td>
+                      <td class="text-center">Jan</td>
+                      <td class="text-center">Feb</td>
+                      <td class="text-center">Mar</td>
+                      <td class="text-center">Apr</td>
+                      <td class="text-center">May</td>
+                      <td class="text-center">Jun</td>
+                      <td class="text-center">Jul</td>
+                      <td class="text-center">Aug</td>
+                      <td class="text-center">Sep</td>
+                      <td class="text-center">Oct</td>
+                      <td class="text-center">Nov</td>
+                      <td class="text-center">Dec</td>
                     </tr>
                   </tbody>
                 </table>
@@ -2327,51 +2335,45 @@ window.initMap = function(
                  <table class="table col-sm">
                      <tbody>
                        <tr>
-                           <td class="best-board">🏄🏽‍♀️Best board:</td>
-                           <td class="text-center" data-toggle="tooltip" title="${boardTip}"><img src="${boardIcon}"></img>${board}</td>
-                           <td class="wave-dir">🌊Direction:</td>
-                           <td class="text-center" data-toggle="tooltip" title="${waveDirTip}">${waveDir}</td>
+                           <td class="best-board font-weight-bold">🏄🏽‍♀️Best board:</td>
+                           <td class="text-left" data-toggle="tooltip" title="${boardTip}"><img src="${boardIcon}"></img>${board}</td>
+                           <td class="wave-dir font-weight-bold">🌊Direction:</td>
+                           <td class="text-left" data-toggle="tooltip" title="${waveDirTip}">${waveDir}</td>
                        </tr>
                        <tr>
-                           <td class="best-size">🌊Best size:</td>
-                           <td class="text-center" data-toggle="tooltip" title="${sizeTip}">${size}</td>
-                           <td class="wave-type">🌊Type:</td>
-                           <td class="text-center" data-toggle="tooltip" title="${waveTypeTip}">${waveType}</td>
+                           <td class="best-size font-weight-bold">🌊Best size:</td>
+                           <td class="text-left" data-toggle="tooltip" title="${sizeTip}">${size}</td>
+                           <td class="wave-type font-weight-bold">🌊Type:</td>
+                           <td class="text-left" data-toggle="tooltip" title="${waveTypeTip}">${waveType}</td>
                        </tr>
                        <tr>
-                           <td class="best-tide">〰️Best tide:</td>
-                           <td class="text-center" data-toggle="tooltip" title="${tideTip}">${tide}</td>
-                           <td class="barrel">🤩Barrel:</td>
-                           <td class="text-center" data-toggle="tooltip" title="${barrelTip}">${barrel}</td>
+                           <td class="best-tide font-weight-bold">〰️Best tide:</td>
+                           <td class="text-left" data-toggle="tooltip" title="${tideTip}">${tide}</td>
+                           <td class="barrel font-weight-bold">🤩Barrel:</td>
+                           <td class="text-left" data-toggle="tooltip" title="${barrelTip}">${barrel}</td>
                        </tr>
                        <tr>
-                           <td class="wind-dir">💨Best wind:</td>
-                           <td class="text-center" data-toggle="tooltip" title="${windTip}">${wind}</td>
-                           <td class="bottom">⚓️Bottom:</td>
-                           <td class="text-center" data-toggle="tooltip" title="${bottomTip}">${bottom}</td>
+                           <td class="wind-dir font-weight-bold">💨Best wind:</td>
+                           <td class="text-left" data-toggle="tooltip" title="${windTip}">${wind}</td>
+                           <td class="bottom font-weight-bold">⚓️Bottom:</td>
+                           <td class="text-left" data-toggle="tooltip" title="${bottomTip}">${bottom}</td>
                        </tr>
                        <tr>
-                           <td class="beach">🏖Beach: </td>
-                           <td class="text-center" data-toggle="tooltip" title="${beachTip}">${beach}</td>
-                           <td class="crowd">🎪Crowd: </td>
-                           <td class="text-center" data-toggle="tooltip" title="${crowdTip}">${crowd}</td>
+                           <td class="beach font-weight-bold">🏖Beach: </td>
+                           <td class="text-left" data-toggle="tooltip" title="${beachTip}">${beach}</td>
+                           <td class="crowd font-weight-bold">🎪Crowd: </td>
+                           <td class="text-left" data-toggle="tooltip" title="${crowdTip}">${crowd}</td>
                        </tr>
                        <tr>
-                           <td class="access">🚗Access: </td>
-                           <td class="text-center" data-toggle="tooltip" title="${access}">${access}</td>
-                           <td class="localism">👺Localism: </td>
-                           <td class="text-center" data-toggle="tooltip" title="${localismTip}">${localism}</td>
+                           <td class="access font-weight-bold">🚗Access: </td>
+                           <td class="text-left" data-toggle="tooltip" title="${access}">${access}</td>
+                           <td class="localism font-weight-bold">👺Localism: </td>
+                           <td class="text-left" data-toggle="tooltip" title="${localismTip}">${localism}</td>
                        </tr>
                        <tr>
                           <td colspan="12" class="text-center">
                             <p class="mt-2"><b>📝Notes</b></p>
                             <p id="spot-notes">Be kind and surf respectfully.🤙</p>
-                            <p id="spot-directions">
-                              <a href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank"><img src="icon-images/dir-drive.png"></img></a>
-                              <a href="https://maps.google.com/?saddr=Current+Location&dirflg=w&daddr=${parkingLat},${parkingLng}" target="_blank"><img src="icon-images/dir-walk.png"></img></a>
-                              <a href="https://maps.google.com/?saddr=Current+Location&dirflg=r&daddr=${parkingLat},${parkingLng}&mode=transit" target="_blank"><img src="icon-images/dir-bus.png"></img></a>
-                              <a href="https://maps.google.com/?saddr=Current+Location&dirflg=b&daddr=${parkingLat},${parkingLng}&mode=bicycling" target="_blank"><img src="icon-images/dir-bike.png"></img></a>
-                            </p>
                           </td>
                        </tr>
                      </tbody>
@@ -2384,51 +2386,120 @@ window.initMap = function(
     }
   };//End window.initMap for Surf Spot Section
 
-
-
-
 //DRAFT START Flights
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+
+if(dd<10){
+    dd='0'+dd;
+}
+if(mm<10){
+    mm='0'+mm;
+}
+var today = dd+'/'+mm+'/'+yyyy;
+//Sets from destination in flight search menu
+var fromDest = "LAX";
+
+//Drops down a calendar to pick departure adn return dates
+$('input[name="daterange"]').daterangepicker({
+  opens: 'left',
+}, function(start, end, label) {
+  console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+});
+
+//START Flight search. Changes departure city
+$('#flightSearch').click(function(){
+   fromDest = $('#fromDestSearch').val();
+   console.log(fromDest);
+   flightSearch(fromDest);
+});//END Flight search
+
+//START flightSearch function with the skypicker AJAX call
+function flightSearch(){
   $.ajax({
     type: 'GET',
-    url:'https://api.skypicker.com/flights?flyFrom=SFO&to=LAX&curr=USD&partner=picky',
+    url:`https://api.skypicker.com/flights?flyFrom=${fromDest}&to=SFO&curr=USD&dateFrom=${today}&dateTo=31/05/2018&sort=date&partner=picky`,
     success: function(flights){
-      const cityFrom = flights.data[0].cityFrom;
-      const cityTo = flights.data[0].cityTo;
-      const flyFrom = flights.data[0].flyFrom;
-      const flyTo = flights.data[0].flyTo;
-      const price = flights.data[0].price;
-      const airlines = flights.data[0].airlines;
-      const deeplink = flights.data[0].deep_link;
-
-      console.log('success', flights);
 
       //Click on table row and opens relevant flight page via data-url="${deeplink}"
       $(document).on("click", ".flight", function(){
         window.open($(this).data("url"), '_blank');
       });
+      //Loop through Skypicker's flights.data from the url: specified in the ajax call.
+      $.each(flights.data, function(i, flight){
+        const cityFrom = flights.data[i].cityFrom;
+        const cityTo = flights.data[i].cityTo;
+        const flyFrom = flights.data[i].flyFrom;
+        const flyTo = flights.data[i].flyTo;
+        const price = flights.data[i].price;
+        const airlines = flights.data[i].airlines;
+        const deeplink = flights.data[i].deep_link;
+        const dTime = flights.data[i].dTimeUTC;
+        const aTime = flights.data[i].aTimeUTC;
+        const flyDuration = flights.data[i].fly_duration;
 
-      $.each(flights, function(i, flight){
-        $('#flights__wrapper').prepend(`
+        // console.log('success', flights);
+
+        // Create a new JavaScript Date object based on the "dTime" timestamp
+        // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+        var dDate = new Date(dTime*1000);
+        //Sets weekday names in an array
+        var weekday = new Array(7);
+        weekday[0] = "Sun";
+        weekday[1] = "Mon";
+        weekday[2] = "Tue";
+        weekday[3] = "Wed";
+        weekday[4] = "Thu";
+        weekday[5] = "Fri";
+        weekday[6] = "Sat";
+        // Sets month names in an array
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        // Month part from dTime timestamp
+        var dMonth = months[dDate.getMonth()];
+        // Day of month part from dTime timestamp
+        var dDay = dDate.getDate();
+        // Day of week part from dTime timestamp
+        var dWeekDay = weekday[dDate.getDay()]
+        // Hours part from the dTime timestamp
+        var dHours = dDate.getHours();
+        // Minutes part from the dTime timestamp
+        var dMinutes = ('0'+dDate.getMinutes()).slice(-2);
+
+        // Create a new JavaScript Date object based on the "aTime" timestamp
+        // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+        var aDate = new Date(aTime*1000);
+        // Hours part from the timestamp
+        var aHours = aDate.getHours();
+        // Minutes part from the timestamp
+        var aMinutes = ('0'+aDate.getMinutes()).slice(-2);
+
+        //Builds the flights section
+        $('#flights__wrapper').append(`
           <div id="flights" class="row">
             <table class="table table-hover">
               <tr class="flight" data-url="${deeplink}">
                 <th class="price">$${price}</th>
                 <td class="airline"><img src="https://images.kiwi.com/airlines/64/${airlines}.png" style="height:32px; width:32px;"</img></td>
-                <td class="times">🗓 Sat May 21 (in 17 days)</td>
-                <td class="from">🛫${cityFrom} (${flyFrom})</td>
-                <td class="to">${cityTo} (${flyTo})</td>
-                <td class="duration">⌚️5h 5m</td>
+                <td class="times"><b>🗓 ${dWeekDay}, ${dMonth} ${dDay}</b><br><a class="text-muted">${dHours}:${dMinutes} – ${aHours}:${aMinutes}</a></td>
+                <td class="from font-weight-bold">🛫${cityFrom} (${flyFrom})</td>
+                <td class="to text-muted">🛬${cityTo} (${flyTo})</td>
+                <td class="flyDuration text-muted">⌚️${flyDuration}</td>
               </tr>
             </table>
           </div>
           `)
       });
-    },
+    },//END of Success function
     error: function(){
       console.log("Error getting flights");
     }
-  });
+  });//END AJAX Call
+}//END flightSearch function with the skypicker AJAX call
 
+//Show ajax call on page load
+flightSearch();
 
 //DRAFT END Flights
 

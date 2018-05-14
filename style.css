@@ -371,3 +371,13 @@ body {
   margin: 0px;
   padding-bottom: 0px;
 }
+
+.input-group-text {
+  background: #ffffff;
+}
+
+/*Flights calendar*/
+/* .dp-highlight .ui-state-default {
+    background: #484;
+    color: #FFF;
+} */

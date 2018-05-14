@@ -12,7 +12,11 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- JQUERY -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <!-- FONT AWESOME - for icons -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
@@ -37,19 +41,19 @@
           <a id="nav2" class="accomm-nav nav-link" href="#" data-type="accomm-map__wrapper">Accommodations</a>
         </li>
         <li class="nav-item">
-          <a id="nav3" class="board-rentals-nav nav-link" href="#" data-type="board-rentals__wrapper">Rentals</a>
+          <a id="nav3" class="flights-nav nav-link" href="#" data-type="flights__wrapper">Flights</a>
         </li>
         <li class="nav-item">
-          <a id="nav4" class="lessons-nav nav-link" href="#" data-type="lessons__wrapper">Lessons</a>
+          <a id="nav4" class="board-rentals-nav nav-link" href="#" data-type="board-rentals__wrapper">Rentals</a>
         </li>
         <li class="nav-item">
-          <a id="nav5" class="cost-nav nav-link" href="#" data-type="cost__wrapper">Cost</a>
+          <a id="nav5" class="lessons-nav nav-link" href="#" data-type="lessons__wrapper">Lessons</a>
         </li>
         <li class="nav-item">
-          <a id="nav6" class="guide-nav nav-link" href="#" data-type="travel-guide">Guide</a>
+          <a id="nav6" class="cost-nav nav-link" href="#" data-type="cost__wrapper">Cost</a>
         </li>
         <li class="nav-item">
-          <a id="nav7" class="flights-nav nav-link" href="#" data-type="flights__wrapper">Flights</a>
+          <a id="nav7" class="guide-nav nav-link" href="#" data-type="travel-guide">Guide</a>
         </li>
       </ul>
     </nav><!-- /nav -->
@@ -83,64 +87,15 @@
 
       <!-- flights  -->
         <div id="flights__wrapper" class="row mb-5 Hide">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text font-weight-bold" id="basic-addon3">📍 From:</span>
+            </div>
+            <input type="text" class="form-control" id="fromDestSearch" aria-describedby="basic-addon3" placeholder="San Francisco (SFO)">
+            <button id="flightSearch" class="btn btn-danger ml-2">🔍SEARCH</button>
+          </div>
+          <input type="text" name="daterange" value="Pick"></input>
         </div><!-- /flights -->
-
-
-      <!-- flights -->
-      <!-- <div id="flights" class="row mx-1">
-        <table class="table table-hover mb-5">
-          <tbody>
-            <tr>
-              <th class="price">$247</th>
-              <td class="airline">Virgin</td>
-              <td class="times">🗓 Sat 7 Apr (in 17 days)</td>
-              <td class="from">🛫San Francisco (SFO)</td>
-              <td class="to">🛬Honolulu (HNL)</td>
-              <td class="duration">⌚️5h 5m</td>
-            </tr>
-            <tr>
-              <th class="price">$247</th>
-              <td class="airline">Virgin</td>
-              <td class="times">🗓 Sat 7 Apr (in 17 days)</td>
-              <td class="from">🛫San Francisco (SFO)</td>
-              <td class="to">🛬Honolulu (HNL)</td>
-              <td class="duration">⌚️5h 5m</td>
-            </tr>
-            <tr>
-              <th class="price">$247</th>
-              <td class="airline">Virgin</td>
-              <td class="times">🗓 Sat 7 Apr (in 17 days)</td>
-              <td class="from">🛫San Francisco (SFO)</td>
-              <td class="to">🛬Honolulu (HNL)</td>
-              <td class="duration">⌚️5h 5m</td>
-            </tr>
-            <tr>
-              <th class="price">$247</th>
-              <td class="airline">Virgin</td>
-              <td class="times">🗓 Sat 7 Apr (in 17 days)</td>
-              <td class="from">🛫San Francisco (SFO)</td>
-              <td class="to">🛬Honolulu (HNL)</td>
-              <td class="duration">⌚️5h 5m</td>
-            </tr>
-            <tr>
-              <th class="price">$247</th>
-              <td class="airline">Virgin</td>
-              <td class="times">🗓 Sat 7 Apr (in 17 days)</td>
-              <td class="from">🛫San Francisco (SFO)</td>
-              <td class="to">🛬Honolulu (HNL)</td>
-              <td class="duration">⌚️5h 5m</td>
-            </tr>
-            <tr>
-              <th class="price">$247</th>
-              <td class="airline">Virgin</td>
-              <td class="times">🗓 Sat 7 Apr (in 17 days)</td>
-              <td class="from">🛫San Francisco (SFO)</td>
-              <td class="to">🛬Honolulu (HNL)</td>
-              <td class="duration">⌚️5h 5m</td>
-            </tr>
-          </tbody>
-        </table>
-      </div><!-- /flights -->
 
       <!-- footer -->
       <div class="row py-3">
