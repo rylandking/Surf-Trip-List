@@ -91,17 +91,89 @@
         </div><!-- /guide -->
 
       <!-- flights  -->
-        <div id="flights__wrapper" class="row my-3 Hide container-fluid">
-          <div class="row flight-search-menu input-group mb-4 justify-content-center">
-            <div class="input-group-prepend">
-              <span class="input-group-text font-weight-bold" id="basic-addon3">📍 From:</span>
+        <div id="flights__wrapper" class="row my-3 Hide">
+          <div class="row flight-preferences justify-content-center mb-3">
+            <div class="btn-group">
+              <button type="button" id="adult" class="btn btn-outline-danger dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                💺1 adult
+              </button>
+              <div class="dropdown-menu">
+                <a id="1adult" class="adultSelect dropdown-item" href="#" value="1">1 adult</a>
+                <a id="2adult" class="adultSelect dropdown-item" href="#" value="2">2 adults</a>
+                <a id="3adult" class="adultSelect dropdown-item" href="#" value="3">3 adults</a>
+                <a id="4adult" class="adultSelect dropdown-item" href="#" value="4">4 adults</a>
+                <a id="5adult" class="adultSelect dropdown-item" href="#" value="5">5 adults</a>
+                <a id="6adult" class="adultSelect dropdown-item" href="#" value="6">6 adults</a>
+                <a id="7adult" class="adultSelect dropdown-item" href="#" value="7">7 adults</a>
+                <a id="8adult" class="adultSelect dropdown-item" href="#" value="8">8 adults</a>
+                <a id="9adult" class="adultSelect dropdown-item" href="#" value="9">9 adults</a>
+              </div>
             </div>
-            <input type="text" class="form-control" id="fromDestSearch" aria-describedby="basic-addon3" placeholder="Where are you now?"></input>
+            <div class="btn-group">
+              <button type="button" id="children" class="btn btn-outline-danger dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                🤸‍0 children
+              </button>
+              <div class="dropdown-menu">
+                <a id="0child" class="childSelect dropdown-item" href="#" value="0">0 children</a>
+                <a id="1child" class="childSelect dropdown-item" href="#" value="1">1 child</a>
+                <a id="2child" class="childSelect dropdown-item" href="#" value="2">2 children</a>
+                <a id="3child" class="childSelect dropdown-item" href="#" value="3">3 children</a>
+                <a id="4child" class="childSelect dropdown-item" href="#" value="4">4 children</a>
+                <a id="5child" class="childSelect dropdown-item" href="#" value="5">5 children</a>
+                <a id="6child" class="childSelect dropdown-item" href="#" value="6">6 children</a>
+                <a id="7child" class="childSelect dropdown-item" href="#" value="7">7 children</a>
+                <a id="8child" class="childSelect dropdown-item" href="#" value="8">8 children</a>
+                <a id="9child" class="childSelect dropdown-item" href="#" value="9">9 children</a>
+              </div>
+            </div>
+            <div class="btn-group">
+              <button type="button" id="stopOvers" class="btn btn-outline-danger dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                🛩Stops?
+              </button>
+              <div class="dropdown-menu">
+                <a id="stopOver" class="stopOverSelect dropdown-item" href="#" data-stopovers="5">🛩Stops?</a>
+                <a id="0stopOver" class="stopOverSelect dropdown-item" href="#" data-stopovers="0">🛩0 stops</a>
+                <a id="1stopOver" class="stopOverSelect dropdown-item" href="#" data-stopovers="1">🛩1 stop or less</a>
+                <a id="2stopOver" class="stopOverSelect dropdown-item" href="#" data-stopovers="2">🛩2 stops or less</a>
+              </div>
+            </div>
+            <div class="btn-group">
+              <button type="button" id="departureTimes" class="btn btn-outline-danger dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                🛫Departure time?
+              </button>
+              <div class="dropdown-menu">
+                <!-- dtimefrom=min departure (after 8am), dtimeto=max departure (before 10am) -->
+                <a id="departureTime" class="depatureTimeSelect dropdown-item" href="#" data-dtimefrom="00:00" data-dtimeto="23:59">🛫Any departure time</a>
+                <a id="0departureTime" class="depatureTimeSelect dropdown-item" href="#" data-dtimeto="10:00">🛫Morning (before 10am)</a>
+                <a id="1departureTime" class="depatureTimeSelect dropdown-item" href="#" data-dtimefrom="10:00" data-dtimeto="16:00">🛫Afternoon (10am-4pm)</a>
+                <a id="2departureTime" class="depatureTimeSelect dropdown-item" href="#" data-dtimefrom="16:00">🛫Evening (after 4pm)</a>
+              </div>
+            </div>
+            <div class="btn-group">
+              <button type="button" id="arrivalTimes" class="btn btn-outline-danger dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                🛬Arrival time?
+              </button>
+              <div class="dropdown-menu">
+                <!-- atimefrom=min departure (after 8am), atimeto=max departure (before 10am) -->
+                <a id="arrivalTime" class="arrivalTimeSelect dropdown-item" href="#" data-atimefrom="00:00" data-atimeto="23:59">🛬Any arrival time</a>
+                <a id="0arrivalTime" class="arrivalTimeSelect dropdown-item" href="#" data-atimeto="10:00">🛬Morning (before 10am)</a>
+                <a id="1arrivalTime" class="arrivalTimeSelect dropdown-item" href="#" data-atimefrom="10:00" data-atimeto="16:00">🛬Afternoon (10am-4pm)</a>
+                <a id="2arrivalTime" class="arrivalTimeSelect dropdown-item" href="#" data-atimefrom="16:00">🛬Evening (after 4pm)</a>
+              </div>
+            </div>
+            <div class="btn-group">
+              <button id="flightSearch" class="btn btn-danger">🔍SEARCH</button>
+            </div>
+          </div>
+          <div class="row flight-search-menu input-group mb-3 justify-content-center" >
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold" id="basic-addon3">📍 From:</span>
+                <input type="text" class="form-control" id="fromDestSearch" aria-describedby="basic-addon3" placeholder="Where from?"></input>
+              </div>
               <div class="input-group-prepend ml-3">
                 <span class="input-group-text font-weight-bold" id="basic-addon3">🗓 Date:</span>
+                <input type="text" name="daterange" value="" class="form-control" aria-describedby="basic-addon3"></input>
               </div>
-              <input type="text" name="daterange" value="" class="form-control" aria-describedby="basic-addon3"></input>
-            <button id="flightSearch" class="btn btn-danger ml-3">🔍SEARCH</button>
           </div>
           <div id="flights__list" class="row mb-5"></div>
         </div><!-- /flights -->

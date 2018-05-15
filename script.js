@@ -2294,7 +2294,7 @@ window.initMap = function(
               <a href="https://maps.google.com/?saddr=Current+Location&dirflg=r&daddr=${parkingLat},${parkingLng}&mode=transit" target="_blank"><img src="icon-images/dir-bus.png"></img></a>
               <a href="https://maps.google.com/?saddr=Current+Location&dirflg=b&daddr=${parkingLat},${parkingLng}&mode=bicycling" target="_blank"><img src="icon-images/dir-bike.png"></img></a>
               <br>
-              <small class="text-muted">Directions</small>
+              <small class="text-muted">Directions to the spot</small>
             </p>
             <div class="col-sm">
               <table class="table table-sm col-sm">
@@ -2418,7 +2418,17 @@ if(mm<10){
 var today = dd+'/'+mm+'/'+yyyy;
 var dateFrom = ddFrom+'/'+mmFrom+'/'+yyyyFrom;
 var dateTo = ddTo+'/'+mmTo+'/'+yyyyTo;
-console.log(dateFrom, dateTo);
+//Sets default passenger type variables
+var adults = 1;
+var children = 0;
+//Sets default stopover count
+var stopOvers = 5;
+//Sets default departure time preferences
+var dTimeFrom = "00:00";
+var dTimeTo = "23:59";
+//Sets default arrival time preferences
+var aTimeFrom = "00:00";
+var aTimeTo = "23:59";
 //Sets from destination in flight search menu
 var fromDest = "LAX";
 
@@ -2545,6 +2555,152 @@ function onKeyDown(e) {
 }
 //END Airport autocomplete (https://codepen.io/anon/pen/QrBdog)
 
+//START Passenger button. Shows and store # of passengers on button when selected.
+$(function(){
+  $("#1adult").click(function () {
+  $("#adult").text($(this).text());
+  adults = parseInt($(this).text());
+  });
+  $("#2adult").click(function () {
+  $("#adult").text($(this).text());
+  adults = parseInt($(this).text());
+  });
+  $("#3adult").click(function () {
+  $("#adult").text($(this).text());
+  adults = parseInt($(this).text());
+  });
+  $("#4adult").click(function () {
+  $("#adult").text($(this).text());
+  adults = parseInt($(this).text());
+  });
+  $("#5adult").click(function () {
+  $("#adult").text($(this).text());
+  adults = parseInt($(this).text());
+  });
+  $("#6adult").click(function () {
+  $("#adult").text($(this).text());
+  adults = parseInt($(this).text());
+  });
+  $("#7adult").click(function () {
+  $("#adult").text($(this).text());
+  adults = parseInt($(this).text());
+  });
+  $("#8adult").click(function () {
+  $("#adult").text($(this).text());
+  adults = parseInt($(this).text());
+  });
+  $("#9adult").click(function () {
+  $("#adult").text($(this).text());
+  adults = parseInt($(this).text());
+  });
+});
+//Children button
+$(function(){
+  $("#0child").click(function () {
+  $("#children").text($(this).text());
+  children = parseInt($(this).text());
+  });
+  $("#1child").click(function () {
+  $("#children").text($(this).text());
+  children = parseInt($(this).text());
+  });
+  $("#2child").click(function () {
+  $("#children").text($(this).text());
+  children = parseInt($(this).text());
+  });
+  $("#3child").click(function () {
+  $("#children").text($(this).text());
+  children = parseInt($(this).text());
+  });
+  $("#4child").click(function () {
+  $("#children").text($(this).text());
+  children = parseInt($(this).text());
+  });
+  $("#5child").click(function () {
+  $("#children").text($(this).text());
+  children = parseInt($(this).text());
+  });
+  $("#6child").click(function () {
+  $("#children").text($(this).text());
+  children = parseInt($(this).text());
+  });
+  $("#7child").click(function () {
+  $("#children").text($(this).text());
+  children = parseInt($(this).text());
+  });
+  $("#8child").click(function () {
+  $("#children").text($(this).text());
+  children = parseInt($(this).text());
+  });
+  $("#9child").click(function () {
+  $("#children").text($(this).text());
+  children = parseInt($(this).text());
+  });
+});
+//stopOvers preference
+$(function(){
+  $("#stopOver").click(function () {
+  $("#stopOvers").text($(this).text());
+  stopOvers = $(this).attr("data-stopovers");
+  });
+  $("#0stopOver").click(function () {
+  $("#stopOvers").text($(this).text());
+  stopOvers = $(this).attr("data-stopovers");
+  });
+  $("#1stopOver").click(function () {
+  $("#stopOvers").text($(this).text());
+  stopOvers = $(this).attr("data-stopovers");
+  });
+  $("#2stopOver").click(function () {
+  $("#stopOvers").text($(this).text());
+  stopOvers = $(this).attr("data-stopovers");
+  });
+});
+//Departure time preference (dtimefrom=min departure (after 8am), dtimeto=max departure (before 10am))
+$(function(){
+  $("#departureTime").click(function () {
+  $("#departureTimes").text($(this).text());
+  dTimeFrom = $(this).attr("data-dtimefrom");
+  dTimeTo = $(this).attr("data-dtimeto");
+  });
+  $("#0departureTime").click(function () {
+  $("#departureTimes").text($(this).text());
+  dTimeTo = $(this).attr("data-dtimeto");
+  });
+  $("#1departureTime").click(function () {
+  $("#departureTimes").text($(this).text());
+  dTimeFrom = $(this).attr("data-dtimefrom");
+  dTimeTo = $(this).attr("data-dtimeto");
+  });
+  $("#2departureTime").click(function () {
+  $("#departureTimes").text($(this).text());
+  dTimeFrom = $(this).attr("data-dtimefrom");
+  });
+});
+//Arrival time preference (atimefrom=min arrival (after 8am), atimeto=max arrival (before 10am))
+$(function(){
+  $("#arrivalTime").click(function () {
+  $("#arrivalTimes").text($(this).text());
+  aTimeFrom = $(this).attr("data-atimefrom");
+  aTimeTo = $(this).attr("data-atimeto");
+  });
+  $("#0arrivalTime").click(function () {
+  $("#arrivalTimes").text($(this).text());
+  aTimeTo = $(this).attr("data-atimeto");
+  });
+  $("#1arrivalTime").click(function () {
+  $("#arrivalTimes").text($(this).text());
+  aTimeFrom = $(this).attr("data-atimefrom");
+  aTimeTo = $(this).attr("data-atimeto");
+  });
+  $("#2arrivalTime").click(function () {
+  $("#arrivalTimes").text($(this).text());
+  aTimeFrom = $(this).attr("data-atimefrom");
+  });
+});
+
+//END Passenger Button
+
 //Drops down a calendar to pick departure adn return dates (http://www.daterangepicker.com/)
 $('input[name="daterange"]').daterangepicker({
   opens: 'center',
@@ -2565,12 +2721,12 @@ $('#flightSearch').click(function(){
    $('#flights__list').empty();
    flightSearch();
 });//END Flight search
-console.log(today);
+
 //START flightSearch function with the skypicker AJAX call
 function flightSearch(){
   $.ajax({
     type: 'GET',
-    url:`https://api.skypicker.com/flights?flyFrom=${fromDest}&to=SFO&curr=USD&dateFrom=${dateFrom}&dateTo=${dateTo}&sort=date&partner=picky`,
+    url:`https://api.skypicker.com/flights?flyFrom=${fromDest}&to=SFO&curr=USD&dateFrom=${dateFrom}&dateTo=${dateTo}&adults=${adults}&children=${children}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&sort=date&partner=picky`,
     success: function(flights){
       //Click on table row and opens relevant flight page via data-url="${deeplink}"
       $(document).on("click", ".flight", function(){
