@@ -2740,11 +2740,81 @@ function flightSearch(){
         const flyFrom = flights.data[i].flyFrom;
         const flyTo = flights.data[i].flyTo;
         const price = flights.data[i].price;
-        const airlines = flights.data[i].airlines;
         const deeplink = flights.data[i].deep_link;
         const dTime = flights.data[i].dTimeUTC;
         const aTime = flights.data[i].aTimeUTC;
         const flyDuration = flights.data[i].fly_duration;
+        const stops = flights.data[i].route.length - 1; //1 is a non-stop flight
+        var layovers = flights.data[i].route;
+        var layovers0 = layovers[0].mapIdfrom;
+        var layovers1 = layovers[1]
+        var layovers2 = layovers[2]
+        var layovers3 = layovers[3]
+        var layovers4 = layovers[4]
+        var airlines = flights.data[i].airlines;
+        var airlines0 = airlines[0];
+        var airlines1 = airlines[1];
+        var airlines2 = airlines[2];
+        var airlines3 = airlines[3];
+        var airlines4 = airlines[4];
+
+        if (layovers1 != undefined) {
+          layovers1 = layovers[1].mapIdfrom.replace(/-/g,' ');
+          layovers1 = `<p class="text-muted" style="margin:0px; padding:0px;"><small>via <a class="text-capitalize">${layovers1}</a></small></p>`
+        } else {
+          layovers1 = ``;
+        }
+
+        if (layovers2 != undefined) {
+          layovers2 = layovers[2].mapIdfrom.replace(/-/g,' ');
+          layovers2 = `<p class="text-muted" style="margin:0px; padding:0px;"><small>via <a class="text-capitalize">${layovers2}</a></small></p>`
+        } else {
+          layovers2 = ``;
+        }
+
+        if (layovers3 != undefined) {
+          layovers3 = layovers[3].mapIdfrom.replace(/-/g,' ');
+          layovers3 = `<p class="text-muted" style="margin:0px; padding:0px;"><small>via <a class="text-capitalize">${layovers3}</a></small></p>`
+        } else {
+          layovers3 = ``;
+        }
+
+        if (layovers4 != undefined) {
+          layovers4 = layovers[4].mapIdfrom.replace(/-/g,' ');
+          layovers4 = `<p class="text-muted" style="margin:0px; padding:0px;"><small>via <a class="text-capitalize">${layovers4}</a></small></p>`
+        } else {
+          layovers4 = ``;
+        }
+
+        if (airlines0 != undefined) {
+          airlines0 = `<img src="https://images.kiwi.com/airlines/64/${airlines0}.png" style="height:45px; width:45px;"</img>`;
+        } else {
+          airlines0 = ``;
+        }
+
+        if (airlines1 != undefined) {
+          airlines1 = ` <img src="https://images.kiwi.com/airlines/64/${airlines1}.png" style="height:45px; width:45px;"</img>`;
+        } else {
+          airlines1 = ``;
+        }
+
+        if (airlines2 != undefined) {
+          airlines2 = ` <img src="https://images.kiwi.com/airlines/64/${airlines2}.png" style="height:45px; width:45px;"</img>`;
+        } else {
+          airlines2 = ``;
+        }
+
+        if (airlines3 != undefined) {
+          airlines3 = ` <img src="https://images.kiwi.com/airlines/64/${airlines3}.png" style="height:45px; width:45px;"</img>`;
+        } else {
+          airlines3 = ``;
+        }
+
+        if (airlines4 != undefined) {
+          airlines4 = ` <img src="https://images.kiwi.com/airlines/64/${airlines4}.png" style="height:45px; width:45px;"</img>`;
+        } else {
+          airlines4 = ``;
+        }
 
         // console.log('success', flights);
 
@@ -2770,6 +2840,14 @@ function flightSearch(){
         var dWeekDay = weekday[dDate.getDay()]
         // Hours part from the dTime timestamp
         var dHours = dDate.getHours();
+        if (dHours > 0 && dHours <= 12) {
+          dHourConversion= "" + dHours;
+        } else if (dHours > 12) {
+          dHourConversion= "" + (dHours - 12);
+        } else if (dHours == 0) {
+          dHourConversion= "12";
+        }
+        dAMPM = (dHours >= 12) ? " PM" : " AM";  // get AM/PM
         // Minutes part from the dTime timestamp
         var dMinutes = ('0'+dDate.getMinutes()).slice(-2);
 
@@ -2778,20 +2856,33 @@ function flightSearch(){
         var aDate = new Date(aTime*1000);
         // Hours part from the timestamp
         var aHours = aDate.getHours();
+        if (aHours > 0 && aHours <= 12) {
+          aHourConversion= "" + aHours;
+        } else if (aHours > 12) {
+          aHourConversion= "" + (aHours - 12);
+        } else if (aHours == 0) {
+          aHourConversion= "12";
+        }
+        aAMPM = (aHours >= 12) ? " PM" : " AM";  // get AM/PM
         // Minutes part from the timestamp
         var aMinutes = ('0'+aDate.getMinutes()).slice(-2);
 
         //Builds the flights section
         $('#flights__list').append(`
-          <div id="flights" class="row col-12">
+          <div id="flights" class="row col-11 mx-auto">
             <table id="flightsTable" class="table table-hover">
               <tr class="flight" data-url="${deeplink}">
-                <th class="price">$${price}</th>
-                <td class="airline"><img src="https://images.kiwi.com/airlines/64/${airlines}.png" style="height:32px; width:32px;"</img></td>
-                <td class="times"><b>🗓 ${dWeekDay}, ${dMonth} ${dDay}</b><br><a class="text-muted">${dHours}:${dMinutes} – ${aHours}:${aMinutes}</a></td>
-                <td class="from font-weight-bold">🛫${cityFrom} (${flyFrom})</td>
-                <td class="to text-muted">🛬${cityTo} (${flyTo})</td>
-                <td class="flyDuration text-muted">⌚️${flyDuration}</td>
+                <td class="airline text-left" colspan="2">${airlines0}${airlines1}${airlines2}${airlines3}${airlines4}</td>
+                <td class="times text-left" colspan="2"><b>${dHourConversion}:${dMinutes}${dAMPM} – ${aHourConversion}:${aMinutes}${aAMPM}</b><br><a class="text-muted">🗓 ${dWeekDay}, ${dMonth} ${dDay}</a></td>
+                <td class="duration text-left" colspan="2">⌚️${flyDuration}<br><a class="text-muted">${flyFrom}-${flyTo}</a></td>
+                <td class="stops text-left" colspan="2">
+                  🛩${stops} stops
+                  ${layovers1}
+                  ${layovers2}
+                  ${layovers3}
+                  ${layovers4}
+                </td>
+                <th class="price text-right" colspan="3"><button class="btn btn-success"><b>$${price}</b></button></th>
               </tr>
             </table>
           </div>
