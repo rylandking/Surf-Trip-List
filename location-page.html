@@ -94,6 +94,15 @@
         <div id="flights__wrapper" class="row my-3 Hide">
           <div class="row flight-preferences justify-content-center mb-3">
             <div class="btn-group">
+                <button type="button" id="oneWayOrRoundTrip" class="btn btn-outline-danger dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  🌎Round trip
+                </button>
+                <div class="dropdown-menu">
+                  <a id="roundTripShow" class="oneWayOrRoundTripSelect dropdown-item" href="#" data-oneWayOrRoundTrip="&returnFrom=${returnFrom}&returnTo=${returnTo}">🌎Round Trip</a>
+                  <a id="oneWayShow" class="oneWayOrRoundTripSelect dropdown-item" href="#" data-oneWayOrRoundTrip="">🌎One Way</a>
+                </div>
+              </div>
+            <div class="btn-group">
               <button type="button" id="adult" class="btn btn-outline-danger dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 💺1 adult
               </button>
@@ -119,11 +128,6 @@
                 <a id="2infant" class="infantSelect dropdown-item" href="#" value="2">2 infants</a>
                 <a id="3infant" class="infantSelect dropdown-item" href="#" value="3">3 infants</a>
                 <a id="4infant" class="infantSelect dropdown-item" href="#" value="4">4 infants</a>
-                <a id="5infant" class="infantSelect dropdown-item" href="#" value="5">5 infants</a>
-                <a id="6infant" class="infantSelect dropdown-item" href="#" value="6">6 infants</a>
-                <a id="7infant" class="infantSelect dropdown-item" href="#" value="7">7 infants</a>
-                <a id="8infant" class="infantSelect dropdown-item" href="#" value="8">8 infants</a>
-                <a id="9infant" class="infantSelect dropdown-item" href="#" value="9">9 infants</a>
               </div>
             </div>
             <div class="btn-group">

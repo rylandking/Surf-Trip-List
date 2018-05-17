@@ -2398,7 +2398,7 @@ var dd = today.getDate();
 var mm = today.getMonth()+1; //January is 0!
 var yyyy = today.getFullYear();
 
-//Using dateFrom because it's the variable that comes out of the daterangepicker when date range is edited
+//Sets default dateFrom and dateTo values
 var dateFrom = new Date().addDays(1); //+1 days
 var ddFrom = dateFrom.getDate();
 var mmFrom = dateFrom.getMonth()+1; //January is 0!
@@ -2409,6 +2409,17 @@ var ddTo = dateTo.getDate();
 var mmTo = dateTo.getMonth()+1; //January is 0!
 var yyyyTo = dateTo.getFullYear();
 
+//Sets default returnFrom and returnTo values
+var returnFrom = new Date().addDays(7); //+7 days
+var ddReturnFrom = returnFrom.getDate();
+var mmReturnFrom = returnFrom.getMonth()+1; //January is 0!
+var yyyyReturnFrom = returnFrom.getFullYear();
+
+var returnTo = new Date().addDays(7); //+7 days
+var ddReturnTo = returnTo.getDate();
+var mmReturnTo = returnTo.getMonth()+1; //January is 0!
+var yyyyReturnTo = returnTo.getFullYear();
+
 if(dd<10){
     dd='0'+dd;
 }
@@ -2418,6 +2429,10 @@ if(mm<10){
 var today = dd+'/'+mm+'/'+yyyy;
 var dateFrom = ddFrom+'/'+mmFrom+'/'+yyyyFrom;
 var dateTo = ddTo+'/'+mmTo+'/'+yyyyTo;
+var returnFrom = ddReturnFrom+'/'+mmReturnFrom+'/'+yyyyReturnFrom;
+var returnTo = ddReturnTo+'/'+mmReturnTo+'/'+yyyyReturnTo;
+//Sets default return dates (NEED TO MAKE DYNAMIC)
+var returnDates = `&returnFrom=${returnFrom}&returnTo=${returnTo}`;
 //Sets default passenger type variables
 var adults = 1;
 var infants = 0;
@@ -2620,26 +2635,6 @@ $(function(){
   $("#infants").text($(this).text());
   infants = parseInt($(this).text());
   });
-  $("#5infant").click(function () {
-  $("#infants").text($(this).text());
-  infants = parseInt($(this).text());
-  });
-  $("#6infant").click(function () {
-  $("#infants").text($(this).text());
-  infants = parseInt($(this).text());
-  });
-  $("#7infant").click(function () {
-  $("#infants").text($(this).text());
-  infants = parseInt($(this).text());
-  });
-  $("#8infant").click(function () {
-  $("#infants").text($(this).text());
-  infants = parseInt($(this).text());
-  });
-  $("#9infant").click(function () {
-  $("#infants").text($(this).text());
-  infants = parseInt($(this).text());
-  });
 });
 //stopOvers preference
 $(function(){
@@ -2723,6 +2718,19 @@ $(function(){
     $(".bags").hide();
   });
 });
+//Round Trip or One Way? on button click
+$(function(){
+  $("#roundTripShow").click(function () {
+  $("#oneWayOrRoundTrip").text($(this).text());
+  returnDates = $(this).attr("data-oneWayOrRoundTrip");
+  $("#returnDate").show();
+  });
+  $("#oneWayShow").click(function () {
+  $("#oneWayOrRoundTrip").text($(this).text());
+  returnDates = $(this).attr("data-oneWayOrRoundTrip");
+  $("#returnDate").hide();
+  });
+});
 //END Passenger Button
 
 //Drops down a calendar to pick departure date (http://www.daterangepicker.com/)
@@ -2734,7 +2742,7 @@ $('input[name="departure"]').daterangepicker({
   applyButtonClasses: 'btn-danger',
   cancelButtonClasses: 'btn-outline-danger',
 }, function(start, end, label) {
-  console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+  console.log("A new outbound date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
   dateFrom = start.format('DD/MM/YYYY');
   dateTo = end.format('DD/MM/YYYY');
 });
@@ -2748,27 +2756,33 @@ $('input[name="return"]').daterangepicker({
   applyButtonClasses: 'btn-danger',
   cancelButtonClasses: 'btn-outline-danger',
 }, function(start, end, label) {
-  console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+  // console.log("A new return date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
   returnFrom = start.format('DD/MM/YYYY');
   returnTo = end.format('DD/MM/YYYY');
+  returnDates = `&returnFrom=${returnFrom}&returnTo=${returnTo}`
+  console.log(returnDates);
 });
 
 //START Flight search on click
 $('#flightSearch').click(function(){
    fromDest = $('#fromDestSearch').val();
-   // console.log(fromDest, today);
+   console.log(returnFrom, returnTo);
    $('#flights__list').empty();
    flightSearch();
 });//END Flight search
 
-// ROUND TRIP &returnFrom=30/05/2018&returnTo=31/05/2018
-
 //START flightSearch function with the skypicker AJAX call
 function flightSearch(){
+  //If flight search happens without inputing city into FROM input, set fromDest to initial destination (LAX)
+  if (fromDest.length < 2) {
+    fromDest = "LAX";
+  }
+  //Dynamic API URL to call in flightSearch();
+  var flightSearchURL = `https://api.skypicker.com/flights?flyFrom=${fromDest}&to=DPS&dateFrom=${dateFrom}&dateTo=${dateTo}${returnDates}&adults=${adults}&infants=${infants}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&curr=USD&sort=${sortFlightsBy}&partner=picky`;
   $('#loadImage').show();
   $.ajax({
     type: 'GET',
-    url:`https://api.skypicker.com/flights?flyFrom=${fromDest}&to=SFO&curr=USD&dateFrom=${dateFrom}&dateTo=${dateTo}&adults=${adults}&infants=${infants}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&sort=${sortFlightsBy}&partner=picky`,
+    url:`${flightSearchURL}`,
     success: function(flights){
       //Click on table row and opens relevant flight page via data-url="${deeplink}"
       $(document).on("click", ".flight", function(){
@@ -2778,6 +2792,7 @@ function flightSearch(){
       $("#loadImage").hide();
       //Loop through Skypicker's flights.data from the url: specified in the ajax call.
       $.each(flights.data, function(i, flight){
+        // console.log('success', flights);
         const cityFrom = flights.data[i].cityFrom;
         const cityTo = flights.data[i].cityTo;
         const flyFrom = flights.data[i].flyFrom;
@@ -2860,8 +2875,6 @@ function flightSearch(){
         } else {
           airlines4 = ``;
         }
-
-        console.log('success', flights);
 
         // Create a new JavaScript Date object based on the "dTime" timestamp
         // multiplied by 1000 so that the argument is in milliseconds, not seconds.
@@ -3126,7 +3139,7 @@ function flightSearch(){
                 </td>
                 <td class="flyTo text-left align-middle" style="width: 15%"><b>${aHourConversion}:${aMinutes}${aAMPM}</b><br>${flyTo}</td>
                 <td class="duration text-left align-middle" style="width: 15%">⌚️${flyDuration}</td>
-                <td class="bagss text-left align-middle" style="width: 20%">🏄‍${surfboardFee}<br>🎒$${bagsPrice}</td>
+                <td class="bags text-left align-middle" style="width: 20%">🏄‍${surfboardFee}<br>🎒$${bagsPrice}</td>
                 <td class="price text-right align-middle" style="width: 10%"><button class="btn btn-lg btn-success"><b>$${price}</b></button></td>
               </tr>
             </table>
