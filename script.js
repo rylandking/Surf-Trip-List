@@ -2760,13 +2760,12 @@ $('input[name="return"]').daterangepicker({
   returnFrom = start.format('DD/MM/YYYY');
   returnTo = end.format('DD/MM/YYYY');
   returnDates = `&returnFrom=${returnFrom}&returnTo=${returnTo}`
-  console.log(returnDates);
 });
 
 //START Flight search on click
 $('#flightSearch').click(function(){
    fromDest = $('#fromDestSearch').val();
-   console.log(returnFrom, returnTo);
+   // console.log(returnFrom, returnTo);
    $('#flights__list').empty();
    flightSearch();
 });//END Flight search
@@ -2792,7 +2791,7 @@ function flightSearch(){
       $("#loadImage").hide();
       //Loop through Skypicker's flights.data from the url: specified in the ajax call.
       $.each(flights.data, function(i, flight){
-        // console.log('success', flights);
+        console.log('success', flights);
         const cityFrom = flights.data[i].cityFrom;
         const cityTo = flights.data[i].cityTo;
         const flyFrom = flights.data[i].flyFrom;
@@ -2817,6 +2816,7 @@ function flightSearch(){
         var airlines2 = airlines[2];
         var airlines3 = airlines[3];
         var airlines4 = airlines[4];
+        //return flight variables
 
         if (layovers1 != undefined) {
           layovers1 = layovers[1].mapIdfrom.replace(/-/g,' ');
@@ -3125,26 +3125,47 @@ function flightSearch(){
 
         //Builds the flights section
         $('#flights__list').append(`
-          <div id="flights" class="row col-10 mx-auto">
-            <table id="flightsTable" class="table table-hover" style="margin:0px;">
-              <tr class="flight" data-url="${deeplink}">
-                <td class="airline text-left align-middle" style="width: 18%">${airlines0}${airlines1}${airlines2}${airlines3}${airlines4}</td>
-                <td class="flyFrom text-right align-middle" style="width: 11%"><b>${dHourConversion}:${dMinutes}${dAMPM}</b><br>${flyFrom}</td>
-                <td class="layOvers text-left align-middle" style="width: 11%">
-                  <b>––––––––––––––</b>
-                    ${layovers1}
-                    ${layovers2}
-                    ${layovers3}
-                    ${layovers4}
-                </td>
-                <td class="flyTo text-left align-middle" style="width: 15%"><b>${aHourConversion}:${aMinutes}${aAMPM}</b><br>${flyTo}</td>
-                <td class="duration text-left align-middle" style="width: 15%">⌚️${flyDuration}</td>
-                <td class="bags text-left align-middle" style="width: 20%">🏄‍${surfboardFee}<br>🎒$${bagsPrice}</td>
-                <td class="price text-right align-middle" style="width: 10%"><button class="btn btn-lg btn-success"><b>$${price}</b></button></td>
-              </tr>
-            </table>
+          <div id="flights" class="row col-10 justify-content-center mt-2">
+            <div class="airline" style="width:20%">${airlines0}${airlines1}${airlines2}${airlines3}${airlines4}</div>
+            <div class="flyFrom text-right mr-5" style="width:11%"><b>${dHourConversion}:${dMinutes}${dAMPM}</b><br>${flyFrom}</div>
+            <div class="layOvers mb-2" style="width:11%;">
+              <b>––––––––––––––</b>
+              ${layovers1}
+              ${layovers2}
+              ${layovers3}
+              ${layovers4}
+            </div>
+            <div class="flyTo text-left" style="width:11%"><b>${aHourConversion}:${aMinutes}${aAMPM}</b><br>${flyTo}</div>
+            <div class="duration text-left" style="width:11%">⌚️${flyDuration}</div>
+            <div class="bags text-center align-middle" style="width: 15%">🏄‍${surfboardFee}<br>🎒$${bagsPrice}</div>
+            <div class="price text-right" style="width:10%"><a href="${deeplink}" target="_blank"><button class="btn btn-lg btn-success"><b>$${price}</b></button></a></div>
           </div>
           `);
+
+          //FLIGHTS TABLE
+          // <div id="flights" class="row col-10 mx-auto">
+          //   <table id="flightsTable" class="table table-hover" style="margin:0px;">
+          //     <tr class="flight" data-url="${deeplink}">
+          //       <td class="airline text-left align-middle" style="width: 18%">${airlines0}${airlines1}${airlines2}${airlines3}${airlines4}</td>
+          //       <td class="flyFrom text-right align-middle" style="width: 11%"><b>${dHourConversion}:${dMinutes}${dAMPM}</b><br>${flyFrom}</td>
+          //       <td class="layOvers text-left align-middle" style="width: 11%">
+          //         <b>––––––––––––––</b>
+          //           ${layovers1}
+          //           ${layovers2}
+          //           ${layovers3}
+          //           ${layovers4}
+          //       </td>
+          //       <td class="flyTo text-left align-middle" style="width: 15%"><b>${aHourConversion}:${aMinutes}${aAMPM}</b><br>${flyTo}</td>
+          //       <td class="duration text-left align-middle" style="width: 15%">⌚️${flyDuration}</td>
+          //       <td class="bags text-left align-middle" style="width: 20%">🏄‍${surfboardFee}<br>🎒$${bagsPrice}</td>
+          //       <td class="price text-right align-middle" style="width: 10%"><button class="btn btn-lg btn-success"><b>$${price}</b></button></td>
+          //     </tr>
+          //     <tr>
+          //       test
+          //     </tr>
+          //   </table>
+          // </div>
+
 
       });//END Loop through Skypicker's flights.data from the url: specified in the ajax call.
     },//END of Success function

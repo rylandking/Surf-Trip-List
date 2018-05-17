@@ -445,3 +445,14 @@ $iPlus: 0;
 #flightLoadFail {
   display: none;
 }
+
+#flights {
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgrey;
+  align-items: center;
+}
+
+#flights:hover {
+  box-shadow: 2px 2px 2px lightgrey;
+}
