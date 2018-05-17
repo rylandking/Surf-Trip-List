@@ -596,6 +596,52 @@ saveLessonButton.addEventListener("click", function(){
 });
 //END ADD LESSON MARKERS + CARDS
 
+//START ADD AIRLINE
+//AIRLINE properties
+const inputIATA = document.querySelector("#inputIATA");
+const inputAirlineName = document.querySelector("#inputAirlineName");
+const inputBaggageLink = document.querySelector("#inputBaggageLink");
+const inputSBFNote = document.querySelector("#inputSBFNote");
+const inputAirlinePhone = document.querySelector("#inputAirlinePhone");
+const inputSBFPrice = document.querySelector("#inputSBFPrice");
+
+const saveAirlineButton = document.querySelector("#saveAirlineButton");
+
+//Changes inputs to values on click
+saveAirlineButton.addEventListener("click", function(){
+
+  //Changes Marker inputs to values on click
+  const iataToSave = inputIATA.value;
+  const airlineNameCityToSave = inputAirlineName.value;
+  const baggageLinkToSave = inputBaggageLink.value;
+  const SBFNoteToSave = inputSBFNote.value;
+  const airlinePhoneToSave = inputAirlinePhone.value;
+  const SBFPriceToSave = inputSBFPrice.value;
+
+  console.log("I am going to log AIRLINE DATA to Firestore. 🙃");
+
+  // Add a new document with a generated id.
+  db.collection("surfboardFees").add({
+    iata: iataToSave,
+    name: airlineNameCityToSave,
+    moreInfoLink: baggageLinkToSave,
+    notes: SBFNoteToSave,
+    phone: airlinePhoneToSave,
+    price: SBFPriceToSave,
+  })
+  .then(function(docRef) {
+    const airlineID = docRef.id;
+    $("#save-airline-success-alert").prepend(
+      `👍I saved the "${airlineID}" Airline.`
+    );
+      console.log("I saved the Airline to Firestore. 👍", docRef.id);
+  })
+  .catch(function(error) {
+      console.error("Error adding document: ", error);
+  });
+});
+//END ADD AIRLINE
+
 
 //Refreshes the page so buttons refresh on click of #refreshCityForm
 function refreshCityForm() {
@@ -726,6 +772,21 @@ function ClearLessonFields() {
     document.getElementById("inputLessonPhoto").value = "";
 }
 
+//Refreshes the page so Airline buttons refresh on click of #refreshAirlineForm
+function refreshAirlineForm() {
+    location.reload();
+}
+
+//Clears all Airline Marker form fields on click of #refreshAirlineForm
+function ClearAirlineFields() {
+    document.getElementById("inputSBFPrice").value = "";
+    document.getElementById("inputAirlinePhone").value = "";
+    document.getElementById("inputSBFNote").value = "";
+    document.getElementById("inputBaggageLink").value = "";
+    document.getElementById("inputAirlineName").value = "";
+    document.getElementById("inputIATA").value = "";
+}
+
 //Alerts a success message after City Name is saved
   $("#city-doc-success-alert").hide();
     $("#saveCityDocNameButton").click(function showAlert() {
@@ -795,6 +856,15 @@ function ClearLessonFields() {
          $("#save-lesson-success-alert").slideUp(500);
     });
   });
+
+  //Alerts a success message when adding a new airline added
+    $("#save-airline-success-alert").hide();
+    $("#saveAirlineButton").click(function showAlert() {
+      $("#save-airline-success-alert").fadeTo(20000, 500).slideUp(500, function(){
+           $("#save-airline-success-alert").slideUp(500);
+      });
+    });
+
 
 //Click the add-data.html page menu to hide and show each section
 $(".nav-link").click(function () {

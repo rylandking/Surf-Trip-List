@@ -2294,7 +2294,7 @@ window.initMap = function(
               <a href="https://maps.google.com/?saddr=Current+Location&dirflg=r&daddr=${parkingLat},${parkingLng}&mode=transit" target="_blank"><img src="icon-images/dir-bus.png"></img></a>
               <a href="https://maps.google.com/?saddr=Current+Location&dirflg=b&daddr=${parkingLat},${parkingLng}&mode=bicycling" target="_blank"><img src="icon-images/dir-bike.png"></img></a>
               <br>
-              <small class="text-muted">Directions to the spot</small>
+              <small class="text-muted">Click for directions to the spot</small>
             </p>
             <div class="col-sm">
               <table class="table table-sm col-sm">
@@ -2399,12 +2399,12 @@ var mm = today.getMonth()+1; //January is 0!
 var yyyy = today.getFullYear();
 
 //Using dateFrom because it's the variable that comes out of the daterangepicker when date range is edited
-var dateFrom = new Date().addDays(0); //+2 days
+var dateFrom = new Date().addDays(1); //+1 days
 var ddFrom = dateFrom.getDate();
 var mmFrom = dateFrom.getMonth()+1; //January is 0!
 var yyyyFrom = dateFrom.getFullYear();
 
-var dateTo = new Date().addDays(10); //+2 days
+var dateTo = new Date().addDays(1); //+1 days
 var ddTo = dateTo.getDate();
 var mmTo = dateTo.getMonth()+1; //January is 0!
 var yyyyTo = dateTo.getFullYear();
@@ -2420,7 +2420,7 @@ var dateFrom = ddFrom+'/'+mmFrom+'/'+yyyyFrom;
 var dateTo = ddTo+'/'+mmTo+'/'+yyyyTo;
 //Sets default passenger type variables
 var adults = 1;
-var children = 0;
+var infants = 0;
 //Sets default stopover count
 var stopOvers = 5;
 //Sets default departure time preferences
@@ -2429,6 +2429,10 @@ var dTimeTo = "23:59";
 //Sets default arrival time preferences
 var aTimeFrom = "00:00";
 var aTimeTo = "23:59";
+//Sets default sortBy to price
+var sortFlightsBy = "price";
+//Sets bag price to false (hide)
+var bagPrice = "hide";
 //Sets from destination in flight search menu
 var fromDest = "LAX";
 
@@ -2594,47 +2598,47 @@ $(function(){
   adults = parseInt($(this).text());
   });
 });
-//Children button
+//Infants button
 $(function(){
-  $("#0child").click(function () {
-  $("#children").text($(this).text());
-  children = parseInt($(this).text());
+  $("#0infant").click(function () {
+  $("#infants").text($(this).text());
+  infants = parseInt($(this).text());
   });
-  $("#1child").click(function () {
-  $("#children").text($(this).text());
-  children = parseInt($(this).text());
+  $("#1infant").click(function () {
+  $("#infants").text($(this).text());
+  infants = parseInt($(this).text());
   });
-  $("#2child").click(function () {
-  $("#children").text($(this).text());
-  children = parseInt($(this).text());
+  $("#2infant").click(function () {
+  $("#infants").text($(this).text());
+  infants = parseInt($(this).text());
   });
-  $("#3child").click(function () {
-  $("#children").text($(this).text());
-  children = parseInt($(this).text());
+  $("#3infant").click(function () {
+  $("#infants").text($(this).text());
+  infants = parseInt($(this).text());
   });
-  $("#4child").click(function () {
-  $("#children").text($(this).text());
-  children = parseInt($(this).text());
+  $("#4infant").click(function () {
+  $("#infants").text($(this).text());
+  infants = parseInt($(this).text());
   });
-  $("#5child").click(function () {
-  $("#children").text($(this).text());
-  children = parseInt($(this).text());
+  $("#5infant").click(function () {
+  $("#infants").text($(this).text());
+  infants = parseInt($(this).text());
   });
-  $("#6child").click(function () {
-  $("#children").text($(this).text());
-  children = parseInt($(this).text());
+  $("#6infant").click(function () {
+  $("#infants").text($(this).text());
+  infants = parseInt($(this).text());
   });
-  $("#7child").click(function () {
-  $("#children").text($(this).text());
-  children = parseInt($(this).text());
+  $("#7infant").click(function () {
+  $("#infants").text($(this).text());
+  infants = parseInt($(this).text());
   });
-  $("#8child").click(function () {
-  $("#children").text($(this).text());
-  children = parseInt($(this).text());
+  $("#8infant").click(function () {
+  $("#infants").text($(this).text());
+  infants = parseInt($(this).text());
   });
-  $("#9child").click(function () {
-  $("#children").text($(this).text());
-  children = parseInt($(this).text());
+  $("#9infant").click(function () {
+  $("#infants").text($(this).text());
+  infants = parseInt($(this).text());
   });
 });
 //stopOvers preference
@@ -2699,12 +2703,33 @@ $(function(){
   });
 });
 
+//Sorts flights by price and duration
+$(function(){
+  $("#sortFlightsByPrice").click(function () {
+  $("#sortFlightsBy").text($(this).text());
+  sortFlightsBy = $(this).attr("data-sortFlightsBy");
+  });
+  $("#sortFlightsByDuration").click(function () {
+  $("#sortFlightsBy").text($(this).text());
+  sortFlightsBy = $(this).attr("data-sortFlightsBy");
+  });
+});
+//Shows/Hides bag price
+$(function(){
+  $("#bagPriceShow").click(function () {
+    $(".bags").show();
+  });
+  $("#bagPriceHide").click(function () {
+    $(".bags").hide();
+  });
+});
 //END Passenger Button
 
-//Drops down a calendar to pick departure adn return dates (http://www.daterangepicker.com/)
-$('input[name="daterange"]').daterangepicker({
+//Drops down a calendar to pick departure date (http://www.daterangepicker.com/)
+$('input[name="departure"]').daterangepicker({
   opens: 'center',
   drops: 'down',
+  singleDatePicker: true,
   buttonClasses: 'btn',
   applyButtonClasses: 'btn-danger',
   cancelButtonClasses: 'btn-outline-danger',
@@ -2714,7 +2739,21 @@ $('input[name="daterange"]').daterangepicker({
   dateTo = end.format('DD/MM/YYYY');
 });
 
-//START Flight search
+//Drops down a calendar to pick return date (http://www.daterangepicker.com/)
+$('input[name="return"]').daterangepicker({
+  opens: 'center',
+  drops: 'down',
+  singleDatePicker: true,
+  buttonClasses: 'btn',
+  applyButtonClasses: 'btn-danger',
+  cancelButtonClasses: 'btn-outline-danger',
+}, function(start, end, label) {
+  console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+  returnFrom = start.format('DD/MM/YYYY');
+  returnTo = end.format('DD/MM/YYYY');
+});
+
+//START Flight search on click
 $('#flightSearch').click(function(){
    fromDest = $('#fromDestSearch').val();
    // console.log(fromDest, today);
@@ -2722,17 +2761,21 @@ $('#flightSearch').click(function(){
    flightSearch();
 });//END Flight search
 
+// ROUND TRIP &returnFrom=30/05/2018&returnTo=31/05/2018
+
 //START flightSearch function with the skypicker AJAX call
 function flightSearch(){
+  $('#loadImage').show();
   $.ajax({
     type: 'GET',
-    url:`https://api.skypicker.com/flights?flyFrom=${fromDest}&to=SFO&curr=USD&dateFrom=${dateFrom}&dateTo=${dateTo}&adults=${adults}&children=${children}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&sort=date&partner=picky`,
+    url:`https://api.skypicker.com/flights?flyFrom=${fromDest}&to=SFO&curr=USD&dateFrom=${dateFrom}&dateTo=${dateTo}&adults=${adults}&infants=${infants}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&sort=${sortFlightsBy}&partner=picky`,
     success: function(flights){
       //Click on table row and opens relevant flight page via data-url="${deeplink}"
       $(document).on("click", ".flight", function(){
         window.open($(this).data("url"), '_blank');
       });
-
+      //Hides the loading image after successful AJAX call
+      $("#loadImage").hide();
       //Loop through Skypicker's flights.data from the url: specified in the ajax call.
       $.each(flights.data, function(i, flight){
         const cityFrom = flights.data[i].cityFrom;
@@ -2744,6 +2787,7 @@ function flightSearch(){
         const dTime = flights.data[i].dTimeUTC;
         const aTime = flights.data[i].aTimeUTC;
         const flyDuration = flights.data[i].fly_duration;
+        var bagsPrice = flights.data[i].bags_price[1];
         const stops = flights.data[i].route.length - 1; //1 is a non-stop flight
         var layovers = flights.data[i].route;
         var layovers0 = layovers[0].mapIdfrom;
@@ -2753,6 +2797,7 @@ function flightSearch(){
         var layovers4 = layovers[4]
         var airlines = flights.data[i].airlines;
         var airlines0 = airlines[0];
+        var iata = airlines[0];
         var airlines1 = airlines[1];
         var airlines2 = airlines[2];
         var airlines3 = airlines[3];
@@ -2816,7 +2861,7 @@ function flightSearch(){
           airlines4 = ``;
         }
 
-        // console.log('success', flights);
+        console.log('success', flights);
 
         // Create a new JavaScript Date object based on the "dTime" timestamp
         // multiplied by 1000 so that the argument is in milliseconds, not seconds.
@@ -2867,29 +2912,231 @@ function flightSearch(){
         // Minutes part from the timestamp
         var aMinutes = ('0'+aDate.getMinutes()).slice(-2);
 
+        //Check iata if surfboard bag price is available. If so add it, if not don't. You're going to hate yourself for this down the road.
+        if (iata == "AS") {
+          var baggageInfoLink = "https://www.alaskaair.com/content/travel-info/baggage/special-baggage/traveling-with-sporting-equipment";
+          var airlineNotes = "Each way. Unless otherwise noted, all standard, overweight, and oversize fees apply. One surfboard bag is defined as one case with up to two boards inside. Flights on a 737 or Airbus aircraft the equipment may measure a maximum 115″ (9 ft., 7 in.) in length alone. For flights 2000-2999 and 3330-3499 the maximum combined dimensions may not exceed 115″ (linear inches = length + width + height).";
+          var airlinePhone = "800-252-7522";
+          var surfboardFee = "$25";
+        } else if (iata == "AM") {
+          var baggageInfoLink = "https://aeromexico.com/en-us/travel-information/baggage/";
+          var airlineNotes = "One-way within Mexico $75 USD. International flight $150. Fee is per case; up to 3 boards per case. Max length on a narrow-body cabin is 6’6″. Max length on a wide-body cabin is 9’5″. Max wight is 100 lbs.";
+          var airlinePhone = "800-237-6639";
+          var surfboardFee = "$75-$150";
+        } else if (iata == "FR") {
+          var baggageInfoLink = "https://www.ryanair.com/gb/en/useful-info/help-centre/fees";
+          var airlineNotes = "$50 if paid online. $60 if paid at the airport. Large sports equipment (does not define any dimension restrictions on web). Fee charged per item per one way flight. Maximum weight of 20 kg.";
+          var airlinePhone = "+44-871-246-0002";
+          var surfboardFee = "$50-$60";
+        } else if (iata == "MH") {
+          var baggageInfoLink = "https://www.malaysiaairlines.com/content/dam/mas/PDF/bookandplan/carriage_of_sporting_equipment.pdf?";
+          var airlineNotes = "As part of your checked baggage allowance, and will be subject to excess baggage charges if overweight. One board per person. Max length is 8′. If it is in excess of your allowance, there is a zone-based weight system in which fees vary from $15-$140 per 6.5 lbs depending on location.";
+          var airlinePhone = "800-552-9264";
+          var surfboardFee = "Free, $15-$140";
+        } else if (iata == "HA") {
+          var baggageInfoLink = "http://hawaiianair.custhelp.com/app/answers/detail/a_id/90/~/sports-equipment---surfboards,-kiteboards,-paddle-boards-and-wake-boards";
+          var airlineNotes = "One-way, per bag. As many boards as you want. Max height 9’5″ (for travel within Hawaii board can be 10’9″) and max weight of 50 lbs. Price is only $35 between islands. Goes up to $150 for most international flights. But flights to Australia or New Zealand from the USA, the board can be part of your free allowance! ";
+          var airlinePhone = "800-367-5320";
+          var surfboardFee = "Free-$150";
+        } else if (iata == "DL") {
+          var baggageInfoLink = "https://www.delta.com/content/www/en_US/traveling-with-us/baggage/before-your-trip/special-items.html";
+          var airlineNotes = "Two boards allowed per bag. Over 70 lbs come with an excess bag fee. Surfboards over 9′ 5″ are not allowed. $150 for travel to most all regions. $100 to and from Brazil. ";
+          var airlinePhone = "800-221-1212";
+          var surfboardFee = "$100-$200";
+        } else if (iata == "U2") {
+          var baggageInfoLink = "http://www.easyjet.com/en/terms-and-conditions/fees";
+          var airlineNotes = "Under 45 lbs is $45 when booking online or $55 at the airport. Up to 70 lbs is $50 online or $60 at the airport. Per item, per flight. If it’s over 70 lbs, there will be additional charges. ";
+          var airlinePhone = "+44330 3655454";
+          var surfboardFee = "$45-$60";
+        } else if (iata == "O6") {
+          var baggageInfoLink = "https://www.avianca.com/py/en/travel-information/plan-your-trip/baggage/sports-equipment";
+          var airlineNotes = "You can check the first bag (paying the respective fee) as part of your baggage and take a maximum of three boards in one bag per passenger with a maximum weight of 32 kg (70 lbs.) and up to 3.7 meters (12 feet) long.";
+          var airlinePhone = "800-284-2622";
+          var surfboardFee = "$50-$125";
+        } else if (iata == "AK") {
+          var baggageInfoLink = "https://www.airasia.com/my/en/baggage-info/sports-equipment.page";
+          var airlineNotes = "Per bag one way. Your surfboard must be packed in a recognized surfboard bag and does not exceed 277 cm /109 inches ( about 9’2″) in length. Kiteboards and bodyboards are classified as surfboards. Additional details on Air Asia surfboard bag fees.";
+          var airlinePhone = "844-727-4588";
+          var surfboardFee = "$20";
+        } else if (iata == "KE") {
+          var baggageInfoLink = "https://www.koreanair.com/global/en/traveling/baggage-services.html#_";
+          var airlineNotes = "Included as checked baggage. Must be under 50 lbs and/or 9’0″ and you should not incur an oversize fee. If you’re over your bag limit, it’s $200 from the Americas (to Brazil from US is $75; to Brazil from Asia is $175). *Exception (when traveling with domestic flights) : If the surfboard is over 158cm (62inch), an oversize fee will be incurred of $75-$200.";
+          var airlinePhone = "800-438-5000";
+          var surfboardFee = "Free, $75, $200";
+        } else if (iata == "EK") {
+          var baggageInfoLink = "https://www.emirates.com/english/help/faq/214958/baggage-allowances-for-sports-equipment";
+          var airlineNotes = "Should your overall baggage weight or amount exceed the normal free allowance, excess baggage rates will apply. ";
+          var airlinePhone = "800-777-3999";
+          var surfboardFee = "Free";
+        } else if (iata == "TG") {
+          var baggageInfoLink = "https://www.thaiairways.com/en/Terms_condition/baggage_policy.page";
+          var airlineNotes = "Per bag. Free of charge when it is transported to/from Denpasar Bali (DPS).";
+          var airlinePhone = "800-426-5204";
+          var surfboardFee = "$150";
+        } else if (iata == "US") {
+          var baggageInfoLink = "https://www.aa.com/i18n/travel-info/baggage/specialty-and-sports.jsp";
+          var airlineNotes = "You’ll be charged $150. Multiple boards per bag is okay as long as bag is less than 70 lbs. If the board bag is less than 62 inches and 50lbs., you’ll be charged the applicable checked bag fee based on the number of bags you check. For Brazil only: Maximum surfboard length of 108 in., not included in checked bag allowances. First surfboard charge is $42.50; additional surfboards are $85.00.";
+          var airlinePhone = "800-428-4322";
+          var surfboardFee = "$150";
+        } else if (iata == "SA") {
+          var baggageInfoLink = "https://www.flysaa.com/manage-fly/baggage/checked-baggage/special-baggage";
+          var airlineNotes = "Only one board and it must not exceed 7’2” (200 cm) and 50 lbs. Larger boards must go as cargo. If larger than 200 cm, the bag is to be accepted strictly as cargo, relevant cargo rates will apply. ";
+          var airlinePhone = "800-722-9675";
+          var surfboardFee = "Free, Call for oversize";
+        } else if (iata == "B6") {
+          var baggageInfoLink = "http://help.jetblue.com/SRVS/CGI-BIN/webisapi.dll?New,Kb=askBlue,case=obj(400780)#s4";
+          var airlineNotes = "Per board each way, domestic and international. One surfboard per case; size and weight restrictions do not apply. Items weighing more than 100 pounds will not be accepted as checked baggage.  No surfboards allowed on flights to/from Bermuda, Haiti, Peru, Port of Spain, Santo Domingo and Santiago. ";
+          var airlinePhone = "800-538-2583";
+          var surfboardFee = "$50";
+        } else if (iata == "EI") {
+          var baggageInfoLink = "https://www.aerlingus.com/travel-information/baggage-information/sports-equipment/";
+          var airlineNotes = "Free and may count as checked baggage to and from North America if under 50 lbs and 9’0″. No charge if you’re in Business Class. One board per passenger. Normal excess baggage rates apply if you carry in excess to this maximum allowance. On Aer Lingus regional flights, the length allowance is only 6’5″. Additional details on Aer Lingus surfboard bag fees.";
+          var airlinePhone = "516-622-4222";
+          var surfboardFee = "Free-$100";
+        } else if (iata == "LH") {
+          var baggageInfoLink = "https://www.lufthansa.com/us/en/Excess-baggage";
+          var airlineNotes = "Included as part of your baggage allowance depending on service class. Must be less than 70 lbs and/or 6’5″. If you exceed your allowance, on continental flights it’s $70; intercontinental is $150. You need to register sports baggage at least 24 hours before the flight.";
+          var airlinePhone = "800-645-3880";
+          var surfboardFee = "Free, $70-$150";
+        } else if (iata == "SQ") {
+          var baggageInfoLink = "https://www.singaporeair.com/en_UK/us/travel-info/baggage/non-standard-baggage/";
+          var airlineNotes = "As part of your checked bag allowance. After that, additional baggage is either $150 or $225 depending on destination. Only one board per person. Any item above 32 kg (70 lbs) will not be accepted as checked baggage and may have to be re-packed or sent as cargo. each item should not exceed 200cm x 75cm x 80cm in dimension. Excess baggage charges apply if the dimensions of your baggage exceed the dimensions of your baggage allowance. ";
+          var airlinePhone = "800-742-3333";
+          var surfboardFee = "Free, $150-$225";
+        } else if (iata == "AF") {
+          var baggageInfoLink = "https://www.airfrance.us/US/en/local/page_flottante/hp/us_dot_regulation.htm";
+          var airlineNotes = "Each way. Surfboards great than 3’5″ and less than 6’5″ in dimensions will now be charged as a “specialty” item, the same charges as applicable for surfboards greater than 6’5″ will apply. Customers will no longer be able to check-in surfboards as part of their ticketed baggage allowance. Board less than 3’5″ in dimensions can continue to be checked in as a “normal” bag  i.e. part of the ticketed baggage allowance.";
+          var airlinePhone = "800-237-2747";
+          var surfboardFee = "$55-$150";
+        } else if (iata == "UA") {
+          var baggageInfoLink = "https://www.united.com/web/en-US/content/travel/baggage/sports.aspx";
+          var airlineNotes = "$150 each way between the U.S., Canada, Puerto Rico and the U.S. Virgin Islands, and $200 each way for all other travel. Max of 99.p lbs. & 9’5″. Multiple boards allowed, remove fins and pad well. Additional details on United Airlines surfboard bag fees.";
+          var airlinePhone = "800-864-8331";
+          var surfboardFee = "$150-$200";
+        } else if (iata == "CM") {
+          var baggageInfoLink = "https://www.copaair.com/en/web/us/music-instruments-equipment";
+          var airlineNotes = "Maximum of two boards packed in the same bag per passenger. Any additional boards must be checked as cargo. Copa Airlines does not accept surfboards longer than 9’5″ and heavier than 70 lbs.";
+          var airlinePhone = "800-359-2672";
+          var surfboardFee = "$100";
+        } else if (iata == "AA") {
+          var baggageInfoLink = "https://www.aa.com/i18n/travel-info/baggage/specialty-and-sports.jsp";
+          var airlineNotes = "$150 each way. Multiple boards per bag is okay as long as bag is less than 70 lbs. If the board bag is less than 62 inches and 50lbs. For Brazil only: First surfboard charge is $42.50; additional surfboards are $85.00. Maximum surfboard length of 108 in.";
+          var airlinePhone = "800-433-7300";
+          var surfboardFee = "$150";
+        } else if (iata == "CI") {
+          var baggageInfoLink = "http://www.china-airlines.com/";
+          var airlineNotes = "Based on measurements and fees increase based on the thickness of your bag. ";
+          var airlinePhone = "800-227-5118";
+          var surfboardFee = "$150, Call to be sure";
+        } else if (iata == "JJ") {
+          var baggageInfoLink = "https://www.latam.com/en_us/travel-information/baggage/excess-baggage/";
+          var airlineNotes = "Free, as part of your checked allowance. Cannot exceed 118 linear inches or 50 lbs. If beyond your baggage allowance, excess baggage fees depend on departure/destination and range from $60-$195.";
+          var airlinePhone = "866-435-9526";
+          var surfboardFee = "Free, $60-$195";
+        } else if (iata == "JL") {
+          var baggageInfoLink = "http://www.jal.co.jp/en/inter/baggage/checked/";
+          var airlineNotes = "Per bag, two boards allowed. Call ahead . Domestic flights run $50. If flying to Asia, Guam and Oceania from Japan it’s $100. For Asia, India and Oceania to and from Hawaii, North/Central/South America, Europe, Middle East and Africa it’s $200.";
+          var airlinePhone = "800-525-3663";
+          var surfboardFee = "$200";
+        } else if (iata == "UP") {
+          var baggageInfoLink = "https://www.bahamasair.com/optionalfees/";
+          var airlineNotes = "Treated as a checked bag (first bag is free). Each checked bag must not exceed 62 inches (157.48 cm) in dimensions (length + breadth + height) & 50 pounds (22.73 kilos) in weight. Bags greater than 50 lbs (23 kilos) & 62 inches will run from $75-$150 depending on length and weight. Bags greater than 100 lbs are not accepted.";
+          var airlinePhone = "800-222-4262";
+          var surfboardFee = "Free, $75, $150";
+        } else if (iata == "BA") {
+          var baggageInfoLink = "https://www.britishairways.com/en-us/information/baggage-essentials/sporting-goods-and-musical-instruments";
+          var airlineNotes = "Accepts surfboards as checked baggage providing they do not exceed the maximum weight restrictions for checked baggage and are packed in a recognized bag or case to safeguard against damage. The bag containing the board can be up to a maximum size of 190cm x 75cm x 65cm (75in x 29.5in x 25.5in). Bags weighing more than 23kg (51lb) may incur a heavy bag charge of about $60.";
+          var airlinePhone = "800-247-9297";
+          var surfboardFee = "Free, $60";
+        } else if (iata == "QF") {
+          var baggageInfoLink = "http://www.qantas.com/travel/airlines/sporting-equipment/global/en#jump5";
+          var airlineNotes = "Free as part of your checked baggage. Must be in a bag and may not exceed 70 lbs and 9 ft. If it’s beyond your baggage allowance, excess fees apply depending on place of departure/destination. Between Australia and Americas is $135. ";
+          var airlinePhone = "800-227-4500";
+          var surfboardFee = "Free, $135";
+        } else if (iata == "CX") {
+          var baggageInfoLink = "https://www.cathaypacific.com/cx/en_US/travel-information/baggage/oversized-cabin-baggage.html";
+          var airlineNotes = "Based on measurements and fees increase based on the thickness of your bag. Can cost you four times the oversize bag fee of $150.";
+          var airlinePhone = "800-233-2742";
+          var surfboardFee = "$150+";
+        } else if (iata == "WN") {
+          var baggageInfoLink = "https://www.southwest.com/html/customer-service/baggage/special-luggage-pol.html";
+          var airlineNotes = "Each way, per bag. Fins must be removed.";
+          var airlinePhone = "800-435-9792";
+          var surfboardFee = "$75";
+        } else if (iata == "4O") {
+          var baggageInfoLink = "https://www.interjet.com/en-ca/all-about-baggage/special";
+          var airlineNotes = "Included as part of your baggage allowance. You can have up to 3 separate bags of less than 25 kg each or a single bag up to 75 kg. Max weight total (for all luggage) per passenger is 75 kg or 165 lbs.";
+          var airlinePhone = "866-285-9525";
+          var surfboardFee = "Free";
+        } else if (iata == "A0") {
+          var baggageInfoLink = "https://www.avianca.com/py/en/travel-information/plan-your-trip/baggage/sports-equipment";
+          var airlineNotes = "You can check the first bag (paying the respective fee) as part of your baggage and take a maximum of three boards in one bag per passenger with a maximum weight of 32 kg (70 lbs.) and up to 3.7 meters (12 feet) long.";
+          var airlinePhone = "800-284-2622";
+          var surfboardFee = "$50-$125";
+        } else if (iata == "TP") {
+          var baggageInfoLink = "https://www.flytap.com/en-us/baggage/special-baggage/sports-equipment";
+          var airlineNotes = "Each way. Up to 6’5″ will run about $50 for Domestic flights, Europe, Morocco, and Algeria; $100 for International. If the board is over 6’5″ it’ll be $100 for Domestic flights, Europe, Morocco, and Algeria or $150 for International. Must be under 70 lbs. When you get to the airport, go to the check-in desk to fill out a Declaration of Transport form. Without this document or with inadequately packed equipment, TAP may refuse your surfboards. ";
+          var airlinePhone = "800-221-7370";
+          var surfboardFee = "$50-$150";
+        } else if (iata == "AC") {
+          var baggageInfoLink = "https://www.aircanada.com/content/dam/aircanada/portal/html/dailog-box/booking-flow/pop_sports_equipment_en.html";
+          var airlineNotes = "Surfboards are subject to a $50 handling fee (plus applicable taxes). The fee is charged for one-way flights and for each way of travel on round-trip and multi-segment flights. board counts as one piece of baggage towards the maximum number checked baggage for your fare type. Overweight and oversize fees do not apply as long as items are within the acceptable maximum limits of 32kg (70lbs) and 158cm (62in). Boards are accepted as checked baggage on a space available basis only so call ahead.";
+          var airlinePhone = "888-247-2262";
+          var surfboardFee = "$50+";
+        } else if (iata == "IB") {
+          var baggageInfoLink = "https://www.iberia.com/web/product.do?cntCat=Productos/EQUIEE&cntId=surf&language=en";
+          var airlineNotes = "Each way, one board per bag. No longer than 8’2″. Must give advance notice and call in the request 24 hours before flight. Different charges, taxes or fees may apply, depending on the laws of each country. ";
+          var airlinePhone = "800-772-4642";
+          var surfboardFee = "$150";
+        } else if (iata == "TN") {
+          var baggageInfoLink = "https://www.airtahitinui.com/us-en/baggage-policies";
+          var airlineNotes = "A surfboard, bodyboard, kneeboard, longboard, kite surf, or paddle of 50 lbs / 23kg maximum and 98 in. / 250 cm maximum. Should your overall baggage weight or amount exceed the normal free allowance, excess baggage rates will apply. ";
+          var airlinePhone = "877-824-4846";
+          var surfboardFee = "Free";
+        } else if (iata == "AV") {
+          var baggageInfoLink = "https://www.avianca.com/py/en/travel-information/plan-your-trip/baggage/sports-equipment";
+          var airlineNotes = "	You can check the first bag (paying the respective fee) as part of your baggage and take a maximum of three boards in one bag per passenger with a maximum weight of 32 kg (70 lbs.) and up to 3.7 meters (12 feet) long.";
+          var airlinePhone = "800-284-2622";
+          var surfboardFee = "$50-$125";
+        } else if (iata == "NZTE") {
+          var baggageInfoLink = "https://www.airnewzealand.com/excess-baggage";
+          var airlineNotes = "No charge if less than 6′ 5″ in length and less than 50 pounds. Can have multiple boards as long as bag stays within stated weight and dimension limits. Sporting items exceeding 6.5 feet but less than 8.2 feet in length may still be accepted but are subject to oversized item charges. Maximum weight restriction of 70 pounds per item. Overweight charges for US travel are about $150.";
+          var airlinePhone = "800-262-1234";
+          var surfboardFee = "Free-$150";
+        } else {
+          var baggageInfoLink = "https://www.surftriplist.com";
+          var airlineNotes = "If you know the baggage fee for this airline, please email me at helloryland@gmail.com";
+          var airlinePhone = "unknown";
+          var surfboardFee = "unknown";
+        }
+
         //Builds the flights section
         $('#flights__list').append(`
-          <div id="flights" class="row col-11 mx-auto">
-            <table id="flightsTable" class="table table-hover">
+          <div id="flights" class="row col-10 mx-auto">
+            <table id="flightsTable" class="table table-hover" style="margin:0px;">
               <tr class="flight" data-url="${deeplink}">
-                <td class="airline text-left" colspan="2">${airlines0}${airlines1}${airlines2}${airlines3}${airlines4}</td>
-                <td class="times text-left" colspan="2"><b>${dHourConversion}:${dMinutes}${dAMPM} – ${aHourConversion}:${aMinutes}${aAMPM}</b><br><a class="text-muted">🗓 ${dWeekDay}, ${dMonth} ${dDay}</a></td>
-                <td class="duration text-left" colspan="2">⌚️${flyDuration}<br><a class="text-muted">${flyFrom}-${flyTo}</a></td>
-                <td class="stops text-left" colspan="2">
-                  🛩${stops} stops
-                  ${layovers1}
-                  ${layovers2}
-                  ${layovers3}
-                  ${layovers4}
+                <td class="airline text-left align-middle" style="width: 18%">${airlines0}${airlines1}${airlines2}${airlines3}${airlines4}</td>
+                <td class="flyFrom text-right align-middle" style="width: 11%"><b>${dHourConversion}:${dMinutes}${dAMPM}</b><br>${flyFrom}</td>
+                <td class="layOvers text-left align-middle" style="width: 11%">
+                  <b>––––––––––––––</b>
+                    ${layovers1}
+                    ${layovers2}
+                    ${layovers3}
+                    ${layovers4}
                 </td>
-                <th class="price text-right" colspan="3"><button class="btn btn-success"><b>$${price}</b></button></th>
+                <td class="flyTo text-left align-middle" style="width: 15%"><b>${aHourConversion}:${aMinutes}${aAMPM}</b><br>${flyTo}</td>
+                <td class="duration text-left align-middle" style="width: 15%">⌚️${flyDuration}</td>
+                <td class="bagss text-left align-middle" style="width: 20%">🏄‍${surfboardFee}<br>🎒$${bagsPrice}</td>
+                <td class="price text-right align-middle" style="width: 10%"><button class="btn btn-lg btn-success"><b>$${price}</b></button></td>
               </tr>
             </table>
           </div>
-          `)
-      });
+          `);
+
+      });//END Loop through Skypicker's flights.data from the url: specified in the ajax call.
     },//END of Success function
     error: function(){
+      $("#flightLoadFail").show();
       console.log("Error getting flights");
     }
   });//END AJAX Call
@@ -2898,9 +3145,30 @@ function flightSearch(){
 //Show ajax call on page load
 flightSearch();
 
+
+// <div id="flights" class="row col-10 mx-auto">
+//   <table id="flightsTable" class="table table-hover" style="margin:0px;">
+//     <tr class="flight" data-url="${deeplink}">
+//       <td class="airline text-left align-middle" style="width: 18%">${airlines0}${airlines1}${airlines2}${airlines3}${airlines4}</td>
+//       <td class="flyFrom text-right align-middle" style="width: 11%"><b>${dHourConversion}:${dMinutes}${dAMPM}</b><br>${flyFrom}</td>
+//       <td class="layOvers text-left align-middle" style="width: 11%">
+//         <b>––––––––––––––</b>
+//           ${layovers1}
+//           ${layovers2}
+//           ${layovers3}
+//           ${layovers4}
+//       </td>
+//       <td class="flyTo text-left align-middle" style="width: 15%"><b>${aHourConversion}:${aMinutes}${aAMPM}</b><br>${flyTo}</td>
+//       <td class="duration text-left align-middle" style="width: 15%">⌚️${flyDuration}</td>
+//       <td class="surfboardFees text-left align-middle" style="width: 20%">🏄‍Unknown</a><br>🎒$${bagsPrice}</td>
+//       <td class="price text-right align-middle" style="width: 10%"><button class="btn btn-lg btn-success"><b>$${price}</b></button></td>
+//     </tr>
+//   </table>
+// </div>
+
+
+
 //DRAFT END Flights
-
-
 
 
 //Logs the surf spot and it's marker IDs (Firestore doc name) to console so I can edit them when need be.

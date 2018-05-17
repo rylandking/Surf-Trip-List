@@ -110,20 +110,20 @@
               </div>
             </div>
             <div class="btn-group">
-              <button type="button" id="children" class="btn btn-outline-danger dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                🤸‍0 children
+              <button type="button" id="infants" class="btn btn-outline-danger dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                👶0 infants
               </button>
               <div class="dropdown-menu">
-                <a id="0child" class="childSelect dropdown-item" href="#" value="0">0 children</a>
-                <a id="1child" class="childSelect dropdown-item" href="#" value="1">1 child</a>
-                <a id="2child" class="childSelect dropdown-item" href="#" value="2">2 children</a>
-                <a id="3child" class="childSelect dropdown-item" href="#" value="3">3 children</a>
-                <a id="4child" class="childSelect dropdown-item" href="#" value="4">4 children</a>
-                <a id="5child" class="childSelect dropdown-item" href="#" value="5">5 children</a>
-                <a id="6child" class="childSelect dropdown-item" href="#" value="6">6 children</a>
-                <a id="7child" class="childSelect dropdown-item" href="#" value="7">7 children</a>
-                <a id="8child" class="childSelect dropdown-item" href="#" value="8">8 children</a>
-                <a id="9child" class="childSelect dropdown-item" href="#" value="9">9 children</a>
+                <a id="0infant" class="infantSelect dropdown-item" href="#" value="0">0 infants</a>
+                <a id="1infant" class="infantSelect dropdown-item" href="#" value="1">1 infant</a>
+                <a id="2infant" class="infantSelect dropdown-item" href="#" value="2">2 infants</a>
+                <a id="3infant" class="infantSelect dropdown-item" href="#" value="3">3 infants</a>
+                <a id="4infant" class="infantSelect dropdown-item" href="#" value="4">4 infants</a>
+                <a id="5infant" class="infantSelect dropdown-item" href="#" value="5">5 infants</a>
+                <a id="6infant" class="infantSelect dropdown-item" href="#" value="6">6 infants</a>
+                <a id="7infant" class="infantSelect dropdown-item" href="#" value="7">7 infants</a>
+                <a id="8infant" class="infantSelect dropdown-item" href="#" value="8">8 infants</a>
+                <a id="9infant" class="infantSelect dropdown-item" href="#" value="9">9 infants</a>
               </div>
             </div>
             <div class="btn-group">
@@ -131,7 +131,7 @@
                 🛩Stops?
               </button>
               <div class="dropdown-menu">
-                <a id="stopOver" class="stopOverSelect dropdown-item" href="#" data-stopovers="5">🛩Stops?</a>
+                <a id="stopOver" class="stopOverSelect dropdown-item" href="#" data-stopovers="5">🛩All stops okay</a>
                 <a id="0stopOver" class="stopOverSelect dropdown-item" href="#" data-stopovers="0">🛩0 stops</a>
                 <a id="1stopOver" class="stopOverSelect dropdown-item" href="#" data-stopovers="1">🛩1 stop or less</a>
                 <a id="2stopOver" class="stopOverSelect dropdown-item" href="#" data-stopovers="2">🛩2 stops or less</a>
@@ -162,7 +162,22 @@
               </div>
             </div>
             <div class="btn-group">
-              <button id="flightSearch" class="btn btn-danger"><b>🔍SEARCH</b></button>
+              <button type="button" id="sortFlightsBy" class="btn btn-outline-danger dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                🤑Sort by price
+              </button>
+              <div class="dropdown-menu">
+                <a id="sortFlightsByPrice" class="sortFlightsBySelect dropdown-item" href="#" data-sortFlightsBy="price">🤑Sort by price</a>
+                <a id="sortFlightsByDuration" class="sortFlightsBySelect dropdown-item" href="#" data-sortFlightsBy="duration">⏳Sort by duration</a>
+              </div>
+            </div>
+            <div class="btn-group">
+              <button type="button" id="bagPrices" class="btn btn-outline-danger dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                🎒Bag price?
+              </button>
+              <div class="dropdown-menu">
+                <a id="bagPriceShow" class="bagPriceSelect dropdown-item" href="#" data-bagPrice="show">🎒Show price</a>
+                <a id="bagPriceHide" class="bagPriceSelect dropdown-item" href="#" data-bagPrice="hide">🎒Hide price</a>
+              </div>
             </div>
           </div>
           <div class="row flight-search-menu input-group mb-3 justify-content-center" >
@@ -170,11 +185,20 @@
                 <span class="input-group-text font-weight-bold" id="basic-addon3">📍 From:</span>
                 <input type="text" class="form-control" id="fromDestSearch" aria-describedby="basic-addon3" placeholder="Where from?"></input>
               </div>
-              <div class="input-group-prepend ml-3">
-                <span class="input-group-text font-weight-bold" id="basic-addon3">🗓 Date:</span>
-                <input type="text" name="daterange" value="" class="form-control" aria-describedby="basic-addon3"></input>
+              <div id="departureDate" class="input-group-prepend ml-3">
+                <span class="input-group-text font-weight-bold" id="basic-addon3">🗓 Departure:</span>
+                <input type="text" name="departure" value="" class="form-control" aria-describedby="basic-addon3"></input>
+              </div>
+              <div id="returnDate" class="input-group-prepend ml-3">
+                <span class="input-group-text font-weight-bold" id="basic-addon3">🗓 Return:</span>
+                <input type="text" name="return" value="" class="form-control" aria-describedby="basic-addon3"></input>
+              </div>
+              <div class="btn-group">
+                <button id="flightSearch" class="btn btn-danger ml-4"><b>🔍SEARCH</b></button>
               </div>
           </div>
+          <div id="loadImage" class="text-center"><h6>Updating your 🏄‍ trip...</h6></div>
+          <div id="flightLoadFail" class="text-center"><h6>🧐No flights available. Change the specifications above.👍</h6></div>
           <div id="flights__list" class="row mb-5"></div>
         </div><!-- /flights -->
 
@@ -221,7 +245,6 @@
     <script>
     $(document).ready(function(){
       $("body").tooltip({ selector: '[data-toggle=tooltip]' });
-        // $('[data-toggle="tooltip"]').tooltip();
     });
     </script>
 

@@ -36,13 +36,16 @@
         <a id="nav3" class="nav-link" href="#" data-type="add-marker">Surf Markers</a>
       </li>
       <li class="nav-item">
-        <a id="nav3" class="nav-link" href="#" data-type="add-pm">Accomm Markers</a>
+        <a id="nav4" class="nav-link" href="#" data-type="add-pm">Accomm Markers</a>
       </li>
       <li class="nav-item">
-        <a id="nav4" class="nav-link" href="#" data-type="add-rentals">Rental Markers</a>
+        <a id="nav5" class="nav-link" href="#" data-type="add-rentals">Rental Markers</a>
       </li>
       <li class="nav-item">
-        <a id="nav5" class="nav-link" href="#" data-type="add-lessons">Lesson Markers</a>
+        <a id="nav6" class="nav-link" href="#" data-type="add-lessons">Lesson Markers</a>
+      </li>
+      <li class="nav-item">
+        <a id="nav7" class="nav-link" href="#" data-type="add-airline">Airlines</a>
       </li>
     </ul>
   </nav><!-- /nav -->
@@ -1117,6 +1120,34 @@
         <br><button id="refreshLessonForm" class="btn btn-success mb-1" onclick="ClearLessonFields(); refreshLessonForm();">Add Another Lesson Company Marker</button>
 
     </div><!-- /End Add Lesson -->
+
+    <!-- Add AIRLINE -->
+    <div id="add-airline" class="Hide">
+      <h3 class="my-3">✈️Add an airline and their board fees</h3>
+        <p>What's the airline IATA code?</p>
+        <input id="inputIATA" type="textfield" class="mb-3"></input>
+
+        <p>What's the airline's name?</p>
+        <input id="inputAirlineName" type="textfield" class="mb-3"></input>
+
+        <p>What's the link to more baggage info?</p>
+        <input id="inputBaggageLink" type="textfield" class="mb-3"></input>
+
+        <p>📝Notes about the fees.</p>
+          <p><textarea id="inputSBFNote" class="my-1" name="SBFNote" cols="30" rows="6"></textarea></p>
+
+        <p>📱What's the airline's phone number?</p>
+        <input id="inputAirlinePhone" type="textfield" class="mb-3"></input>
+
+        <p>🤑What's the surfboard fee?</p>
+        <p>$<input id="inputSBFPrice" type="textfield" class="mb-2"></input></p>
+
+        <br><button id="saveAirlineButton" class="btn btn-warning mb-2">Save NEW Airline Info</button>
+        <div id="save-airline-success-alert" class="alert alert-success" role="alert">
+        </div>
+        <br><button id="refreshAirlineForm" class="btn btn-success mb-1" onclick="ClearAirlineFields(); refreshAirlineForm();">Add Another Airline</button>
+
+    </div><!-- /End Add AIRLINE -->
 
   </div><!-- /End container -->
 

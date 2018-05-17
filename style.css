@@ -433,3 +433,15 @@ $iPlus: 0;
   }
 }
 /*END Airport Autocomplete*/
+
+.bags {
+  display:none;
+}
+
+#loadImage {
+  display: none;
+}
+
+#flightLoadFail {
+  display: none;
+}
