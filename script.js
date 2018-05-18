@@ -2777,7 +2777,7 @@ function flightSearch(){
     fromDest = "LAX";
   }
   //Dynamic API URL to call in flightSearch();
-  var flightSearchURL = `https://api.skypicker.com/flights?flyFrom=${fromDest}&to=DPS&dateFrom=${dateFrom}&dateTo=${dateTo}${returnDates}&adults=${adults}&infants=${infants}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&curr=USD&sort=${sortFlightsBy}&partner=picky`;
+  var flightSearchURL = `https://api.skypicker.com/flights?flyFrom=${fromDest}&to=DPS&dateFrom=${dateFrom}&dateTo=${dateTo}${returnDates}&adults=${adults}&infants=${infants}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&curr=USD&sort=${sortFlightsBy}&limit=75&partner=picky`;
   $('#loadImage').show();
   $.ajax({
     type: 'GET',
@@ -2794,13 +2794,17 @@ function flightSearch(){
         console.log('success', flights);
         const cityFrom = flights.data[i].cityFrom;
         const cityTo = flights.data[i].cityTo;
-        const flyFrom = flights.data[i].flyFrom;
-        const flyTo = flights.data[i].flyTo;
+        const obFromAirport = flights.data[i].routes[0][0];
+        const obToAirport = flights.data[i].routes[0][1];
+        const ibFromAirport = flights.data[i].routes[1][0];
+        const ibToAirport = flights.data[i].routes[1][1];
         const price = flights.data[i].price;
         const deeplink = flights.data[i].deep_link;
         const dTime = flights.data[i].dTimeUTC;
         const aTime = flights.data[i].aTimeUTC;
         const flyDuration = flights.data[i].fly_duration;
+        const returnDuration = flights.data[i].return_duration;
+
         var bagsPrice = flights.data[i].bags_price[1];
         const stops = flights.data[i].route.length - 1; //1 is a non-stop flight
         var layovers = flights.data[i].route;
@@ -3113,7 +3117,7 @@ function flightSearch(){
           var surfboardFee = "$50-$125";
         } else if (iata == "NZTE") {
           var baggageInfoLink = "https://www.airnewzealand.com/excess-baggage";
-          var airlineNotes = "No charge if less than 6′ 5″ in length and less than 50 pounds. Can have multiple boards as long as bag stays within stated weight and dimension limits. Sporting items exceeding 6.5 feet but less than 8.2 feet in length may still be accepted but are subject to oversized item charges. Maximum weight restriction of 70 pounds per item. Overweight charges for US travel are about $150.";
+          var airlineNotes = "No charge if less than 6′5″ in length and less than 50 pounds. Can have multiple boards as long as bag stays within stated weight and dimension limits. Sporting items exceeding 6.5 feet but less than 8.2 feet in length may still be accepted but are subject to oversized item charges. Maximum weight restriction of 70 pounds per item. Overweight charges for US travel are about $150.";
           var airlinePhone = "800-262-1234";
           var surfboardFee = "Free-$150";
         } else {
@@ -3124,10 +3128,10 @@ function flightSearch(){
         }
 
         //Builds the flights section
-        $('#flights__list').append(`
+        $('#flights__list2').append(`
           <div id="flights" class="row col-10 justify-content-center mt-2">
-            <div class="airline" style="width:20%">${airlines0}${airlines1}${airlines2}${airlines3}${airlines4}</div>
-            <div class="flyFrom text-right mr-5" style="width:11%"><b>${dHourConversion}:${dMinutes}${dAMPM}</b><br>${flyFrom}</div>
+            <div class="airline" style="width:20%"></div>
+            <div class="flyFrom text-right mr-5" style="width:11%"><b>${dHourConversion}:${dMinutes}${dAMPM}</b><br>${obFromAirport}</div>
             <div class="layOvers mb-2" style="width:11%;">
               <b>––––––––––––––</b>
               ${layovers1}
@@ -3135,13 +3139,174 @@ function flightSearch(){
               ${layovers3}
               ${layovers4}
             </div>
-            <div class="flyTo text-left" style="width:11%"><b>${aHourConversion}:${aMinutes}${aAMPM}</b><br>${flyTo}</div>
+            <div class="flyTo text-left" style="width:11%"><b>${aHourConversion}:${aMinutes}${aAMPM}</b><br>${obToAirport}</div>
             <div class="duration text-left" style="width:11%">⌚️${flyDuration}</div>
             <div class="bags text-center align-middle" style="width: 15%">🏄‍${surfboardFee}<br>🎒$${bagsPrice}</div>
             <div class="price text-right" style="width:10%"><a href="${deeplink}" target="_blank"><button class="btn btn-lg btn-success"><b>$${price}</b></button></a></div>
           </div>
           `);
 
+          let obFlightIatas = [];
+          let obDepatureTimes = [];
+          let obArrivalTimes = [];
+          let obFlyTos = [];
+
+          let ibFlightIatas = [];
+          let ibArrivalTimes = [];
+          let ibDepatureTimes = [];
+          //Loops through route array. Gets data on each route. NEED to put that data into the HTML. Outbound first. Inbound second.
+          for (let i = 0; i < flights.data[i].route.length; i++) {
+            let route = flights.data[i].route[i].return;
+            if (route == 0) {
+              obFlightIatas.push(flights.data[i].route[i].airline);
+              obDepatureTimes.push(flights.data[i].route[i].dTime);
+              obArrivalTimes.push(flights.data[i].route[i].aTime);
+              obFlyTos.push(flights.data[i].route[i].flyTo);
+            } else {
+              ibFlightIatas.push(flights.data[i].route[i].airline);
+              ibDepatureTimes.push(flights.data[i].route[i].dTime);
+              ibArrivalTimes.push(flights.data[i].route[i].aTime);
+            }
+          }
+          console.log(obFlyTos);
+          var obDepatureTime = obDepatureTimes[0];
+          var ibDepatureTime = ibDepatureTimes[0];
+          var obArrivalTime = obArrivalTimes[obArrivalTimes.length-1]
+          var ibArrivalTime = ibArrivalTimes[ibArrivalTimes.length-1]
+
+          //Outbound layovers
+          if (obFlyTos[0] !== undefined) {
+            if(obFlyTos[0] !== obToAirport) {
+              var obLayover1 = obFlyTos[0];
+            } else {
+              var obLayover1 = "";
+            }
+          } else {
+            var obLayover1 = "";
+          }
+          if (obFlyTos[1] !== undefined) {
+            if(obFlyTos[1] !== obToAirport) {
+              var obLayover2 = ', ' + obFlyTos[1];
+            } else {
+              var obLayover2 = "";
+            }
+          } else {
+            var obLayover2 = "";
+          }
+          if (obFlyTos[2] !== undefined) {
+            if(obFlyTos[2] !== obToAirport) {
+              var obLayover3 = ', ' + obFlyTos[2];
+            } else {
+              var obLayover3 = "";
+            }
+          } else {
+            var obLayover3 = "";
+          }
+          if (obFlyTos[3] !== undefined) {
+            if(obFlyTos[3] !== obToAirport) {
+              var obLayover4 = ', ' + obFlyTos[3];
+            } else {
+              var obLayover4 = "";
+            }
+          } else {
+            var obLayover4 = "";
+          }
+
+
+          //Outbound Iatas
+          if (obFlightIatas[0] !== undefined) {
+            var obFlight1Iata = obFlightIatas[0];
+          } else {
+            var obFlight1Iata = "";
+          }
+          if (obFlightIatas[1] !== undefined) {
+            var obFlight2Iata = obFlightIatas[1];
+          } else {
+            var obFlight2Iata = "";
+          }
+          if (obFlightIatas[2] !== undefined) {
+            var obFlight3Iata = obFlightIatas[2];
+          } else {
+            var obFlight3Iata = "";
+          }
+          if (obFlightIatas[3] !== undefined) {
+            var obFlight4Iata = obFlightIatas[3];
+          } else {
+            var obFlight4Iata = "";
+          }
+          if (obFlightIatas[4] !== undefined) {
+            var obFlight5Iata = obFlightIatas[4];
+          } else {
+            var obFlight5Iata = "";
+          }
+          //Inbound Iatas
+          if (ibFlightIatas[0] !== undefined) {
+            var ibFlight1Iata = ibFlightIatas[0];
+          } else {
+            var ibFlight1Iata = "";
+          }
+          if (ibFlightIatas[1] !== undefined) {
+            var ibFlight2Iata = ibFlightIatas[1];
+          } else {
+            var ibFlight2Iata = "";
+          }
+          if (ibFlightIatas[2] !== undefined) {
+            var ibFlight3Iata = ibFlightIatas[2];
+          } else {
+            var ibFlight3Iata = "";
+          }
+          if (ibFlightIatas[3] !== undefined) {
+            var ibFlight4Iata = ibFlightIatas[3];
+          } else {
+            var ibFlight4Iata = "";
+          }
+          if (ibFlightIatas[4] !== undefined) {
+            var ibFlight5Iata = ibFlightIatas[4];
+          } else {
+            var ibFlight5Iata = "";
+          }
+
+          $("#flights__list").append(`
+            <div id="flights" class="row col-11 justify-content-center mt-2">
+            <div>
+              <div id="obFlights" class="row col-10 mt-2">
+                <div class="airline" style="width:20%">${obFlight1Iata}${obFlight2Iata}${obFlight3Iata}${obFlight4Iata}${obFlight5Iata}</div>
+                <div class="from text-right mr-5" style="width:11%"><b>${obDepatureTime}</b><br>${obFromAirport}</div>
+                <div class="layovers" style="width:11%;">––––––––––––––<br><a class="text-muted">${obLayover1}${obLayover2}${obLayover3}${obLayover4}</a></div>
+                <div class="to text-right mr-5" style="width:11%"><b>${obArrivalTime}</b><br>${obToAirport}</div>
+                <div class="duration text-left" style="width:11%">⌚️${flyDuration}</div>
+                <div class="bags text-center align-middle" style="width: 15%">🎒$${bagsPrice}</div>
+              </div>
+              <br></br>
+              <div id="ibFlights" class="row col-10 mt-2">
+                <div class="airline" style="width:20%">${ibFlight1Iata}${ibFlight2Iata}${ibFlight3Iata}${ibFlight4Iata}${ibFlight5Iata}</div>
+                <div class="from text-right mr-5" style="width:11%"><b>${ibDepatureTime}</b><br>${ibFromAirport}</div>
+                <div class="layovers" style="width:11%;">––––––––––––––</div>
+                <div class="to text-right mr-5" style="width:11%"><b>${ibArrivalTime}</b><br>${ibToAirport}</div>
+                <div class="duration text-left" style="width:11%">⌚️${returnDuration}</div>
+                <div class="bags text-center align-middle" style="width: 15%">🎒$${bagsPrice}</div>
+              </div>
+              </div>
+              <div class="price text-left col-1" style="width:10%"><a href="${deeplink}" target="_blank"><button class="btn btn-lg btn-success"><b>$${price}</b></button></a></div>
+            </div>
+            `);
+
+          //ONE WAY FLIGHTS WITH VARIABLES THAT ONLY WORK WITH ONE WAY FLIGHTS. DIV STRUCTURE.
+          // <div id="flights" class="row col-10 justify-content-center mt-2">
+          //   <div class="airline" style="width:20%">${airlines0}${airlines1}${airlines2}${airlines3}${airlines4}</div>
+          //   <div class="flyFrom text-right mr-5" style="width:11%"><b>${dHourConversion}:${dMinutes}${dAMPM}</b><br>${obFromAirport}</div>
+          //   <div class="layOvers mb-2" style="width:11%;">
+          //     <b>––––––––––––––</b>
+          //     ${layovers1}
+          //     ${layovers2}
+          //     ${layovers3}
+          //     ${layovers4}
+          //   </div>
+          //   <div class="flyTo text-left" style="width:11%"><b>${aHourConversion}:${aMinutes}${aAMPM}</b><br>${obToAirport}</div>
+          //   <div class="duration text-left" style="width:11%">⌚️${flyDuration}</div>
+          //   <div class="bags text-center align-middle" style="width: 15%">🏄‍${surfboardFee}<br>🎒$${bagsPrice}</div>
+          //   <div class="price text-right" style="width:10%"><a href="${deeplink}" target="_blank"><button class="btn btn-lg btn-success"><b>$${price}</b></button></a></div>
+          // </div>
           //FLIGHTS TABLE
           // <div id="flights" class="row col-10 mx-auto">
           //   <table id="flightsTable" class="table table-hover" style="margin:0px;">
