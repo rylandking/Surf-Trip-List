@@ -1781,6 +1781,12 @@ db.collection("surf-spot").where("city", "==", newCityPage)
     } else if (waveType == "point") {
       waveType = "Point break";
       var waveTypeTip = "🌊Breaks off a point";
+    } else if (waveType == "reef") {
+      waveType = "Reef break";
+      var waveTypeTip = "🌊Breaks on top a reef";
+    } else if (waveType == "rockreef") {
+      waveType = "Rockreef break";
+      var waveTypeTip = "🌊Breaks on top a rocky reef";
     } else if (waveType == "ocean") {
       waveType = "Open ocean break";
       var waveTypeTip = "🌊Breaks in open ocean";
@@ -2292,7 +2298,7 @@ window.initMap = function(
     if(spotname != undefined) {
     //Build new surf spot on location page
       $("#surf-spot-map__wrapper").prepend(
-          `<div class="col-lg-6 mb-5" style="display:inline-block;">
+          `<div class="col-lg-6 mb-5 align-top" style="display:inline-block;">
             <h5 class="text-center mt-4 mb-1" style="text-transform:capitalize;"><a href="${forecast}" target="_blank" data-toggle="tooltip" title="Click to view 7 day 🏄‍♂️ forecast" style="color:black;">${spotname}</a> - <img data-toggle="tooltip" title="${skillTip}" src="${skill}"></img></h5>
             <p id="spot-directions" class="text-center">
               <a href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank"><img src="icon-images/dir-drive.png"></img></a>
@@ -2379,7 +2385,8 @@ window.initMap = function(
                        <tr>
                           <td colspan="12" class="text-center">
                             <p class="mt-2"><b>📝Notes</b></p>
-                            <p id="spot-notes">${spotNote} Be kind and surf respectfully.🤙</p>
+                            <p id="spot-notes">${spotNote}</p>
+                            <p class="text-muted"><small>Always check the forecast before you go by clicking the spot name above. Directions to <a style="text-transform:capitalize;">${spotname}</a> are provided above as well. Be kind and surf respectfully.🤙</small></p>
                           </td>
                        </tr>
                      </tbody>
@@ -2787,7 +2794,7 @@ function flightSearch(){
     fromDest = "LAX";
   }
   //Dynamic API URL to call in flightSearch();
-  var flightSearchURL = `https://api.skypicker.com/flights?flyFrom=${fromDest}&to=SFO&dateFrom=${dateFrom}&dateTo=${dateTo}${returnDates}&adults=${adults}&infants=${infants}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&curr=USD&sort=${sortFlightsBy}&limit=5&partner=picky`;
+  var flightSearchURL = `https://api.skypicker.com/flights?flyFrom=${fromDest}&to=DPS&dateFrom=${dateFrom}&dateTo=${dateTo}${returnDates}&adults=${adults}&infants=${infants}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&curr=USD&sort=${sortFlightsBy}&limit=5&partner=picky`;
   $('#loadImage').show();
   $.ajax({
     type: 'GET',
@@ -2866,7 +2873,6 @@ function flightSearch(){
               ibdAMPM = (ibdHours >= 12) ? " PM" : " AM";  // get AM/PM
               // Minutes part from the timestamp
               var ibdMinutes = ('0'+ibdDate.getMinutes()).slice(-2);
-              console.log(ibdTimes);
               // console.log(`ibdTime: ${ibdHourConversion}:${ibdMinutes}${ibdAMPM}`);
 
               // Sets inbound arrival times
