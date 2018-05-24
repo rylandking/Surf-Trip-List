@@ -2444,7 +2444,7 @@ var dateFrom = ddFrom+'/'+mmFrom+'/'+yyyyFrom;
 var dateTo = ddTo+'/'+mmTo+'/'+yyyyTo;
 var returnFrom = ddReturnFrom+'/'+mmReturnFrom+'/'+yyyyReturnFrom;
 var returnTo = ddReturnTo+'/'+mmReturnTo+'/'+yyyyReturnTo;
-//Sets default return dates (NEED TO MAKE DYNAMIC)
+//Sets default return dates
 var returnDates = `&returnFrom=${returnFrom}&returnTo=${returnTo}`;
 //Sets default passenger type variables
 var adults = 1;
@@ -2457,12 +2457,20 @@ var dTimeTo = "23:59";
 //Sets default arrival time preferences
 var aTimeFrom = "00:00";
 var aTimeTo = "23:59";
+//Sets default IB departure time preferences
+var ibdTimeFrom = "00:00";
+var ibdTimeTo = "23:59";
+//Sets default IBarrival time preferences
+var ibaTimeFrom = "00:00";
+var ibaTimeTo = "23:59";
 //Sets default sortBy to price
 var sortFlightsBy = "price";
 //Sets bag price to false (hide)
 var bagPrice = "hide";
 //Sets from destination in flight search menu
 var fromDest = "LAX";
+//Sets default one way or round trip to Round Trip
+var oneWayOrRoundTrip = "roundTrip";
 
 //START Airport autocomplete (https://codepen.io/anon/pen/QrBdog)
 var options = {
@@ -2591,62 +2599,62 @@ function onKeyDown(e) {
 $(function(){
   $("#1adult").click(function () {
   $("#adult").text($(this).text());
-  adults = parseInt($(this).text());
+  adults = $(this).attr("data-adults");
   });
   $("#2adult").click(function () {
   $("#adult").text($(this).text());
-  adults = parseInt($(this).text());
+  adults = $(this).attr("data-adults");
   });
   $("#3adult").click(function () {
   $("#adult").text($(this).text());
-  adults = parseInt($(this).text());
+  adults = $(this).attr("data-adults");
   });
   $("#4adult").click(function () {
   $("#adult").text($(this).text());
-  adults = parseInt($(this).text());
+  adults = $(this).attr("data-adults");
   });
   $("#5adult").click(function () {
   $("#adult").text($(this).text());
-  adults = parseInt($(this).text());
+  adults = $(this).attr("data-adults");
   });
   $("#6adult").click(function () {
   $("#adult").text($(this).text());
-  adults = parseInt($(this).text());
+  adults = $(this).attr("data-adults");
   });
   $("#7adult").click(function () {
   $("#adult").text($(this).text());
-  adults = parseInt($(this).text());
+  adults = $(this).attr("data-adults");
   });
   $("#8adult").click(function () {
   $("#adult").text($(this).text());
-  adults = parseInt($(this).text());
+  adults = $(this).attr("data-adults");
   });
   $("#9adult").click(function () {
   $("#adult").text($(this).text());
-  adults = parseInt($(this).text());
+  adults = $(this).attr("data-adults");
   });
 });
 //Infants button
 $(function(){
   $("#0infant").click(function () {
   $("#infants").text($(this).text());
-  infants = parseInt($(this).text());
+  infants = $(this).attr("data-infants");
   });
   $("#1infant").click(function () {
   $("#infants").text($(this).text());
-  infants = parseInt($(this).text());
+  infants = $(this).attr("data-infants");
   });
   $("#2infant").click(function () {
   $("#infants").text($(this).text());
-  infants = parseInt($(this).text());
+  infants = $(this).attr("data-infants");
   });
   $("#3infant").click(function () {
   $("#infants").text($(this).text());
-  infants = parseInt($(this).text());
+  infants = $(this).attr("data-infants");
   });
   $("#4infant").click(function () {
   $("#infants").text($(this).text());
-  infants = parseInt($(this).text());
+  infants = $(this).attr("data-infants");
   });
 });
 //stopOvers preference
@@ -2668,7 +2676,7 @@ $(function(){
   stopOvers = $(this).attr("data-stopovers");
   });
 });
-//Departure time preference (dtimefrom=min departure (after 8am), dtimeto=max departure (before 10am))
+//OB Departure time preference (dtimefrom=min departure (after 8am), dtimeto=max departure (before 10am))
 $(function(){
   $("#departureTime").click(function () {
   $("#departureTimes").text($(this).text());
@@ -2689,7 +2697,7 @@ $(function(){
   dTimeFrom = $(this).attr("data-dtimefrom");
   });
 });
-//Arrival time preference (atimefrom=min arrival (after 8am), atimeto=max arrival (before 10am))
+//OB Arrival time preference (atimefrom=min arrival (after 8am), atimeto=max arrival (before 10am))
 $(function(){
   $("#arrivalTime").click(function () {
   $("#arrivalTimes").text($(this).text());
@@ -2708,6 +2716,48 @@ $(function(){
   $("#2arrivalTime").click(function () {
   $("#arrivalTimes").text($(this).text());
   aTimeFrom = $(this).attr("data-atimefrom");
+  });
+});
+//IB Departure time preference (dtimefrom=min departure (after 8am), dtimeto=max departure (before 10am))
+$(function(){
+  $("#ibDepartureTime").click(function () {
+  $("#ibDepartureTimes").text($(this).text());
+  ibdTimeFrom = $(this).attr("data-ibDTimeFrom");
+  ibdTimeTo = $(this).attr("data-ibDTimeTo");
+  });
+  $("#0ibDepartureTime").click(function () {
+  $("#ibDepartureTimes").text($(this).text());
+  ibdTimeTo = $(this).attr("data-ibDTimeTo");
+  });
+  $("#1ibDepartureTime").click(function () {
+  $("#ibDepartureTimes").text($(this).text());
+  ibdTimeFrom = $(this).attr("data-ibDTimeFrom");
+  ibdTimeTo = $(this).attr("data-ibDTimeTo");
+  });
+  $("#2ibDepartureTime").click(function () {
+  $("#ibDepartureTimes").text($(this).text());
+  ibdTimeFrom = $(this).attr("data-ibDTimeFrom");
+  });
+});
+//IB Arrival time preference (atimefrom=min arrival (after 8am), atimeto=max arrival (before 10am))
+$(function(){
+  $("#ibArrivalTime").click(function () {
+  $("#ibArrivalTimes").text($(this).text());
+  ibaTimeFrom = $(this).attr("data-ibAtimeFrom");
+  ibaTimeTo = $(this).attr("data-ibAtimeTo");
+  });
+  $("#0ibArrivalTime").click(function () {
+  $("#ibArrivalTimes").text($(this).text());
+  ibaTimeTo = $(this).attr("data-ibAtimeTo");
+  });
+  $("#1ibArrivalTime").click(function () {
+  $("#ibArrivalTimes").text($(this).text());
+  ibaTimeFrom = $(this).attr("data-ibAtimeFrom");
+  ibaTimeTo = $(this).attr("data-ibAtimeTo");
+  });
+  $("#2ibArrivalTime").click(function () {
+  $("#ibArrivalTimes").text($(this).text());
+  ibaTimeFrom = $(this).attr("data-ibAtimeFrom");
   });
 });
 
@@ -2739,48 +2789,83 @@ $(function(){
   $("#returnDate").show();
   $("#roundTripShow").addClass("active");
   $("#oneWayShow").removeClass("active");
+  oneWayOrRoundTrip = "roundTrip";
   });
+
   $("#oneWayShow").click(function () {
   $("#oneWayOrRoundTrip").text($(this).text());
   returnDates = $(this).attr("data-oneWayOrRoundTrip");
   $("#returnDate").hide();
   $("#roundTripShow").removeClass("active");
   $("#oneWayShow").addClass("active");
+  oneWayOrRoundTrip = "oneWay";
   });
 });
 //END Passenger Button
 
-//Drops down a calendar to pick departure date (http://www.daterangepicker.com/)
-$('input[name="departure"]').daterangepicker({
-  opens: 'center',
-  drops: 'down',
-  singleDatePicker: true,
-  buttonClasses: 'btn',
-  applyButtonClasses: 'btn-danger',
-  cancelButtonClasses: 'btn-outline-danger',
-}, function(start, end, label) {
-  console.log("A new outbound date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-  dateFrom = start.format('DD/MM/YYYY');
-  dateTo = end.format('DD/MM/YYYY');
-});
+// //Drops down a calendar to pick departure date (http://www.daterangepicker.com/)
+// $('input[name="departure"]').daterangepicker({
+//   opens: 'center',
+//   drops: 'down',
+//   singleDatePicker: true,
+//   buttonClasses: 'btn',
+//   applyButtonClasses: 'btn-danger',
+//   cancelButtonClasses: 'btn-outline-danger',
+// }, function(start, end, label) {
+//   console.log("A new outbound date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+//   dateFrom = start.format('DD/MM/YYYY');
+//   dateTo = end.format('DD/MM/YYYY');
+// });
 
-//Drops down a calendar to pick return date (http://www.daterangepicker.com/)
+//Drops down a calendar to pick OB AND IB flight dates (http://www.daterangepicker.com/)
 $('input[name="return"]').daterangepicker({
   opens: 'center',
   drops: 'down',
-  singleDatePicker: true,
   buttonClasses: 'btn',
   applyButtonClasses: 'btn-danger',
   cancelButtonClasses: 'btn-outline-danger',
+  autoUpdateInput: false,
+  locale: {
+      cancelLabel: 'Clear'
+  },
 }, function(start, end, label) {
   // console.log("A new return date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-  returnFrom = start.format('DD/MM/YYYY');
+  dateFrom = start.format('DD/MM/YYYY');
+  dateTo = start.format('DD/MM/YYYY');
+  returnFrom = end.format('DD/MM/YYYY');
   returnTo = end.format('DD/MM/YYYY');
   returnDates = `&returnFrom=${returnFrom}&returnTo=${returnTo}`
 });
 
+$('input[name="return"]').on('apply.daterangepicker', function(ev, picker) {
+         $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+});
+
+// //Drops down a calendar to pick return date (http://www.daterangepicker.com/)
+// $('input[name="return"]').daterangepicker({
+//   opens: 'center',
+//   drops: 'down',
+//   singleDatePicker: true,
+//   buttonClasses: 'btn',
+//   applyButtonClasses: 'btn-danger',
+//   cancelButtonClasses: 'btn-outline-danger',
+//   autoUpdateInput: false,
+//   locale: {
+//       cancelLabel: 'Clear'
+//   }
+// }, function(start, end, label) {
+//   // console.log("A new return date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+//   returnFrom = start.format('DD/MM/YYYY');
+//   returnTo = end.format('DD/MM/YYYY');
+//   returnDates = `&returnFrom=${returnFrom}&returnTo=${returnTo}`
+// });
+//
+// $('input[name="return"]').on('apply.daterangepicker', function(ev, picker) {
+//     $(this).val(picker.startDate.format('MM/DD/YYYY'));
+// });
+
 //START Flight search on click
-$('#flightSearch').click(function(){
+$('.flightSearch').click(function(){
    fromDest = $('#fromDestSearch').val();
    // console.log(returnFrom, returnTo);
    $('#flights__list').empty();
@@ -2794,7 +2879,7 @@ function flightSearch(){
     fromDest = "LAX";
   }
   //Dynamic API URL to call in flightSearch();
-  var flightSearchURL = `https://api.skypicker.com/flights?flyFrom=${fromDest}&to=JFK&dateFrom=${dateFrom}&dateTo=${dateTo}${returnDates}&adults=${adults}&infants=${infants}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&curr=USD&sort=${sortFlightsBy}&limit=5&partner=picky`;
+  var flightSearchURL = `https://api.skypicker.com/flights?flyFrom=${fromDest}&to=DPS&dateFrom=${dateFrom}&dateTo=${dateTo}${returnDates}&adults=${adults}&infants=${infants}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&returndtimefrom=${ibdTimeFrom}&returndtimeto=${ibdTimeTo}&returnatimefrom=${ibaTimeFrom}&returnatimeto=${ibaTimeTo}&curr=USD&sort=${sortFlightsBy}&limit=50&partner=picky`;
   $('#loadImage').show();
   $.ajax({
     type: 'GET',
@@ -2812,6 +2897,10 @@ function flightSearch(){
        previousOBIatas = [];
        ibIatas = [];
        previousIBIatas = [];
+       obLayovers = [];
+       prevOBLayovers = [];
+       ibLayovers = [];
+       prevIBLayovers = [];
 
       for (let i=0; i < flightData.length; i++) {
         deeplink = flights.data[i].deep_link;
@@ -2820,6 +2909,8 @@ function flightSearch(){
         obTo = flights.data[i].routes[0][1];
         ibFrom = flights.data[i].routes[1][0];
         ibTo = flights.data[i].routes[1][1];
+        let obDuration = flights.data[i].fly_duration;
+        let ibDuration = flights.data[i].return_duration;
         obdTime = flights.data[i].route[0].dTime + (60*60*7); //CORRECT
         routeLength = flights.data[i].route.length;
         ibaTime = flights.data[i].route[routeLength-1].aTime + (60*60*7); //CORRECT
@@ -2835,9 +2926,15 @@ function flightSearch(){
            if (flights.data[i].route[j].return == 0) {
              obaTimes.push(flights.data[i].route[j].aTime + (60*60*7)); //CORRECT
              obIatas.push(flights.data[i].route[j].airline);
+             if (flights.data[i].flyTo !== flights.data[i].route[j].flyTo) {
+               obLayovers.push(flights.data[i].route[j].flyTo);
+             }
            }
            if (flights.data[i].route[j].return == 1) {
              ibIatas.push(flights.data[i].route[j].airline);
+             if (flights.data[i].flyFrom !== flights.data[i].route[j].flyTo) {
+               ibLayovers.push(flights.data[i].route[j].flyTo);
+             }
            }
            if (flights.data[i].flyTo == flights.data[i].route[j].flyFrom) {
              ibdTimes.push(flights.data[i].route[j].dTime + (60*60*7)); // CORRECT
@@ -2911,34 +3008,45 @@ function flightSearch(){
                if (flights.data[i-1].route[k].return == 0) {
                   if (i > 0) {
                      previousOBIatas.push(flights.data[i-1].route[k].airline);
+                      if (flights.data[i-1].flyTo !== flights.data[i-1].route[k].flyTo) {
+                        prevOBLayovers.push(flights.data[i-1].route[k].flyTo);
+                      }
                   }
                }
                if (flights.data[i-1].route[k].return == 1) {
                   if (i > 0) {
                      previousIBIatas.push(flights.data[i-1].route[k].airline)
+                     if (flights.data[i-1].flyFrom !== flights.data[i-1].route[k].flyTo) {
+                       prevIBLayovers.push(flights.data[i-1].route[k].flyTo);
+                     }
                   }
                }
            }
 
-           console.log("pOB: "+previousOBIatas);
-           console.log("cOB: "+obIatas);
+           // console.log(prevIBLayovers);
+           // console.log(ibLayovers);
            //Gets length of current obIatas array
            var obIatasLength = obIatas.length;
            var ibIatasLength = ibIatas.length;
-           // console.log(obIatasLength);
-           ////Gets length of previous obIatas array
+           var obLayoversLength = obLayovers.length;
+           var ibLayoversLength = ibLayovers.length;
+           //Gets length of previous obIatas array
            var previousOBIatasLength = previousOBIatas.length;
            var previousIBIatasLength = previousIBIatas.length;
-           // console.log(previousOBIatasLength);
-           console.log(previousOBIatasLength+", "+obIatasLength);
-           ////IF WRONG # LOGOS SHOWING CHECK THIS. Gets the iata codes between the current obIatasLength and previousOBIatasLength to provide iata codes of current OB Flight. Example (14, 17) gives the iata codes between those spots in the array.
+           var prevOBLayoversLength = prevOBLayovers.length;
+           var prevIBLayoversLength = prevIBLayovers.length;
+           // console.log(previousOBIatasLength+", "+obIatasLength);
+           console.log(prevIBLayoversLength+", "+ibLayoversLength);
+           //Gets the iata codes between the current obIatasLength and previousOBIatasLength to provide iata codes of current OB Flight. Example (14, 17) gives the iata codes between those spots in the array.
            var obFlightIatas = obIatas.slice(previousOBIatasLength, obIatasLength);
            var ibFlightIatas = ibIatas.slice(previousIBIatasLength, ibIatasLength);
-           console.log("outcome array: "+obFlightIatas);
-           ////Checks if obIata code is available, if so build the airline logo, if not build nothing.
+           var obFlightLayovers = obLayovers.slice(prevOBLayoversLength, obLayoversLength);
+           var ibFlightLayovers = ibLayovers.slice(prevIBLayoversLength, ibLayoversLength);
+           // console.log("ibLayovers outcome array: "+ibFlightLayovers);
+           //Checks if obIata code is available, if so build the ob airline logo, if not build nothing.
            if (obFlightIatas[0] != undefined) {
              obAirline1 = obFlightIatas[0];
-             obAirline1 = ` <img src="https://images.kiwi.com/airlines/64/${obAirline1}.png" style="height:45px; width:45px;"</img>`
+             obAirline1 = `<img src="https://images.kiwi.com/airlines/64/${obAirline1}.png" style="height:45px; width:45px;"</img>`
            } else {
              obAirline1 = ``;
            }
@@ -2987,7 +3095,7 @@ function flightSearch(){
            //Builds airline logo for inbound flights
            if (ibFlightIatas[0] != undefined) {
              ibAirline1 = ibFlightIatas[0];
-             ibAirline1 = ` <img src="https://images.kiwi.com/airlines/64/${ibAirline1}.png" style="height:45px; width:45px;"</img>`
+             ibAirline1 = `<img src="https://images.kiwi.com/airlines/64/${ibAirline1}.png" style="height:45px; width:45px;"</img>`
            } else {
              ibAirline1 = ``;
            }
@@ -3033,723 +3141,105 @@ function flightSearch(){
            } else {
              ibAirline8 = ``;
            }
+           //Gets Outbound Layover airport codes that exists to place in #flights
+           if (obFlightLayovers[0] != undefined) {
+             obLayover1 = obFlightLayovers[0];
+           } else {
+             obLayover1 = ``;
+           }
+           if (obFlightLayovers[1] != undefined) {
+             obLayover2 = ", "+obFlightLayovers[1];
+           } else {
+             obLayover2 = ``;
+           }
+           if (obFlightLayovers[2] != undefined) {
+             obLayover3 = ", "+obFlightLayovers[2];
+           } else {
+             obLayover3 = ``;
+           }
+           if (obFlightLayovers[3] != undefined) {
+             obLayover4 = ", "+obFlightLayovers[3];
+           } else {
+             obLayover4 = ``;
+           }
+           if (obFlightLayovers[4] != undefined) {
+             obLayover5 = ", "+obFlightLayovers[4];
+           } else {
+             obLayover5 = ``;
+           }
+           if (obFlightLayovers[5] != undefined) {
+             obLayover6 = ", "+obFlightLayovers[5];
+           } else {
+             obLayover6 = ``;
+           }
+           if (obFlightLayovers[6] != undefined) {
+             obLayover7 = ", "+obFlightLayovers[6];
+           } else {
+             obLayover7 = ``;
+           }
+           //Gets Inbound Layover airport codes that exists to place in #flights
+           if (ibFlightLayovers[0] != undefined) {
+             ibLayover1 = ibFlightLayovers[0];
+           } else {
+             ibLayover1 = ``;
+           }
+           if (ibFlightLayovers[1] != undefined) {
+             ibLayover2 = ", "+ibFlightLayovers[1];
+           } else {
+             ibLayover2 = ``;
+           }
+           if (ibFlightLayovers[2] != undefined) {
+             ibLayover3 = ", "+ibFlightLayovers[2];
+           } else {
+             ibLayover3 = ``;
+           }
+           if (ibFlightLayovers[3] != undefined) {
+             ibLayover4 = ", "+ibFlightLayovers[3];
+           } else {
+             ibLayover4 = ``;
+           }
+           if (ibFlightLayovers[4] != undefined) {
+             ibLayover5 = ", "+ibFlightLayovers[4];
+           } else {
+             ibLayover5 = ``;
+           }
+           if (ibFlightLayovers[5] != undefined) {
+             ibLayover6 = ", "+ibFlightLayovers[5];
+           } else {
+             ibLayover6 = ``;
+           }
+           if (ibFlightLayovers[6] != undefined) {
+             ibLayover7 = ", "+ibFlightLayovers[6];
+           } else {
+             ibLayover7 = ``;
+           }
 
+       if (oneWayOrRoundTrip == "roundTrip") {
          $("#flights__list").append(`
-           <div id="flights" class="row col-9 mt-2">
-             <div class="route container justify-content-center">
-               <div class="price__wrapper">
-                 <div class="price col-1 float-right" style="height:100%; width:15%;"><a href="${deeplink}" target="_blank"><button class="btn btn-lg btn-success"><b>$${price}</b></button></a></div>
-               </div>
-               <div id="obFlights" class="row col-12 mt-3">
-                 <div id="obAirlines" style="width:20%">${obAirline1}${obAirline2}${obAirline3}${obAirline4}${obAirline5}${obAirline6}${obAirline7}${obAirline8}</div>
-                 <div class="from text-right mr-5" style="width:11%"><b>${obdHourConversion}:${obdMinutes}${obdAMPM}</b><br>${obFrom}</div>
-                 <div class="layovers text-center" style="width:11%;">––––––––––––––<br><a class="text-muted"></a></div>
-                 <div class="from text-right mr-5" style="width:11%"><b>${obaHourConversion}:${obaMinutes}${obaAMPM}</b><br>${obTo}</div>
-               </div>
-               <div id="ibFlights" class="row col-12 mt-3">
-                 <div id="ibAirlines" style="width:20%">${ibAirline1}${ibAirline2}${ibAirline3}${ibAirline4}${ibAirline5}${ibAirline6}${ibAirline7}${ibAirline8}</div>
-                 <div class="from text-right mr-5" style="width:11%"><b>${ibdHourConversion}:${ibdMinutes}${ibdAMPM}</b><br>${ibFrom}</div>
-                 <div class="layovers text-center" style="width:11%;">––––––––––––––<br><a class="text-muted"></a></div>
-                 <div class="from text-right mr-5" style="width:11%"><b>${ibaHourConversion}:${ibaMinutes}${ibaAMPM}</b><br>${ibTo}</div>
-               </div>
+           <div id="flights" class="route container-fluid justify-content-center mb-3">
+             <div class="price__wrapper col-1 float-right">
+               <div class="price" style="width:15%;"><a href="${deeplink}" target="_blank"><button class="btn btn-lg btn-success"><b>$${price}</b></button></a></div>
+             </div>
+             <div id="obFlights" class="row col-11 mt-3">
+               <div id="obAirlines" style="width:22%">${obAirline1}${obAirline2}${obAirline3}${obAirline4}${obAirline5}${obAirline6}${obAirline7}${obAirline8}</div>
+               <div class="obFrom text-right mr-3" style="width:16%"><b>${obdHourConversion}:${obdMinutes}${obdAMPM}</b><br>${obFrom}</div>
+               <div class="obLayovers text-center" style="width:17%;"><hr style="color: #000000;"><small><a class="text-muted">${obLayover1}${obLayover2}${obLayover3}${obLayover4}${obLayover5}${obLayover6}${obLayover7}</a></small></div>
+               <div class="obTo text-left ml-3" style="width:16%"><b>${obaHourConversion}:${obaMinutes}${obaAMPM}</b><br>${obTo}</div>
+               <div class="obDuration text-left" style="width:15%"><small><b>⌚️${obDuration}</b></small></div>
+             </div>
+             <div id="ibFlights" class="row col-11 mt-3 mb-3">
+               <div id="ibAirlines" style="width:22%">${ibAirline1}${ibAirline2}${ibAirline3}${ibAirline4}${ibAirline5}${ibAirline6}${ibAirline7}${ibAirline8}</div>
+               <div class="ibFrom text-right mr-3" style="width:16%"><b>${ibdHourConversion}:${ibdMinutes}${ibdAMPM}</b><br>${ibFrom}</div>
+               <div class="ibLayovers text-center" style="width:17%;"><hr style="color: #000000;"><small><a class="text-muted">${ibLayover1}${ibLayover2}${ibLayover3}${ibLayover4}${ibLayover5}${ibLayover6}${ibLayover7}</a></small></div>
+               <div class="ibTo text-left ml-3" style="width:16%"><b>${ibaHourConversion}:${ibaMinutes}${ibaAMPM}</b><br>${ibTo}</div>
+               <div class="ibDuration text-left" style="width:15%"><small><b>⌚️${ibDuration}</b></small></div>
              </div>
            </div>
          `);
+       }
+
       }//END Loop through flight.data
 
-      //Loop through Skypicker's flights.data from the url: specified in the ajax call.
-      // $.each(flights.data, function(i, flight){
-      //   const cityFrom = flights.data[i].cityFrom;
-      //   const cityTo = flights.data[i].cityTo;
-      //   const obFromAirport = flights.data[i].routes[0][0];
-      //   const obToAirport = flights.data[i].routes[0][1];
-      //   const ibFromAirport = flights.data[i].routes[1][0];
-      //   const ibToAirport = flights.data[i].routes[1][1];
-      //   // const price = flights.data[i].price;
-      //   // const deeplink = flights.data[i].deep_link;
-      //   const dTime = flights.data[i].dTime + (60*60*7); // Added 7 hours bc 7 hrs behind actual (Shows 12am. Actual on Kiwi is 7am.)
-      //   const aTime = flights.data[i].aTime + (60*60*7); // Added 7 hours bc 7 hrs behind actual (Shows 12am. Actual on Kiwi is 7am.)
-      //   const flyDuration = flights.data[i].fly_duration;
-      //   const returnDuration = flights.data[i].return_duration;
-      //
-      //   var bagsPrice = flights.data[i].bags_price[1];
-      //   const stops = flights.data[i].route.length - 1; //1 is a non-stop flight
-      //   var layovers = flights.data[i].route;
-      //   var layovers0 = layovers[0].mapIdfrom;
-      //   var layovers1 = layovers[1]
-      //   var layovers2 = layovers[2]
-      //   var layovers3 = layovers[3]
-      //   var layovers4 = layovers[4]
-      //   var airlines = flights.data[i].airlines;
-      //   var airlines0 = airlines[0];
-      //   var iata = airlines[0];
-      //   var airlines1 = airlines[1];
-      //   var airlines2 = airlines[2];
-      //   var airlines3 = airlines[3];
-      //   var airlines4 = airlines[4];
-        //return flight variables
-
-        // if (layovers1 != undefined) {
-        //   layovers1 = layovers[1].mapIdfrom.replace(/-/g,' ');
-        //   layovers1 = `<p class="text-muted" style="margin:0px; padding:0px;"><small>via <a class="text-capitalize">${layovers1}</a></small></p>`
-        // } else {
-        //   layovers1 = ``;
-        // }
-        //
-        // if (layovers2 != undefined) {
-        //   layovers2 = layovers[2].mapIdfrom.replace(/-/g,' ');
-        //   layovers2 = `<p class="text-muted" style="margin:0px; padding:0px;"><small>via <a class="text-capitalize">${layovers2}</a></small></p>`
-        // } else {
-        //   layovers2 = ``;
-        // }
-        //
-        // if (layovers3 != undefined) {
-        //   layovers3 = layovers[3].mapIdfrom.replace(/-/g,' ');
-        //   layovers3 = `<p class="text-muted" style="margin:0px; padding:0px;"><small>via <a class="text-capitalize">${layovers3}</a></small></p>`
-        // } else {
-        //   layovers3 = ``;
-        // }
-        //
-        // if (layovers4 != undefined) {
-        //   layovers4 = layovers[4].mapIdfrom.replace(/-/g,' ');
-        //   layovers4 = `<p class="text-muted" style="margin:0px; padding:0px;"><small>via <a class="text-capitalize">${layovers4}</a></small></p>`
-        // } else {
-        //   layovers4 = ``;
-        // }
-        //
-        // if (airlines0 != undefined) {
-        //   airlines0 = `<img src="https://images.kiwi.com/airlines/64/${airlines0}.png" style="height:45px; width:45px;"</img>`;
-        // } else {
-        //   airlines0 = ``;
-        // }
-        //
-        // if (airlines1 != undefined) {
-        //   airlines1 = ` <img src="https://images.kiwi.com/airlines/64/${airlines1}.png" style="height:45px; width:45px;"</img>`;
-        // } else {
-        //   airlines1 = ``;
-        // }
-        //
-        // if (airlines2 != undefined) {
-        //   airlines2 = ` <img src="https://images.kiwi.com/airlines/64/${airlines2}.png" style="height:45px; width:45px;"</img>`;
-        // } else {
-        //   airlines2 = ``;
-        // }
-        //
-        // if (airlines3 != undefined) {
-        //   airlines3 = ` <img src="https://images.kiwi.com/airlines/64/${airlines3}.png" style="height:45px; width:45px;"</img>`;
-        // } else {
-        //   airlines3 = ``;
-        // }
-        //
-        // if (airlines4 != undefined) {
-        //   airlines4 = ` <img src="https://images.kiwi.com/airlines/64/${airlines4}.png" style="height:45px; width:45px;"</img>`;
-        // } else {
-        //   airlines4 = ``;
-        // }
-        // // console.log(dTime);
-        // // Create a new JavaScript Date object based on the "dTime" timestamp
-        // // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-        // var dDate = new Date(dTime*1000);
-        // //Sets weekday names in an array
-        // var weekday = new Array(7);
-        // weekday[0] = "Sun";
-        // weekday[1] = "Mon";
-        // weekday[2] = "Tue";
-        // weekday[3] = "Wed";
-        // weekday[4] = "Thu";
-        // weekday[5] = "Fri";
-        // weekday[6] = "Sat";
-        // // Sets month names in an array
-        // var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        // // Month part from dTime timestamp
-        // var dMonth = months[dDate.getMonth()];
-        // // Day of month part from dTime timestamp
-        // var dDay = dDate.getDate();
-        // // Day of week part from dTime timestamp
-        // var dWeekDay = weekday[dDate.getDay()]
-        // // Hours part from the dTime timestamp
-        // var dHours = dDate.getHours();
-        // if (dHours > 0 && dHours <= 12) {
-        //   dHourConversion= "" + dHours;
-        // } else if (dHours > 12) {
-        //   dHourConversion= "" + (dHours - 12);
-        // } else if (dHours == 0) {
-        //   dHourConversion= "12";
-        // }
-        // dAMPM = (dHours >= 12) ? " PM" : " AM";  // get AM/PM
-        // // Minutes part from the dTime timestamp
-        // var dMinutes = ('0'+dDate.getMinutes()).slice(-2);
-        //
-        // // Create a new JavaScript Date object based on the "aTime" timestamp
-        // // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-        // var aDate = new Date(aTime*1000);
-        // // Hours part from the timestamp
-        // var aHours = aDate.getHours();
-        // if (aHours > 0 && aHours <= 12) {
-        //   aHourConversion= "" + aHours;
-        // } else if (aHours > 12) {
-        //   aHourConversion= "" + (aHours - 12);
-        // } else if (aHours == 0) {
-        //   aHourConversion= "12";
-        // }
-        // aAMPM = (aHours >= 12) ? " PM" : " AM";  // get AM/PM
-        // // Minutes part from the timestamp
-        // var aMinutes = ('0'+aDate.getMinutes()).slice(-2);
-
-        // //Check iata if surfboard bag price is available. If so add it, if not don't. You're going to hate yourself for this down the road.
-        // if (iata == "AS") {
-        //   var baggageInfoLink = "https://www.alaskaair.com/content/travel-info/baggage/special-baggage/traveling-with-sporting-equipment";
-        //   var airlineNotes = "Each way. Unless otherwise noted, all standard, overweight, and oversize fees apply. One surfboard bag is defined as one case with up to two boards inside. Flights on a 737 or Airbus aircraft the equipment may measure a maximum 115″ (9 ft., 7 in.) in length alone. For flights 2000-2999 and 3330-3499 the maximum combined dimensions may not exceed 115″ (linear inches = length + width + height).";
-        //   var airlinePhone = "800-252-7522";
-        //   var surfboardFee = "$25";
-        // } else if (iata == "AM") {
-        //   var baggageInfoLink = "https://aeromexico.com/en-us/travel-information/baggage/";
-        //   var airlineNotes = "One-way within Mexico $75 USD. International flight $150. Fee is per case; up to 3 boards per case. Max length on a narrow-body cabin is 6’6″. Max length on a wide-body cabin is 9’5″. Max wight is 100 lbs.";
-        //   var airlinePhone = "800-237-6639";
-        //   var surfboardFee = "$75-$150";
-        // } else if (iata == "FR") {
-        //   var baggageInfoLink = "https://www.ryanair.com/gb/en/useful-info/help-centre/fees";
-        //   var airlineNotes = "$50 if paid online. $60 if paid at the airport. Large sports equipment (does not define any dimension restrictions on web). Fee charged per item per one way flight. Maximum weight of 20 kg.";
-        //   var airlinePhone = "+44-871-246-0002";
-        //   var surfboardFee = "$50-$60";
-        // } else if (iata == "MH") {
-        //   var baggageInfoLink = "https://www.malaysiaairlines.com/content/dam/mas/PDF/bookandplan/carriage_of_sporting_equipment.pdf?";
-        //   var airlineNotes = "As part of your checked baggage allowance, and will be subject to excess baggage charges if overweight. One board per person. Max length is 8′. If it is in excess of your allowance, there is a zone-based weight system in which fees vary from $15-$140 per 6.5 lbs depending on location.";
-        //   var airlinePhone = "800-552-9264";
-        //   var surfboardFee = "Free, $15-$140";
-        // } else if (iata == "HA") {
-        //   var baggageInfoLink = "http://hawaiianair.custhelp.com/app/answers/detail/a_id/90/~/sports-equipment---surfboards,-kiteboards,-paddle-boards-and-wake-boards";
-        //   var airlineNotes = "One-way, per bag. As many boards as you want. Max height 9’5″ (for travel within Hawaii board can be 10’9″) and max weight of 50 lbs. Price is only $35 between islands. Goes up to $150 for most international flights. But flights to Australia or New Zealand from the USA, the board can be part of your free allowance! ";
-        //   var airlinePhone = "800-367-5320";
-        //   var surfboardFee = "Free-$150";
-        // } else if (iata == "DL") {
-        //   var baggageInfoLink = "https://www.delta.com/content/www/en_US/traveling-with-us/baggage/before-your-trip/special-items.html";
-        //   var airlineNotes = "Two boards allowed per bag. Over 70 lbs come with an excess bag fee. Surfboards over 9′ 5″ are not allowed. $150 for travel to most all regions. $100 to and from Brazil. ";
-        //   var airlinePhone = "800-221-1212";
-        //   var surfboardFee = "$100-$200";
-        // } else if (iata == "U2") {
-        //   var baggageInfoLink = "http://www.easyjet.com/en/terms-and-conditions/fees";
-        //   var airlineNotes = "Under 45 lbs is $45 when booking online or $55 at the airport. Up to 70 lbs is $50 online or $60 at the airport. Per item, per flight. If it’s over 70 lbs, there will be additional charges. ";
-        //   var airlinePhone = "+44330 3655454";
-        //   var surfboardFee = "$45-$60";
-        // } else if (iata == "O6") {
-        //   var baggageInfoLink = "https://www.avianca.com/py/en/travel-information/plan-your-trip/baggage/sports-equipment";
-        //   var airlineNotes = "You can check the first bag (paying the respective fee) as part of your baggage and take a maximum of three boards in one bag per passenger with a maximum weight of 32 kg (70 lbs.) and up to 3.7 meters (12 feet) long.";
-        //   var airlinePhone = "800-284-2622";
-        //   var surfboardFee = "$50-$125";
-        // } else if (iata == "AK") {
-        //   var baggageInfoLink = "https://www.airasia.com/my/en/baggage-info/sports-equipment.page";
-        //   var airlineNotes = "Per bag one way. Your surfboard must be packed in a recognized surfboard bag and does not exceed 277 cm /109 inches ( about 9’2″) in length. Kiteboards and bodyboards are classified as surfboards. Additional details on Air Asia surfboard bag fees.";
-        //   var airlinePhone = "844-727-4588";
-        //   var surfboardFee = "$20";
-        // } else if (iata == "KE") {
-        //   var baggageInfoLink = "https://www.koreanair.com/global/en/traveling/baggage-services.html#_";
-        //   var airlineNotes = "Included as checked baggage. Must be under 50 lbs and/or 9’0″ and you should not incur an oversize fee. If you’re over your bag limit, it’s $200 from the Americas (to Brazil from US is $75; to Brazil from Asia is $175). *Exception (when traveling with domestic flights) : If the surfboard is over 158cm (62inch), an oversize fee will be incurred of $75-$200.";
-        //   var airlinePhone = "800-438-5000";
-        //   var surfboardFee = "Free, $75, $200";
-        // } else if (iata == "EK") {
-        //   var baggageInfoLink = "https://www.emirates.com/english/help/faq/214958/baggage-allowances-for-sports-equipment";
-        //   var airlineNotes = "Should your overall baggage weight or amount exceed the normal free allowance, excess baggage rates will apply. ";
-        //   var airlinePhone = "800-777-3999";
-        //   var surfboardFee = "Free";
-        // } else if (iata == "TG") {
-        //   var baggageInfoLink = "https://www.thaiairways.com/en/Terms_condition/baggage_policy.page";
-        //   var airlineNotes = "Per bag. Free of charge when it is transported to/from Denpasar Bali (DPS).";
-        //   var airlinePhone = "800-426-5204";
-        //   var surfboardFee = "$150";
-        // } else if (iata == "US") {
-        //   var baggageInfoLink = "https://www.aa.com/i18n/travel-info/baggage/specialty-and-sports.jsp";
-        //   var airlineNotes = "You’ll be charged $150. Multiple boards per bag is okay as long as bag is less than 70 lbs. If the board bag is less than 62 inches and 50lbs., you’ll be charged the applicable checked bag fee based on the number of bags you check. For Brazil only: Maximum surfboard length of 108 in., not included in checked bag allowances. First surfboard charge is $42.50; additional surfboards are $85.00.";
-        //   var airlinePhone = "800-428-4322";
-        //   var surfboardFee = "$150";
-        // } else if (iata == "SA") {
-        //   var baggageInfoLink = "https://www.flysaa.com/manage-fly/baggage/checked-baggage/special-baggage";
-        //   var airlineNotes = "Only one board and it must not exceed 7’2” (200 cm) and 50 lbs. Larger boards must go as cargo. If larger than 200 cm, the bag is to be accepted strictly as cargo, relevant cargo rates will apply. ";
-        //   var airlinePhone = "800-722-9675";
-        //   var surfboardFee = "Free, Call for oversize";
-        // } else if (iata == "B6") {
-        //   var baggageInfoLink = "http://help.jetblue.com/SRVS/CGI-BIN/webisapi.dll?New,Kb=askBlue,case=obj(400780)#s4";
-        //   var airlineNotes = "Per board each way, domestic and international. One surfboard per case; size and weight restrictions do not apply. Items weighing more than 100 pounds will not be accepted as checked baggage.  No surfboards allowed on flights to/from Bermuda, Haiti, Peru, Port of Spain, Santo Domingo and Santiago. ";
-        //   var airlinePhone = "800-538-2583";
-        //   var surfboardFee = "$50";
-        // } else if (iata == "EI") {
-        //   var baggageInfoLink = "https://www.aerlingus.com/travel-information/baggage-information/sports-equipment/";
-        //   var airlineNotes = "Free and may count as checked baggage to and from North America if under 50 lbs and 9’0″. No charge if you’re in Business Class. One board per passenger. Normal excess baggage rates apply if you carry in excess to this maximum allowance. On Aer Lingus regional flights, the length allowance is only 6’5″. Additional details on Aer Lingus surfboard bag fees.";
-        //   var airlinePhone = "516-622-4222";
-        //   var surfboardFee = "Free-$100";
-        // } else if (iata == "LH") {
-        //   var baggageInfoLink = "https://www.lufthansa.com/us/en/Excess-baggage";
-        //   var airlineNotes = "Included as part of your baggage allowance depending on service class. Must be less than 70 lbs and/or 6’5″. If you exceed your allowance, on continental flights it’s $70; intercontinental is $150. You need to register sports baggage at least 24 hours before the flight.";
-        //   var airlinePhone = "800-645-3880";
-        //   var surfboardFee = "Free, $70-$150";
-        // } else if (iata == "SQ") {
-        //   var baggageInfoLink = "https://www.singaporeair.com/en_UK/us/travel-info/baggage/non-standard-baggage/";
-        //   var airlineNotes = "As part of your checked bag allowance. After that, additional baggage is either $150 or $225 depending on destination. Only one board per person. Any item above 32 kg (70 lbs) will not be accepted as checked baggage and may have to be re-packed or sent as cargo. each item should not exceed 200cm x 75cm x 80cm in dimension. Excess baggage charges apply if the dimensions of your baggage exceed the dimensions of your baggage allowance. ";
-        //   var airlinePhone = "800-742-3333";
-        //   var surfboardFee = "Free, $150-$225";
-        // } else if (iata == "AF") {
-        //   var baggageInfoLink = "https://www.airfrance.us/US/en/local/page_flottante/hp/us_dot_regulation.htm";
-        //   var airlineNotes = "Each way. Surfboards great than 3’5″ and less than 6’5″ in dimensions will now be charged as a “specialty” item, the same charges as applicable for surfboards greater than 6’5″ will apply. Customers will no longer be able to check-in surfboards as part of their ticketed baggage allowance. Board less than 3’5″ in dimensions can continue to be checked in as a “normal” bag  i.e. part of the ticketed baggage allowance.";
-        //   var airlinePhone = "800-237-2747";
-        //   var surfboardFee = "$55-$150";
-        // } else if (iata == "UA") {
-        //   var baggageInfoLink = "https://www.united.com/web/en-US/content/travel/baggage/sports.aspx";
-        //   var airlineNotes = "$150 each way between the U.S., Canada, Puerto Rico and the U.S. Virgin Islands, and $200 each way for all other travel. Max of 99.p lbs. & 9’5″. Multiple boards allowed, remove fins and pad well. Additional details on United Airlines surfboard bag fees.";
-        //   var airlinePhone = "800-864-8331";
-        //   var surfboardFee = "$150-$200";
-        // } else if (iata == "CM") {
-        //   var baggageInfoLink = "https://www.copaair.com/en/web/us/music-instruments-equipment";
-        //   var airlineNotes = "Maximum of two boards packed in the same bag per passenger. Any additional boards must be checked as cargo. Copa Airlines does not accept surfboards longer than 9’5″ and heavier than 70 lbs.";
-        //   var airlinePhone = "800-359-2672";
-        //   var surfboardFee = "$100";
-        // } else if (iata == "AA") {
-        //   var baggageInfoLink = "https://www.aa.com/i18n/travel-info/baggage/specialty-and-sports.jsp";
-        //   var airlineNotes = "$150 each way. Multiple boards per bag is okay as long as bag is less than 70 lbs. If the board bag is less than 62 inches and 50lbs. For Brazil only: First surfboard charge is $42.50; additional surfboards are $85.00. Maximum surfboard length of 108 in.";
-        //   var airlinePhone = "800-433-7300";
-        //   var surfboardFee = "$150";
-        // } else if (iata == "CI") {
-        //   var baggageInfoLink = "http://www.china-airlines.com/";
-        //   var airlineNotes = "Based on measurements and fees increase based on the thickness of your bag. ";
-        //   var airlinePhone = "800-227-5118";
-        //   var surfboardFee = "$150, Call to be sure";
-        // } else if (iata == "JJ") {
-        //   var baggageInfoLink = "https://www.latam.com/en_us/travel-information/baggage/excess-baggage/";
-        //   var airlineNotes = "Free, as part of your checked allowance. Cannot exceed 118 linear inches or 50 lbs. If beyond your baggage allowance, excess baggage fees depend on departure/destination and range from $60-$195.";
-        //   var airlinePhone = "866-435-9526";
-        //   var surfboardFee = "Free, $60-$195";
-        // } else if (iata == "JL") {
-        //   var baggageInfoLink = "http://www.jal.co.jp/en/inter/baggage/checked/";
-        //   var airlineNotes = "Per bag, two boards allowed. Call ahead . Domestic flights run $50. If flying to Asia, Guam and Oceania from Japan it’s $100. For Asia, India and Oceania to and from Hawaii, North/Central/South America, Europe, Middle East and Africa it’s $200.";
-        //   var airlinePhone = "800-525-3663";
-        //   var surfboardFee = "$200";
-        // } else if (iata == "UP") {
-        //   var baggageInfoLink = "https://www.bahamasair.com/optionalfees/";
-        //   var airlineNotes = "Treated as a checked bag (first bag is free). Each checked bag must not exceed 62 inches (157.48 cm) in dimensions (length + breadth + height) & 50 pounds (22.73 kilos) in weight. Bags greater than 50 lbs (23 kilos) & 62 inches will run from $75-$150 depending on length and weight. Bags greater than 100 lbs are not accepted.";
-        //   var airlinePhone = "800-222-4262";
-        //   var surfboardFee = "Free, $75, $150";
-        // } else if (iata == "BA") {
-        //   var baggageInfoLink = "https://www.britishairways.com/en-us/information/baggage-essentials/sporting-goods-and-musical-instruments";
-        //   var airlineNotes = "Accepts surfboards as checked baggage providing they do not exceed the maximum weight restrictions for checked baggage and are packed in a recognized bag or case to safeguard against damage. The bag containing the board can be up to a maximum size of 190cm x 75cm x 65cm (75in x 29.5in x 25.5in). Bags weighing more than 23kg (51lb) may incur a heavy bag charge of about $60.";
-        //   var airlinePhone = "800-247-9297";
-        //   var surfboardFee = "Free, $60";
-        // } else if (iata == "QF") {
-        //   var baggageInfoLink = "http://www.qantas.com/travel/airlines/sporting-equipment/global/en#jump5";
-        //   var airlineNotes = "Free as part of your checked baggage. Must be in a bag and may not exceed 70 lbs and 9 ft. If it’s beyond your baggage allowance, excess fees apply depending on place of departure/destination. Between Australia and Americas is $135. ";
-        //   var airlinePhone = "800-227-4500";
-        //   var surfboardFee = "Free, $135";
-        // } else if (iata == "CX") {
-        //   var baggageInfoLink = "https://www.cathaypacific.com/cx/en_US/travel-information/baggage/oversized-cabin-baggage.html";
-        //   var airlineNotes = "Based on measurements and fees increase based on the thickness of your bag. Can cost you four times the oversize bag fee of $150.";
-        //   var airlinePhone = "800-233-2742";
-        //   var surfboardFee = "$150+";
-        // } else if (iata == "WN") {
-        //   var baggageInfoLink = "https://www.southwest.com/html/customer-service/baggage/special-luggage-pol.html";
-        //   var airlineNotes = "Each way, per bag. Fins must be removed.";
-        //   var airlinePhone = "800-435-9792";
-        //   var surfboardFee = "$75";
-        // } else if (iata == "4O") {
-        //   var baggageInfoLink = "https://www.interjet.com/en-ca/all-about-baggage/special";
-        //   var airlineNotes = "Included as part of your baggage allowance. You can have up to 3 separate bags of less than 25 kg each or a single bag up to 75 kg. Max weight total (for all luggage) per passenger is 75 kg or 165 lbs.";
-        //   var airlinePhone = "866-285-9525";
-        //   var surfboardFee = "Free";
-        // } else if (iata == "A0") {
-        //   var baggageInfoLink = "https://www.avianca.com/py/en/travel-information/plan-your-trip/baggage/sports-equipment";
-        //   var airlineNotes = "You can check the first bag (paying the respective fee) as part of your baggage and take a maximum of three boards in one bag per passenger with a maximum weight of 32 kg (70 lbs.) and up to 3.7 meters (12 feet) long.";
-        //   var airlinePhone = "800-284-2622";
-        //   var surfboardFee = "$50-$125";
-        // } else if (iata == "TP") {
-        //   var baggageInfoLink = "https://www.flytap.com/en-us/baggage/special-baggage/sports-equipment";
-        //   var airlineNotes = "Each way. Up to 6’5″ will run about $50 for Domestic flights, Europe, Morocco, and Algeria; $100 for International. If the board is over 6’5″ it’ll be $100 for Domestic flights, Europe, Morocco, and Algeria or $150 for International. Must be under 70 lbs. When you get to the airport, go to the check-in desk to fill out a Declaration of Transport form. Without this document or with inadequately packed equipment, TAP may refuse your surfboards. ";
-        //   var airlinePhone = "800-221-7370";
-        //   var surfboardFee = "$50-$150";
-        // } else if (iata == "AC") {
-        //   var baggageInfoLink = "https://www.aircanada.com/content/dam/aircanada/portal/html/dailog-box/booking-flow/pop_sports_equipment_en.html";
-        //   var airlineNotes = "Surfboards are subject to a $50 handling fee (plus applicable taxes). The fee is charged for one-way flights and for each way of travel on round-trip and multi-segment flights. board counts as one piece of baggage towards the maximum number checked baggage for your fare type. Overweight and oversize fees do not apply as long as items are within the acceptable maximum limits of 32kg (70lbs) and 158cm (62in). Boards are accepted as checked baggage on a space available basis only so call ahead.";
-        //   var airlinePhone = "888-247-2262";
-        //   var surfboardFee = "$50+";
-        // } else if (iata == "IB") {
-        //   var baggageInfoLink = "https://www.iberia.com/web/product.do?cntCat=Productos/EQUIEE&cntId=surf&language=en";
-        //   var airlineNotes = "Each way, one board per bag. No longer than 8’2″. Must give advance notice and call in the request 24 hours before flight. Different charges, taxes or fees may apply, depending on the laws of each country. ";
-        //   var airlinePhone = "800-772-4642";
-        //   var surfboardFee = "$150";
-        // } else if (iata == "TN") {
-        //   var baggageInfoLink = "https://www.airtahitinui.com/us-en/baggage-policies";
-        //   var airlineNotes = "A surfboard, bodyboard, kneeboard, longboard, kite surf, or paddle of 50 lbs / 23kg maximum and 98 in. / 250 cm maximum. Should your overall baggage weight or amount exceed the normal free allowance, excess baggage rates will apply. ";
-        //   var airlinePhone = "877-824-4846";
-        //   var surfboardFee = "Free";
-        // } else if (iata == "AV") {
-        //   var baggageInfoLink = "https://www.avianca.com/py/en/travel-information/plan-your-trip/baggage/sports-equipment";
-        //   var airlineNotes = "	You can check the first bag (paying the respective fee) as part of your baggage and take a maximum of three boards in one bag per passenger with a maximum weight of 32 kg (70 lbs.) and up to 3.7 meters (12 feet) long.";
-        //   var airlinePhone = "800-284-2622";
-        //   var surfboardFee = "$50-$125";
-        // } else if (iata == "NZTE") {
-        //   var baggageInfoLink = "https://www.airnewzealand.com/excess-baggage";
-        //   var airlineNotes = "No charge if less than 6′5″ in length and less than 50 pounds. Can have multiple boards as long as bag stays within stated weight and dimension limits. Sporting items exceeding 6.5 feet but less than 8.2 feet in length may still be accepted but are subject to oversized item charges. Maximum weight restriction of 70 pounds per item. Overweight charges for US travel are about $150.";
-        //   var airlinePhone = "800-262-1234";
-        //   var surfboardFee = "Free-$150";
-        // } else {
-        //   var baggageInfoLink = "https://www.surftriplist.com";
-        //   var airlineNotes = "If you know the baggage fee for this airline, please email me at helloryland@gmail.com";
-        //   var airlinePhone = "unknown";
-        //   var surfboardFee = "unknown";
-        // }
-
-          // // Builds the flights section
-          // $('#flights__list2').append(`
-          //   <div id="flights" class="row col-10 justify-content-center mt-2">
-          //     <div class="airline" style="width:20%"></div>
-          //     <div class="flyFrom text-right mr-5" style="width:11%"><b>${dHourConversion}:${dMinutes}${dAMPM}</b><br>${obFromAirport}</div>
-          //     <div class="layOvers mb-2" style="width:11%;">
-          //       <b>––––––––––––––</b>
-          //       ${layovers1}
-          //       ${layovers2}
-          //       ${layovers3}
-          //       ${layovers4}
-          //     </div>
-          //     <div class="flyTo text-left" style="width:11%"><b>${aHourConversion}:${aMinutes}${aAMPM}</b><br>${obToAirport}</div>
-          //     <div class="duration text-left" style="width:11%">⌚️${flyDuration}</div>
-          //     <div class="bags text-center align-middle" style="width: 15%">🏄‍${surfboardFee}<br>🎒$${bagsPrice}</div>
-          //     <div class="price text-right" style="width:10%"><a href="${deeplink}" target="_blank"><button class="btn btn-lg btn-success"><b>$${price}</b></button></a></div>
-          //   </div>
-          //   `);
-
-          // let obFlightIatas = [];
-          // let obDepatureTimes = [];
-          // let obArrivalTimes = [];
-          // let obFlyTos = [];
-          //
-          // let ibFlightIatas = [];
-          // let ibArrivalTimes = [];
-          // let ibDepatureTimes = [];
-          // let ibFlyTos = [];
-
-
-
-
-
-
-          //Sets outbound depature times
-          // var obdTime = obdTimes[0];
-          // var obdDate = new Date(obdTime*1000);  // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-          // // Hours part from the timestamp
-          // var obdHours = obdDate.getHours();
-          // if (obdHours > 0 && obdHours <= 12) {
-          //   obdHourConversion= "" + obdHours;
-          // } else if (obdHours > 12) {
-          //   obdHourConversion= "" + (obdHours - 12);
-          // } else if (obdHours == 0) {
-          //   obdHourConversion= "12";
-          // }
-          // obdAMPM = (obdHours >= 12) ? " PM" : " AM";  // get AM/PM
-          // // Minutes part from the timestamp
-          // var obdMinutes = ('0'+obdDate.getMinutes()).slice(-2);
-
-          // //Sets inbound arrival times
-          // var ibaTime = ibaTimes[ibaTimes.length-1] + (60*60*7);
-          // var ibaDate = new Date(ibaTime*1000);  // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-          // // Hours part from the timestamp
-          // var ibaHours = ibaDate.getHours();
-          // if (ibaHours > 0 && ibaHours <= 12) {
-          //   ibaHourConversion= "" + ibaHours;
-          // } else if (ibaHours > 12) {
-          //   ibaHourConversion= "" + (ibaHours - 12);
-          // } else if (ibaHours == 0) {
-          //   ibaHourConversion= "12";
-          // }
-          // ibaAMPM = (ibaHours >= 12) ? " PM" : " AM";  // get AM/PM
-          // // Minutes part from the timestamp
-          // var ibaMinutes = ('0'+ibaDate.getMinutes()).slice(-2);
-
-          // //INCORRECT -- Looping only through data[i] and route [i] at same time. Need it to loop through data[i]. And THEN inside loop through route[i]
-          // let routeLength = flights.data[i].route.length;
-          // // console.log(routeLength);
-          // for (let i = 0; i < routeLength; i++) {
-          //   var route = flights.data[i].route[i].return;
-          //   if (route !== 'undefined') {
-          //     if (route == 0) {
-          //       obFlightIatas.push(flights.data[i].route[i].airline);
-          //       // obDepatureTimes.push(flights.data[i].route[i].dTimeUTC); // Not in use. Using dTime instead
-          //       // obArrivalTimes.push(flights.data[i].route[i].aTimeUTC); //Not in use. Using aTime instead
-          //       obFlyTos.push(flights.data[i].route[i].flyTo);
-          //     } else if (route == 1) {
-          //       ibFlightIatas.push(flights.data[i].route[i].airline);
-          //       ibDepatureTimes.push(flights.data[i].route[i].dTime);
-          //       ibArrivalTimes.push(flights.data[i].route[i].aTime);
-          //       ibFlyTos.push(flights.data[i].route[i].flyTo)
-          //     }
-          //   }
-          // }
-
-          // //Sets inbound depature times
-          // var ibDepatureTime = ibDepatureTimes[0] + (60*60*7);
-          // var ibdDate = new Date(ibDepatureTime*1000);  // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-          // // Hours part from the timestamp
-          // var ibdHours = ibdDate.getHours();
-          // if (ibdHours > 0 && ibdHours <= 12) {
-          //   ibdHourConversion= "" + ibdHours;
-          // } else if (ibdHours > 12) {
-          //   ibdHourConversion= "" + (ibdHours - 12);
-          // } else if (ibdHours == 0) {
-          //   ibdHourConversion= "12";
-          // }
-          // ibdAMPM = (ibdHours >= 12) ? " PM" : " AM";  // get AM/PM
-          // // Minutes part from the timestamp
-          // var ibdMinutes = ('0'+ibdDate.getMinutes()).slice(-2);
-
-          // //Sets inbound arrival times
-          // var ibArrivalTime = ibArrivalTimes[ibArrivalTimes.length-1] + (60*60*7);
-          // var ibaDate = new Date(ibArrivalTime*1000);  // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-          // // Hours part from the timestamp
-          // var ibaHours = ibaDate.getHours();
-          // if (ibaHours > 0 && ibaHours <= 12) {
-          //   ibaHourConversion= "" + ibaHours;
-          // } else if (ibaHours > 12) {
-          //   ibaHourConversion= "" + (ibaHours - 12);
-          // } else if (ibaHours == 0) {
-          //   ibaHourConversion= "12";
-          // }
-          // ibaAMPM = (ibaHours >= 12) ? " PM" : " AM";  // get AM/PM
-          // // Minutes part from the timestamp
-          // var ibaMinutes = ('0'+ibaDate.getMinutes()).slice(-2);
-
-
-          // //Outbound layovers (7 possible)
-          // if (obFlyTos[0] !== undefined) {
-          //   if(obFlyTos[0] !== obToAirport) {
-          //     var obLayover1 = obFlyTos[0];
-          //   } else {
-          //     var obLayover1 = "";
-          //   }
-          // } else {
-          //   var obLayover1 = "";
-          // }
-          // if (obFlyTos[1] !== undefined) {
-          //   if(obFlyTos[1] !== obToAirport) {
-          //     var obLayover2 = ', ' + obFlyTos[1];
-          //   } else {
-          //     var obLayover2 = "";
-          //   }
-          // } else {
-          //   var obLayover2 = "";
-          // }
-          // if (obFlyTos[2] !== undefined) {
-          //   if(obFlyTos[2] !== obToAirport) {
-          //     var obLayover3 = ', ' + obFlyTos[2];
-          //   } else {
-          //     var obLayover3 = "";
-          //   }
-          // } else {
-          //   var obLayover3 = "";
-          // }
-          // if (obFlyTos[3] !== undefined) {
-          //   if(obFlyTos[3] !== obToAirport) {
-          //     var obLayover4 = ', ' + obFlyTos[3];
-          //   } else {
-          //     var obLayover4 = "";
-          //   }
-          // } else {
-          //   var obLayover4 = "";
-          // }
-          // if (obFlyTos[4] !== undefined) {
-          //   if(obFlyTos[4] !== obToAirport) {
-          //     var obLayover5 = ', ' + obFlyTos[4];
-          //   } else {
-          //     var obLayover5 = "";
-          //   }
-          // } else {
-          //   var obLayover5 = "";
-          // }
-          // //Inbound layovers (7 possible)
-          // if (ibFlyTos[0] !== undefined) {
-          //   if(ibFlyTos[0] !== ibToAirport) {
-          //     var ibLayover1 = ibFlyTos[0];
-          //   } else {
-          //     var ibLayover1 = "";
-          //   }
-          // } else {
-          //   var ibLayover1 = "";
-          // }
-          // if (ibFlyTos[1] !== undefined) {
-          //   if(ibFlyTos[1] !== ibToAirport) {
-          //     var ibLayover2 = ', ' + ibFlyTos[1];
-          //   } else {
-          //     var ibLayover2 = "";
-          //   }
-          // } else {
-          //   var ibLayover2 = "";
-          // }
-          // if (ibFlyTos[2] !== undefined) {
-          //   if(ibFlyTos[2] !== ibToAirport) {
-          //     var ibLayover3 = ', ' + ibFlyTos[2];
-          //   } else {
-          //     var ibLayover3 = "";
-          //   }
-          // } else {
-          //   var ibLayover3 = "";
-          // }
-          // if (ibFlyTos[3] !== undefined) {
-          //   if(ibFlyTos[3] !== ibToAirport) {
-          //     var ibLayover4 = ', ' + ibFlyTos[3];
-          //   } else {
-          //     var ibLayover4 = "";
-          //   }
-          // } else {
-          //   var ibLayover4 = "";
-          // }
-          // if (ibFlyTos[4] !== undefined) {
-          //   if(ibFlyTos[4] !== ibToAirport) {
-          //     var ibLayover5 = ', ' + ibFlyTos[4];
-          //   } else {
-          //     var ibLayover5 = "";
-          //   }
-          // } else {
-          //   var ibLayover5 = "";
-          // }
-          //
-          // //Outbound Iatas (7 flights possible)
-          // if (obFlightIatas[0] !== undefined) {
-          //   var obFlight1Iata = obFlightIatas[0];
-          //   var obFlight1Logo =  ` <img src="https://images.kiwi.com/airlines/64/${obFlight1Iata}.png" style="height:45px; width:45px;"</img>`
-          // } else {
-          //   var obFlight1Logo = "";
-          // }
-          // if (obFlightIatas[1] !== undefined) {
-          //   var obFlight2Iata = obFlightIatas[1];
-          //   var obFlight2Logo =  ` <img src="https://images.kiwi.com/airlines/64/${obFlight2Iata}.png" style="height:45px; width:45px;"</img>`
-          // } else {
-          //   var obFlight2Logo = "";
-          // }
-          // if (obFlightIatas[2] !== undefined) {
-          //   var obFlight3Iata = obFlightIatas[2];
-          //   var obFlight3Logo =  ` <img src="https://images.kiwi.com/airlines/64/${obFlight3Iata}.png" style="height:45px; width:45px;"</img>`
-          // } else {
-          //   var obFlight3Logo = "";
-          // }
-          // if (obFlightIatas[3] !== undefined) {
-          //   var obFlight4Iata = obFlightIatas[3];
-          //   var obFlight4Logo =  ` <img src="https://images.kiwi.com/airlines/64/${obFlight4Iata}.png" style="height:45px; width:45px;"</img>`
-          // } else {
-          //   var obFlight4Logo = "";
-          // }
-          // if (obFlightIatas[4] !== undefined) {
-          //   var obFlight5Iata = obFlightIatas[4];
-          //   var obFlight5Logo =  ` <img src="https://images.kiwi.com/airlines/64/${obFlight5Iata}.png" style="height:45px; width:45px;"</img>`
-          // } else {
-          //   var obFlight5Logo = "";
-          // }
-          // if (obFlightIatas[5] !== undefined) {
-          //   var obFlight6Iata = obFlightIatas[5];
-          //   var obFlight6Logo =  ` <img src="https://images.kiwi.com/airlines/64/${obFlight6Iata}.png" style="height:46px; width:45px;"</img>`
-          // } else {
-          //   var obFlight6Logo = "";
-          // }
-          // //Inbound Iatas (7 flights possible)
-          // if (ibFlightIatas[0] !== undefined) {
-          //   var ibFlight1Iata = ibFlightIatas[0];
-          //   var ibFlight1Logo =  ` <img src="https://images.kiwi.com/airlines/64/${ibFlight1Iata}.png" style="height:45px; width:45px;"</img>`
-          // } else {
-          //   var ibFlight1Logo = "";
-          // }
-          // if (ibFlightIatas[1] !== undefined) {
-          //   var ibFlight2Iata = ibFlightIatas[1];
-          //   var ibFlight2Logo =  ` <img src="https://images.kiwi.com/airlines/64/${ibFlight2Iata}.png" style="height:45px; width:45px;"</img>`
-          // } else {
-          //   var ibFlight2Logo = "";
-          // }
-          // if (ibFlightIatas[2] !== undefined) {
-          //   var ibFlight3Iata = ibFlightIatas[2];
-          //   var ibFlight3Logo =  ` <img src="https://images.kiwi.com/airlines/64/${ibFlight3Iata}.png" style="height:45px; width:45px;"</img>`
-          // } else {
-          //   var ibFlight3Logo = "";
-          // }
-          // if (ibFlightIatas[3] !== undefined) {
-          //   var ibFlight4Iata = ibFlightIatas[3];
-          //   var ibFlight4Logo =  ` <img src="https://images.kiwi.com/airlines/64/${ibFlight4Iata}.png" style="height:45px; width:45px;"</img>`
-          // } else {
-          //   var ibFlight4Logo = "";
-          // }
-          // if (ibFlightIatas[4] !== undefined) {
-          //   var ibFlight5Iata = ibFlightIatas[4];
-          //   var ibFlight5Logo =  ` <img src="https://images.kiwi.com/airlines/64/${ibFlight5Iata}.png" style="height:45px; width:45px;"</img>`
-          // } else {
-          //   var ibFlight5Logo = "";
-          // }
-          // if (ibFlightIatas[5] !== undefined) {
-          //   var ibFlight6Iata = ibFlightIatas[5];
-          //   var ibFlight6Logo =  ` <img src="https://images.kiwi.com/airlines/64/${ibFlight6Iata}.png" style="height:46px; width:45px;"</img>`
-          // } else {
-          //   var ibFlight6Logo = "";
-          // }
-
-            // $("#flights__list3").append(`
-            //   <div id="flights" class="row col-9 mt-2">
-            //     <div class="route container justify-content-center">
-            //       <div class="price__wrapper">
-            //         <div class="price col-1 float-right" style="height:100%; width:15%;"><a href="${deeplink}" target="_blank"><button class="btn btn-lg btn-success"><b>$${price}</b></button></a></div>
-            //       </div>
-            //       <div id="obFlights" class="row col-12 mt-3">
-            //         <div class="airline" style="width:20%">${obFlight1Logo}${obFlight2Logo}${obFlight3Logo}${obFlight4Logo}${obFlight5Logo}${obFlight6Logo}</div>
-            //         <div class="from text-right mr-5" style="width:11%"><b>${obdHourConversion}:${obdMinutes}${obdAMPM}</b><br>${obFromAirport}</div>
-            //         <div class="layovers text-center" style="width:11%;">––––––––––––––<br><a class="text-muted">${obLayover1}${obLayover2}${obLayover3}${obLayover4}</a></div>
-            //         <div class="to text-right mr-5" style="width:11%"><b>Time</b><br>${obToAirport}</div>
-            //         <div class="duration text-left" style="width:14%">⌚️${flyDuration}</div>
-            //         <div class="bags text-center align-middle" style="width: 15%">🎒$${bagsPrice}</div>
-            //       </div>
-            //       <br></br>
-            //       <div id="ibFlights" class="row col-12 mb-3">
-            //         <div class="airline" style="width:20%">${ibFlight1Logo}${ibFlight2Logo}${ibFlight3Logo}${ibFlight4Logo}${ibFlight5Logo}${ibFlight6Logo}</div>
-            //         <div class="from text-right mr-5" style="width:11%"><b>Time</b><br>${ibFromAirport}</div>
-            //         <div class="layovers text-center" style="width:11%;">––––––––––––––<br><a class="text-muted">${ibLayover1}${ibLayover2}${ibLayover3}${ibLayover4}</a></div>
-            //         <div class="to text-right mr-5" style="width:11%"><b>Time</b><br>${ibToAirport}</div>
-            //         <div class="duration text-left" style="width:14%">⌚️${returnDuration}</div>
-            //         <div class="bags text-center align-middle" style="width: 15%">🎒$${bagsPrice}</div>
-            //       </div>
-            //     </div>
-            //   </div>
-            //   `);
-
-          //ONE WAY FLIGHTS WITH VARIABLES THAT ONLY WORK WITH ONE WAY FLIGHTS. DIV STRUCTURE.
-          // <div id="flights" class="row col-10 justify-content-center mt-2">
-          //   <div class="airline" style="width:20%">${airlines0}${airlines1}${airlines2}${airlines3}${airlines4}</div>
-          //   <div class="flyFrom text-right mr-5" style="width:11%"><b>${dHourConversion}:${dMinutes}${dAMPM}</b><br>${obFromAirport}</div>
-          //   <div class="layOvers mb-2" style="width:11%;">
-          //     <b>––––––––––––––</b>
-          //     ${layovers1}
-          //     ${layovers2}
-          //     ${layovers3}
-          //     ${layovers4}
-          //   </div>
-          //   <div class="flyTo text-left" style="width:11%"><b>${aHourConversion}:${aMinutes}${aAMPM}</b><br>${obToAirport}</div>
-          //   <div class="duration text-left" style="width:11%">⌚️${flyDuration}</div>
-          //   <div class="bags text-center align-middle" style="width: 15%">🏄‍${surfboardFee}<br>🎒$${bagsPrice}</div>
-          //   <div class="price text-right" style="width:10%"><a href="${deeplink}" target="_blank"><button class="btn btn-lg btn-success"><b>$${price}</b></button></a></div>
-          // </div>
-          //FLIGHTS TABLE
-          // <div id="flights" class="row col-10 mx-auto">
-          //   <table id="flightsTable" class="table table-hover" style="margin:0px;">
-          //     <tr class="flight" data-url="${deeplink}">
-          //       <td class="airline text-left align-middle" style="width: 18%">${airlines0}${airlines1}${airlines2}${airlines3}${airlines4}</td>
-          //       <td class="flyFrom text-right align-middle" style="width: 11%"><b>${dHourConversion}:${dMinutes}${dAMPM}</b><br>${flyFrom}</td>
-          //       <td class="layOvers text-left align-middle" style="width: 11%">
-          //         <b>––––––––––––––</b>
-          //           ${layovers1}
-          //           ${layovers2}
-          //           ${layovers3}
-          //           ${layovers4}
-          //       </td>
-          //       <td class="flyTo text-left align-middle" style="width: 15%"><b>${aHourConversion}:${aMinutes}${aAMPM}</b><br>${flyTo}</td>
-          //       <td class="duration text-left align-middle" style="width: 15%">⌚️${flyDuration}</td>
-          //       <td class="bags text-left align-middle" style="width: 20%">🏄‍${surfboardFee}<br>🎒$${bagsPrice}</td>
-          //       <td class="price text-right align-middle" style="width: 10%"><button class="btn btn-lg btn-success"><b>$${price}</b></button></td>
-          //     </tr>
-          //     <tr>
-          //       test
-          //     </tr>
-          //   </table>
-          // </div>
-
-
-      // });//END Loop through Skypicker's flights.data from the url: specified in the ajax call.
     },//END of Success function
     error: function(){
       $("#flightLoadFail").show();
@@ -3760,26 +3250,6 @@ function flightSearch(){
 
 //Show ajax call on page load
 flightSearch();
-
-// <div id="flights" class="row col-10 mx-auto">
-//   <table id="flightsTable" class="table table-hover" style="margin:0px;">
-//     <tr class="flight" data-url="${deeplink}">
-//       <td class="airline text-left align-middle" style="width: 18%">${airlines0}${airlines1}${airlines2}${airlines3}${airlines4}</td>
-//       <td class="flyFrom text-right align-middle" style="width: 11%"><b>${dHourConversion}:${dMinutes}${dAMPM}</b><br>${flyFrom}</td>
-//       <td class="layOvers text-left align-middle" style="width: 11%">
-//         <b>––––––––––––––</b>
-//           ${layovers1}
-//           ${layovers2}
-//           ${layovers3}
-//           ${layovers4}
-//       </td>
-//       <td class="flyTo text-left align-middle" style="width: 15%"><b>${aHourConversion}:${aMinutes}${aAMPM}</b><br>${flyTo}</td>
-//       <td class="duration text-left align-middle" style="width: 15%">⌚️${flyDuration}</td>
-//       <td class="surfboardFees text-left align-middle" style="width: 20%">🏄‍Unknown</a><br>🎒$${bagsPrice}</td>
-//       <td class="price text-right align-middle" style="width: 10%"><button class="btn btn-lg btn-success"><b>$${price}</b></button></td>
-//     </tr>
-//   </table>
-// </div>
 
 //DRAFT END Flights
 
