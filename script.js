@@ -1264,7 +1264,7 @@ docRef.get().then(function(doc) {
           <tr>
               <td class="insurance font-weight-bold">🚑Travelers Insurance</td>
               <td class="text-center" data-toggle="tooltip" title="🚑Click to get travelers insurance" style="color: black;"><a href="https://www.worldnomads.com/" target="_blank">Get insurance</a></td>
-              <td class="femaleSafeScore font-weight-bold">👩Female friendly</td>
+              <td class="femaleSafeScore font-weight-bold">👩Solo female safety</td>
               <td>${femaleSafeScore}</td>
           </tr>
           <tr>
@@ -2386,7 +2386,7 @@ window.initMap = function(
                           <td colspan="12" class="text-center">
                             <p class="mt-2"><b>📝Notes</b></p>
                             <p id="spot-notes">${spotNote}</p>
-                            <p class="text-muted"><small>Always check the forecast before you go by clicking the spot name above. Directions to <a style="text-transform:capitalize;">${spotname}</a> are provided above as well. Be kind and surf respectfully.🤙</small></p>
+                            <p class="text-muted"><small>Always check the forecast before you go by clicking the spot name above. You can get directions to <a style="text-transform:capitalize;">${spotname}</a> by clicking above as well. Be kind and surf respectfully.🤙</small></p>
                           </td>
                        </tr>
                      </tbody>
@@ -2794,7 +2794,7 @@ function flightSearch(){
     fromDest = "LAX";
   }
   //Dynamic API URL to call in flightSearch();
-  var flightSearchURL = `https://api.skypicker.com/flights?flyFrom=${fromDest}&to=DPS&dateFrom=${dateFrom}&dateTo=${dateTo}${returnDates}&adults=${adults}&infants=${infants}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&curr=USD&sort=${sortFlightsBy}&limit=5&partner=picky`;
+  var flightSearchURL = `https://api.skypicker.com/flights?flyFrom=${fromDest}&to=JFK&dateFrom=${dateFrom}&dateTo=${dateTo}${returnDates}&adults=${adults}&infants=${infants}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&curr=USD&sort=${sortFlightsBy}&limit=5&partner=picky`;
   $('#loadImage').show();
   $.ajax({
     type: 'GET',
@@ -2808,6 +2808,10 @@ function flightSearch(){
       let flightData = flights.data;
        obaTimes = [];
        ibdTimes = [];
+       obIatas = [];
+       previousOBIatas = [];
+       ibIatas = [];
+       previousIBIatas = [];
 
       for (let i=0; i < flightData.length; i++) {
         deeplink = flights.data[i].deep_link;
@@ -2820,14 +2824,24 @@ function flightSearch(){
         routeLength = flights.data[i].route.length;
         ibaTime = flights.data[i].route[routeLength-1].aTime + (60*60*7); //CORRECT
         let routeData = flights.data[i].route;
+        if (i > 0) {
+          prevRouteData = flights.data[i-1].route;
+        } else {
+          prevRouteData = [];
+        }
 
+         //Loops through routeData and returns ib and ob times AND ib and ob airline iata codes
          for (let j=0; j < routeData.length; j++) {
            if (flights.data[i].route[j].return == 0) {
              obaTimes.push(flights.data[i].route[j].aTime + (60*60*7)); //CORRECT
-           } else if (flights.data[i].flyTo == flights.data[i].route[j].flyFrom) {
-             ibdTimes.push(flights.data[i].route[j].dTime +(60*60*7)); // CORRECT
+             obIatas.push(flights.data[i].route[j].airline);
            }
-
+           if (flights.data[i].route[j].return == 1) {
+             ibIatas.push(flights.data[i].route[j].airline);
+           }
+           if (flights.data[i].flyTo == flights.data[i].route[j].flyFrom) {
+             ibdTimes.push(flights.data[i].route[j].dTime + (60*60*7)); // CORRECT
+           }
               // Sets outbound depature times
               var obdDate = new Date(obdTime*1000);  // multiplied by 1000 so that the argument is in milliseconds, not seconds.
               // Hours part from the timestamp
@@ -2892,6 +2906,133 @@ function flightSearch(){
 
          }//END routeData.length loop
 
+         //Loops through previous route data so j is stable to previous route
+           for (k=0; k<prevRouteData.length; k++) {
+               if (flights.data[i-1].route[k].return == 0) {
+                  if (i > 0) {
+                     previousOBIatas.push(flights.data[i-1].route[k].airline);
+                  }
+               }
+               if (flights.data[i-1].route[k].return == 1) {
+                  if (i > 0) {
+                     previousIBIatas.push(flights.data[i-1].route[k].airline)
+                  }
+               }
+           }
+
+           console.log("pOB: "+previousOBIatas);
+           console.log("cOB: "+obIatas);
+           //Gets length of current obIatas array
+           var obIatasLength = obIatas.length;
+           var ibIatasLength = ibIatas.length;
+           // console.log(obIatasLength);
+           ////Gets length of previous obIatas array
+           var previousOBIatasLength = previousOBIatas.length;
+           var previousIBIatasLength = previousIBIatas.length;
+           // console.log(previousOBIatasLength);
+           console.log(previousOBIatasLength+", "+obIatasLength);
+           ////IF WRONG # LOGOS SHOWING CHECK THIS. Gets the iata codes between the current obIatasLength and previousOBIatasLength to provide iata codes of current OB Flight. Example (14, 17) gives the iata codes between those spots in the array.
+           var obFlightIatas = obIatas.slice(previousOBIatasLength, obIatasLength);
+           var ibFlightIatas = ibIatas.slice(previousIBIatasLength, ibIatasLength);
+           console.log("outcome array: "+obFlightIatas);
+           ////Checks if obIata code is available, if so build the airline logo, if not build nothing.
+           if (obFlightIatas[0] != undefined) {
+             obAirline1 = obFlightIatas[0];
+             obAirline1 = ` <img src="https://images.kiwi.com/airlines/64/${obAirline1}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             obAirline1 = ``;
+           }
+           if (obFlightIatas[1] != undefined) {
+             obAirline2 = obFlightIatas[1];
+             obAirline2 = ` <img src="https://images.kiwi.com/airlines/64/${obAirline2}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             obAirline2 = ``;
+           }
+           if (obFlightIatas[2] != undefined) {
+             obAirline3 = obFlightIatas[2];
+             obAirline3 = ` <img src="https://images.kiwi.com/airlines/64/${obAirline3}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             obAirline3 = ``;
+           }
+           if (obFlightIatas[3] != undefined) {
+             obAirline4 = obFlightIatas[3];
+             obAirline4 = ` <img src="https://images.kiwi.com/airlines/64/${obAirline4}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             obAirline4 = ``;
+           }
+           if (obFlightIatas[4] != undefined) {
+             obAirline5 = obFlightIatas[4];
+             obAirline5 = ` <img src="https://images.kiwi.com/airlines/64/${obAirline5}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             obAirline5 = ``;
+           }
+           if (obFlightIatas[5] != undefined) {
+             obAirline6 = obFlightIatas[5];
+             obAirline6 = ` <img src="https://images.kiwi.com/airlines/64/${obAirline6}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             obAirline6 = ``;
+           }
+           if (obFlightIatas[6] != undefined) {
+             obAirline7 = obFlightIatas[6];
+             obAirline7 = ` <img src="https://images.kiwi.com/airlines/64/${obAirline7}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             obAirline7 = ``;
+           }
+           if (obFlightIatas[7] != undefined) {
+             obAirline8 = obFlightIatas[7];
+             obAirline8 = ` <img src="https://images.kiwi.com/airlines/64/${obAirline8}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             obAirline8 = ``;
+           }
+           //Builds airline logo for inbound flights
+           if (ibFlightIatas[0] != undefined) {
+             ibAirline1 = ibFlightIatas[0];
+             ibAirline1 = ` <img src="https://images.kiwi.com/airlines/64/${ibAirline1}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             ibAirline1 = ``;
+           }
+           if (ibFlightIatas[1] != undefined) {
+             ibAirline2 = ibFlightIatas[1];
+             ibAirline2 = ` <img src="https://images.kiwi.com/airlines/64/${ibAirline2}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             ibAirline2 = ``;
+           }
+           if (ibFlightIatas[2] != undefined) {
+             ibAirline3 = ibFlightIatas[2];
+             ibAirline3 = ` <img src="https://images.kiwi.com/airlines/64/${ibAirline3}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             ibAirline3 = ``;
+           }
+           if (ibFlightIatas[3] != undefined) {
+             ibAirline4 = ibFlightIatas[3];
+             ibAirline4 = ` <img src="https://images.kiwi.com/airlines/64/${ibAirline4}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             ibAirline4 = ``;
+           }
+           if (ibFlightIatas[4] != undefined) {
+             ibAirline5 = ibFlightIatas[4];
+             ibAirline5 = ` <img src="https://images.kiwi.com/airlines/64/${ibAirline5}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             ibAirline5 = ``;
+           }
+           if (ibFlightIatas[5] != undefined) {
+             ibAirline6 = ibFlightIatas[5];
+             ibAirline6 = ` <img src="https://images.kiwi.com/airlines/64/${ibAirline6}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             ibAirline6 = ``;
+           }
+           if (ibFlightIatas[6] != undefined) {
+             ibAirline7 = ibFlightIatas[6];
+             ibAirline7 = ` <img src="https://images.kiwi.com/airlines/64/${ibAirline7}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             ibAirline7 = ``;
+           }
+           if (ibFlightIatas[7] != undefined) {
+             ibAirline8 = ibFlightIatas[7];
+             ibAirline8 = ` <img src="https://images.kiwi.com/airlines/64/${ibAirline8}.png" style="height:45px; width:45px;"</img>`
+           } else {
+             ibAirline8 = ``;
+           }
 
          $("#flights__list").append(`
            <div id="flights" class="row col-9 mt-2">
@@ -2900,11 +3041,13 @@ function flightSearch(){
                  <div class="price col-1 float-right" style="height:100%; width:15%;"><a href="${deeplink}" target="_blank"><button class="btn btn-lg btn-success"><b>$${price}</b></button></a></div>
                </div>
                <div id="obFlights" class="row col-12 mt-3">
+                 <div id="obAirlines" style="width:20%">${obAirline1}${obAirline2}${obAirline3}${obAirline4}${obAirline5}${obAirline6}${obAirline7}${obAirline8}</div>
                  <div class="from text-right mr-5" style="width:11%"><b>${obdHourConversion}:${obdMinutes}${obdAMPM}</b><br>${obFrom}</div>
                  <div class="layovers text-center" style="width:11%;">––––––––––––––<br><a class="text-muted"></a></div>
                  <div class="from text-right mr-5" style="width:11%"><b>${obaHourConversion}:${obaMinutes}${obaAMPM}</b><br>${obTo}</div>
                </div>
                <div id="ibFlights" class="row col-12 mt-3">
+                 <div id="ibAirlines" style="width:20%">${ibAirline1}${ibAirline2}${ibAirline3}${ibAirline4}${ibAirline5}${ibAirline6}${ibAirline7}${ibAirline8}</div>
                  <div class="from text-right mr-5" style="width:11%"><b>${ibdHourConversion}:${ibdMinutes}${ibdAMPM}</b><br>${ibFrom}</div>
                  <div class="layovers text-center" style="width:11%;">––––––––––––––<br><a class="text-muted"></a></div>
                  <div class="from text-right mr-5" style="width:11%"><b>${ibaHourConversion}:${ibaMinutes}${ibaAMPM}</b><br>${ibTo}</div>
