@@ -2465,6 +2465,8 @@ var ibaTimeFrom = "00:00";
 var ibaTimeTo = "23:59";
 //Sets default sortBy to price
 var sortFlightsBy = "price";
+//Sets default max flight duration to 80 hours
+var maxFlyDuration = 80;
 //Sets bag price to false (hide)
 var bagPrice = "hide";
 //Sets from destination in flight search menu
@@ -2682,19 +2684,27 @@ $(function(){
   $("#departureTimes").text($(this).text());
   dTimeFrom = $(this).attr("data-dtimefrom");
   dTimeTo = $(this).attr("data-dtimeto");
+  $('#flights__list').empty();
+  flightSearch();
   });
   $("#0departureTime").click(function () {
   $("#departureTimes").text($(this).text());
   dTimeTo = $(this).attr("data-dtimeto");
+  $('#flights__list').empty();
+  flightSearch();
   });
   $("#1departureTime").click(function () {
   $("#departureTimes").text($(this).text());
   dTimeFrom = $(this).attr("data-dtimefrom");
   dTimeTo = $(this).attr("data-dtimeto");
+  $('#flights__list').empty();
+  flightSearch();
   });
   $("#2departureTime").click(function () {
   $("#departureTimes").text($(this).text());
   dTimeFrom = $(this).attr("data-dtimefrom");
+  $('#flights__list').empty();
+  flightSearch();
   });
 });
 //OB Arrival time preference (atimefrom=min arrival (after 8am), atimeto=max arrival (before 10am))
@@ -2703,19 +2713,27 @@ $(function(){
   $("#arrivalTimes").text($(this).text());
   aTimeFrom = $(this).attr("data-atimefrom");
   aTimeTo = $(this).attr("data-atimeto");
+  $('#flights__list').empty();
+  flightSearch();
   });
   $("#0arrivalTime").click(function () {
   $("#arrivalTimes").text($(this).text());
   aTimeTo = $(this).attr("data-atimeto");
+  $('#flights__list').empty();
+  flightSearch();
   });
   $("#1arrivalTime").click(function () {
   $("#arrivalTimes").text($(this).text());
   aTimeFrom = $(this).attr("data-atimefrom");
   aTimeTo = $(this).attr("data-atimeto");
+  $('#flights__list').empty();
+  flightSearch();
   });
   $("#2arrivalTime").click(function () {
   $("#arrivalTimes").text($(this).text());
   aTimeFrom = $(this).attr("data-atimefrom");
+  $('#flights__list').empty();
+  flightSearch();
   });
 });
 //IB Departure time preference (dtimefrom=min departure (after 8am), dtimeto=max departure (before 10am))
@@ -2724,19 +2742,27 @@ $(function(){
   $("#ibDepartureTimes").text($(this).text());
   ibdTimeFrom = $(this).attr("data-ibDTimeFrom");
   ibdTimeTo = $(this).attr("data-ibDTimeTo");
+  $('#flights__list').empty();
+  flightSearch();
   });
   $("#0ibDepartureTime").click(function () {
   $("#ibDepartureTimes").text($(this).text());
   ibdTimeTo = $(this).attr("data-ibDTimeTo");
+  $('#flights__list').empty();
+  flightSearch();
   });
   $("#1ibDepartureTime").click(function () {
   $("#ibDepartureTimes").text($(this).text());
   ibdTimeFrom = $(this).attr("data-ibDTimeFrom");
   ibdTimeTo = $(this).attr("data-ibDTimeTo");
+  $('#flights__list').empty();
+  flightSearch();
   });
   $("#2ibDepartureTime").click(function () {
   $("#ibDepartureTimes").text($(this).text());
   ibdTimeFrom = $(this).attr("data-ibDTimeFrom");
+  $('#flights__list').empty();
+  flightSearch();
   });
 });
 //IB Arrival time preference (atimefrom=min arrival (after 8am), atimeto=max arrival (before 10am))
@@ -2745,19 +2771,144 @@ $(function(){
   $("#ibArrivalTimes").text($(this).text());
   ibaTimeFrom = $(this).attr("data-ibAtimeFrom");
   ibaTimeTo = $(this).attr("data-ibAtimeTo");
+  $('#flights__list').empty();
+  flightSearch();
   });
   $("#0ibArrivalTime").click(function () {
   $("#ibArrivalTimes").text($(this).text());
   ibaTimeTo = $(this).attr("data-ibAtimeTo");
+  $('#flights__list').empty();
+  flightSearch();
   });
   $("#1ibArrivalTime").click(function () {
   $("#ibArrivalTimes").text($(this).text());
   ibaTimeFrom = $(this).attr("data-ibAtimeFrom");
   ibaTimeTo = $(this).attr("data-ibAtimeTo");
+  $('#flights__list').empty();
+  flightSearch();
   });
   $("#2ibArrivalTime").click(function () {
   $("#ibArrivalTimes").text($(this).text());
   ibaTimeFrom = $(this).attr("data-ibAtimeFrom");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+});
+//Sets max flight duration preferences
+$(function(){
+  $("#50maxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#45maxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#40maxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#35maxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#30MaxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#25maxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#20maxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#15maxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#10MaxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#9maxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#8maxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#7maxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#6MaxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#5maxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#4maxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#3maxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#2MaxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#1MaxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
+  });
+  $("#AnyMaxFlyDuration").click(function () {
+  $("#maxFlyDurations").text($(this).text());
+  maxFlyDuration = $(this).attr("data-flightDuration");
+  $('#flights__list').empty();
+  flightSearch();
   });
 });
 
@@ -2766,10 +2917,14 @@ $(function(){
   $("#sortFlightsByPrice").click(function () {
   $("#sortFlightsBy").text($(this).text());
   sortFlightsBy = $(this).attr("data-sortFlightsBy");
+  $('#flights__list').empty();
+  flightSearch();
   });
   $("#sortFlightsByDuration").click(function () {
   $("#sortFlightsBy").text($(this).text());
   sortFlightsBy = $(this).attr("data-sortFlightsBy");
+  $('#flights__list').empty();
+  flightSearch();
   });
 });
 //Shows/Hides bag price
@@ -2879,7 +3034,7 @@ function flightSearch(){
     fromDest = "LAX";
   }
   //Dynamic API URL to call in flightSearch();
-  var flightSearchURL = `https://api.skypicker.com/flights?flyFrom=${fromDest}&to=DPS&dateFrom=${dateFrom}&dateTo=${dateTo}${returnDates}&adults=${adults}&infants=${infants}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&returndtimefrom=${ibdTimeFrom}&returndtimeto=${ibdTimeTo}&returnatimefrom=${ibaTimeFrom}&returnatimeto=${ibaTimeTo}&curr=USD&sort=${sortFlightsBy}&limit=50&partner=picky`;
+  var flightSearchURL = `https://api.skypicker.com/flights?flyFrom=${fromDest}&to=DPS&dateFrom=${dateFrom}&dateTo=${dateTo}${returnDates}&adults=${adults}&infants=${infants}&maxstopovers=${stopOvers}&dtimefrom=${dTimeFrom}&dtimeto=${dTimeTo}&atimefrom=${aTimeFrom}&atimeto=${aTimeTo}&returndtimefrom=${ibdTimeFrom}&returndtimeto=${ibdTimeTo}&returnatimefrom=${ibaTimeFrom}&returnatimeto=${ibaTimeTo}&maxFlyDuration=${maxFlyDuration}&curr=USD&sort=${sortFlightsBy}&limit=50&partner=picky`;
   $('#loadImage').show();
   $.ajax({
     type: 'GET',
@@ -3216,18 +3371,18 @@ function flightSearch(){
 
        if (oneWayOrRoundTrip == "roundTrip") {
          $("#flights__list").append(`
-           <div id="flights" class="route container-fluid justify-content-center mb-3">
-             <div class="price__wrapper col-1 float-right">
-               <div class="price" style="width:15%;"><a href="${deeplink}" target="_blank"><button class="btn btn-lg btn-success"><b>$${price}</b></button></a></div>
+           <div id="flights" class="route container-fluid justify-content-center mb-3" style="height:200px;">
+             <div class="price col-1 float-right">
+               <a href="${deeplink}" target="_blank"><button class="btn btn-lg btn-success mr-5"><b>$${price}</b></button></a>
              </div>
-             <div id="obFlights" class="row col-11 mt-3">
+             <div id="obFlights" class="flight-specs row col-11 mt-4">
                <div id="obAirlines" style="width:22%">${obAirline1}${obAirline2}${obAirline3}${obAirline4}${obAirline5}${obAirline6}${obAirline7}${obAirline8}</div>
                <div class="obFrom text-right mr-3" style="width:16%"><b>${obdHourConversion}:${obdMinutes}${obdAMPM}</b><br>${obFrom}</div>
                <div class="obLayovers text-center" style="width:17%;"><hr style="color: #000000;"><small><a class="text-muted">${obLayover1}${obLayover2}${obLayover3}${obLayover4}${obLayover5}${obLayover6}${obLayover7}</a></small></div>
                <div class="obTo text-left ml-3" style="width:16%"><b>${obaHourConversion}:${obaMinutes}${obaAMPM}</b><br>${obTo}</div>
                <div class="obDuration text-left" style="width:15%"><small><b>⌚️${obDuration}</b></small></div>
              </div>
-             <div id="ibFlights" class="row col-11 mt-3 mb-3">
+             <div id="ibFlights" class="flight-specs row col-11 mt-3 mb-3">
                <div id="ibAirlines" style="width:22%">${ibAirline1}${ibAirline2}${ibAirline3}${ibAirline4}${ibAirline5}${ibAirline6}${ibAirline7}${ibAirline8}</div>
                <div class="ibFrom text-right mr-3" style="width:16%"><b>${ibdHourConversion}:${ibdMinutes}${ibdAMPM}</b><br>${ibFrom}</div>
                <div class="ibLayovers text-center" style="width:17%;"><hr style="color: #000000;"><small><a class="text-muted">${ibLayover1}${ibLayover2}${ibLayover3}${ibLayover4}${ibLayover5}${ibLayover6}${ibLayover7}</a></small></div>

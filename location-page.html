@@ -94,7 +94,7 @@
 
         <div id="flights__wrapper" class="row col-12 my-3 Hide">
           <hr>
-            <p class="text-center"><small>💸Book the cheapest and fastest flight for your surf trip below. 🏄‍To surf in Uluwatu, Bali fly to Denpasar (DPS), Bali.</small></p>
+            <p class="text-center"><small>💸Book the cheapest and fastest flight to Denpasar (DPS), Bali to surf in Uluwatu.</small></p>
           <hr>
           <div class="row flight-preferences justify-content-center mb-3">
             <div class="btn-group">
@@ -178,15 +178,10 @@
           <div id="flights-list__wrapper" class="row">
             <div id="flights-side-menu" class="col-3">
               <hr>
-              <div class="text-center">
-                <div class="btn-group">
-                  <button id="flightFilter" class="flightSearch btn btn-danger mb-1"><b>👨‍🔬Filter</b></button>
-                </div>
-              </div>
-              <hr>
+              <img src="icon-images/filter.png" style="height:22px; width:22px;"></img> Sort by<br>
               <div class="btn-group">
-                <button type="button" id="sortFlightsBy" class="btn btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  🤑Sort by price
+                <button type="button" id="sortFlightsBy" class="btn btn-sm btn-outline-danger dropdown-toggle mt-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  🤑Cheapest flights
                 </button>
                 <div class="dropdown-menu">
                   <a id="sortFlightsByPrice" class="sortFlightsBySelect dropdown-item" href="#" data-sortFlightsBy="price">🤑Cheapest flights</a>
@@ -196,7 +191,7 @@
               <hr>
               <img src="icon-images/outbound.png" style="height:30px; width:30px;"></img>Outbound<br>
               <div class="btn-group">
-                <button type="button" id="departureTimes" class="btn btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" id="departureTimes" class="btn btn-sm btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   🛫Depart when?
                 </button>
                 <div class="dropdown-menu">
@@ -208,7 +203,7 @@
                 </div>
               </div>
               <div class="btn-group">
-                <button type="button" id="arrivalTimes" class="btn btn-outline-danger dropdown-toggle mt-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" id="arrivalTimes" class="btn btn-sm btn-outline-danger dropdown-toggle mt-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   🛬Arrive when?
                 </button>
                 <div class="dropdown-menu">
@@ -222,7 +217,7 @@
               <hr>
               <img src="icon-images/inbound.png" style="height:30px; width:30px;"></img>Return<br>
               <div class="btn-group">
-                <button type="button" id="ibDepartureTimes" class="btn btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" id="ibDepartureTimes" class="btn btn-sm btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   🛫Depart when?
                 </button>
                 <div class="dropdown-menu">
@@ -234,7 +229,7 @@
                 </div>
               </div>
               <div class="btn-group">
-                <button type="button" id="ibArrivalTimes" class="btn btn-outline-danger dropdown-toggle mt-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" id="ibArrivalTimes" class="btn btn-sm btn-outline-danger dropdown-toggle mt-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   🛬Arrive when?
                 </button>
                 <div class="dropdown-menu">
@@ -245,6 +240,34 @@
                   <a id="ibArrivalTime" class="ibArrivalTimeSelect dropdown-item" href="#" data-ibAtimeFrom="00:00" data-ibAtimeTo="23:59">🛬Any arrival time</a>
                 </div>
               </div>
+              <hr>
+                <img src="icon-images/duration.png" style="height:27px; width:27px;"></img>Duration<br>
+                <div class="btn-group">
+                  <button type="button" id="maxFlyDurations" class="btn btn-sm btn-outline-danger dropdown-toggle mt-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    ⌚️70 hours or less
+                  </button>
+                  <div class="dropdown-menu">
+                    <a id="50maxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="50">⌚️50 hours or less</a>
+                    <a id="45maxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="45">⌚️45 hours or less</a>
+                    <a id="40maxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="40" >⌚️40 hours or less</a>
+                    <a id="35maxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="35">⌚️35 hours or less</a>
+                    <a id="30MaxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="30">⌚️30 hours or less</a>
+                    <a id="25maxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="25">⌚️25 hours or less</a>
+                    <a id="20maxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="20" >⌚️20 hours or less</a>
+                    <a id="15maxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="15">⌚️15 hours or less</a>
+                    <a id="10MaxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="10">⌚️10 hours or less</a>
+                    <a id="9maxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="9">⌚️9 hours or less</a>
+                    <a id="8maxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="8" >⌚️8 hours or less</a>
+                    <a id="7maxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="7">⌚️7 hours or less</a>
+                    <a id="6MaxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="6">⌚️6 hours or less</a>
+                    <a id="5maxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="5">⌚️5 hours or less</a>
+                    <a id="4maxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="4" >⌚️4 hours or less</a>
+                    <a id="3maxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="3">⌚️3 hours or less</a>
+                    <a id="2MaxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="2">⌚️2 hours or less</a>
+                    <a id="1MaxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="1">⌚️1 hour or less</a>
+                    <a id="AnyMaxFlyDuration" class="maxFlyDurationSelect dropdown-item" href="#" data-flightDuration="100">⌚️Any duration</a>
+                  </div>
+                </div>
               <hr>
             </div>
             <div id="flights__list" class="col-9 justify-content-center mb-5"></div>

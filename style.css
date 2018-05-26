@@ -456,3 +456,16 @@ $iPlus: 0;
 #flights:hover {
   box-shadow: 4px 4px 4px lightgrey;
 }
+
+.price {
+  width:15%;
+  display:flex;
+  height:100%;
+  align-items:center;
+  justify-content:center;
+  vertical-align: middle;
+}
+.flight-specs {
+  display:flex;
+  align-items: center;
+}
