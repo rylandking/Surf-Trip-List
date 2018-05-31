@@ -54,7 +54,6 @@ function addSurfMarker(props, map) {
     content: `
       <h6 data-id="${surfMarkerID}">${smContent} at <a class="text-capitalize">${smSurfSpotName}</a></h6>
     `
-    //props.content
   });
 
   //Adds the marker listener
@@ -1302,6 +1301,7 @@ window.initAccommMap = function() {
    </div>
   `);//end accomm-map prepend
 
+
   //START - Inside window.initAccommMap, populate accomm cards on the Accomm Section of the Location Page
   db.collection("priceMarkers").where("city", "==", newCityPage)
       .get().then(function(querySnapshot) {
@@ -1355,19 +1355,19 @@ window.initAccommMap = function() {
               </a>
             `);//End Accomm card prepend
 
-            //Hover over accomm card, card changes to show more info + the relevant marker on map
-            $(document).on('mouseenter', '.accomm-card', function(){
-              $(this).find('#img-overlay').hide();
-              $(this).find('#hover-overlay').show();
-            })//END Accomm Card mouseenter function
-            .on('mouseleave', '.accomm-card', function(){
-              $(this).find('#img-overlay').show();
-              $(this).find('#hover-overlay').hide();
-            });//END Accomm Card mouseleave function
         });
     });//END Price Markers loop
 };//END window.initAccommMap
 
+//Hover over accomm card, card changes to show more info + the relevant marker on map
+$(document).on('mouseenter', '.accomm-card', function(){
+  $(this).find('#img-overlay').hide();
+  $(this).find('#hover-overlay').show();
+})//END Accomm Card mouseenter function
+.on('mouseleave', '.accomm-card', function(){
+  $(this).find('#img-overlay').show();
+  $(this).find('#hover-overlay').hide();
+});//END Accomm Card mouseleave function
 
 //START Populates the relevant board rental map per city
 // QUERY: const docRef = db.collection("city").doc(newCityPage);
@@ -2347,7 +2347,7 @@ window.initMap = function(
                  <table class="table col-sm">
                      <tbody>
                        <tr>
-                           <td class="best-board font-weight-bold">🏄🏽‍♀️Best board:</td>
+                           <td class="best-board font-weight-bold">🏄🏽‍Best board:</td>
                            <td class="text-left" data-toggle="tooltip" title="${boardTip}"><img src="${boardIcon}"></img>${board}</td>
                            <td class="wave-dir font-weight-bold">🌊Direction:</td>
                            <td class="text-left" data-toggle="tooltip" title="${waveDirTip}">${waveDir}</td>
@@ -2385,8 +2385,8 @@ window.initMap = function(
                        <tr>
                           <td colspan="12" class="text-center">
                             <p class="mt-2"><b>📝Notes</b></p>
-                            <p id="spot-notes">${spotNote}</p>
-                            <p class="text-muted"><small>Always check the forecast before you go by clicking the spot name above. You can get directions to <a style="text-transform:capitalize;">${spotname}</a> by clicking above as well. Be kind and surf respectfully.🤙</small></p>
+                            <p id="spot-notes">${spotNote} Get directions to <a style="text-transform:capitalize;">${spotname}\'s</a> main parking lot via Google Maps by clicking above.</p>
+                            <p class="text-muted"><small>Always check the forecast before you go by clicking the spot name above. Be kind and surf respectfully.🤙</small></p>
                           </td>
                        </tr>
                      </tbody>
