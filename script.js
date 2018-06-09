@@ -455,12 +455,8 @@ db.collection("city").where("beta", "==", true)
           `<a id="city-card" data-id="${cityName}" href=""><div class="card bg-dark text-white ${expFilter}">
             <img class="img-fluid card-img" src="${cityimage}"></img>
               <div class="card-img-overlay">
-                <div id="experience" class="lc-experience">${exp}</div>
                 <h4 id="locName" class="card-title" style="white-space: nowrap;">${locname}</h4>
                 <p id="region" class="card-text">${region}</p>
-                <div class="lc-flight"<div data-toggle="tooltip" data-placement="bottom" title="Flight cost">🛫 $187</div>
-                <div class="lc-cost" <div data-toggle="tooltip" data-placement="bottom" title="Avg accomm cost">🏡 $42/n</div>
-
               </div>
           </div></a>`
         ); //end prepend
@@ -1337,13 +1333,13 @@ window.initAccommMap = function() {
                    <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">${pmTitle}</h3>
                    <h6 id="ac-nearby-spot" class="card-text ac-text"><img src="icon-images/marker.png"/>Near ${pmSurfSpotName}</h6>
                    <div id="ac-view" class="ac-bottom-left">😎${pmView}</div>
-                   <div id="ac-dist-to-surf" class="ac-bottom-right">🏄‍♂️${pmProximity}</div>
+                   <div id="ac-dist-to-surf" class="ac-bottom-right">🏄‍${pmProximity}</div>
                  </div>
                  <div id="hover-overlay" class="card-img-overlay row">
                    <div class="ac-hover-specs font-weight-bold ml-2 my-4">
                      <p class="mb-1">${pmAccommType}</p>
                      <p class="mb-1">👫${pmBedAmount} ${pmBedWord} • ${pmGuestAmount} ${pmGuestWord}</p>
-                     <p class="mb-1">🏄‍♂️${pmProximity}</p>
+                     <p class="mb-1">🏄‍${pmProximity}</p>
                      <p class="mb-1">😎${pmView}</p>
                      <p class="mb-1">💳$${pmPrice}/n</p>
                    </div>
@@ -1469,7 +1465,7 @@ window.initBoardRentalMap = function () {
              </div>
              <div id="hover-overlay" class="card-img-overlay row">
                <div class="ac-hover-specs font-weight-bold ml-2 my-4">
-                 <p class="mb-1">🏄‍♂️ ${brShortBoardHover} ${brFunBoardHover} ${brLongBoardHover}</p>
+                 <p class="mb-1">🏄‍ ${brShortBoardHover} ${brFunBoardHover} ${brLongBoardHover}</p>
                  <p class="mb-1">💳$<small><b>${boardDailyCost}/board/day</b></small></p>
                  <p class="mb-1">💳$<small><b>${wetsuitDailyCost}/wetsuit/day</b></small></p>
                  <p class="mb-1">📱<small><b>${phone}</b></small></p>
@@ -3042,7 +3038,7 @@ function flightSearch(){
     success: function(flights){
       //Hides the loading image after successful AJAX call
       $("#loadImage").hide();
-      console.log('success', flights);
+      // console.log('success', flights);
 
       //Loops through route array. Gets data on each route.
       let flightData = flights.data;
@@ -3191,7 +3187,7 @@ function flightSearch(){
            var prevOBLayoversLength = prevOBLayovers.length;
            var prevIBLayoversLength = prevIBLayovers.length;
            // console.log(previousOBIatasLength+", "+obIatasLength);
-           console.log(prevIBLayoversLength+", "+ibLayoversLength);
+           // console.log(prevIBLayoversLength+", "+ibLayoversLength);
            //Gets the iata codes between the current obIatasLength and previousOBIatasLength to provide iata codes of current OB Flight. Example (14, 17) gives the iata codes between those spots in the array.
            var obFlightIatas = obIatas.slice(previousOBIatasLength, obIatasLength);
            var ibFlightIatas = ibIatas.slice(previousIBIatasLength, ibIatasLength);

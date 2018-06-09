@@ -34,7 +34,9 @@ body {
   display: inline-block;
   top: 43%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
 }
 
 .card-text {
@@ -43,7 +45,9 @@ body {
   display: inline-block;
   top: 58%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
 }
 
 .lc-experience {
@@ -246,7 +250,8 @@ body {
 }
 
 #accomm-card::after {
-  box-shadow: inset 0px 0px 225px 10px rgba(0,0,0,0.9);
+  -webkit-box-shadow: inset 0px 0px 225px 10px rgba(0,0,0,0.9);
+          box-shadow: inset 0px 0px 225px 10px rgba(0,0,0,0.9);
   content: '';
   display: block;
   height: 100%;
@@ -357,9 +362,15 @@ body {
 #ac-hover-button {
   width:400px;
   height:275px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;/*Aligns vertically center */
-  justify-content: right;/*Aligns horizontally center */
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;/*Aligns vertically center */
+  -webkit-box-pack: right;
+      -ms-flex-pack: right;
+          justify-content: right;/*Aligns horizontally center */
 }
 
 .ac-hover-button {
@@ -403,7 +414,9 @@ body {
   border: solid 1px #ddd;
   border-top-width: 0;
   border-bottom-color: #ccc;
-  box-shadow:
+  -webkit-box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.2);
+          box-shadow:
     0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -450,22 +463,35 @@ $iPlus: 0;
   border-style: solid;
   border-width: 1px;
   border-color: lightgrey;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 #flights:hover {
-  box-shadow: 4px 4px 4px lightgrey;
+  -webkit-box-shadow: 4px 4px 4px lightgrey;
+          box-shadow: 4px 4px 4px lightgrey;
 }
 
 .price {
   width:15%;
+  display:-webkit-box;
+  display:-ms-flexbox;
   display:flex;
   height:100%;
-  align-items:center;
-  justify-content:center;
+  -webkit-box-align:center;
+      -ms-flex-align:center;
+          align-items:center;
+  -webkit-box-pack:center;
+      -ms-flex-pack:center;
+          justify-content:center;
   vertical-align: middle;
 }
 .flight-specs {
+  display:-webkit-box;
+  display:-ms-flexbox;
   display:flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
