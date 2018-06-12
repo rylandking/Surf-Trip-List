@@ -129,7 +129,7 @@ function addPriceMarker(props, map) {
        <a href="${pmbookingURL}" target="_blank"><img src="ac-images/${pmPhoto}" style="height=100%; width:100%"></a>
        <b><p class="my-2 nounderline" style="color:brown">${pmAccommType} • 🛌${pmBedAmount} ${pmBedWord} • 👫${pmGuestAmount} ${pmGuestWord}</p></b>
        <h5 class="my-0">${pmTitle}</h5>
-       <b><p class="mt-2">💳$${pmPrice}/n • 😎${pmView} • 🏄‍♂️${pmProximity}</p></b>
+       <b><p class="mt-2">💳$${pmPrice}/n • 😎${pmView} • 🏄‍${pmProximity}</p></b>
      </div>
     `
   });
@@ -1233,7 +1233,7 @@ docRef.get().then(function(doc) {
               <td>${partyScore}</td>
           </tr>
           <tr>
-              <td class="rentals font-weight-bold">🏄‍♂️Board rentals</td>
+              <td class="rentals font-weight-bold">🏄‍Board rentals</td>
               ${cityRentals}
               <td class="nightlife font-weight-bold">🍸Nightlife</td>
               <td>${nightLifeScore}</td>
@@ -1344,7 +1344,7 @@ window.initAccommMap = function() {
                      <p class="mb-1">💳$${pmPrice}/n</p>
                    </div>
                    <div id="ac-hover-button">
-                     <button class="btn btn-lg btn-danger ac-hover-button font-weight-bold mb-5 mr-3">TAP TO OPEN</button>
+                     <button class="btn btn-danger ac-hover-button font-weight-bold mb-5 mr-3">TAP TO OPEN</button>
                    </div>
                  </div>
                </div>
@@ -1672,16 +1672,16 @@ db.collection("surf-spot").where("city", "==", newCityPage)
     //Sets skill icon in surf spot heading
     if (skill == "intermediate") {
       skill = mIntermediate;
-      var skillTip = "Good for intermediate 🏄‍♂️"
+      var skillTip = "Good for intermediate 🏄‍"
     } else if (skill == "advanced") {
       skill = mAdvanced;
-      var skillTip = "Good for advanced 🏄‍♂️"
+      var skillTip = "Good for advanced 🏄‍"
     } else if (skill == "beginner") {
       skill = mBeginner;
-      var skillTip = "Good for beginner 🏄‍♂️"
+      var skillTip = "Good for beginner 🏄‍"
     } else if (skill = "expert") {
       skill = mExpert;
-      var skillTip = "Experts only 🏄‍♂️"
+      var skillTip = "Experts only 🏄‍"
     } else {
       skill = " ";
       var skillTip = " "
@@ -1852,7 +1852,7 @@ db.collection("surf-spot").where("city", "==", newCityPage)
       var localismTip = "👺Unfriendly locals";
     } else if (localism == "be-respectful") {
       localism = "Please be respectful";
-      var localismTip = "🏄‍♂️ Respectfully";
+      var localismTip = "🏄‍ Respectfully";
     } else if (localism == "no") {
       localism = "Very friendly";
       var localismTip = "😇Minimal localism";
@@ -2295,7 +2295,7 @@ window.initMap = function(
     //Build new surf spot on location page
       $("#surf-spot-map__wrapper").prepend(
           `<div class="col-lg-6 mb-5 align-top" style="display:inline-block;">
-            <h5 class="text-center mt-4 mb-1" style="text-transform:capitalize;"><a href="${forecast}" target="_blank" data-toggle="tooltip" title="Click to view 7 day 🏄‍♂️ forecast" style="color:black;">${spotname}</a> - <img data-toggle="tooltip" title="${skillTip}" src="${skill}"></img></h5>
+            <h5 class="text-center mt-4 mb-1" style="text-transform:capitalize;"><a href="${forecast}" target="_blank" data-toggle="tooltip" title="Click to view 7 day 🏄‍ forecast" style="color:black;">${spotname}</a> - <img data-toggle="tooltip" title="${skillTip}" src="${skill}"></img></h5>
             <p id="spot-directions" class="text-center">
               <a href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank"><img src="icon-images/dir-drive.png"></img></a>
               <a href="https://maps.google.com/?saddr=Current+Location&dirflg=w&daddr=${parkingLat},${parkingLng}" target="_blank"><img src="icon-images/dir-walk.png"></img></a>
