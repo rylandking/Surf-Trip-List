@@ -1311,7 +1311,7 @@ window.initAccommMap = function() {
              const pmPhoto = pmData.photo;
              const pmPrice = pmData.price;
              const pmAccommType = pmData.accommType;
-             const pmTitle = pmData.title;
+             let pmTitle = pmData.title;
              const pmView = pmData.view;
              const pmProximity = pmData.proximity;
              const pmBedAmount = pmData.bedAmount;
@@ -1330,21 +1330,21 @@ window.initAccommMap = function() {
                  <div id="img-overlay" class="card-img-overlay">
                    <div id="ac-accomm-cost" class="ac-top-left">💳$${pmPrice}/n</div>
                    <div id="ac-accomm-type" class="ac-top-right">${pmAccommType}</div>
-                   <h3 id="ac-title" class="card-title ac-title" style="white-space:nowrap; font-weight:700;">${pmTitle}</h3>
-                   <h6 id="ac-nearby-spot" class="card-text ac-text"><img src="icon-images/marker.png"/>Near ${pmSurfSpotName}</h6>
+                   <h4 id="ac-title" class="card-title ac-title">${pmTitle}</h4>
+                   <p id="ac-nearby-spot" class="card-text ac-text mt-1"><img src="icon-images/marker-small.png"/>Near ${pmSurfSpotName}</p>
                    <div id="ac-view" class="ac-bottom-left">😎${pmView}</div>
                    <div id="ac-dist-to-surf" class="ac-bottom-right">🏄‍${pmProximity}</div>
                  </div>
                  <div id="hover-overlay" class="card-img-overlay row">
                    <div class="ac-hover-specs font-weight-bold ml-2 my-4">
-                     <p class="mb-1">${pmAccommType}</p>
                      <p class="mb-1">👫${pmBedAmount} ${pmBedWord} • ${pmGuestAmount} ${pmGuestWord}</p>
+                     <p class="mb-1 nearby-spot">📍Near ${pmSurfSpotName}</p>
                      <p class="mb-1">🏄‍${pmProximity}</p>
                      <p class="mb-1">😎${pmView}</p>
                      <p class="mb-1">💳$${pmPrice}/n</p>
                    </div>
                    <div id="ac-hover-button">
-                     <button class="btn btn-danger ac-hover-button font-weight-bold mb-5 mr-3">TAP TO OPEN</button>
+                     <button class="btn btn-danger ac-hover-button font-weight-bold mr-3">TAP TO OPEN</button>
                    </div>
                  </div>
                </div>

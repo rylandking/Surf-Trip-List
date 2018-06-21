@@ -50,6 +50,10 @@ body {
           transform: translate(-50%,-50%);
 }
 
+.nearby-spot {
+  text-transform:capitalize;
+}
+
 .lc-experience {
   text-align: left;
   float: left;
@@ -269,7 +273,8 @@ body {
 .ac-title {
   position:absolute;
   z-index:1;
-  white-space:nowrap;
+  width:90%;
+  text-align: center;
   font-weight:700;
 }
 
@@ -277,7 +282,9 @@ body {
   position:absolute;
   z-index:1;
   font-weight:700;
-  font-size: 18px;
+  width:80%;
+  text-align: center;
+  font-size: 16px;
 }
 
 .ac-top-left {
