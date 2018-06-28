@@ -69,9 +69,10 @@ function addSurfMarker(props, map) {
 }//End of addSurfMarker v2
 
 function renderSurfMarkers(map) {
-  //Getting the markers
-  db.collection("markers").get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
+  //Getting the surf markers relevant to the specific city
+  db.collection("markers").where("city", "==", newCityPage)
+      .get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
 
         const mData = doc.data();
         surfMarkerID = doc.id;
@@ -149,8 +150,9 @@ function addPriceMarker(props, map) {
 var priceMarkers = [];
 
 function renderPriceMarkers(map) {
-  //Getting the price markers to use in the addPriceMarker function
-  db.collection("priceMarkers").get().then(function(querySnapshot) {
+  //Getting the price markers relevant to chosen city to use in the addPriceMarker function
+  db.collection("priceMarkers").where("city", "==", newCityPage)
+      .get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
 
         const pmData = doc.data();
@@ -249,8 +251,9 @@ function addBoardRentalMarker(props, map) {
 //START renderBoardRentalMarkers
 function renderBoardRentalMarkers(map) {
   //Getting the price markers to use in the addPriceMarker function
-  db.collection("boardRentalMarkers").get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
+  db.collection("boardRentalMarkers").where("city", "==", newCityPage)
+      .get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
 
         const brData = doc.data();
         const brCity = brData.city;
@@ -349,9 +352,10 @@ function addLessonMarker(props, map) {
 
 //START renderLessonMarkers
 function renderLessonMarkers(map) {
-  //Getting the lesson markers to use in the addLessonMarker function
-  db.collection("lessonMarkers").get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
+  //Getting the lesson markers of the relevant city to use in the addLessonMarker function
+  db.collection("lessonMarkers").where("city", "==", newCityPage)
+      .get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
 
         const lData = doc.data();
         const lCity = lData.city;
