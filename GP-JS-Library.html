@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -17,30 +16,41 @@
   <!-- Google Places JS Library -->
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&libraries=places"></script>
 
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
   <title>GP JS Library Test</title>
 </head>
 <body>
 
-  <div id="map" style="width:400px; height:300px;">
+  <div id="map" style="width:800px; height:800px;">
   </div>
 
   <script>
   //GOOGLE PLACES JS LIBRARY
-  var map;
-  var service;
-  var infowindow;
-  var place;
+  let map;
+  let service;
+  let infowindow;
+  let marker;
+  let name;
+  let rating;
+  let website;
+  let phone;
+  let address;
+  let review;
+  let coords;
+  let photo;
 
   function initialize() {
-    var mapCenter = new google.maps.LatLng(37.755237,-122.526592);
+    var mapCenter = new google.maps.LatLng(33.689060,-78.886694);
 
     map = new google.maps.Map(document.getElementById('map'), {
       center: mapCenter,
-      zoom: 11
+      zoom: 13
       });
 
     var request = {
-      query: 'surf lessons in san onofre'
+      query: 'surf lessons in myrtle beach south carolina'
     };
 
     service = new google.maps.places.PlacesService(map);
@@ -74,12 +84,43 @@
               if (placeDetails.website !== undefined && placeDetails.website.indexOf(".gov") == -1) {
                 console.log(placeDetails);
                 console.log(placeDetails.name);
-                console.log(placeDetails.rating);
-                console.log(placeDetails.website);
-                console.log(placeDetails.formatted_phone_number);
-                console.log(placeDetails.formatted_address);
-                console.log('Review: ', placeDetails.reviews[0].text);
+                name = placeDetails.name;
+                rating = placeDetails.rating;
+                website = placeDetails.website;
+                phone = placeDetails.formatted_phone_number;
+                address = placeDetails.formatted_address;
+                //Gets the most recent review.
+                review = placeDetails.reviews[0].text;
+                coords = {lat: placeDetails.geometry.location.lat(), lng: placeDetails.geometry.location.lng()}
+                if (placeDetails.photos !== undefined) {
+                  photo = placeDetails.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 275});
+                } else {
+                  photo = "lesson-images/surf-lesson."
+                }
+                //Sets the surfboard rental markers on the map
+                function addSurfboardRentalMarker(props, map) {
+                    marker = new google.maps.Marker({
+                      position: coords,
+                      map: map,
+                      icon: 'icon-images/boardRental.png'
+                    });
+                   //Creates the marker info window
+                    infowindow = new google.maps.InfoWindow({
+                      // maxWidth: NEED TO SET,
+                      // maxWidth: NEED TO SET,
+                    });
 
+                    marker.addListener('click', function(){
+                      //Opens the marker infowindow
+                      infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br>" + "<img src='" + placeDetails.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 150}) + "'>" + "<p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p>" + "</div>");
+                      infowindow.open(map, this);
+                      google.maps.event.addListener(map, "click", function(event){
+                        //Closes the marker infowindow
+                        infowindow.close();
+                      });
+                    });
+                }//End of addSurfboardRentalMarker
+                addSurfboardRentalMarker(marker, map);
               }
             }
             // createMarker(place);
@@ -96,5 +137,12 @@
 
   </script>
 
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 </body>
+
 </html>
