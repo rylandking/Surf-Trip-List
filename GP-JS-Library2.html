@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Link to custom CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- JQUERY -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+  <!-- Google Places JS Library -->
+  <!-- remove 'async,defer' so that the 'google' library is available when the page loads -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&libraries=places"></script>
+
+  <title>GP JS Library Test</title>
+</head>
+<body>
+
+  <!-- Add the 'map' element so that the google maps library can use it -->
+  <div id="map" style="width: 500px; height: 500px;">
+  </div>
+
+  <script>
+  //GOOGLE PLACES JS LIBRARY
+  var map;
+  var service;
+  var infowindow;
+
+  function initMap() {
+    console.log('running initMap');
+    var mapCenter = new google.maps.LatLng(-33.8617374,151.2021291);
+
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: mapCenter,
+      zoom: 15
+    });
+
+    // fix the unexpected token error. 'request' should be a json object
+    var request = {
+      query: 'Surfboard rentals in Pacifica',
+      fields: ['photos', 'formatted_address', 'name', 'rating', 'opening_hours', 'geometry']
+    }
+
+    service = new google.maps.places.PlacesService(map);
+    service.findPlaceFromQuery(request, callback);
+  }
+
+  function callback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        var place = results[i];
+        // log each 'place' that got returned from the api
+        console.log('place', i, place);
+        // define the createMarker function so that the markers get placed on the map
+        // createMarker(results[i]);
+      }
+    } else {
+      // Handle this error if there is a problem
+      console.error("Error in callback", status)
+    }
+  }
+
+  initMap()
+  </script>
+
+</body>
+</html>

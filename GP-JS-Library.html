@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Link to custom CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- JQUERY -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+  <!-- Google Places JS Library -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&libraries=places"></script>
+
+  <title>GP JS Library Test</title>
+</head>
+<body>
+
+  <div id="map" style="width:400px; height:300px;">
+  </div>
+
+  <script>
+  //GOOGLE PLACES JS LIBRARY
+  var map;
+  var service;
+  var infowindow;
+  var place;
+
+  function initialize() {
+    var mapCenter = new google.maps.LatLng(37.755237,-122.526592);
+
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: mapCenter,
+      zoom: 11
+      });
+
+    var request = {
+      query: 'surf lessons in san onofre'
+    };
+
+    service = new google.maps.places.PlacesService(map);
+    service.textSearch(request, callback);
+  }
+
+  //Gets the place_ids relevant to the query above. Uses that to get the place details.
+  function callback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        place = results[i];
+        //Log each place that got returned from the API
+        // console.log('place', i, place);
+        //Define the createMarker function so that markers get placed on the map
+        // createMarker(results[i]);
+
+        //Request the details of each place
+        var detailsRequest = {
+          placeId: place.place_id,
+          fields: ['photo', 'website','formatted_phone_number', 'formatted_address', 'review', 'rating', 'name', 'geometry']
+        };
+
+        service = new google.maps.places.PlacesService(map);
+        service.getDetails(detailsRequest, callback);
+
+        function callback(placeDetails, status) {
+          if (status == google.maps.places.PlacesServiceStatus.OK) {
+            //Check if place has more than one review and greater than 3 star rating as a quality check before putting on Surf Trip List
+            if (placeDetails.reviews !== undefined && placeDetails.reviews.length > 1 && placeDetails.rating !== undefined && placeDetails.rating > 3) {
+              //Check if .gov is in the website URL. If it's not (indexOf = -1) then we can use it.
+              if (placeDetails.website !== undefined && placeDetails.website.indexOf(".gov") == -1) {
+                console.log(placeDetails);
+                console.log(placeDetails.name);
+                console.log(placeDetails.rating);
+                console.log(placeDetails.website);
+                console.log(placeDetails.formatted_phone_number);
+                console.log(placeDetails.formatted_address);
+                console.log('Review: ', placeDetails.reviews[0].text);
+
+              }
+            }
+            // createMarker(place);
+          }
+        }
+      }
+    } else {
+      //Handle this error if there is a problem
+      console.error("Error in callback", status);
+    }
+  } //End GP Library callback
+
+  initialize();
+
+  </script>
+
+</body>
+</html>
