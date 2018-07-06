@@ -22,7 +22,10 @@
   <title>GP JS Library Test</title>
 </head>
 <body>
-
+  <div id="floating-panel">
+    <input onclick="showMarkers();" type=button value="Show All Markers">
+    <input onclick="clearMarkers();" type=button value="Hide Markers">
+  </div>
   <div id="map" style="width:800px; height:800px;">
   </div>
 
@@ -40,9 +43,11 @@
   let review;
   let coords;
   let photo;
+  let defaultSurfLessonPhoto;
+  let markers = [];
 
   function initialize() {
-    var mapCenter = new google.maps.LatLng(33.689060,-78.886694);
+    var mapCenter = new google.maps.LatLng(37.608427,-122.496944);
 
     map = new google.maps.Map(document.getElementById('map'), {
       center: mapCenter,
@@ -50,7 +55,7 @@
       });
 
     var request = {
-      query: 'surf lessons in myrtle beach south carolina'
+      query: 'surf lessons in san francisco'
     };
 
     service = new google.maps.places.PlacesService(map);
@@ -82,47 +87,54 @@
             if (placeDetails.reviews !== undefined && placeDetails.reviews.length > 1 && placeDetails.rating !== undefined && placeDetails.rating > 3) {
               //Check if .gov is in the website URL. If it's not (indexOf = -1) then we can use it.
               if (placeDetails.website !== undefined && placeDetails.website.indexOf(".gov") == -1) {
-                console.log(placeDetails);
-                console.log(placeDetails.name);
-                name = placeDetails.name;
-                rating = placeDetails.rating;
-                website = placeDetails.website;
-                phone = placeDetails.formatted_phone_number;
-                address = placeDetails.formatted_address;
-                //Gets the most recent review.
-                review = placeDetails.reviews[0].text;
-                coords = {lat: placeDetails.geometry.location.lat(), lng: placeDetails.geometry.location.lng()}
-                if (placeDetails.photos !== undefined) {
-                  photo = placeDetails.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 275});
-                } else {
-                  photo = "lesson-images/surf-lesson."
-                }
-                //Sets the surfboard rental markers on the map
-                function addSurfboardRentalMarker(props, map) {
-                    marker = new google.maps.Marker({
-                      position: coords,
-                      map: map,
-                      icon: 'icon-images/boardRental.png'
-                    });
-                   //Creates the marker info window
-                    infowindow = new google.maps.InfoWindow({
-                      // maxWidth: NEED TO SET,
-                      // maxWidth: NEED TO SET,
-                    });
-
-                    marker.addListener('click', function(){
-                      //Opens the marker infowindow
-                      infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br>" + "<img src='" + placeDetails.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 150}) + "'>" + "<p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p>" + "</div>");
-                      infowindow.open(map, this);
-                      google.maps.event.addListener(map, "click", function(event){
-                        //Closes the marker infowindow
-                        infowindow.close();
+                //Check if  is in the placeDetails name. If it's not (indexOf = -1) then we can use it.
+                if (placeDetails.name.indexOf("Boardsports California") == -1 && placeDetails.name.indexOf("Shape") == -1 && placeDetails.name.indexOf("kite") == -1 && placeDetails.name.indexOf("Kite") == -1 && placeDetails.name.indexOf("Yoga") == -1 && placeDetails.name.indexOf("Bike") == -1 && placeDetails.name.indexOf("Bicycl") == -1 && placeDetails.name.indexOf("fitness") == -1) {
+                  console.log(placeDetails);
+                  console.log(placeDetails.name);
+                  name = placeDetails.name;
+                  rating = placeDetails.rating;
+                  website = placeDetails.website;
+                  phone = placeDetails.formatted_phone_number;
+                  address = placeDetails.formatted_address;
+                  //Gets the most recent review.
+                  review = placeDetails.reviews[0].text;
+                  coords = {lat: placeDetails.geometry.location.lat(), lng: placeDetails.geometry.location.lng()}
+                  if (placeDetails.photos !== undefined) {
+                    photo = placeDetails.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 275});
+                  } else { defaultSurfLessonPhoto = "lesson-images/surf-lesson.png" }
+                  //Sets the surfboard rental markers on the map
+                  function addSurfboardRentalMarker(props, map) {
+                      marker = new google.maps.Marker({
+                        position: coords,
+                        map: map,
+                        icon: 'icon-images/boardRental.png'
                       });
-                    });
-                }//End of addSurfboardRentalMarker
-                addSurfboardRentalMarker(marker, map);
-              }
-            }
+                      //Add markers to array to allow for hide/show of all related markers
+                      markers.push(marker)
+                      // console.log(markers);
+                     //Creates the marker info window
+                      infowindow = new google.maps.InfoWindow({
+                        // maxWidth: NEED TO SET,
+                        // maxWidth: NEED TO SET,
+                      });
+
+                      marker.addListener('click', function(){
+                        //Opens the marker infowindow
+                        //NEEDS: If places doesn't have photo, use default. | WORKING: Check if the place has a photo online. If so use it.
+                        if (placeDetails.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 150}) !== undefined) {
+                          infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br>" + "<img src='" + placeDetails.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 150}) + "'>" + "<p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p>" + "</div>");
+                        }
+                        infowindow.open(map, this);
+                        google.maps.event.addListener(map, "click", function(event){
+                          //Closes the marker infowindow
+                          infowindow.close();
+                        });
+                      });
+                  }//End of addSurfboardRentalMarker
+                  addSurfboardRentalMarker(marker, map);
+                }//Name if/then
+              }//Website if/then
+            }//Reviews if/then
             // createMarker(place);
           }
         }
@@ -132,6 +144,23 @@
       console.error("Error in callback", status);
     }
   } //End GP Library callback
+
+  // Sets the map on all markers in the array.
+  function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+    }
+  }
+
+  // Removes the markers from the map, but keeps them in the array.
+  function clearMarkers() {
+    setMapOnAll(null);
+  }
+
+  // Shows any markers currently in the array.
+  function showMarkers() {
+    setMapOnAll(map);
+  }
 
   initialize();
 
