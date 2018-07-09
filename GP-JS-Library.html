@@ -27,8 +27,8 @@
   font-size:11px !important;
 }
 
-#toggleLessons {
-  box-shadow: none;
+.no-button-shadow {
+  box-shadow: none !important;
 }
 
 </style>
@@ -53,32 +53,56 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-  <title>GP JS Library Test</title>
+  <!-- FONT AWESOME - for icons -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+
+  <!-- Initalizes Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyB85TjM4154F_LU7bWtckJ20i22kjcK1T0",
+      authDomain: "surf-trip-list.firebaseapp.com",
+      databaseURL: "https://surf-trip-list.firebaseio.com",
+      projectId: "surf-trip-list",
+      storageBucket: "surf-trip-list.appspot.com",
+      messagingSenderId: "743850386285"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+  <title>Surf Trip List</title>
 </head>
 <body>
   <div class="container-fluid">
     <div class="d-flex flex-column flex-md-row align-items-center py-3 mb-2 bg-white border-bottom box-shadow">
       <img id="top-logo" src="logo.png" alt="STL">
       <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">Malibu</h6>
-      <nav id="top-nav" class="my-2 my-md-0 mr-md-3">
+      <nav id="top-nav" class="my-2 my-md-0">
         <a class="p-2 text-dark" href="#">List your business</a>
         <a class="p-2 text-dark" href="#">Help</a>
         <a class="p-2 text-dark" href="#">Sign up</a>
       </nav>
     </div>
     <div id="primary-location-menu">
-      <button id="toggleLessons" class="btn btn-outline-secondary btn-sm xs-btn show" onclick="toggleLessons();">Lessons</button>
-      <button id="toggleRentals" class="btn btn-outline-secondary btn-sm xs-btn" onclick="toggleRentals();">Rentals</button>
+      <button id="toggleSurfSpots" class="btn btn-outline-secondary btn-sm xs-btn no-button-shadow show" onclick="toggleSurfSpots();">Surf Spots</button>
+      <button id="toggleAccomms" class="btn btn-outline-secondary btn-sm xs-btn no-button-shadow show" onclick="toggleAccomms();">Accommodations</button>
+      <button id="toggleLessons" class="btn btn-outline-secondary btn-sm xs-btn no-button-shadow show" onclick="toggleLessons();">Lessons</button>
+      <button id="toggleRentals" class="btn btn-outline-secondary btn-sm xs-btn no-button-shadow show" onclick="toggleRentals();">Rentals</button>
     </div>
     <hr class="mt-2">
     <div id="map"></div>
   </div>
 
   <script>
-  //GOOGLE PLACES JS LIBRARY
+  //Initalize Cloud Firestore through Firebase
+  const db = firebase.firestore();
   let map;
   let service;
   let infowindow;
+  let spotMarker;
   let lessonMarker;
   let rentalMarker;
   let name;
@@ -88,24 +112,50 @@
   let address;
   let review;
   let coords;
+  let spotMarkers = [];
   let lessonMarkers = [];
   let rentalMarkers = [];
+  let data;
+  let spotName;
+  let skill;
 
-  //Initiates lessonMarkers on map
+  //Initiates lessonMarkers and rentalMarkers on map
   function initialize() {
-    var mapCenter = new google.maps.LatLng(37.608427,-122.496944);
+    var mapCenter = new google.maps.LatLng(37.598881,-122.502043);
 
     map = new google.maps.Map(document.getElementById('map'), {
       center: mapCenter,
-      zoom: 11
+      zoom: 13
       });
 
+    //Query surf-spot collection to add spotMarkers
+    db.collection("surf-spot").get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          data = doc.data();
+          spotName = doc.id;
+          coords = data.surfspot;
+          skill = data.skill;
+
+          //Add spotMarkers to map
+          spotMarker = new google.maps.Marker({
+            position: coords,
+            map: map,
+            icon: 'icon-images/' + skill + '.png',
+          });
+
+          spotMarkers.push(spotMarker);
+
+        });
+      });//End surf-spot Firestore query
+
+    //Query Google Places JS Library to add lessons
     var requestLessons = {
       query: 'surf lessons in pacifica'
     };
 
+    //Query Google Places JS Library to add rentals
     var requestRentals = {
-      query: 'surfboard rentals in bolinas'
+      query: 'surfboard rentals in pacifica'
     };
 
     service = new google.maps.places.PlacesService(map);
@@ -163,9 +213,9 @@
                     lessonMarker.addListener('click', function(){
                       //Opens the lessonMarker infowindow
                       if (placeDetails.photos !== undefined) {
-                        infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br>" + "<img src='" + placeDetails.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 150}) + "'>" + "<p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p>" + "</div>");
+                        infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br><a href='" + placeDetails.website + "' target=_'blank'><img src='" + placeDetails.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 150}) + "'></a>" + "<p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p>" + "</div>");
                       } else {
-                        infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br><img id='iwPhoto' src='lesson-images/surf-lesson.png'><p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p>" + "</div>");
+                        infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br><a href='" + placeDetails.website + "' target=_'blank'><img id='iwPhoto' src='lesson-images/surf-lesson.png'></a><p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p>" + "</div>");
                       }
                       infowindow.open(map, this);
                       google.maps.event.addListener(map, "click", function(event){
@@ -232,7 +282,7 @@
             if (placeDetails.reviews !== undefined && placeDetails.reviews.length > 1 && placeDetails.rating !== undefined && placeDetails.rating > 3) {
               //Website filter - Check if .gov is in the website URL. If it's not (indexOf = -1) then we can use it.
               if (placeDetails.website !== undefined && placeDetails.website.indexOf(".gov") == -1) {
-                // console.log('placeDetails:', placeDetails);
+                // console.log('rentalDetails:', placeDetails);
                 name = placeDetails.name;
                 rating = placeDetails.rating;
                 website = placeDetails.website;
@@ -248,7 +298,7 @@
                     map: map,
                     icon: 'icon-images/rental.png'
                   });
-                  //Add rentalMarkers to array to allow for hid/show of all related markers
+                  //Add each rentalMarker to array to allow for hide/show of all related markers
                   rentalMarkers.push(rentalMarker);
                   //Creates the rentalMarker info window
                   infowindow = new google.maps.InfoWindow({
@@ -257,9 +307,9 @@
                   rentalMarker.addListener('click', function(){
                     //Open the rentalMarker infowindow
                     if (placeDetails.photos !== undefined) {
-                      infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br>" + "<img src='" + placeDetails.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 150}) + "'>" + "<p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p>" + "</div>");
+                      infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br>" + "<a href='" + placeDetails.website + "' target=_'blank'><img src='" + placeDetails.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 150}) + "'></a>" + "<p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p></div>");
                     } else {
-                      infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br><img id='iwPhoto' src='lesson-images/surf-lesson.png'><p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p>" + "</div>");
+                      infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br><a href='" + placeDetails.website + "' target=_'blank'><img id='iwPhoto' src='rental-images/rentals-default-photo.png'></a><p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p></div>");
                     }
                     infowindow.open(map, this);
                     google.maps.event.addListener(map, "click", function(event){
@@ -284,14 +334,14 @@
   }
 
   //Sets the map on all rentalMarkers in the array. (Keeps them stored in the array so toggle works.)
- function setMapOnRentalMarkers(map) {
+  function setMapOnRentalMarkers(map) {
    for (var i = 0; i < rentalMarkers.length; i++) {
      rentalMarkers[i].setMap(map);
    }
- }
+  }
 
- //WORKING! -- Toggles lessonMarkers on the map
- function toggleRentals() {
+  //Toggles rentalMarkers on the map
+  function toggleRentals() {
    if ($("#toggleRentals").hasClass("show")) {
      // Removes the lessonMarkers from the map, but keeps them in the array.
      setMapOnRentalMarkers(null);
@@ -303,7 +353,29 @@
      $("#toggleRentals").addClass("show");
      $("#toggleRentals").removeClass("disabled");
    }
- }
+  }
+
+  //Sets the map on all spotMarkers in the array. (Keeps them stored in the array so toggle works.)
+  function setMapOnSpotMarkers(map) {
+   for (var i = 0; i < spotMarkers.length; i++) {
+     spotMarkers[i].setMap(map);
+   }
+  }
+
+  //Toggle spotMarkers on the map
+  function toggleSurfSpots() {
+   if ($("#toggleSurfSpots").hasClass("show")) {
+     // Removes the lessonMarkers from the map, but keeps them in the array.
+     setMapOnSpotMarkers(null);
+     $("#toggleSurfSpots").removeClass("show");
+     $("#toggleSurfSpots").addClass("disabled");
+   } else {
+     //Shows any lessonMarkers currently in the array.
+     setMapOnSpotMarkers(map);
+     $("#toggleSurfSpots").addClass("show");
+     $("#toggleSurfSpots").removeClass("disabled");
+   }
+  }
 
   initialize();
 
