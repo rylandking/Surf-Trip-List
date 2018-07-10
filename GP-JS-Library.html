@@ -31,6 +31,29 @@
   box-shadow: none !important;
 }
 
+.capitalize {
+  text-transform:capitalize;
+}
+
+.iwSkillIcon {
+  height:22px;
+  width:22px;
+}
+
+.infoWindow {
+  /* height:100%; */
+  width:275px;
+}
+
+a.white-link {
+  color: white;
+}
+
+a.white-link:hover {
+  color: white;
+  text-decoration: none;
+}
+
 </style>
 
 <head>
@@ -79,7 +102,7 @@
   <div class="container-fluid">
     <div class="d-flex flex-column flex-md-row align-items-center py-3 mb-2 bg-white border-bottom box-shadow">
       <img id="top-logo" src="logo.png" alt="STL">
-      <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">Malibu</h6>
+      <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">California</h6>
       <nav id="top-nav" class="my-2 my-md-0">
         <a class="p-2 text-dark" href="#">List your business</a>
         <a class="p-2 text-dark" href="#">Help</a>
@@ -103,6 +126,7 @@
   let service;
   let infowindow;
   let spotMarker;
+  let accommMarker;
   let lessonMarker;
   let rentalMarker;
   let name;
@@ -113,11 +137,26 @@
   let review;
   let coords;
   let spotMarkers = [];
+  let accommMarkers = [];
   let lessonMarkers = [];
   let rentalMarkers = [];
   let data;
   let spotName;
   let skill;
+  let note;
+  let parkingLat;
+  let parkingLng;
+  let accommURL;
+  let photo;
+  let accommType;
+  let bedAmount;
+  let bedWord;
+  let guestAmount;
+  let guestWord;
+  let title;
+  let price;
+  let view;
+  let proximity;
 
   //Initiates lessonMarkers and rentalMarkers on map
   function initialize() {
@@ -132,21 +171,106 @@
     db.collection("surf-spot").get().then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
           data = doc.data();
-          spotName = doc.id;
+          spotName = doc.id.replace(/-/g,' ');
           coords = data.surfspot;
           skill = data.skill;
+          note = data.spotNote;
+          parkingLat = data.parkingLat;
+          parkingLng = data.parkingLng;
 
-          //Add spotMarkers to map
-          spotMarker = new google.maps.Marker({
-            position: coords,
-            map: map,
-            icon: 'icon-images/' + skill + '.png',
-          });
+          function addSpotMarker(props, map) {
+            //Add spotMarkers to map
+            spotMarker = new google.maps.Marker({
+              position: coords,
+              map: map,
+              icon: 'icon-images/' + skill + '.png',
+            });
+            //Add each spotMarker to the array to allow for hide/show of spotMarkers
+            spotMarkers.push(spotMarker);
+            //Create the spotMarker infowindow
+            infowindow = new google.maps.InfoWindow ({
+            });
+            //Set the infowindow html
+            spotMarker.html = `
+              <div class="infoWindow">
+                <h6>
+                  <img class="iwSkillIcon" src="icon-images/${skill}.png" alt="${spotName}">
+                  <span class="capitalize">${skill}</span> wave at <span class="capitalize">${spotName}</span></h6>
+                  <p>${note}</p>
+                  <button class="btn btn-sm btn-danger"><a class="white-link" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank">Get Directions</a></button>
+              </div>
+            `;
 
-          spotMarkers.push(spotMarker);
+            spotMarker.addListener('click', function() {
+              //Open & close the spotMarker infowindow
+              infowindow.setContent(this.html);
+              infowindow.open(map, this);
+              google.maps.event.addListener(map, "click", function(event) {
+                infowindow.close();
+              });
+            });//End of spotMarker listener
+          }//End of addSpotMarker function
+
+        addSpotMarker(spotMarker, map);
+
+      });
+    });//End surf-spot Firestore query
+
+    //Query accommMarkers (priceMarkers) collection to add accommMarkers
+    db.collection("priceMarkers").get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          data = doc.data();
+          coords = data.coords;
+          icon = data.iconImage;
+          accommURL = data.bookingURL;
+          photo = data.photo;
+          accommType = data.accommType;
+          bedAmount = data.bedAmount;
+          bedWord = data.bedWord;
+          guestAmount = data.guestAmount;
+          guestWord = data.guestWord;
+          title = data.title;
+          price = data.price;
+          view = data.view;
+          proximity = data.proximity;
+
+          function addAccommMarker(props, map) {
+            //Add accommMarkers to map
+            accommMarker = new google.maps.Marker({
+              position: coords,
+              map: map,
+              icon: icon
+            });
+            //Add each accommMarker to the array to allow for hide/show of accommMarkers
+            accommMarkers.push(accommMarker);
+            //Create the accommMarker infowindow
+            infowindow = new google.maps.InfoWindow({
+            });
+            //Set the infowindow html
+            accommMarker.html = `
+            <div class="infowindow">
+               <a href="${accommURL}" target="_blank"><img src="ac-images/${photo}"></a>
+               <b><p class="my-2 nounderline" style="color:brown">${accommType} • 🛌${bedAmount} ${bedWord} • 👫${guestAmount} ${guestWord}</p></b>
+               <h5 class="my-0">${title}</h5>
+               <b><p class="mt-2">💳$${price}/n • 😎${view} • 🏄‍${proximity}</p></b>
+             </div>
+            `;
+
+            accommMarker.addListener('click', function(){
+              //Open & close the accommMarker infowindow
+              infowindow.setContent(this.html);
+              infowindow.open(map, this);
+              google.maps.event.addListener(map, "click", function(event) {
+                infowindow.close();
+              });
+            });//End of accommMarker listener
+
+          }//End of add AccommMarker function
+
+         addAccommMarker(accommMarker, map);
 
         });
-      });//End surf-spot Firestore query
+    });//End of accomm Firestore query
 
     //Query Google Places JS Library to add lessons
     var requestLessons = {
@@ -313,7 +437,7 @@
                     }
                     infowindow.open(map, this);
                     google.maps.event.addListener(map, "click", function(event){
-                      //Closes the lessonMarker infowindow
+                      //Closes the rentalMarker infowindow
                       infowindow.close();
                     });
                   });//End of rentalMarker listener
@@ -374,6 +498,28 @@
      setMapOnSpotMarkers(map);
      $("#toggleSurfSpots").addClass("show");
      $("#toggleSurfSpots").removeClass("disabled");
+   }
+  }
+
+  //Sets the map on all accommMarkers in the array. (Keeps them stored in the array so toggle works.)
+  function setMapOnAccommMarkers(map) {
+   for (var i = 0; i < accommMarkers.length; i++) {
+     accommMarkers[i].setMap(map);
+   }
+  }
+
+  //Toggle spotMarkers on the map
+  function toggleAccomms() {
+   if ($("#toggleAccomms").hasClass("show")) {
+     // Removes the lessonMarkers from the map, but keeps them in the array.
+     setMapOnAccommMarkers(null);
+     $("#toggleAccomms").removeClass("show");
+     $("#toggleAccomms").addClass("disabled");
+   } else {
+     //Shows any lessonMarkers currently in the array.
+     setMapOnAccommMarkers(map);
+     $("#toggleAccomms").addClass("show");
+     $("#toggleAccomms").removeClass("disabled");
    }
   }
 
