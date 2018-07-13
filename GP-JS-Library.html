@@ -3,7 +3,11 @@
 <style>
 #map {
   width:auto;
-  height:400px;
+  height:600px;
+}
+
+#map-wrapper {
+  position: relative;
 }
 
 #iwPhoto {
@@ -54,6 +58,97 @@ a.white-link:hover {
   text-decoration: none;
 }
 
+#mobile-menu-arrow {
+ font-size: 14px;
+}
+
+.card {
+  width: 95% !important;
+  height: 250px !important;
+}
+
+.card-img {
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.card-hover-overlay {
+  display: none;
+  height: 100%;
+}
+
+p.card-hover-overlay {
+  font-size: 14px;
+}
+
+#cards {
+  width: auto;
+  height: 600px;
+  overflow-y: scroll;
+}
+
+/* Bottom left text over cards */
+.bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+}
+
+/* Top left text over cards */
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
+/* Top right text over cards */
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+/* Bottom right text over cards */
+.bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+
+/* Centered text over cards */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width:98%;
+  text-align: center;
+  font-weight:700;
+}
+
+/* Centered text over cards */
+.bottom-centered {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-weight:700;
+}
+
+.tinted {
+  filter: brightness(60%);
+}
+
+.cards-mobile {
+  position: absolute;
+  bottom: 10%;
+  left: 15px;
+  width: 95%;
+  z-index: 1;
+  overflow-x: scroll;
+}
+
 </style>
 
 <head>
@@ -74,7 +169,7 @@ a.white-link:hover {
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&libraries=places"></script>
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
   <!-- FONT AWESOME - for icons -->
   <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
@@ -100,10 +195,11 @@ a.white-link:hover {
 </head>
 <body>
   <div class="container-fluid">
-    <div class="d-flex flex-column flex-md-row align-items-center py-3 mb-2 bg-white border-bottom box-shadow">
+    <div class="d-flex align-items-center py-3 mb-2 bg-white border-bottom box-shadow">
       <img id="top-logo" src="logo.png" alt="STL">
+      <i id="mobile-menu-arrow" class="fas fa-chevron-down ml-2 d-md-none"></i>
       <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">California</h6>
-      <nav id="top-nav" class="my-2 my-md-0">
+      <nav id="top-nav" class="my-2 my-md-0 d-none d-md-block">
         <a class="p-2 text-dark" href="#">List your business</a>
         <a class="p-2 text-dark" href="#">Help</a>
         <a class="p-2 text-dark" href="#">Sign up</a>
@@ -116,7 +212,65 @@ a.white-link:hover {
       <button id="toggleRentals" class="btn btn-outline-secondary btn-sm xs-btn no-button-shadow show" onclick="toggleRentals();">Rentals</button>
     </div>
     <hr class="mt-2">
-    <div id="map"></div>
+    <div class="row d-flex flex-column flex-md-row">
+      <div id="cards" class="col-md-4 d-none d-md-block">
+        <div class="card bg-transparent border-light text-white w-90 pt-0 mt-0">
+          <img class="card-img img-fluid tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
+          <div class="card-img-overlay">
+            <h4 class="card-overlay centered position-relative">Surf Camp Pacifica</h4>
+            <p class="card-overlay centered position-relative">💖4.8 of 5</p>
+            <div class="card-hover-overlay centered position-relative">
+              <p class="card-hover-overlay centered mt-3">"OMG! We love this camp so much! It was awesome. Ryland was the best instructor ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever!"</p>
+              <br><br><br><br><br><br>
+              <a class="btn btn-sm btn-danger font-weight-bold position-absolute bottom-centered" href="https://www.surfcamppacifica.com" target="_blank" role="button">TAP TO OPEN</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card bg-transparent border-light text-white w-90 pt-0 mt-0">
+          <img class="card-img img-fluid tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
+          <div class="card-img-overlay">
+            <h4 class="card-overlay centered position-relative">Surf Camp Pacifica</h4>
+            <p class="card-overlay centered position-relative">💖4.8 of 5</p>
+            <div class="card-hover-overlay centered position-relative">
+              <p class="card-hover-overlay centered mt-3">"OMG! We love this camp so much! It was awesome. Ryland was the best instructor ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever!"</p>
+              <br><br><br><br><br><br>
+              <a class="btn btn-sm btn-danger font-weight-bold position-absolute bottom-centered" href="https://www.surfcamppacifica.com" target="_blank" role="button">TAP TO OPEN</a>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-transparent border-light text-white w-90 pt-0 mt-0">
+          <img class="card-img img-fluid tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
+          <div class="card-img-overlay">
+            <h4 class="card-overlay centered position-relative">Surf Camp Pacifica</h4>
+            <p class="card-overlay centered position-relative">💖4.8 of 5</p>
+            <div class="card-hover-overlay centered position-relative">
+              <p class="card-hover-overlay centered mt-3">"OMG! We love this camp so much! It was awesome. Ryland was the best instructor ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever!"</p>
+              <br><br><br><br><br><br>
+              <a class="btn btn-sm btn-danger font-weight-bold position-absolute bottom-centered" href="https://www.surfcamppacifica.com" target="_blank" role="button">TAP TO OPEN</a>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-transparent border-light text-white w-90 pt-0 mt-0">
+          <img class="card-img img-fluid tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
+          <div class="card-img-overlay">
+            <h4 class="card-overlay centered position-relative">Surf Camp Pacifica</h4>
+            <p class="card-overlay centered position-relative">💖4.8 of 5</p>
+            <div class="card-hover-overlay centered position-relative">
+              <p class="card-hover-overlay centered mt-3">"OMG! We love this camp so much! It was awesome. Ryland was the best instructor ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever!"</p>
+              <br><br><br><br><br><br>
+              <a class="btn btn-sm btn-danger font-weight-bold position-absolute bottom-centered" href="https://www.surfcamppacifica.com" target="_blank" role="button">TAP TO OPEN</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="map-wrapper" class="container-fluid col-md-8">
+        <div id="map"></div>
+        <div class="cards-mobile d-md-none d-lg-none d-xl-none bg-dark">
+          ADD CARD SCROLL HERE
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -158,14 +312,33 @@ a.white-link:hover {
   let view;
   let proximity;
 
+  //Hover over accomm card, card changes to show more info + the relevant marker on map
+  $(document).on('mouseenter', '.card', function(){
+    $(this).find('.card-overlay').hide();
+    $(this).find('.card-hover-overlay').show();
+  })//END Accomm Card mouseenter function
+  .on('mouseleave', '.card', function(){
+    $(this).find('.card-overlay').show();
+    $(this).find('.card-hover-overlay').hide();
+  });//END Accomm Card mouseleave function
+
   //Initiates lessonMarkers and rentalMarkers on map
   function initialize() {
     var mapCenter = new google.maps.LatLng(37.598881,-122.502043);
 
     map = new google.maps.Map(document.getElementById('map'), {
       center: mapCenter,
-      zoom: 13
-      });
+      zoom: 7,
+
+      zoomControl: true,
+      zoomControlOptions: {
+          position: google.maps.ControlPosition.TOP_LEFT
+      },
+      mapTypeControl: false,
+      fullscreenControl: false,
+      streetViewControl: false,
+
+    });//End of map variable
 
     //Query surf-spot collection to add spotMarkers
     db.collection("surf-spot").get().then(function(querySnapshot) {
@@ -467,12 +640,12 @@ a.white-link:hover {
   //Toggles rentalMarkers on the map
   function toggleRentals() {
    if ($("#toggleRentals").hasClass("show")) {
-     // Removes the lessonMarkers from the map, but keeps them in the array.
+     // Removes the rentalMarkers from the map, but keeps them in the array.
      setMapOnRentalMarkers(null);
      $("#toggleRentals").removeClass("show");
      $("#toggleRentals").addClass("disabled");
    } else {
-     //Shows any lessonMarkers currently in the array.
+     //Shows any rentalMarkers currently in the array.
      setMapOnRentalMarkers(map);
      $("#toggleRentals").addClass("show");
      $("#toggleRentals").removeClass("disabled");
@@ -489,12 +662,12 @@ a.white-link:hover {
   //Toggle spotMarkers on the map
   function toggleSurfSpots() {
    if ($("#toggleSurfSpots").hasClass("show")) {
-     // Removes the lessonMarkers from the map, but keeps them in the array.
+     // Removes the surfSpotMarkers from the map, but keeps them in the array.
      setMapOnSpotMarkers(null);
      $("#toggleSurfSpots").removeClass("show");
      $("#toggleSurfSpots").addClass("disabled");
    } else {
-     //Shows any lessonMarkers currently in the array.
+     //Shows any surfSpotMarkers currently in the array.
      setMapOnSpotMarkers(map);
      $("#toggleSurfSpots").addClass("show");
      $("#toggleSurfSpots").removeClass("disabled");
@@ -508,15 +681,15 @@ a.white-link:hover {
    }
   }
 
-  //Toggle spotMarkers on the map
+  //Toggle accommMarkers on the map
   function toggleAccomms() {
    if ($("#toggleAccomms").hasClass("show")) {
-     // Removes the lessonMarkers from the map, but keeps them in the array.
+     // Removes the accommMarkers from the map, but keeps them in the array.
      setMapOnAccommMarkers(null);
      $("#toggleAccomms").removeClass("show");
      $("#toggleAccomms").addClass("disabled");
    } else {
-     //Shows any lessonMarkers currently in the array.
+     //Shows any accommMarkers currently in the array.
      setMapOnAccommMarkers(map);
      $("#toggleAccomms").addClass("show");
      $("#toggleAccomms").removeClass("disabled");
@@ -529,9 +702,9 @@ a.white-link:hover {
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
 </body>
 
