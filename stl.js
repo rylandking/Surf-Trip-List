@@ -35,16 +35,81 @@ let title;
 let price;
 let view;
 let proximity;
+let destination;
+let city;
+let cityParam;
 
-//Hover over desktop card, card changes to show more info + the relevant marker on map
-$(document).on('mouseenter', '.card', function(){
-  $(this).find('.card-overlay').hide();
-  $(this).find('.card-hover-overlay').show();
-})//END Accomm Card mouseenter function
-.on('mouseleave', '.card', function(){
-  $(this).find('.card-overlay').show();
-  $(this).find('.card-hover-overlay').hide();
-});//END desktop card mouseleave function
+//POPULATE CARDS ON HOME PAGE
+db.collection("city").where("beta", "==", true)
+    .get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          data = doc.data();
+          cityID = doc.id;
+          city = doc.id.replace(/-/g,' ');
+          region = data.region.replace(/-/g,' ');
+          photo = data.cityimage;
+
+          $("#city-cards").append(
+          `<div id="city-card" class="card city-card text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3" data-id="${cityID}">
+            <img class="card-img tinted" src="${photo}" alt="${city}">
+            <a class="white-link" href="city.html">
+              <div class="card-img-overlay">
+                <h4 class="card-title position-relative">${city}</h4>
+                <p class="card-subtitle position-relative">${region}</p>
+              </div>
+            </a>
+          </div>`
+        );//END -- PREPEND
+
+        });
+    });//END -- POPULATE CARDS ON HOME PAGE
+
+
+//PLACE CITY IN QUERY PARAMS AFTER CLICKING ON CARD
+//Click city card on homepage
+$('body').on('click','#city-card',function(e){
+  //Stores data-id=${city} in variable cityPage
+  window.city = $(this).data('id');
+  city = window.city;
+  //Returns redirectPage function
+  return redirectPage(city)
+});
+
+//Opens new window with newCityPage in the query perams
+function redirectPage(city) {
+    window.location = `file:///Users/macbookpro/Desktop/Surf-Trip/destination.html?city=${city}`;
+    window.city = city;
+    return false;
+}
+
+//Gets query perams by name
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+//Store the query perams in a constant
+cityParam = getParameterByName('city');
+//END -- PLACE CITY IN QUERY PARAMS AFTER CLICKING ON CARD
+
+
+//BUILD CITY PAGE BASED ON CITY PARAM
+db.collection("city").doc(cityParam).
+  get().then(function(doc) {
+    city = doc.id.replace(/-/g,' ');
+
+    $("#breadcrumb").append(
+      `${city}`
+    );
+
+  });
+//END -- BUILD CITY PAGE BASED ON CITY PARAM
+
 
 //Initiates lessonMarkers and rentalMarkers on map
 function initialize() {
@@ -183,6 +248,8 @@ function initialize() {
   service.textSearch(requestLessons, lessonsCallback);
   service.textSearch(requestRentals, rentalsCallback);
 } //End of initialize
+
+initialize();
 
 //Gets the place_ids relevant to the initialize query. Uses that to get the place details.
 function lessonsCallback(results, status) {
@@ -420,4 +487,12 @@ function toggleAccomms() {
  }
 }
 
-initialize();
+//Hover over desktop card, card changes to show more info + the relevant marker on map
+$(document).on('mouseenter', '.card', function(){
+  $(this).find('.card-overlay').hide();
+  $(this).find('.card-hover-overlay').show();
+})//END Accomm Card mouseenter function
+.on('mouseleave', '.card', function(){
+  $(this).find('.card-overlay').show();
+  $(this).find('.card-hover-overlay').hide();
+});//END desktop card mouseleave function
