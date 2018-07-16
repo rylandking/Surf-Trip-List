@@ -1,162 +1,12 @@
 <html lang="en">
 
-<style>
-#map {
-  width:auto;
-  height:600px;
-}
-
-#map-wrapper {
-  position: relative;
-}
-
-#iwPhoto {
-  width:225px;
-  height:150px
-}
-
-#top-logo {
-  width:32px;
-  height:32px;
-  vertical-align:middle;
-}
-
-#top-nav {
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.xs-btn {
-  height:26px;
-  font-size:11px !important;
-}
-
-.no-button-shadow {
-  box-shadow: none !important;
-}
-
-.capitalize {
-  text-transform:capitalize;
-}
-
-.iwSkillIcon {
-  height:22px;
-  width:22px;
-}
-
-.infoWindow {
-  /* height:100%; */
-  width:275px;
-}
-
-a.white-link {
-  color: white;
-}
-
-a.white-link:hover {
-  color: white;
-  text-decoration: none;
-}
-
-#mobile-menu-arrow {
- font-size: 14px;
-}
-
-.card {
-  width: 95% !important;
-  height: 250px !important;
-}
-
-.card-img {
-  height: 100% !important;
-  object-fit: cover;
-}
-
-.card-hover-overlay {
-  display: none;
-  height: 100%;
-}
-
-p.card-hover-overlay {
-  font-size: 14px;
-}
-
-#cards {
-  width: auto;
-  height: 600px;
-  overflow-y: scroll;
-}
-
-/* Bottom left text over cards */
-.bottom-left {
-  position: absolute;
-  bottom: 8px;
-  left: 16px;
-}
-
-/* Top left text over cards */
-.top-left {
-  position: absolute;
-  top: 8px;
-  left: 16px;
-}
-
-/* Top right text over cards */
-.top-right {
-  position: absolute;
-  top: 8px;
-  right: 16px;
-}
-
-/* Bottom right text over cards */
-.bottom-right {
-  position: absolute;
-  bottom: 8px;
-  right: 16px;
-}
-
-/* Centered text over cards */
-.centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width:98%;
-  text-align: center;
-  font-weight:700;
-}
-
-/* Centered text over cards */
-.bottom-centered {
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  font-weight:700;
-}
-
-.tinted {
-  filter: brightness(60%);
-}
-
-.cards-mobile {
-  position: absolute;
-  bottom: 10%;
-  left: 15px;
-  width: 95%;
-  z-index: 1;
-  overflow-x: scroll;
-}
-
-</style>
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
   <!-- Link to custom CSS -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="stl.css">
 
   <!-- JQUERY -->
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
@@ -191,87 +41,79 @@ p.card-hover-overlay {
     firebase.initializeApp(config);
   </script>
 
-  <title>Surf Trip List</title>
+  <title>Destination | Surf Trip List</title>
 </head>
 <body>
+
   <div class="container-fluid">
-    <div class="d-flex align-items-center py-3 mb-2 bg-white border-bottom box-shadow">
-      <img id="top-logo" src="logo.png" alt="STL">
-      <i id="mobile-menu-arrow" class="fas fa-chevron-down ml-2 d-md-none"></i>
-      <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">California</h6>
-      <nav id="top-nav" class="my-2 my-md-0 d-none d-md-block">
-        <a class="p-2 text-dark" href="#">List your business</a>
-        <a class="p-2 text-dark" href="#">Help</a>
-        <a class="p-2 text-dark" href="#">Sign up</a>
-      </nav>
-    </div>
+
+    <!-- NAV BAR -->
+     <div class="d-flex align-items-center py-3 mb-2 bg-white border-bottom box-shadow">
+       <a href="index.html"><img id="top-logo" src="logo.png" alt="Surf Trip List"></a>
+
+       <div class="dropdown d-md-none">
+         <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           <i id="mobile-menu-arrow" class="fas fa-chevron-down ml-2"></i>
+         </a>
+         <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuLink">
+           <a class="dropdown-item" href="index.html">Home</a>
+           <a class="dropdown-item" href="business.html">List your business</a>
+           <a class="dropdown-item" href="help.html">Help</a>
+           <a class="dropdown-item" href="#">Sign up</a>
+         </div>
+       </div>
+
+       <h6 id="breadcrumb" class="ml-2 my-0 mr-md-auto font-weight-bold">California</h6>
+       <nav id="top-nav" class="my-2 my-md-0 d-none d-md-block">
+         <a class="p-2 text-dark" href="index.html">Home</a>
+         <a class="p-2 text-dark" href="business.html">List your business</a>
+         <a class="p-2 text-dark" href="help.html">Help</a>
+         <a class="p-2 text-dark" href="#">Sign up</a>
+       </nav>
+     </div>
+
+    <!-- FILTER BUTTONS -->
     <div id="primary-location-menu">
       <button id="toggleSurfSpots" class="btn btn-outline-secondary btn-sm xs-btn no-button-shadow show" onclick="toggleSurfSpots();">Surf Spots</button>
       <button id="toggleAccomms" class="btn btn-outline-secondary btn-sm xs-btn no-button-shadow show" onclick="toggleAccomms();">Accommodations</button>
       <button id="toggleLessons" class="btn btn-outline-secondary btn-sm xs-btn no-button-shadow show" onclick="toggleLessons();">Lessons</button>
       <button id="toggleRentals" class="btn btn-outline-secondary btn-sm xs-btn no-button-shadow show" onclick="toggleRentals();">Rentals</button>
     </div>
+
     <hr class="mt-2">
+
+    <!-- MAP & CARDS ROW -->
     <div class="row d-flex flex-column flex-md-row">
-      <div id="cards" class="col-md-4 d-none d-md-block">
-        <div class="card bg-transparent border-light text-white w-90 pt-0 mt-0">
+
+      <!-- DESKTOP CARDS LIST -->
+      <div id="cards" class="col-md-4">
+
+        <div class="card destination-card">
           <img class="card-img img-fluid tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
           <div class="card-img-overlay">
-            <h4 class="card-overlay centered position-relative">Surf Camp Pacifica</h4>
-            <p class="card-overlay centered position-relative">💖4.8 of 5</p>
-            <div class="card-hover-overlay centered position-relative">
+            <h4 class="card-overlay card-title position-relative">Surf Camp Pacifica</h4>
+            <p class="card-overlay card-subtitle position-relative">💖4.8 of 5</p>
+            <div class="card-hover-overlay position-relative">
               <p class="card-hover-overlay centered mt-3">"OMG! We love this camp so much! It was awesome. Ryland was the best instructor ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever!"</p>
               <br><br><br><br><br><br>
-              <a class="btn btn-sm btn-danger font-weight-bold position-absolute bottom-centered" href="https://www.surfcamppacifica.com" target="_blank" role="button">TAP TO OPEN</a>
+              <button class="btn btn-sm btn-danger font-weight-bold position-absolute bottom-centered" href="https://www.surfcamppacifica.com" target="_blank" role="button">TAP TO OPEN</button>
             </div>
           </div>
         </div>
 
-        <div class="card bg-transparent border-light text-white w-90 pt-0 mt-0">
-          <img class="card-img img-fluid tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
-          <div class="card-img-overlay">
-            <h4 class="card-overlay centered position-relative">Surf Camp Pacifica</h4>
-            <p class="card-overlay centered position-relative">💖4.8 of 5</p>
-            <div class="card-hover-overlay centered position-relative">
-              <p class="card-hover-overlay centered mt-3">"OMG! We love this camp so much! It was awesome. Ryland was the best instructor ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever!"</p>
-              <br><br><br><br><br><br>
-              <a class="btn btn-sm btn-danger font-weight-bold position-absolute bottom-centered" href="https://www.surfcamppacifica.com" target="_blank" role="button">TAP TO OPEN</a>
-            </div>
-          </div>
-        </div>
-        <div class="card bg-transparent border-light text-white w-90 pt-0 mt-0">
-          <img class="card-img img-fluid tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
-          <div class="card-img-overlay">
-            <h4 class="card-overlay centered position-relative">Surf Camp Pacifica</h4>
-            <p class="card-overlay centered position-relative">💖4.8 of 5</p>
-            <div class="card-hover-overlay centered position-relative">
-              <p class="card-hover-overlay centered mt-3">"OMG! We love this camp so much! It was awesome. Ryland was the best instructor ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever!"</p>
-              <br><br><br><br><br><br>
-              <a class="btn btn-sm btn-danger font-weight-bold position-absolute bottom-centered" href="https://www.surfcamppacifica.com" target="_blank" role="button">TAP TO OPEN</a>
-            </div>
-          </div>
-        </div>
-        <div class="card bg-transparent border-light text-white w-90 pt-0 mt-0">
-          <img class="card-img img-fluid tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
-          <div class="card-img-overlay">
-            <h4 class="card-overlay centered position-relative">Surf Camp Pacifica</h4>
-            <p class="card-overlay centered position-relative">💖4.8 of 5</p>
-            <div class="card-hover-overlay centered position-relative">
-              <p class="card-hover-overlay centered mt-3">"OMG! We love this camp so much! It was awesome. Ryland was the best instructor ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever, ever!"</p>
-              <br><br><br><br><br><br>
-              <a class="btn btn-sm btn-danger font-weight-bold position-absolute bottom-centered" href="https://www.surfcamppacifica.com" target="_blank" role="button">TAP TO OPEN</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="map-wrapper" class="container-fluid col-md-8">
+      </div><!-- END OF DESKTOP CARDS LIST -->
+
+      <!-- MAP -->
+      <div id="map-wrapper" class="container-fluid col-md-8 d-none d-md-block">
         <div id="map"></div>
-        <div class="cards-mobile d-md-none d-lg-none d-xl-none bg-dark">
-          ADD CARD SCROLL HERE
-        </div>
       </div>
-    </div>
-  </div>
+
+    </div><!-- End of map & cards row -->
+
+    <!-- FOOTER -->
+    <div id="footer">&#169;2017 Surf Trip List</div>
+
+  </div><!-- End of container-fluid -->
 
   <script>
   //Initalize Cloud Firestore through Firebase
@@ -312,7 +154,7 @@ p.card-hover-overlay {
   let view;
   let proximity;
 
-  //Hover over accomm card, card changes to show more info + the relevant marker on map
+  //Hover over desktop card, card changes to show more info + the relevant marker on map
   $(document).on('mouseenter', '.card', function(){
     $(this).find('.card-overlay').hide();
     $(this).find('.card-hover-overlay').show();
@@ -320,7 +162,19 @@ p.card-hover-overlay {
   .on('mouseleave', '.card', function(){
     $(this).find('.card-overlay').show();
     $(this).find('.card-hover-overlay').hide();
-  });//END Accomm Card mouseleave function
+  });//END desktop card mouseleave function
+
+  //Hover over mobile card, card changes to show more info + the relevant marker on map
+  $(document).on('click', '.card-mobile', function(){
+    console.log("first click working");
+    $(this).find('.mobile-overlay').hide();
+    $(this).find('.mobile-hover-overlay').show();
+  })//END Accomm Card mouseenter function
+  // .on('click', '.card-mobile', function(){
+  //   console.log("second click working")
+  //   $(this).find('.mobile-overlay').show();
+  //   $(this).find('.mobile-hover-overlay').hide();
+  // });//END mobile card mouseleave function
 
   //Initiates lessonMarkers and rentalMarkers on map
   function initialize() {

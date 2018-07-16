@@ -1,112 +1,623 @@
-<!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <!-- Airport Autocomplete -->
-    <script src="https://screenfeedcontent.blob.core.windows.net/html/airports.js"></script>
-    <script src="https://unpkg.com/fuse.js@2.5.0/src/fuse.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.1/lodash.min.js"></script>
+  <!-- Link to custom CSS -->
+  <link rel="stylesheet" href="stl.css">
 
-    <!-- Link to custom CSS -->
-    <link rel="stylesheet" href="style.css">
+  <!-- JQUERY -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-    <!-- JQUERY -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <!-- Google Places JS Library -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&libraries=places"></script>
 
-    <!-- FONT AWESOME - for icons -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
-    <title>Surf Trip List</title>
+  <!-- FONT AWESOME - for icons -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
 
-  </head>
+  <!-- Initalizes Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
 
-  <body>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyB85TjM4154F_LU7bWtckJ20i22kjcK1T0",
+      authDomain: "surf-trip-list.firebaseapp.com",
+      databaseURL: "https://surf-trip-list.firebaseio.com",
+      projectId: "surf-trip-list",
+      storageBucket: "surf-trip-list.appspot.com",
+      messagingSenderId: "743850386285"
+    };
+    firebase.initializeApp(config);
+  </script>
 
-    <!-- navbar -->
-      <div class="row">
-        <div class="col-xl">
-          <nav class="navbar navbar-light bg-white">
-            <a class="navbar-brand" href="https://www.surftriplist.com">
-              <img src="logo.png" width="40" height="40" class="d-inline-block align-top" alt="STL">
-              <b>Surf Trip List</b>
-            </a>
-        </div>
-          <!-- email sign up form -->
-          <div class="col-xl">
-            <p class="text-center mb-2">Get a monthly email with the best seasonal surf vacations.</p>
-            <form class="form-inline drip-form justify-content-center mb-3" action="https://www.getdrip.com/forms/275554739/submissions" method="post" data-drip-embedded-form="275554739">
-              <div class="form-group mx-sm-3 mb-1">
-                <div class="drip-form-group">
-                  <label for="drip-email" class="sr-only">Email</label>
-                  <input type="email" class="form-control drip-email_full" id="drip-email" name="fields[email]" value="" placeholder="Email">
-                </div>
-              </div>
-              <button class="btn btn-danger mb-1 drip-form-group__btn" type="submit" name="submit" id="cta-button">Send me <i class="fas fa-envelope"></i></button>
-            </form>
-          </nav>
-        </div>
-      </div><!-- /email sign up form --><!-- /navbar -->
+  <title>Surf Trip List</title>
+</head>
+<body>
 
-      <!-- feedback -->
-      <div>
-        <hr>
-        <center>
-          <a class="typeform-share link" href="https://thehiddengreen.typeform.com/to/ApmIm9" data-mode="drawer_left" style="color:#DD3A26;text-decoration:underline;font-size:18px;" data-hide-headers=true data-hide-footer=true target="_blank">👋 Know a friend who'd like Surf Trip List? 💌 Share it with them! </a><script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script></center>
-        <hr>
-      </div><!-- /feedback -->
-
-  <!-- container-fluid -->
   <div class="container-fluid">
-    <!-- card-container -->
-    <div id="card-container">
-    </div><!-- end cardcontainer -->
-  </div><!-- /end container-fluid -->
 
-    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
-    <script>
-      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyB85TjM4154F_LU7bWtckJ20i22kjcK1T0",
-        authDomain: "surf-trip-list.firebaseapp.com",
-        databaseURL: "https://surf-trip-list.firebaseio.com",
-        projectId: "surf-trip-list",
-        storageBucket: "surf-trip-list.appspot.com",
-        messagingSenderId: "743850386285"
-      };
-      firebase.initializeApp(config);
-    </script>
+    <!-- NAV BAR -->
+    <div class="d-flex align-items-center py-3 mb-2 bg-white border-bottom box-shadow">
+      <a href="index.html"><img id="top-logo" src="logo.png" alt="Surf Trip List"></a>
 
-    <!-- Initializes the map -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&callback=initMap"></script>
+      <div class="dropdown d-md-none">
+        <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i id="mobile-menu-arrow" class="fas fa-chevron-down ml-2"></i>
+        </a>
+        <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="business.html">List your business</a>
+          <a class="dropdown-item" href="help.html">Help</a>
+          <a class="dropdown-item" href="#">Sign up</a>
+        </div>
+      </div>
 
-    <!-- JS Google Places API -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB85TjM4154F_LU7bWtckJ20i22kjcK1T0&libraries=places&callback=callback"></script>
+      <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">Surf Trip List</h6>
+      <nav id="top-nav" class="my-2 my-md-0 d-none d-md-block">
+        <a class="p-2 text-dark" href="business.html">List your business</a>
+        <a class="p-2 text-dark" href="help.html">Help</a>
+        <a class="p-2 text-dark" href="#">Sign up</a>
+      </nav>
+    </div>
 
-    <!-- your firebase code -->
-    <script src="script.js"></script>
+    <!-- STATEMENT -->
+    <div id="statement" class="text-center">
+      <p class="mb-0">👋 Find your perfect surf trip even if you're a complete beginner!</p>
+    </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <hr class="mt-2">
 
-    <!-- Enables Tooltips -->
-    <script>
-    $(document).ready(function(){
-      $("body").tooltip({ selector: '[data-toggle=tooltip]' });
-    });
-    </script>
-  </body>
+    <!-- CITY CARDS -->
+    <div class="container-fluid">
+      <div class="row">
+
+          <div class="card city-card text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <img class="card-img tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
+            <a class="white-link" href="destination.html">
+              <div class="card-img-overlay">
+                <h4 class="card-title position-relative">Malibu</h4>
+                <p class="card-subtitle position-relative">California</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="card city-card text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <img class="card-img tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
+            <a class="white-link" href="destination.html">
+              <div class="card-img-overlay">
+                <h4 class="card-title position-relative">Malibu</h4>
+                <p class="card-subtitle position-relative">California</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="card city-card text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <img class="card-img tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
+            <a class="white-link" href="destination.html">
+              <div class="card-img-overlay">
+                <h4 class="card-title position-relative">Malibu</h4>
+                <p class="card-subtitle position-relative">California</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="card city-card text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <img class="card-img tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
+            <a class="white-link" href="destination.html">
+              <div class="card-img-overlay">
+                <h4 class="card-title position-relative">Malibu</h4>
+                <p class="card-subtitle position-relative">California</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="card city-card text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <img class="card-img tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
+            <a class="white-link" href="destination.html">
+              <div class="card-img-overlay">
+                <h4 class="card-title position-relative">Malibu</h4>
+                <p class="card-subtitle position-relative">California</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="card city-card text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <img class="card-img tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
+            <a class="white-link" href="destination.html">
+              <div class="card-img-overlay">
+                <h4 class="card-title position-relative">Malibu</h4>
+                <p class="card-subtitle position-relative">California</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="card city-card text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <img class="card-img tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
+            <a class="white-link" href="destination.html">
+              <div class="card-img-overlay">
+                <h4 class="card-title position-relative">Malibu</h4>
+                <p class="card-subtitle position-relative">California</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="card city-card text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <img class="card-img tinted" src="rental-images/rentals-default-photo.png" alt="default photo">
+            <a class="white-link" href="destination.html">
+              <div class="card-img-overlay">
+                <h4 class="card-title position-relative">Malibu</h4>
+                <p class="card-subtitle position-relative">California</p>
+              </div>
+            </a>
+          </div>
+
+      </div>
+    </div>
+
+
+
+    </div><!-- END OF CITY CARDS -->
+
+    <!-- FOOTER -->
+    <div id="footer">&#169;2017 Surf Trip List</div>
+
+  </div><!-- End of container-fluid -->
+
+  <script>
+  //Initalize Cloud Firestore through Firebase
+  const db = firebase.firestore();
+  let map;
+  let service;
+  let infowindow;
+  let spotMarker;
+  let accommMarker;
+  let lessonMarker;
+  let rentalMarker;
+  let name;
+  let rating;
+  let website;
+  let phone;
+  let address;
+  let review;
+  let coords;
+  let spotMarkers = [];
+  let accommMarkers = [];
+  let lessonMarkers = [];
+  let rentalMarkers = [];
+  let data;
+  let spotName;
+  let skill;
+  let note;
+  let parkingLat;
+  let parkingLng;
+  let accommURL;
+  let photo;
+  let accommType;
+  let bedAmount;
+  let bedWord;
+  let guestAmount;
+  let guestWord;
+  let title;
+  let price;
+  let view;
+  let proximity;
+
+  //Hover over desktop card, card changes to show more info + the relevant marker on map
+  $(document).on('mouseenter', '.card', function(){
+    $(this).find('.card-overlay').hide();
+    $(this).find('.card-hover-overlay').show();
+  })//END Accomm Card mouseenter function
+  .on('mouseleave', '.card', function(){
+    $(this).find('.card-overlay').show();
+    $(this).find('.card-hover-overlay').hide();
+  });//END desktop card mouseleave function
+
+  //Hover over mobile card, card changes to show more info + the relevant marker on map
+  $(document).on('click', '.card-mobile', function(){
+    console.log("first click working");
+    $(this).find('.mobile-overlay').hide();
+    $(this).find('.mobile-hover-overlay').show();
+  })//END Accomm Card mouseenter function
+  // .on('click', '.card-mobile', function(){
+  //   console.log("second click working")
+  //   $(this).find('.mobile-overlay').show();
+  //   $(this).find('.mobile-hover-overlay').hide();
+  // });//END mobile card mouseleave function
+
+  //Initiates lessonMarkers and rentalMarkers on map
+  function initialize() {
+    var mapCenter = new google.maps.LatLng(37.598881,-122.502043);
+
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: mapCenter,
+      zoom: 7,
+
+      zoomControl: true,
+      zoomControlOptions: {
+          position: google.maps.ControlPosition.TOP_LEFT
+      },
+      mapTypeControl: false,
+      fullscreenControl: false,
+      streetViewControl: false,
+
+    });//End of map variable
+
+    //Query surf-spot collection to add spotMarkers
+    db.collection("surf-spot").get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          data = doc.data();
+          spotName = doc.id.replace(/-/g,' ');
+          coords = data.surfspot;
+          skill = data.skill;
+          note = data.spotNote;
+          parkingLat = data.parkingLat;
+          parkingLng = data.parkingLng;
+
+          function addSpotMarker(props, map) {
+            //Add spotMarkers to map
+            spotMarker = new google.maps.Marker({
+              position: coords,
+              map: map,
+              icon: 'icon-images/' + skill + '.png',
+            });
+            //Add each spotMarker to the array to allow for hide/show of spotMarkers
+            spotMarkers.push(spotMarker);
+            //Create the spotMarker infowindow
+            infowindow = new google.maps.InfoWindow ({
+            });
+            //Set the infowindow html
+            spotMarker.html = `
+              <div class="infoWindow">
+                <h6>
+                  <img class="iwSkillIcon" src="icon-images/${skill}.png" alt="${spotName}">
+                  <span class="capitalize">${skill}</span> wave at <span class="capitalize">${spotName}</span></h6>
+                  <p>${note}</p>
+                  <button class="btn btn-sm btn-danger"><a class="white-link" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank">Get Directions</a></button>
+              </div>
+            `;
+
+            spotMarker.addListener('click', function() {
+              //Open & close the spotMarker infowindow
+              infowindow.setContent(this.html);
+              infowindow.open(map, this);
+              google.maps.event.addListener(map, "click", function(event) {
+                infowindow.close();
+              });
+            });//End of spotMarker listener
+          }//End of addSpotMarker function
+
+        addSpotMarker(spotMarker, map);
+
+      });
+    });//End surf-spot Firestore query
+
+    //Query accommMarkers (priceMarkers) collection to add accommMarkers
+    db.collection("priceMarkers").get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          data = doc.data();
+          coords = data.coords;
+          icon = data.iconImage;
+          accommURL = data.bookingURL;
+          photo = data.photo;
+          accommType = data.accommType;
+          bedAmount = data.bedAmount;
+          bedWord = data.bedWord;
+          guestAmount = data.guestAmount;
+          guestWord = data.guestWord;
+          title = data.title;
+          price = data.price;
+          view = data.view;
+          proximity = data.proximity;
+
+          function addAccommMarker(props, map) {
+            //Add accommMarkers to map
+            accommMarker = new google.maps.Marker({
+              position: coords,
+              map: map,
+              icon: icon
+            });
+            //Add each accommMarker to the array to allow for hide/show of accommMarkers
+            accommMarkers.push(accommMarker);
+            //Create the accommMarker infowindow
+            infowindow = new google.maps.InfoWindow({
+            });
+            //Set the infowindow html
+            accommMarker.html = `
+            <div class="infowindow">
+               <a href="${accommURL}" target="_blank"><img src="ac-images/${photo}"></a>
+               <b><p class="my-2 nounderline" style="color:brown">${accommType} • 🛌${bedAmount} ${bedWord} • 👫${guestAmount} ${guestWord}</p></b>
+               <h5 class="my-0">${title}</h5>
+               <b><p class="mt-2">💳$${price}/n • 😎${view} • 🏄‍${proximity}</p></b>
+             </div>
+            `;
+
+            accommMarker.addListener('click', function(){
+              //Open & close the accommMarker infowindow
+              infowindow.setContent(this.html);
+              infowindow.open(map, this);
+              google.maps.event.addListener(map, "click", function(event) {
+                infowindow.close();
+              });
+            });//End of accommMarker listener
+
+          }//End of add AccommMarker function
+
+         addAccommMarker(accommMarker, map);
+
+        });
+    });//End of accomm Firestore query
+
+    //Query Google Places JS Library to add lessons
+    var requestLessons = {
+      query: 'surf lessons in pacifica'
+    };
+
+    //Query Google Places JS Library to add rentals
+    var requestRentals = {
+      query: 'surfboard rentals in pacifica'
+    };
+
+    service = new google.maps.places.PlacesService(map);
+    service.textSearch(requestLessons, lessonsCallback);
+    service.textSearch(requestRentals, rentalsCallback);
+  } //End of initialize
+
+  //Gets the place_ids relevant to the initialize query. Uses that to get the place details.
+  function lessonsCallback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        place = results[i];
+
+        //Sets the details we want of each surf lesson place
+        var detailsRequest = {
+          placeId: place.place_id,
+          fields: ['photo', 'website','formatted_phone_number', 'formatted_address', 'review', 'rating', 'name', 'geometry']
+        };
+
+        service = new google.maps.places.PlacesService(map);
+        service.getDetails(detailsRequest, lessonsCallback);
+
+        function lessonsCallback(placeDetails, status) {
+          if (status == google.maps.places.PlacesServiceStatus.OK) {
+            //Check if place has more than one review and greater than 3 star rating as a quality check before putting on Surf Trip List
+            if (placeDetails.reviews !== undefined && placeDetails.reviews.length > 1 && placeDetails.rating !== undefined && placeDetails.rating > 3) {
+              //Check if .gov is in the website URL. If it's not (indexOf = -1) then we can use it.
+              if (placeDetails.website !== undefined && placeDetails.website.indexOf(".gov") == -1) {
+                //Check if  is in the placeDetails name. If it's not (indexOf = -1) then we can use it.
+                if (placeDetails.name.indexOf("Boardsports California") == -1 && placeDetails.name.indexOf("Shape") == -1 && placeDetails.name.indexOf("kite") == -1 && placeDetails.name.indexOf("Kite") == -1 && placeDetails.name.indexOf("Yoga") == -1 && placeDetails.name.indexOf("Bike") == -1 && placeDetails.name.indexOf("Bicycl") == -1 && placeDetails.name.indexOf("fitness") == -1) {
+                  // console.log(placeDetails);
+                  // console.log(placeDetails.name);
+                  name = placeDetails.name;
+                  rating = placeDetails.rating;
+                  website = placeDetails.website;
+                  phone = placeDetails.formatted_phone_number;
+                  address = placeDetails.formatted_address;
+                  //Gets the most recent review.
+                  review = placeDetails.reviews[0].text;
+                  coords = {lat: placeDetails.geometry.location.lat(), lng: placeDetails.geometry.location.lng()};
+
+                  //Sets the surf lesson lessonMarkers on the map
+                  function addLessonMarker(props, map) {
+                    lessonMarker = new google.maps.Marker({
+                      position: coords,
+                      map: map,
+                      icon: 'icon-images/surfLesson.png'
+                    });
+                    //Add lessonMarkers to array to allow for hide/show of all related lessonMarkers
+                    lessonMarkers.push(lessonMarker);
+                    //Creates the lessonMarker info window
+                    infowindow = new google.maps.InfoWindow({
+                    });
+
+                    lessonMarker.addListener('click', function(){
+                      //Opens the lessonMarker infowindow
+                      if (placeDetails.photos !== undefined) {
+                        infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br><a href='" + placeDetails.website + "' target=_'blank'><img src='" + placeDetails.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 150}) + "'></a>" + "<p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p>" + "</div>");
+                      } else {
+                        infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br><a href='" + placeDetails.website + "' target=_'blank'><img id='iwPhoto' src='lesson-images/surf-lesson.png'></a><p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p>" + "</div>");
+                      }
+                      infowindow.open(map, this);
+                      google.maps.event.addListener(map, "click", function(event){
+                        //Closes the lessonMarker infowindow
+                        infowindow.close();
+                      });
+                    });//End of lessonMarker listener
+                  }//End of addLessonMarker
+
+                  addLessonMarker(lessonMarker, map);
+
+                }//End of Name filter
+              }//End of Website filter
+            }//End of Reviews filter
+
+          }
+        }
+      }
+    } else {
+      //Handle this error if there is a problem
+      console.error("Error in 1st lessonsCallback", status);
+    }
+  } //End surf lessons callback
+
+  // Sets the map on all lessonMarkers in the array. (Keeps them stored in the array so toggle works.)
+  function setMapOnLessonMarkers(map) {
+    for (var i = 0; i < lessonMarkers.length; i++) {
+      lessonMarkers[i].setMap(map);
+    }
+  }
+
+  //Toggles lessonMarkers on the map
+  function toggleLessons() {
+    if ($("#toggleLessons").hasClass("show")) {
+      // Removes the lessonMarkers from the map, but keeps them in the array.
+      setMapOnLessonMarkers(null);
+      $("#toggleLessons").removeClass("show");
+      $("#toggleLessons").addClass("disabled");
+    } else {
+      //Shows any lessonMarkers currently in the array.
+      setMapOnLessonMarkers(map);
+      $("#toggleLessons").addClass("show");
+      $("#toggleLessons").removeClass("disabled");
+    }
+  }
+
+  function rentalsCallback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        var place = results[i];
+
+        //Sets the details we want of each surfboard rental place
+        var detailsRequest = {
+          placeId: place.place_id,
+          fields: ['photo', 'website','formatted_phone_number', 'formatted_address', 'review', 'rating', 'name', 'geometry']
+        };
+
+        service = new google.maps.places.PlacesService(map);
+        service.getDetails(detailsRequest, rentalsCallback);
+
+        function rentalsCallback(placeDetails, status) {
+          if (status == google.maps.places.PlacesServiceStatus.OK) {
+            //Review filter - Check if place has more than one review and greater than 3 star rating as a quality check before putting on Surf Trip List
+            if (placeDetails.reviews !== undefined && placeDetails.reviews.length > 1 && placeDetails.rating !== undefined && placeDetails.rating > 3) {
+              //Website filter - Check if .gov is in the website URL. If it's not (indexOf = -1) then we can use it.
+              if (placeDetails.website !== undefined && placeDetails.website.indexOf(".gov") == -1) {
+                // console.log('rentalDetails:', placeDetails);
+                name = placeDetails.name;
+                rating = placeDetails.rating;
+                website = placeDetails.website;
+                phone = placeDetails.formatted_phone_number;
+                address = placeDetails.formatted_address;
+                //Gets the most recent review.
+                review = placeDetails.reviews[0].text;
+                coords = {lat: placeDetails.geometry.location.lat(), lng: placeDetails.geometry.location.lng()};
+
+                function addRentalMarker(props, map) {
+                  rentalMarker = new google.maps.Marker({
+                    position: coords,
+                    map: map,
+                    icon: 'icon-images/rental.png'
+                  });
+                  //Add each rentalMarker to array to allow for hide/show of all related markers
+                  rentalMarkers.push(rentalMarker);
+                  //Creates the rentalMarker info window
+                  infowindow = new google.maps.InfoWindow({
+                  });
+
+                  rentalMarker.addListener('click', function(){
+                    //Open the rentalMarker infowindow
+                    if (placeDetails.photos !== undefined) {
+                      infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br>" + "<a href='" + placeDetails.website + "' target=_'blank'><img src='" + placeDetails.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 150}) + "'></a>" + "<p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p></div>");
+                    } else {
+                      infowindow.setContent ('<div id="iwcontent"><h4>' + placeDetails.name + "</h4><br><a href='" + placeDetails.website + "' target=_'blank'><img id='iwPhoto' src='rental-images/rentals-default-photo.png'></a><p>📞" + placeDetails.formatted_phone_number + "<br>📍" + placeDetails.formatted_address + "<br>💖" + placeDetails.rating + "</p></div>");
+                    }
+                    infowindow.open(map, this);
+                    google.maps.event.addListener(map, "click", function(event){
+                      //Closes the rentalMarker infowindow
+                      infowindow.close();
+                    });
+                  });//End of rentalMarker listener
+                }//End of addRentalMarker function
+
+                addRentalMarker(rentalMarker, map);
+
+              }//End of website filter
+            }//End of reviews filter
+
+          }
+        }//End of rentalsCallback function with placeDetails
+      }//End of results loop
+    } else {
+      // Handle this error if there is a problem
+      console.error("Error in 1st rentalsCallback", status)
+    }
+  }
+
+  //Sets the map on all rentalMarkers in the array. (Keeps them stored in the array so toggle works.)
+  function setMapOnRentalMarkers(map) {
+   for (var i = 0; i < rentalMarkers.length; i++) {
+     rentalMarkers[i].setMap(map);
+   }
+  }
+
+  //Toggles rentalMarkers on the map
+  function toggleRentals() {
+   if ($("#toggleRentals").hasClass("show")) {
+     // Removes the rentalMarkers from the map, but keeps them in the array.
+     setMapOnRentalMarkers(null);
+     $("#toggleRentals").removeClass("show");
+     $("#toggleRentals").addClass("disabled");
+   } else {
+     //Shows any rentalMarkers currently in the array.
+     setMapOnRentalMarkers(map);
+     $("#toggleRentals").addClass("show");
+     $("#toggleRentals").removeClass("disabled");
+   }
+  }
+
+  //Sets the map on all spotMarkers in the array. (Keeps them stored in the array so toggle works.)
+  function setMapOnSpotMarkers(map) {
+   for (var i = 0; i < spotMarkers.length; i++) {
+     spotMarkers[i].setMap(map);
+   }
+  }
+
+  //Toggle spotMarkers on the map
+  function toggleSurfSpots() {
+   if ($("#toggleSurfSpots").hasClass("show")) {
+     // Removes the surfSpotMarkers from the map, but keeps them in the array.
+     setMapOnSpotMarkers(null);
+     $("#toggleSurfSpots").removeClass("show");
+     $("#toggleSurfSpots").addClass("disabled");
+   } else {
+     //Shows any surfSpotMarkers currently in the array.
+     setMapOnSpotMarkers(map);
+     $("#toggleSurfSpots").addClass("show");
+     $("#toggleSurfSpots").removeClass("disabled");
+   }
+  }
+
+  //Sets the map on all accommMarkers in the array. (Keeps them stored in the array so toggle works.)
+  function setMapOnAccommMarkers(map) {
+   for (var i = 0; i < accommMarkers.length; i++) {
+     accommMarkers[i].setMap(map);
+   }
+  }
+
+  //Toggle accommMarkers on the map
+  function toggleAccomms() {
+   if ($("#toggleAccomms").hasClass("show")) {
+     // Removes the accommMarkers from the map, but keeps them in the array.
+     setMapOnAccommMarkers(null);
+     $("#toggleAccomms").removeClass("show");
+     $("#toggleAccomms").addClass("disabled");
+   } else {
+     //Shows any accommMarkers currently in the array.
+     setMapOnAccommMarkers(map);
+     $("#toggleAccomms").addClass("show");
+     $("#toggleAccomms").removeClass("disabled");
+   }
+  }
+
+  initialize();
+
+  </script>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+</body>
+
 </html>

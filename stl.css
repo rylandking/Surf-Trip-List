@@ -1,0 +1,217 @@
+/* NAV */
+
+#top-logo {
+  width:32px;
+  height:32px;
+  vertical-align:middle;
+}
+
+#top-nav {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#mobile-menu-arrow {
+ font-size: 14px;
+ color: black;
+}
+
+.dropdown-item {
+  font-size: 12px;
+  color: black;
+}
+
+#statement {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* MAP */
+#map {
+  width:auto;
+  height:550px;
+}
+
+#map-wrapper {
+  position: relative;
+}
+
+#iwPhoto {
+  width:225px;
+  height:150px
+}
+
+.iwSkillIcon {
+  height:22px;
+  width:22px;
+}
+
+.infoWindow {
+  /* height:100%; */
+  width:275px;
+}
+
+.city-card {
+  height: 225px !important;
+  border: none !important;
+}
+
+/* DESTINATION CARDS DESKTOP */
+.destination-card {
+  height: 250px !important;
+  width: auto;
+  border: none !important;
+  padding-top: 0px;
+  margin-top: 0px;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.card-img {
+  height: 100% !important;
+  width: auto !important;
+  object-fit: cover;
+}
+
+.card-hover-overlay {
+  display: none;
+  height: 100%;
+}
+
+.mobile-hover-overlay {
+  display: none;
+  height: 100%;
+}
+
+p.card-hover-overlay {
+  font-size: 14px;
+}
+
+#cards {
+  width: auto;
+  height: 550px;
+  overflow-y: scroll;
+}
+
+/* Bottom left text over cards */
+.bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+}
+
+/* Top left text over cards */
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
+/* Top right text over cards */
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+/* Bottom right text over cards */
+.bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+
+/* Centered text over cards */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width:100%;
+  text-align: center;
+  font-weight:700;
+}
+
+.card-title {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width:100%;
+  text-align: center;
+  font-weight:700;
+  margin: 0px !important;
+  white-space: nowrap;
+}
+
+.card-subtitle {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width:100%;
+  text-align: center;
+  font-weight:600;
+}
+
+/* buttom centered text over cards */
+.bottom-centered {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-weight:700;
+}
+
+/* Mobile bottom centered text over cards */
+.mobile-bottom-centered {
+  position: absolute;
+  bottom: -20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width:100%;
+  text-align: center;
+  font-weight:700;
+}
+
+.tinted {
+  filter: brightness(60%);
+}
+
+/* FOOTER */
+#footer {
+  width: 100%;
+  text-align: center;
+  padding-top: 2rem;
+  font-size: 12px;
+  color: grey;
+}
+
+/* CUSTOM CSS */
+
+.xs-btn {
+  height:26px;
+  font-size:11px !important;
+}
+
+.no-button-shadow {
+  box-shadow: none !important;
+}
+
+.capitalize {
+  text-transform:capitalize;
+}
+
+a.white-link {
+  color: white;
+}
+
+a.white-link:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.border {
+  border: solid 2px;
+}
