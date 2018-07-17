@@ -38,31 +38,45 @@ let proximity;
 let destination;
 let city;
 let cityParam;
+let mapCenter;
+let zoom;
+let spotID;
+
+
+//MOUSEENTER/LEAVE SPOT CARD MAKES CARD CHANGE TO SHOW MORE INFO AND MARKER ON MAP
+$(document).on('mouseenter', '.spot-card', function(){
+  $(this).find('.card-overlay').hide();
+  $(this).find('.card-hover-overlay').show();
+})//END Accomm Card mouseenter function
+.on('mouseleave', '.spot-card', function(){
+  $(this).find('.card-overlay').show();
+  $(this).find('.card-hover-overlay').hide();
+});//END -- SPOT CARD MOUSEENTER/LEAVE FUNCTION
+
 
 //POPULATE CARDS ON HOME PAGE
-db.collection("city").where("beta", "==", true)
-    .get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          data = doc.data();
-          cityID = doc.id;
-          city = doc.id.replace(/-/g,' ');
-          region = data.region.replace(/-/g,' ');
-          photo = data.cityimage;
+db.collection("city").where("beta", "==", true).get().then(function(querySnapshot) {
+  querySnapshot.forEach(function(doc) {
+    data = doc.data();
+    cityID = doc.id;
+    city = doc.id.replace(/-/g,' ');
+    region = data.region.replace(/-/g,' ');
+    photo = data.cityimage;
 
-          $("#city-cards").append(
-          `<div id="city-card" class="card city-card text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3" data-id="${cityID}">
-            <img class="card-img tinted" src="${photo}" alt="${city}">
-            <a class="white-link" href="city.html">
-              <div class="card-img-overlay">
-                <h4 class="card-title position-relative">${city}</h4>
-                <p class="card-subtitle position-relative">${region}</p>
-              </div>
-            </a>
-          </div>`
-        );//END -- PREPEND
+    $("#city-cards").append(
+    `<div id="city-card" class="card city-card text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3" data-id="${cityID}">
+      <img class="card-img tinted" src="${photo}" alt="${city}">
+      <a class="white-link" href="city.html">
+        <div class="card-img-overlay">
+          <h4 class="card-title position-relative">${city}</h4>
+          <p class="card-subtitle position-relative">${region}</p>
+        </div>
+      </a>
+    </div>`
+  );//END -- PREPEND
 
-        });
-    });//END -- POPULATE CARDS ON HOME PAGE
+  });
+});//END -- POPULATE CARDS ON HOME PAGE
 
 
 //PLACE CITY IN QUERY PARAMS AFTER CLICKING ON CARD
@@ -77,20 +91,20 @@ $('body').on('click','#city-card',function(e){
 
 //Opens new window with newCityPage in the query perams
 function redirectPage(city) {
-    window.location = `file:///Users/macbookpro/Desktop/Surf-Trip/destination.html?city=${city}`;
-    window.city = city;
-    return false;
+  window.location = `file:///Users/macbookpro/Desktop/Surf-Trip/destination.html?city=${city}`;
+  window.city = city;
+  return false;
 }
 
 //Gets query perams by name
 function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
 //Store the query perams in a constant
@@ -98,18 +112,157 @@ cityParam = getParameterByName('city');
 //END -- PLACE CITY IN QUERY PARAMS AFTER CLICKING ON CARD
 
 
-//BUILD CITY PAGE BASED ON CITY PARAM
-db.collection("city").doc(cityParam).
-  get().then(function(doc) {
-    city = doc.id.replace(/-/g,' ');
+//CUTS CARD NOTE LENGTH TO 200 CHARACTERS
+function cutNote() {
+  if (note.length > 180) {
+    $(".note").text(function(i, note) {
+      return note.substr(0, 180) + '...';
+    });
+  }
+}
+//END -- CUTS CARD NOTE LENGTH TO 200 CHARACTERS
 
-    $("#breadcrumb").append(
-      `${city}`
-    );
 
+//INIATILIZES THE MAP ON DESTIONATION.HTML
+function initializeV2() {
+
+  map = new google.maps.Map(document.getElementById('map2'), {
+    center: mapCenter,
+    zoom: zoom,
+
+    zoomControl: true,
+    zoomControlOptions: {
+        position: google.maps.ControlPosition.TOP_LEFT
+    },
+    mapTypeControl: false,
+    fullscreenControl: false,
+    streetViewControl: false,
+  });//END -- map OBJECT
+
+}//END -- initializeV2() FUNCTION
+
+
+//ADDS A SURF SPOT MARKER TO THE MAP
+function addSpotMarkerV2(props, map) {
+
+  //Add spotMarkers to map
+  spotMarker = new google.maps.Marker({
+    position: coords,
+    map: map,
+    icon: 'icon-images/' + skill + '.png',
   });
+
+  //Add each spotMarker to the array to allow for hide/show of spotMarkers
+  spotMarkers.push(spotMarker);
+
+  //Create the spotMarker infowindow
+  infowindow = new google.maps.InfoWindow ({
+  });
+
+  //Set the infowindow html
+  spotMarker.html = `
+    <div class="infoWindow">
+      <h6>
+        <img class="iwSkillIcon" src="icon-images/${skill}.png" alt="${spotName}">
+        <span class="capitalize">${skill}</span> wave at <span class="capitalize">${spotName}</span></h6>
+        <p>${note}</p>
+        <button class="btn btn-sm btn-danger"><a class="white-link btn btn-sm btn-danger" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank">Get Directions</a></button>
+    </div>
+  `;
+
+  spotMarker.addListener('click', function() {
+    //Open & close the spotMarker infowindow
+    infowindow.setContent(this.html);
+    infowindow.open(map, this);
+    google.maps.event.addListener(map, "click", function(event) {
+      infowindow.close();
+    });
+  });//END -- spotMarker LISTENER
+
+  cutNote();
+
+  $("#spot-cards").append(`
+    <div class="card">
+      <img class="card-img tinted-spot-cards" src="rental-images/rentals-default-photo.png" alt="${spotName}">
+      <div class="card-img-overlay">
+        <div class="card-body text-white p-0">
+          <h5 class="card-title2">${spotName} - <img src="icon-images/${skill}.png"></h5>
+          <h6 class="card-subtitle2 mb-2 text-light"><span class="capitalize">${skill}</span> wave</h6>
+          <p class="card-text2 note">${note}</p>
+          <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotID}">
+            MORE INFO
+          </button>
+          <a class="btn btn-sm btn-danger font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank">DIRECTIONS</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="${spotID}" tabindex="-1" role="dialog" aria-labelledby="${spotID}-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="surf-spot-title">${spotName} - <img src="icon-images/${skill}.png"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>${fullNote}</p>
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-sm btn-outline-danger mr-auto font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank">DIRECTIONS</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+
+  cutNote();
+
+}//END -- addSpotMarker FUNCTION
+
+
+//BUILD CITY PAGE BASED ON CITY PARAM
+db.collection("city").doc(cityParam).get().then(function(doc) {
+  data = doc.data();
+  city = doc.id.replace(/-/g,' ');
+  mapCenter = data.cityCenter;
+  zoom = data.zoom;
+
+  //Add city's name next to logo
+  $("#breadcrumb").append(
+    `${city}`
+  );
+
+  initializeV2();
+
+  //Query surf-spot collection to add spotMarkers
+  db.collection("surf-spot").where("city", "==", cityParam).get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        data = doc.data();
+        spotID = doc.id;
+        spotName = doc.id.replace(/-/g,' ');
+        coords = data.surfspot;
+        skill = data.skill;
+        fullNote = data.spotNote
+        note = data.spotNote;
+        parkingLat = data.parkingLat;
+        parkingLng = data.parkingLng;
+
+      addSpotMarkerV2(spotMarker, map);
+
+    });
+  });//End surf-spot Firestore query
+
+});
+
+
 //END -- BUILD CITY PAGE BASED ON CITY PARAM
 
+
+
+
+////V1 CODE
 
 //Initiates lessonMarkers and rentalMarkers on map
 function initialize() {
@@ -133,6 +286,7 @@ function initialize() {
   db.collection("surf-spot").get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         data = doc.data();
+        spotID = doc.id;
         spotName = doc.id.replace(/-/g,' ');
         coords = data.surfspot;
         skill = data.skill;
@@ -486,13 +640,3 @@ function toggleAccomms() {
    $("#toggleAccomms").removeClass("disabled");
  }
 }
-
-//Hover over desktop card, card changes to show more info + the relevant marker on map
-$(document).on('mouseenter', '.card', function(){
-  $(this).find('.card-overlay').hide();
-  $(this).find('.card-hover-overlay').show();
-})//END Accomm Card mouseenter function
-.on('mouseleave', '.card', function(){
-  $(this).find('.card-overlay').show();
-  $(this).find('.card-hover-overlay').hide();
-});//END desktop card mouseleave function

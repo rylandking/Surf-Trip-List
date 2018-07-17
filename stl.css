@@ -36,6 +36,11 @@
   height:550px;
 }
 
+#map2 {
+  width:auto;
+  height:550px;
+}
+
 #map-wrapper {
   position: relative;
 }
@@ -60,8 +65,8 @@
   border: none !important;
 }
 
-/* DESTINATION CARDS DESKTOP */
-.destination-card {
+/* SPOT CARD DESKTOP */
+.spot-card {
   height: 250px !important;
   width: auto;
   border: none !important;
@@ -91,7 +96,7 @@ p.card-hover-overlay {
   font-size: 14px;
 }
 
-#cards {
+#spot-cards {
   width: auto;
   height: 550px;
   overflow-y: scroll;
@@ -149,10 +154,46 @@ p.card-hover-overlay {
   text-transform: capitalize;
 }
 
+
+
+.card-title2 {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+.card-subtitle2 {
+  font-size: 15px;
+}
+
+.card-text2 {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.card {
+  height: 250px !important;
+  width: auto;
+  margin-bottom: 1rem;
+}
+
+
+
 .card-subtitle {
   position: absolute;
   top: 45%;
   left: 50%;
+  transform: translate(-50%, -50%);
+  width:100%;
+  text-align: center;
+  font-weight:600;
+  text-transform: capitalize;
+}
+
+.surf-spot-card-subtitle {
+  position: absolute;
+  top: 46%;
+  left: 47%;
   transform: translate(-50%, -50%);
   width:100%;
   text-align: center;
@@ -165,6 +206,26 @@ p.card-hover-overlay {
   position: absolute;
   bottom: 10%;
   left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-weight:700;
+}
+
+/* buttom left text over cards */
+.bottom-left {
+  position: absolute;
+  bottom: 10%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-weight:700;
+}
+
+/* buttom left text over cards */
+.bottom-right {
+  position: absolute;
+  bottom: 10%;
+  left: 30%;
   transform: translate(-50%, -50%);
   text-align: center;
   font-weight:700;
@@ -185,6 +246,10 @@ p.card-hover-overlay {
   filter: brightness(70%);
 }
 
+.tinted-spot-cards {
+  filter: brightness(55%);
+}
+
 /* FOOTER */
 #footer {
   width: 100%;
@@ -192,6 +257,17 @@ p.card-hover-overlay {
   padding-top: 2rem;
   font-size: 12px;
   color: grey;
+}
+
+
+/* MODALS */
+.modal-title {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.modal-body p {
+  font-size: 14px;
 }
 
 /* CUSTOM CSS */
