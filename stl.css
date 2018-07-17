@@ -24,6 +24,7 @@
 #statement {
   font-size: 14px;
   font-weight: bold;
+  color: #D9524E;
 }
 
 #breadcrumb {
@@ -179,6 +180,8 @@ p.card-hover-overlay {
 
 
 
+
+
 .card-subtitle {
   position: absolute;
   top: 45%;
@@ -248,6 +251,10 @@ p.card-hover-overlay {
 
 .tinted-spot-cards {
   filter: brightness(55%);
+}
+
+.surf-spot-card:hover {
+  filter: brightness(110%);
 }
 
 /* FOOTER */

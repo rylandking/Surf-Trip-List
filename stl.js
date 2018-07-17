@@ -41,17 +41,7 @@ let cityParam;
 let mapCenter;
 let zoom;
 let spotID;
-
-
-//MOUSEENTER/LEAVE SPOT CARD MAKES CARD CHANGE TO SHOW MORE INFO AND MARKER ON MAP
-$(document).on('mouseenter', '.spot-card', function(){
-  $(this).find('.card-overlay').hide();
-  $(this).find('.card-hover-overlay').show();
-})//END Accomm Card mouseenter function
-.on('mouseleave', '.spot-card', function(){
-  $(this).find('.card-overlay').show();
-  $(this).find('.card-hover-overlay').hide();
-});//END -- SPOT CARD MOUSEENTER/LEAVE FUNCTION
+let id;
 
 
 //POPULATE CARDS ON HOME PAGE
@@ -150,6 +140,8 @@ function addSpotMarkerV2(props, map) {
     position: coords,
     map: map,
     icon: 'icon-images/' + skill + '.png',
+    id: spotID,
+    skill: skill,
   });
 
   //Add each spotMarker to the array to allow for hide/show of spotMarkers
@@ -182,7 +174,7 @@ function addSpotMarkerV2(props, map) {
   cutNote();
 
   $("#spot-cards").append(`
-    <div class="card">
+    <div class="card surf-spot-card" data-id="${spotID}">
       <img class="card-img tinted-spot-cards" src="rental-images/rentals-default-photo.png" alt="${spotName}">
       <div class="card-img-overlay">
         <div class="card-body text-white p-0">
@@ -218,6 +210,35 @@ function addSpotMarkerV2(props, map) {
   `);
 
   cutNote();
+
+
+  //HOVER OVER CARD, CHANGE THE MARKER ON THE MAP
+  function highlightMarker(id) {
+    for (i in spotMarkers){
+      if(spotMarkers[i].id == id) {
+        spotMarkers[i].setIcon('icon-images/'+spotMarkers[i].skill+'-large.png');
+      }
+    }
+  }
+
+  function normalMarker(id) {
+    for (i in spotMarkers){
+      if(spotMarkers[i].id == id) {
+        spotMarkers[i].setIcon('icon-images/'+spotMarkers[i].skill+'.png');
+      }
+    }
+  }
+
+  $(document).on('mouseenter', '.surf-spot-card', function(){
+    let id = $(this).attr('data-id');
+    highlightMarker(id);
+  })//END Accomm Card mouseenter function
+  .on('mouseleave', '.surf-spot-card', function(){
+    let id = $(this).attr('data-id');
+    normalMarker(id);
+  });//END Accomm Card mouseleave function
+  //END -- HOVER OVER CARD, CHANGE THE MARKER ON THE MAP
+
 
 }//END -- addSpotMarker FUNCTION
 
