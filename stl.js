@@ -42,7 +42,8 @@ let mapCenter;
 let zoom;
 let spotID;
 let id;
-
+let lat;
+let lng;
 
 //POPULATE CARDS ON HOME PAGE
 db.collection("city").where("beta", "==", true).get().then(function(querySnapshot) {
@@ -129,7 +130,102 @@ function initializeV2() {
     streetViewControl: false,
   });//END -- map OBJECT
 
+  //Query Google Places JS Library to add lessons
+  var requestLessonsV2 = {
+    query: 'surf lessons in stinson beach'
+  };
+
+  service = new google.maps.places.PlacesService(map);
+  service.textSearch(requestLessonsV2, lessonsCallbackV2);
+
 }//END -- initializeV2() FUNCTION
+
+
+//SURF LESSONS CALLBACK
+function lessonsCallbackV2(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      place = results[i];
+      // console.log(place);
+
+      //Stores the details we want of each surf lesson place
+      let detailsRequest = {
+        placeId: place.place_id,
+        field: ['website', 'formatted_phone_number', 'formatted_address', 'review', 'rating', 'name', 'geometry'],
+      };
+
+      service = new google.maps.places.PlacesService(map);
+      service.getDetails(detailsRequest, lessonsDetailsCallback);
+
+      function lessonsDetailsCallback(placeDetails, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+          //Check if place has more than one review and greater than 3 star rating as a quality check before putting on Surf Trip List
+          if (placeDetails.reviews !== undefined && placeDetails.reviews.length > 1 && placeDetails.rating !== undefined && placeDetails.rating > 3) {
+            //Check if .gov is in the website URL. If it's not (indexOf = -1) then we can use it.
+            if (placeDetails.website !== undefined && placeDetails.website.indexOf(".gov") == -1) {
+              //Check if  is in the placeDetails name. If it's not (indexOf = -1) then we can use it.
+              if (placeDetails.name.indexOf("Boardsports California") == -1 && placeDetails.name.indexOf("Shape") == -1 && placeDetails.name.indexOf("kite") == -1 && placeDetails.name.indexOf("Kite") == -1 && placeDetails.name.indexOf("Yoga") == -1 && placeDetails.name.indexOf("Bike") == -1 && placeDetails.name.indexOf("Bicycl") == -1 && placeDetails.name.indexOf("fitness") == -1) {
+                name = placeDetails.name;
+                rating = placeDetails.rating;
+                website = placeDetails.website;
+                phone = placeDetails.formatted_phone_number;
+                address = placeDetails.formatted_address;
+                //Gets the most recent review.
+                review = placeDetails.reviews[0].text;
+                reviewCount = placeDetails.reviews.length;
+                lat = placeDetails.geometry.location.lat();
+                lng = placeDetails.geometry.location.lng();
+                coords = {lat: placeDetails.geometry.location.lat(), lng: placeDetails.geometry.location.lng()};
+
+                addLessonMarkerV2(lessonMarker, map);
+
+                //Set the lessonMarkers on the map
+                function addLessonMarkerV2(props, map) {
+                  lessonMarker = new google.maps.Marker({
+                    position: coords,
+                    map: map,
+                    icon: 'icon-images/surfLesson.png',
+                  });
+                }//END -- addLessonMarkerV2 FUNTION
+                //Add lessonMarkers to array to allow for hide/show functionality
+                lessonMarkers.push(lessonMarker);
+                //Creates the lessonMarker info window
+                infowindow = new google.maps.InfoWindow({
+                });
+
+                lessonMarker.addListener('click', function(){
+                  //Opens the lessonMarker infowindow
+                  //setContent won't accept ES6. The // syntax below is to make referencing easier.
+                  // infowindow.setContent(`
+                  //   <div id="iwcontent">
+                  //     <h5 class="mb-0">${name}</h5>
+                  //     <h6><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount} reviews)</h6>
+                  //     <img id='iwPhoto' src="lesson-images/surf-lesson.png" alt="${name}"><br>
+                  //     <button class="btn btn-sm btn-danger mt-2 mr-2"><a class="white-link font-weight-bold" href="${website}" target="_blank">BOOK</a></button>
+                  //     <button class="btn btn-sm btn-danger mt-2 mr-2"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${lat},${lng}&driving" target="_blank">DIRECTIONS</a></button>
+                  //   </div>
+                  // `);
+                  infowindow.setContent('<div id="iwcontent"><h5 class="mb-0">'+placeDetails.name+'</h5><h6><i class="fas fa-heart"></i> '+placeDetails.rating+' of 5 ('+placeDetails.reviews.length+' reviews)</h6><img id="iwPhoto" src="lesson-images/surf-lesson.png" alt="'+placeDetails.name+'"><br><button class="btn btn-sm btn-danger mt-2 mr-2"><a class="white-link font-weight-bold" href="'+placeDetails.website+'" target="_blank">BOOK</a></button><button class="btn btn-sm btn-danger mt-2"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr='+placeDetails.geometry.location.lat()+','+placeDetails.geometry.location.lng()+'&driving" target="_blank">DIRECTIONS</a></button></div>')
+                  infowindow.open(map, this);
+                  //Close the lessonMarker infowindow
+                  google.maps.event.addListener(map, "click", function(event){
+                    infowindow.close();
+                  });//END -- CLOSE lessonMarker LISTENER
+                });//END -- OPEN lessonMarker LISTENER
+
+              }//END -- NAME FILTER
+            }//END -- WEBSITE FILTER
+          }//END -- REVIEWS FILTER
+        }//END -- PlacesServiceStatus.OK FOR lessonsDetailsCallback
+      }//END -- lessonsDetailsCallback FUNCTION
+
+    }//END -- FORLOOP OF results.length
+  } else {
+    //Handle this error if there is a problem
+    console.error("Error in lessonsCallbackV2", status);
+  }
+}
+//END -- SURF LESSONS CALLBACK
 
 
 //ADDS A SURF SPOT MARKER TO THE MAP
@@ -184,7 +280,9 @@ function addSpotMarkerV2(props, map) {
           <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotID}">
             MORE INFO
           </button>
-          <a class="btn btn-sm btn-danger font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank">DIRECTIONS</a>
+          <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotName}">
+            ACCOMMODATIONS
+          </button>
         </div>
       </div>
     </div>
@@ -239,7 +337,6 @@ function addSpotMarkerV2(props, map) {
   });//END Accomm Card mouseleave function
   //END -- HOVER OVER CARD, CHANGE THE MARKER ON THE MAP
 
-
 }//END -- addSpotMarker FUNCTION
 
 
@@ -277,8 +374,9 @@ db.collection("city").doc(cityParam).get().then(function(doc) {
 
 });
 
-
 //END -- BUILD CITY PAGE BASED ON CITY PARAM
+
+
 
 
 
