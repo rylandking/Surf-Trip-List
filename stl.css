@@ -262,6 +262,10 @@ p.card-hover-overlay {
   filter: brightness(110%);
 }
 
+.lesson-spot-card:hover {
+  filter: brightness(110%);
+}
+
 /* FOOTER */
 #footer {
   width: 100%;
@@ -269,6 +273,7 @@ p.card-hover-overlay {
   padding-top: 2rem;
   font-size: 12px;
   color: grey;
+  margin-bottom: 2rem;
 }
 
 
@@ -278,8 +283,17 @@ p.card-hover-overlay {
   font-weight: bold;
 }
 
+.modal-header p {
+  font-size: 12px;
+  font-weight: 500;
+}
+
 .modal-body p {
   font-size: 14px;
+}
+
+.modal-footer {
+  justify-content: left !important;
 }
 
 /* CUSTOM CSS */

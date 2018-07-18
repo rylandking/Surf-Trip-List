@@ -44,6 +44,11 @@ let spotID;
 let id;
 let lat;
 let lng;
+let swBounds;
+let neBounds;
+let review1;
+let review2;
+let review3;
 
 //POPULATE CARDS ON HOME PAGE
 db.collection("city").where("beta", "==", true).get().then(function(querySnapshot) {
@@ -130,13 +135,12 @@ function initializeV2() {
     streetViewControl: false,
   });//END -- map OBJECT
 
-  //Query Google Places JS Library to add lessons
-  var requestLessonsV2 = {
-    query: 'surf lessons in stinson beach'
-  };
-
   service = new google.maps.places.PlacesService(map);
-  service.textSearch(requestLessonsV2, lessonsCallbackV2);
+  service.nearbySearch({
+    //Set the SW and NE corners of map on CITY page to query within that area
+    bounds: new google.maps.LatLngBounds(swBounds, neBounds),
+    keyword: 'surf lessons',
+  }, lessonsCallbackV2);
 
 }//END -- initializeV2() FUNCTION
 
@@ -165,13 +169,17 @@ function lessonsCallbackV2(results, status) {
             if (placeDetails.website !== undefined && placeDetails.website.indexOf(".gov") == -1) {
               //Check if  is in the placeDetails name. If it's not (indexOf = -1) then we can use it.
               if (placeDetails.name.indexOf("Boardsports California") == -1 && placeDetails.name.indexOf("Shape") == -1 && placeDetails.name.indexOf("kite") == -1 && placeDetails.name.indexOf("Kite") == -1 && placeDetails.name.indexOf("Yoga") == -1 && placeDetails.name.indexOf("Bike") == -1 && placeDetails.name.indexOf("Bicycl") == -1 && placeDetails.name.indexOf("fitness") == -1) {
+                id = placeDetails.id;
                 name = placeDetails.name;
                 rating = placeDetails.rating;
                 website = placeDetails.website;
                 phone = placeDetails.formatted_phone_number;
                 address = placeDetails.formatted_address;
                 //Gets the most recent review.
-                review = placeDetails.reviews[0].text;
+                note = placeDetails.reviews[0].text;
+                review1 = placeDetails.reviews[0].text;
+                // review2 = placeDetails.reviews[1].text;
+                // review3 = placeDetails.reviews[2].text;
                 reviewCount = placeDetails.reviews.length;
                 lat = placeDetails.geometry.location.lat();
                 lng = placeDetails.geometry.location.lng();
@@ -185,6 +193,7 @@ function lessonsCallbackV2(results, status) {
                     position: coords,
                     map: map,
                     icon: 'icon-images/surfLesson.png',
+                    id: id,
                   });
                 }//END -- addLessonMarkerV2 FUNTION
                 //Add lessonMarkers to array to allow for hide/show functionality
@@ -201,17 +210,91 @@ function lessonsCallbackV2(results, status) {
                   //     <h5 class="mb-0">${name}</h5>
                   //     <h6><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount} reviews)</h6>
                   //     <img id='iwPhoto' src="lesson-images/surf-lesson.png" alt="${name}"><br>
-                  //     <button class="btn btn-sm btn-danger mt-2 mr-2"><a class="white-link font-weight-bold" href="${website}" target="_blank">BOOK</a></button>
+                  //     <button type="button" class="btn btn-sm btn-danger font-weight-bold mt-2 mr-1" data-toggle="modal" data-target="#${id}">MORE INFO</button>
                   //     <button class="btn btn-sm btn-danger mt-2 mr-2"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${lat},${lng}&driving" target="_blank">DIRECTIONS</a></button>
                   //   </div>
                   // `);
-                  infowindow.setContent('<div id="iwcontent"><h5 class="mb-0">'+placeDetails.name+'</h5><h6><i class="fas fa-heart"></i> '+placeDetails.rating+' of 5 ('+placeDetails.reviews.length+' reviews)</h6><img id="iwPhoto" src="lesson-images/surf-lesson.png" alt="'+placeDetails.name+'"><br><button class="btn btn-sm btn-danger mt-2 mr-2"><a class="white-link font-weight-bold" href="'+placeDetails.website+'" target="_blank">BOOK</a></button><button class="btn btn-sm btn-danger mt-2"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr='+placeDetails.geometry.location.lat()+','+placeDetails.geometry.location.lng()+'&driving" target="_blank">DIRECTIONS</a></button></div>')
+                  infowindow.setContent('<div id="iwcontent"><h5 class="mb-0">'+placeDetails.name+'</h5><h6><i class="fas fa-heart"></i> '+placeDetails.rating+' of 5 ('+placeDetails.reviews.length+' reviews)</h6><img id="iwPhoto" src="lesson-images/surf-lesson.png" alt="'+placeDetails.name+'"><br><button type="button" class="btn btn-sm btn-danger font-weight-bold mt-2 mr-1" data-toggle="modal" data-target="#'+placeDetails.id+'">MORE INFO</button><button class="btn btn-sm btn-danger mt-2"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr='+placeDetails.geometry.location.lat()+','+placeDetails.geometry.location.lng()+'&driving" target="_blank">DIRECTIONS</a></button></div>')
                   infowindow.open(map, this);
                   //Close the lessonMarker infowindow
                   google.maps.event.addListener(map, "click", function(event){
                     infowindow.close();
                   });//END -- CLOSE lessonMarker LISTENER
                 });//END -- OPEN lessonMarker LISTENER
+
+                cutNote();
+                //BUILD LESSON CARDS AND MODALS
+                $("#spot-cards").append(`
+                  <div class="card lesson-spot-card" data-id="${id}">
+                    <img class="card-img tinted-spot-cards" src="lesson-images/surf-lesson.png" alt="${name}">
+                    <div class="card-img-overlay">
+                      <div class="card-body text-white p-0">
+                        <h5 class="card-title2">${name}</h5>
+                        <h6 class="card-subtitle2 mb-2 text-light"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount} reviews)</h6>
+                        <p class="card-text2 note">"${note}"</p>
+                        <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${id}">
+                          MORE INFO
+                        </button>
+                        <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#">
+                          BOOK
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="${id}" tabindex="-1" role="dialog" aria-labelledby="${name}-label" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header d-block mb-0">
+                          <div class="d-flex">
+                            <h5 class="modal-title" id="lesson-name">${name}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                               <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <h6 class="modal-title"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount} reviews)</h6>
+                          <p>${phone}</p>
+                        </div>
+                        <div class="modal-body">
+                          <p>"${review1}"</p>
+                        </div>
+                        <div class="modal-footer bg-secondary">
+                          <button class="btn btn-sm btn-danger mr-2"><a class="white-link font-weight-bold" href="${website}" target="_blank">BOOK</a></button>
+                          <button class="btn btn-sm btn-danger"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${lat},${lng}&driving" target="_blank">DIRECTIONS</a></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                `);//END -- BUILD LESSON CARDS AND MODALS
+
+                cutNote();
+
+                //HOVER OVER LESSON CARD, CHANGE THE MARKER ON THE MAP
+                function highlightMarker(id) {
+                  for (i in lessonMarkers){
+                    if(lessonMarkers[i].id == id) {
+                      lessonMarkers[i].setIcon('icon-images/surfLesson-large.png');
+                    }
+                  }
+                }
+
+                function normalMarker(id) {
+                  for (i in lessonMarkers){
+                    if(lessonMarkers[i].id == id) {
+                      lessonMarkers[i].setIcon('icon-images/surfLesson.png');
+                    }
+                  }
+                }
+
+                $(document).on('mouseenter', '.lesson-spot-card', function(){
+                  let id = $(this).attr('data-id');
+                  highlightMarker(id);
+                })//END Accomm Card mouseenter function
+                .on('mouseleave', '.lesson-spot-card', function(){
+                  let id = $(this).attr('data-id');
+                  normalMarker(id);
+                });//END Accomm Card mouseleave function
+                //END -- HOVER OVER LESSON CARD, CHANGE THE MARKER ON THE MAP
 
               }//END -- NAME FILTER
             }//END -- WEBSITE FILTER
@@ -223,6 +306,9 @@ function lessonsCallbackV2(results, status) {
   } else {
     //Handle this error if there is a problem
     console.error("Error in lessonsCallbackV2", status);
+    if (status == "ZERO_RESULTS") {
+      alert('👋 I looked for surf lessons here, but there\'s none available. Check another destination to find your perfect surf trip with surf lessons! 🤙');
+    }//END -- SHARE ZERO RESULTS WITH PEOPLE
   }
 }
 //END -- SURF LESSONS CALLBACK
@@ -268,7 +354,7 @@ function addSpotMarkerV2(props, map) {
   });//END -- spotMarker LISTENER
 
   cutNote();
-
+  //BUILDS SURF SPOT CARDS AND MODAL
   $("#spot-cards").append(`
     <div class="card surf-spot-card" data-id="${spotID}">
       <img class="card-img tinted-spot-cards" src="rental-images/rentals-default-photo.png" alt="${spotName}">
@@ -281,7 +367,7 @@ function addSpotMarkerV2(props, map) {
             MORE INFO
           </button>
           <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotName}">
-            ACCOMMODATIONS
+            STAY NEARBY
           </button>
         </div>
       </div>
@@ -299,18 +385,18 @@ function addSpotMarkerV2(props, map) {
           <div class="modal-body">
             <p>${fullNote}</p>
           </div>
-          <div class="modal-footer">
-            <a class="btn btn-sm btn-outline-danger mr-auto font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank">DIRECTIONS</a>
+          <div class="modal-footer bg-secondary">
+            <a class="btn btn-sm btn-danger mr-auto font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank">DIRECTIONS</a>
           </div>
         </div>
       </div>
     </div>
-  `);
+  `);//END -- BUILDS SURF SPOT CARDS AND MODAL
 
   cutNote();
 
 
-  //HOVER OVER CARD, CHANGE THE MARKER ON THE MAP
+  //HOVER OVER CARD, CHANGE THE SURF SPOT MARKER ON THE MAP
   function highlightMarker(id) {
     for (i in spotMarkers){
       if(spotMarkers[i].id == id) {
@@ -335,7 +421,7 @@ function addSpotMarkerV2(props, map) {
     let id = $(this).attr('data-id');
     normalMarker(id);
   });//END Accomm Card mouseleave function
-  //END -- HOVER OVER CARD, CHANGE THE MARKER ON THE MAP
+  //END -- HOVER OVER CARD, CHANGE THE SURF SPOT MARKER ON THE MAP
 
 }//END -- addSpotMarker FUNCTION
 
@@ -346,6 +432,8 @@ db.collection("city").doc(cityParam).get().then(function(doc) {
   city = doc.id.replace(/-/g,' ');
   mapCenter = data.cityCenter;
   zoom = data.zoom;
+  swBounds = data.swBounds;
+  neBounds = data.neBounds;
 
   //Add city's name next to logo
   $("#breadcrumb").append(
@@ -372,9 +460,68 @@ db.collection("city").doc(cityParam).get().then(function(doc) {
     });
   });//End surf-spot Firestore query
 
-});
-
+})
 //END -- BUILD CITY PAGE BASED ON CITY PARAM
+
+
+//SETS MAP ON ALL spotMarkers IN THE ARRAY. (KEEPS THEM STORED IN ARRAY SO TOGGLE WORKS.)
+function setMapOnSpotMarkers(map) {
+ for (var i = 0; i < spotMarkers.length; i++) {
+   spotMarkers[i].setMap(map);
+ }
+}
+
+//TOGGLE spotMarkers ON MAP
+function toggleSurfSpots() {
+ if ($("#toggleSurfSpots").hasClass("show")) {
+   // Removes the surfSpotMarkers from the map, but keeps them in the array.
+   setMapOnSpotMarkers(null);
+   $("#toggleSurfSpots").removeClass("show");
+   $("#toggleSurfSpots").addClass("disabled");
+   $(".lesson-spot-card").show();
+   $(".surf-spot-card").hide();
+ } else {
+   //Shows any surfSpotMarkers currently in the array.
+   setMapOnSpotMarkers(map);
+   $("#toggleSurfSpots").addClass("show");
+   $("#toggleSurfSpots").removeClass("disabled");
+   $(".lesson-spot-card").hide();
+   $(".surf-spot-card").show();
+ }
+}
+
+//SETS MAP ON ALL lessonMarkers IN THE ARRAY. (KEEPS THEM STORED IN ARRAY SO TOGGLE WORKS.)
+function setMapOnLessonMarkers(map) {
+  for (var i = 0; i < lessonMarkers.length; i++) {
+    lessonMarkers[i].setMap(map);
+  }
+}
+
+//TOGGLE lessonMarkers ON MAP
+function toggleLessons() {
+  if ($("#toggleLessons").hasClass("show")) {
+    // Removes the lessonMarkers from the map, but keeps them in the array.
+    setMapOnLessonMarkers(null);
+    $("#toggleLessons").removeClass("show");
+    $("#toggleLessons").addClass("disabled");
+    $(".lesson-spot-card").hide();
+    $(".surf-spot-card").show();
+  } else {
+    //Shows any lessonMarkers currently in the array.
+    setMapOnLessonMarkers(map);
+    $("#toggleLessons").addClass("show");
+    $("#toggleLessons").removeClass("disabled");
+    $(".lesson-spot-card").show();
+    $(".surf-spot-card").hide();
+  }
+}
+
+// function toggleCards() {
+//   if ($(".surf-spot-button").hasClass("show") && $(".lesson-spot-button").hasClass("show")) {
+//     $(".lesson-spot-card").show();
+//     $(".surf-spot-card").hide();
+//   }
+// }
 
 
 
@@ -601,27 +748,6 @@ function lessonsCallback(results, status) {
   }
 } //End surf lessons callback
 
-// Sets the map on all lessonMarkers in the array. (Keeps them stored in the array so toggle works.)
-function setMapOnLessonMarkers(map) {
-  for (var i = 0; i < lessonMarkers.length; i++) {
-    lessonMarkers[i].setMap(map);
-  }
-}
-
-//Toggles lessonMarkers on the map
-function toggleLessons() {
-  if ($("#toggleLessons").hasClass("show")) {
-    // Removes the lessonMarkers from the map, but keeps them in the array.
-    setMapOnLessonMarkers(null);
-    $("#toggleLessons").removeClass("show");
-    $("#toggleLessons").addClass("disabled");
-  } else {
-    //Shows any lessonMarkers currently in the array.
-    setMapOnLessonMarkers(map);
-    $("#toggleLessons").addClass("show");
-    $("#toggleLessons").removeClass("disabled");
-  }
-}
 
 function rentalsCallback(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -716,27 +842,7 @@ function toggleRentals() {
  }
 }
 
-//Sets the map on all spotMarkers in the array. (Keeps them stored in the array so toggle works.)
-function setMapOnSpotMarkers(map) {
- for (var i = 0; i < spotMarkers.length; i++) {
-   spotMarkers[i].setMap(map);
- }
-}
 
-//Toggle spotMarkers on the map
-function toggleSurfSpots() {
- if ($("#toggleSurfSpots").hasClass("show")) {
-   // Removes the surfSpotMarkers from the map, but keeps them in the array.
-   setMapOnSpotMarkers(null);
-   $("#toggleSurfSpots").removeClass("show");
-   $("#toggleSurfSpots").addClass("disabled");
- } else {
-   //Shows any surfSpotMarkers currently in the array.
-   setMapOnSpotMarkers(map);
-   $("#toggleSurfSpots").addClass("show");
-   $("#toggleSurfSpots").removeClass("disabled");
- }
-}
 
 //Sets the map on all accommMarkers in the array. (Keeps them stored in the array so toggle works.)
 function setMapOnAccommMarkers(map) {
