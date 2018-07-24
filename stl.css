@@ -161,7 +161,6 @@ p.card-hover-overlay {
 }
 
 
-
 .card-title2 {
   text-transform: uppercase;
   font-weight: bold;
@@ -177,14 +176,16 @@ p.card-hover-overlay {
   font-weight: bold;
 }
 
+.accomm-card-text {
+  font-size: 14px;
+  font-weight: bold;
+}
+
 .card {
   height: 250px !important;
   width: auto;
   margin-bottom: 1rem;
 }
-
-
-
 
 
 .card-subtitle {
@@ -258,11 +259,7 @@ p.card-hover-overlay {
   filter: brightness(55%);
 }
 
-.surf-spot-card:hover {
-  filter: brightness(110%);
-}
-
-.lesson-spot-card:hover {
+.bright-hover:hover {
   filter: brightness(110%);
 }
 
