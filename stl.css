@@ -187,6 +187,11 @@ p.card-hover-overlay {
   margin-bottom: 1rem;
 }
 
+.card-pretitle {
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 0px;
+}
 
 .card-subtitle {
   position: absolute;

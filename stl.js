@@ -57,7 +57,10 @@ let nearbySurfSpot;
 let accommImageRef;
 let accommImage;
 let accommPhoto;
-
+let beach;
+let waveDir;
+let localism;
+let waveType;
 
 
 
@@ -70,21 +73,26 @@ db.collection("city").where("beta", "==", true).get().then(function(querySnapsho
     region = data.region.replace(/-/g,' ');
     photo = data.cityimage;
 
-    $("#city-cards").append(
-      `<div id="city-card" class="card city-card bright-hover text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3" data-id="${cityID}">
-        <img class="card-img tinted" src="${photo}" alt="${city}">
-        <a class="white-link" href="city.html">
-          <div class="card-img-overlay">
-            <h4 class="card-title position-relative">${city}</h4>
-            <p class="card-subtitle position-relative">${region}</p>
-          </div>
-        </a>
-      </div>`
-    );//END -- PREPEND
+    buildCityCards();
 
   });
 });//END -- POPULATE CARDS ON HOME PAGE
 
+
+//BUILD CITY CARDS
+function buildCityCards() {
+  $("#city-cards").append(
+    `<div id="city-card" class="card city-card bright-hover text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3" data-id="${cityID}">
+      <img class="card-img tinted" src="${photo}" alt="${city}">
+      <a class="white-link" href="city.html">
+        <div class="card-img-overlay">
+          <h4 class="card-title position-relative">${city}</h4>
+          <p class="card-subtitle position-relative">${region}</p>
+        </div>
+      </a>
+    </div>`
+  );
+}//END -- BUILD CITY CARDS
 
 
 
@@ -305,6 +313,10 @@ function addSurfSpotMarkers() {
         note = data.spotNote;
         parkingLat = data.parkingLat;
         parkingLng = data.parkingLng;
+        beach = data.beach;
+        waveDir = data.direction;
+        localism = data.localism;
+        waveType = data.type;
 
       addSpotMarkerV2(spotMarker, map);
 
@@ -461,12 +473,21 @@ function lessonsCallbackV2(results, status) {
     //Handle this error if there is a problem
     console.error("Error in lessonsCallbackV2", status);
     if (status == "ZERO_RESULTS") {
-      alert('👋 I looked for surf lessons here, but there\'s none available. Check another city to find your perfect surf trip with surf lessons! 🤙');
+
+      lessonsUnavailable();
+
     }//END -- SHARE ZERO RESULTS WITH PEOPLE
   }
-}
-//END -- SURF LESSONS CALLBACK
+}//END -- SURF LESSONS CALLBACK
 
+//IF LESSONS CALLBACK ERROR STATUS = ZERO_RESULTS, DISABLE BUTTON AND ALERT USER WHEN CLICKING ON IT
+function lessonsUnavailable() {
+  $("#toggleLessons").addClass("disabled");
+  $("#toggleLessons").click(function() {
+    alert('👋 I looked for surf lessons here, but there\'s none available. Check another city to find your perfect surf trip with surf lessons! 🤙');
+  });
+}
+//END -- IF LESSONS CALLBACK ERROR STATUS = ZERO_RESULTS, DISABLE BUTTON AND ALERT USER WHEN CLICKING ON IT
 
 //lessonsDetailsCallback FUNCTION
 function lessonsDetailsCallback(placeDetails, status) {

@@ -41,7 +41,7 @@
     firebase.initializeApp(config);
   </script>
 
-  <title>Help | Surf Trip List</title>
+  <title>Contact | Surf Trip List</title>
 </head>
 <body>
 
@@ -62,7 +62,7 @@
         </div>
       </div>
 
-      <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">Here to help</h6>
+      <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">Contact us</h6>
       <nav id="top-nav" class="my-2 my-md-0 d-none d-md-block">
         <a class="p-2 text-dark" href="index.html">Home</a>
         <a class="p-2 text-dark" href="business.html">List your business</a>
@@ -72,7 +72,7 @@
 
     <!-- STATEMENT -->
     <div id="statement" class="text-center">
-      <p class="mb-0">What do you need help with? I'll do my best to help!</p>
+      <p class="mb-0">We're here to help. Let us know what you need. 🙂</p>
     </div>
 
     <hr class="mt-2">
@@ -80,20 +80,20 @@
     <!-- HELP FORM -->
     <div class="row">
 
-      <form id="help-form" class="col-md-6 offset-md-3">
-        <div class="form-group">
+      <form id="contact-form" class="col-md-6 offset-md-3">
+        <div id="contact-name" class="form-group">
           <label for="name">Name</label>
-          <input type="name" class="form-control" id="name-input" placeholder="Jimmy Slade">
+          <input id="name-input" type="name" class="form-control" placeholder="Jimmy Slade">
         </div>
-        <div class="form-group">
+        <div id="contact-email" class="form-group">
           <label for="email">Email</label>
-          <input type="email" class="form-control" id="email-input" placeholder="jimmyslade@gmail.com">
+          <input id="email-input" type="email" class="form-control"  placeholder="jimmyslade@gmail.com">
         </div>
-        <div class="form-group">
-          <label for="help-textarea">What do you need help with?</label>
-          <textarea class="form-control" id="help-textarea" rows="8" placeholder="I'm a real human behind this form, so please be nice. 🤙"></textarea>
+        <div id="contact-inquiry" class="form-group">
+          <label for="contact-textarea">What do you need help with?</label>
+          <textarea id="contact-textarea" class="form-control" rows="8" placeholder="Let us know..."></textarea>
         </div>
-        <button type="submit" class="btn btn-danger">Send me <i class="fas fa-envelope"></i></button>
+        <button id="contact-button" type="submit" class="btn btn-danger">Send me <i class="fas fa-envelope"></i></button>
       </form>
 
     </div><!-- END OF HELP FORM -->
