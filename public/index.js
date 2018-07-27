@@ -724,47 +724,6 @@ function buildAccommCards() {
 }//END -- BUILD THE ACCOMM CARDS
 
 
-////ADD SUBMITTED CONTACT FORM TO FIRESTORE
-
-//LISTEN FOR CONTACT FORM SUBMIT
-document.getElementById('contact-form').addEventListener('submit', submitContactForm);
-
-function submitContactForm(e) {
-  //STOP SUBMISSION FROM SUBMITTING TO THE HTML PAGE
-  e.preventDefault();
-
-  //GET INPUT VALUES
-  name = getInputValue('name-input');
-  email = getInputValue('email-input');
-  message = getInputValue('message-textarea');
-
-  //ADD DOCUMENT TO "contact" COLLECTION
-  db.collection("inquiries").add({
-
-    name: name,
-    email: email,
-    message: message,
-
-  }).then(function(docRef) {
-    $(".alert-success").slideDown(500).delay(4000).slideUp(500);
-  }).catch(function(error) {
-    $(".alert-danger").slideDown(500).delay(4000).slideUp(500);
-  });//END -- ADD DOCUMENT TO "contact" COLLECTION
-
-  //RESET FORM AFTER SUBMISSION
-  document.getElementById('contact-form').reset();
-
-}//END -- submitContactForm();
-
-//FUNCTION TO GET #contact-form VALUES
-function getInputValue(id) {
-  return document.getElementById(id).value;
-}//END -- FUNCTION TO GET #contact-form VALUES
-
-
-//END -- ADD SUBMITTED CONTACT FORM TO FIRESTORE
-
-
 
 
 ////BUILD CITY PAGE BASED ON CITY PARAM
