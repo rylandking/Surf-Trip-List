@@ -325,3 +325,7 @@ a.white-link:hover {
 .border {
   border: solid 2px;
 }
+
+.hide {
+  display: none;
+}

@@ -1,0 +1,37 @@
+[debug] [2018-07-25T18:05:37.255Z] ----------------------------------------------------------------------
+[debug] [2018-07-25T18:05:37.258Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2018-07-25T18:05:37.258Z] CLI Version:   3.19.3
+[debug] [2018-07-25T18:05:37.258Z] Platform:      darwin
+[debug] [2018-07-25T18:05:37.258Z] Node Version:  v8.10.0
+[debug] [2018-07-25T18:05:37.258Z] Time:          Wed Jul 25 2018 12:05:37 GMT-0600 (MDT)
+[debug] [2018-07-25T18:05:37.258Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-07-25T18:05:37.271Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-07-25T18:05:37.271Z] > authorizing via signed-in user
+[debug] [2018-07-25T18:05:37.273Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-07-25T18:05:37.273Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/ClGa8qyEEBKU3d1OgVASKWpCxUriEr1D-Fcs5pKqq-I',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Wed Jul 25 2018 12:05:37 GMT-0600 (MDT)
+[debug] [2018-07-25T18:05:37.428Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-25T18:05:37.439Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/surf-trip-list  
+  
+ Wed Jul 25 2018 12:05:37 GMT-0600 (MDT)
+[debug] [2018-07-25T18:05:37.621Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-25T18:05:37.623Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/surf-trip-list/tokens  
+  
+ Wed Jul 25 2018 12:05:37 GMT-0600 (MDT)
+[debug] [2018-07-25T18:05:37.883Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'surf-trip-list'...
+[info] 
+[info] i  deploying hosting
+[info] i  hosting: preparing . directory for upload...
+[debug] [2018-07-25T18:05:49.147Z] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/surf-trip-list/uploads/-LIHbX_Tvm1OKWoKRorq?fileCount=5152&message=  
+  
+ Wed Jul 25 2018 12:05:49 GMT-0600 (MDT)
+[debug] [2018-07-25T18:16:47.858Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-25T18:16:47.859Z] [hosting] .tgz uploaded successfully, waiting for extraction

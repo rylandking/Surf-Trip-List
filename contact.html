@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   <!-- Link to custom CSS -->
-  <link rel="stylesheet" href="stl.css">
+  <link rel="stylesheet" href="public/stl.css">
 
   <!-- JQUERY -->
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
@@ -41,7 +41,7 @@
     firebase.initializeApp(config);
   </script>
 
-  <title>Contact | Surf Trip List</title>
+  <title>Help | Surf Trip List</title>
 </head>
 <body>
 
@@ -49,7 +49,7 @@
 
     <!-- NAV BAR -->
     <div class="d-flex align-items-center py-3 mb-2 bg-white border-bottom box-shadow">
-      <a href="index.html"><img id="top-logo" src="logo.png" alt="Surf Trip List"></a>
+      <a href="index.html"><img id="top-logo" src="public/logo.png" alt="Surf Trip List"></a>
 
       <div class="dropdown d-md-none">
         <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,7 +62,7 @@
         </div>
       </div>
 
-      <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">Contact us</h6>
+      <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">Here to</h6>
       <nav id="top-nav" class="my-2 my-md-0 d-none d-md-block">
         <a class="p-2 text-dark" href="index.html">Home</a>
         <a class="p-2 text-dark" href="business.html">List your business</a>
@@ -79,19 +79,20 @@
 
     <!-- HELP FORM -->
     <div class="row">
-
       <form id="contact-form" class="col-md-6 offset-md-3">
+        <div class="alert alert-success hide" role="alert">👍 Got it! We'll email you back soon.</div>
+        <div class="alert alert-danger hide" role="alert">🤨 Op! We couldn't send your message. If it doesn't work again, email us at surftriplist@gmail.com. 🙂</div>
         <div id="contact-name" class="form-group">
           <label for="name">Name</label>
-          <input id="name-input" type="name" class="form-control" placeholder="Jimmy Slade">
+          <input id="name-input" type="name" class="form-control" placeholder="Jimmy Slade" required>
         </div>
         <div id="contact-email" class="form-group">
           <label for="email">Email</label>
-          <input id="email-input" type="email" class="form-control"  placeholder="jimmyslade@gmail.com">
+          <input id="email-input" type="email" class="form-control"  placeholder="jimmyslade@gmail.com" required>
         </div>
         <div id="contact-inquiry" class="form-group">
           <label for="contact-textarea">What do you need help with?</label>
-          <textarea id="contact-textarea" class="form-control" rows="8" placeholder="Let us know..."></textarea>
+          <textarea id="message-textarea" class="form-control" rows="8" placeholder="Let us know..." required></textarea>
         </div>
         <button id="contact-button" type="submit" class="btn btn-danger">Send me <i class="fas fa-envelope"></i></button>
       </form>
@@ -104,7 +105,7 @@
   </div><!-- End of container-fluid -->
 
   <!-- Custom JS Library -->
-  <script type="text/javascript" src="stl.js"></script>
+  <script type="text/javascript" src="public/index.js"></script>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->

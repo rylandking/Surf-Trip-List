@@ -61,6 +61,9 @@ let beach;
 let waveDir;
 let localism;
 let waveType;
+let email;
+let message;
+
 
 
 
@@ -108,7 +111,7 @@ $('body').on('click','#city-card',function(e){
 
 //Opens new window with newCityPage in the query perams
 function redirectPage(city) {
-  window.location = `file:///Users/macbookpro/Desktop/Surf-Trip/city.html?city=${city}`;
+  window.location = `city.html?city=${city}`;
   window.city = city;
   return false;
 }
@@ -247,7 +250,7 @@ function toggleAccomms() {
 function highlightSurfSpotMarker(id) {
   for (i in spotMarkers){
     if(spotMarkers[i].id == id) {
-      spotMarkers[i].setIcon('icon-images/'+spotMarkers[i].skill+'-large.png');
+      spotMarkers[i].setIcon('public/icon-images/'+spotMarkers[i].skill+'-large.png');
     }
   }
 }
@@ -255,7 +258,7 @@ function highlightSurfSpotMarker(id) {
 function normalSurfSpotMarker(id) {
   for (i in spotMarkers){
     if(spotMarkers[i].id == id) {
-      spotMarkers[i].setIcon('icon-images/'+spotMarkers[i].skill+'.png');
+      spotMarkers[i].setIcon('public/icon-images/'+spotMarkers[i].skill+'.png');
     }
   }
 }//END -- HOVER OVER CARD, CHANGE THE SURF SPOT MARKER ON THE MAP
@@ -265,7 +268,7 @@ function normalSurfSpotMarker(id) {
 function highlightMarker(id) {
   for (i in lessonMarkers){
     if(lessonMarkers[i].id == id) {
-      lessonMarkers[i].setIcon('icon-images/surfLesson-large.png');
+      lessonMarkers[i].setIcon('public/icon-images/surfLesson-large.png');
     }
   }
 }
@@ -273,7 +276,7 @@ function highlightMarker(id) {
 function normalMarker(id) {
   for (i in lessonMarkers){
     if(lessonMarkers[i].id == id) {
-      lessonMarkers[i].setIcon('icon-images/surfLesson.png');
+      lessonMarkers[i].setIcon('public/icon-images/surfLesson.png');
     }
   }
 }//END -- HOVER OVER LESSON CARD, CHANGE THE MARKER ON THE MAP
@@ -283,7 +286,7 @@ function normalMarker(id) {
 function highlightAccommMarker(id) {
   for (i in accommMarkers){
     if(accommMarkers[i].id == id) {
-      accommMarkers[i].setIcon('pm/' + accommMarkers[i].price + '-large.png');
+      accommMarkers[i].setIcon('images/pm/' + accommMarkers[i].price + '-large.png');
     }
   }
 }
@@ -291,7 +294,7 @@ function highlightAccommMarker(id) {
 function normalAccommMarker(id) {
   for (i in accommMarkers){
     if(accommMarkers[i].id == id) {
-      accommMarkers[i].setIcon('pm/' + accommMarkers[i].price + '.png');
+      accommMarkers[i].setIcon('images/pm/' + accommMarkers[i].price + '.png');
     }
   }
 }//END -- HOVER OVER ACCOMM CARD, CHANGE THE MARKER ON THE MAP
@@ -332,7 +335,7 @@ function addSpotMarkerV2(props, map) {
   spotMarker = new google.maps.Marker({
     position: coords,
     map: map,
-    icon: 'icon-images/' + skill + '.png',
+    icon: 'public/icon-images/' + skill + '.png',
     id: spotID,
     skill: skill,
   });
@@ -350,7 +353,7 @@ function addSpotMarkerV2(props, map) {
   spotMarker.html = `
     <div class="infoWindow">
       <h5 class="mb-1">
-        <span class="text-uppercase">${spotName}</span> - <img class="iwSkillIcon" src="icon-images/${skill}.png" alt="${spotName}">
+        <span class="text-uppercase">${spotName}</span> - <img class="iwSkillIcon" src="public/icon-images/${skill}.png" alt="${spotName}">
       </h5>
       <h6><span class="text-capitalize">${skill}</span> wave</h6>
         <p>${note}</p>
@@ -386,10 +389,10 @@ function addSpotMarkerV2(props, map) {
 function buildSurfSpotCards() {
   $("#spot-cards").append(`
     <div class="card surf-spot-card bright-hover" data-id="${spotID}">
-      <img class="card-img tinted-spot-cards" src="rental-images/rentals-default-photo.png" alt="${spotName}">
+      <img class="card-img tinted-spot-cards" src="images/surf-spot-default-photo.png" alt="${spotName}">
       <div class="card-img-overlay">
         <div class="card-body text-white p-0">
-          <h5 class="card-title2">${spotName} - <img src="icon-images/${skill}.png"></h5>
+          <h5 class="card-title2">${spotName} - <img src="public/icon-images/${skill}.png"></h5>
           <h6 class="card-subtitle2 mb-2 text-light"><span class="capitalize">${skill}</span> wave</h6>
           <p class="card-text2 note">${note}</p>
           <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotID}">
@@ -406,7 +409,7 @@ function buildSurfSpotCards() {
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="surf-spot-title">${spotName} - <img src="icon-images/${skill}.png"></h5>
+            <h5 class="modal-title" id="surf-spot-title">${spotName} - <img src="public/icon-images/${skill}.png"></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -529,12 +532,12 @@ function lessonsDetailsCallback(placeDetails, status) {
             //   <div id="iwcontent">
             //     <h5 class="mb-0">${name}</h5>
             //     <h6><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount} reviews)</h6>
-            //     <img id='iwPhoto' src="lesson-images/surf-lesson.png" alt="${name}"><br>
+            //     <img id='iwPhoto' src="images/surf-lesson-default-photo.png" alt="${name}"><br>
             //     <button type="button" class="btn btn-sm btn-danger font-weight-bold mt-2 mr-1" data-toggle="modal" data-target="#${id}">MORE INFO</button>
             //     <button class="btn btn-sm btn-danger mt-2 mr-2"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${lat},${lng}&driving" target="_blank">DIRECTIONS</a></button>
             //   </div>
             // `);
-            infowindow.setContent('<div id="iwcontent"><h5 class="mb-0">'+placeDetails.name+'</h5><h6><i class="fas fa-heart"></i> '+placeDetails.rating+' of 5 ('+placeDetails.reviews.length+' reviews)</h6><img id="iwPhoto" src="lesson-images/surf-lesson.png" alt="'+placeDetails.name+'"><br><button type="button" class="btn btn-sm btn-danger font-weight-bold mt-2 mr-1" data-toggle="modal" data-target="#'+placeDetails.id+'">MORE INFO</button><button class="btn btn-sm btn-danger mt-2"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr='+placeDetails.geometry.location.lat()+','+placeDetails.geometry.location.lng()+'&driving" target="_blank">DIRECTIONS</a></button></div>')
+            infowindow.setContent('<div id="iwcontent"><h5 class="mb-0">'+placeDetails.name+'</h5><h6><i class="fas fa-heart"></i> '+placeDetails.rating+' of 5 ('+placeDetails.reviews.length+' reviews)</h6><img id="iwPhoto" src="images/surf-lesson-default-photo.png" alt="'+placeDetails.name+'"><br><button type="button" class="btn btn-sm btn-danger font-weight-bold mt-2 mr-1" data-toggle="modal" data-target="#'+placeDetails.id+'">MORE INFO</button><button class="btn btn-sm btn-danger mt-2"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr='+placeDetails.geometry.location.lat()+','+placeDetails.geometry.location.lng()+'&driving" target="_blank">DIRECTIONS</a></button></div>')
             infowindow.open(map, this);
             //Close the lessonMarker infowindow
             google.maps.event.addListener(map, "click", function(event){
@@ -567,7 +570,7 @@ function addLessonMarkerV2(props, map) {
   lessonMarker = new google.maps.Marker({
     position: coords,
     map: map,
-    icon: 'icon-images/surfLesson.png',
+    icon: 'public/icon-images/surfLesson.png',
     id: id,
   });
 }//END -- addLessonMarkerV2 FUNCTION
@@ -577,7 +580,7 @@ function addLessonMarkerV2(props, map) {
 function buildLessonCards () {
   $("#spot-cards").append(`
     <div class="card lesson-spot-card bright-hover" data-id="${id}">
-      <img class="card-img tinted-spot-cards" src="lesson-images/surf-lesson.png" alt="${name}">
+      <img class="card-img tinted-spot-cards" src="images/surf-lesson-default-photo.png" alt="${name}">
       <div class="card-img-overlay">
         <div class="card-body text-white p-0">
           <h5 class="card-title2">${name}</h5>
@@ -625,7 +628,7 @@ function addAccommMarkers() {
     querySnapshot.forEach(function(doc) {
       data = doc.data();
       coords = data.coords;
-      icon = data.iconImage;
+      icon = 'images/'+data.iconImage;
       accommURL = data.bookingURL;
       photo = data.photo;
       accommType = data.accommType;
@@ -667,9 +670,9 @@ function addAccommMarker(props, map) {
   //SET THE infowindow HTML/CSS
   accommMarker.html = `
   <div class="infowindow">
-     <a href="${accommURL}" target="_blank"><img class="w-100" src="ac-images/${photo}"></img></a>
-     <b><p class="mt-2 mb-0 nounderline text-capitalize" style="color:brown">${accommType} • ${bedAmount} ${bedWord} | ${guestAmount} ${guestWord}</p></b>
-     <h5 class="my-0">${title}</h5>
+     <a href="${accommURL}" target="_blank"><img class="w-100" src="images/accomm-images/${photo}"></img></a>
+     <b><p class="mt-2 mb-0 nounderline text-uppercase" style="color:brown"><small>${accommType} • ${bedAmount} ${bedWord} | ${guestAmount} ${guestWord}</small></p></b>
+     <h5 class="my-0 text-capitalize">${title}</h5>
      <b><p class="mt-0 mb-2">$${price}/n • ${view} | ‍${proximity}</p></b>
      <a class="btn btn-sm btn-danger font-weight-bold" href="${accommURL}" target="_blank">BOOK</a>
    </div>
@@ -704,7 +707,7 @@ function addAccommMarker(props, map) {
 function buildAccommCards() {
   $("#spot-cards").prepend(`
     <div class="card accomm-spot-card bright-hover" data-id="${title}">
-      <img class="card-img tinted-spot-cards w-100" src="ac-images/${photo}" alt="${title}">
+      <img class="card-img tinted-spot-cards w-100" src="images/accomm-images/${photo}" alt="${title}">
       <div class="card-img-overlay">
         <div class="card-body text-white p-0">
           <p class="card-subtitle2 mb-0 text-light text-uppercase"><small>${accommType} • ${bedAmount} ${bedWord} | ${guestAmount} ${guestWord}</small></p>
@@ -721,25 +724,67 @@ function buildAccommCards() {
 }//END -- BUILD THE ACCOMM CARDS
 
 
+////ADD SUBMITTED CONTACT FORM TO FIRESTORE
+
+//LISTEN FOR CONTACT FORM SUBMIT
+document.getElementById('contact-form').addEventListener('submit', submitContactForm);
+
+function submitContactForm(e) {
+  //STOP SUBMISSION FROM SUBMITTING TO THE HTML PAGE
+  e.preventDefault();
+
+  //GET INPUT VALUES
+  name = getInputValue('name-input');
+  email = getInputValue('email-input');
+  message = getInputValue('message-textarea');
+
+  //ADD DOCUMENT TO "contact" COLLECTION
+  db.collection("inquiries").add({
+
+    name: name,
+    email: email,
+    message: message,
+
+  }).then(function(docRef) {
+    $(".alert-success").slideDown(500).delay(4000).slideUp(500);
+  }).catch(function(error) {
+    $(".alert-danger").slideDown(500).delay(4000).slideUp(500);
+  });//END -- ADD DOCUMENT TO "contact" COLLECTION
+
+  //RESET FORM AFTER SUBMISSION
+  document.getElementById('contact-form').reset();
+
+}//END -- submitContactForm();
+
+//FUNCTION TO GET #contact-form VALUES
+function getInputValue(id) {
+  return document.getElementById(id).value;
+}//END -- FUNCTION TO GET #contact-form VALUES
+
+
+//END -- ADD SUBMITTED CONTACT FORM TO FIRESTORE
+
 
 
 
 ////BUILD CITY PAGE BASED ON CITY PARAM
-db.collection("city").doc(cityParam).get().then(function(doc) {
-  data = doc.data();
-  city = doc.id.replace(/-/g,' ');
-  mapCenter = data.cityCenter;
-  zoom = data.zoom;
-  swBounds = data.swBounds;
-  neBounds = data.neBounds;
+if (cityParam !== null) {
+  db.collection("city").doc(cityParam).get().then(function(doc) {
+    data = doc.data();
+    city = doc.id.replace(/-/g,' ');
+    mapCenter = data.cityCenter;
+    zoom = data.zoom;
+    swBounds = data.swBounds;
+    neBounds = data.neBounds;
 
-  //Add city's name next to logo
-  $("#breadcrumb").append(
-    `${city}`
-  );
+    //Add city's name next to logo
+    $("#breadcrumb").append(
+      `${city}`
+    );
 
-  initializeMapCallLessons();
+    initializeMapCallLessons();
 
-  addSurfSpotMarkers();
+    addSurfSpotMarkers();
 
-});//END -- BUILD CITY PAGE BASED ON CITY PARAM
+  });//END -- BUILD CITY PAGE BASED ON CITY PARAM
+}
