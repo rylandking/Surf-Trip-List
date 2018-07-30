@@ -39,12 +39,12 @@
 /* MAP */
 #map {
   width:auto;
-  height:550px;
+  height:575px;
 }
 
 #map2 {
   width:auto;
-  height:550px;
+  height:575px;
 }
 
 #map-wrapper {
@@ -104,7 +104,7 @@ p.card-hover-overlay {
 
 #spot-cards {
   width: auto;
-  height: 550px;
+  height: 575px;
   overflow-y: scroll;
 }
 

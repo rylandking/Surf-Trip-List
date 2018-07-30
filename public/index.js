@@ -234,14 +234,36 @@ function toggleAccomms() {
      $(".accomm-spot-card").hide();
      $("#toggleAccomms").removeClass("show");
      $("#toggleAccomms").addClass("disabled");
-   } else {
+ } else {
      //Shows any accommMarkers currently in the array.
      setMapOnAccommMarkers(map);
      $(".accomm-spot-card").show();
      $("#toggleAccomms").addClass("show");
      $("#toggleAccomms").removeClass("disabled");
-   }
-  }//END -- TOGGLE accommMarkers ON THE MAP
+ }
+}//END -- TOGGLE accommMarkers ON THE MAP
+
+
+
+
+//SHOW MAP ON MOBILE
+function showMapMobile() {
+  $("#map-wrapper").removeClass("d-none");
+  $("#map-wrapper").show();
+  $("#spot-cards").hide();
+  $("#show-list-mobile").show();
+  $("#show-map-mobile").hide();
+}//END -- SHOW MAP ON MOBILE
+
+//SHOW LIST ON MOBILE
+function showListMobile() {
+  $("#map-wrapper").addClass("d-none");
+  $("#map-wrapper").hide();
+  $("#spot-cards").show();
+  $("#show-list-mobile").hide();
+  $("#show-map-mobile").show();
+}//END -- SHOW LIST ON MOBILE
+
 
 
 

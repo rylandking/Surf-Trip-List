@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+  <!-- Google Analytics - Global site tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123074848-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-123074848-1');
+  </script>
+
   <!-- Link to custom CSS -->
   <link rel="stylesheet" href="public/stl.css">
 
@@ -48,7 +58,8 @@
   <div class="container-fluid">
 
     <!-- NAV BAR -->
-     <div class="d-flex align-items-center py-3 mb-2 bg-white border-bottom box-shadow">
+     <div class="d-flex align-items-center py-3 mb-2 border-bottom box-shadow">
+
        <a href="index.html"><img id="top-logo" src="public/logo.png" alt="Surf Trip List"></a>
 
        <div class="dropdown d-md-none">
@@ -70,6 +81,12 @@
          <a class="p-2 text-dark" href="contact.html">Help</a>
          <a class="p-2 text-dark" href="#">Sign up</a>
        </nav>
+
+       <div id="toggle-map-and-list" class="d-md-none ml-auto mr-2">
+         <a id="show-map-mobile" class="font-weight-bold" onclick="showMapMobile();"><u>Map</u></a>
+         <a id="show-list-mobile" class="font-weight-bold hide" onclick="showListMobile();"><u>List</u></a>
+       </div>
+
      </div>
 
     <!-- FILTER BUTTONS -->
@@ -83,7 +100,7 @@
     <hr class="mt-2">
 
     <!-- MAP & CARDS ROW -->
-    <div class="row d-flex flex-column flex-md-row">
+    <div id="map-cards-wrapper" class="row d-flex flex-column flex-md-row">
 
       <!-- SPOT CARDS LIST -->
       <div id="spot-cards" class="col-md-4">
