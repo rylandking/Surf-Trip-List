@@ -313,13 +313,14 @@ p.card-hover-overlay {
   text-transform:capitalize;
 }
 
-a.white-link {
-  color: white;
+.white-link {
+  color: white !important;
+  text-decoration: none !important;
 }
 
-a.white-link:hover {
-  color: white;
-  text-decoration: none;
+.white-link:hover {
+  color: white !important;
+  text-decoration: none !important;
 }
 
 .border {

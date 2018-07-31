@@ -68,7 +68,6 @@
         <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuLink">
           <a class="dropdown-item" href="index.html">Home</a>
           <a class="dropdown-item" href="contact.html">Help</a>
-          <a class="dropdown-item" href="#">Sign up</a>
         </div>
       </div>
 
@@ -76,7 +75,6 @@
       <nav id="top-nav" class="my-2 my-md-0 d-none d-md-block">
         <a class="p-2 text-dark" href="index.html">Home</a>
         <a class="p-2 text-dark" href="contact.html">Help</a>
-        <a class="p-2 text-dark" href="#">Sign up</a>
       </nav>
     </div>
 
@@ -91,29 +89,26 @@
     <div class="row">
 
       <form id="biz-form" class="col-md-6 offset-md-3">
-        <!-- FORM SUBMISSION ALERTS -->
-        <div class="alert alert-success hide" role="alert">👍 Got it! We'll email you back soon.</div>
-        <div class="alert alert-danger hide" role="alert">🤨 Op! We couldn't send your message. If it doesn't work again, email us at surftriplist@gmail.com. 🙂</div>
         <!-- FORM -->
         <div class="form-group">
           <label for="name">Your first name</label>
-          <input type="name" class="form-control" id="name-input" placeholder="Miki">
+          <input type="name" class="form-control" id="name-input" placeholder="Miki" required>
         </div>
         <div class="form-group">
           <label for="email">Your email</label>
-          <input type="email" class="form-control" id="email-input" placeholder="mikidora@gmail.com">
+          <input type="email" class="form-control" id="email-input" placeholder="mikidora@gmail.com" required>
         </div>
         <div class="form-group">
           <label for="biz-name">Business name</label>
-          <input type="biz-name" class="form-control" id="biz-name-input" placeholder="Dora's Surf Shack">
+          <input type="biz-name" class="form-control" id="biz-name-input" placeholder="Dora's Surf Shack" required>
         </div>
         <div class="form-group">
           <label for="website">Website</label>
-          <input type="website" class="form-control" id="website-input" placeholder="www.dorassurflessons.com">
+          <input type="website" class="form-control" id="website-input" placeholder="www.dorassurflessons.com" required>
         </div>
         <div class="form-group">
           <label for="biz-type">Business type</label>
-          <select class="form-control" id="biz-type-input">
+          <select class="form-control" id="biz-type-input" required>
             <option>Surf lessons</option>
             <option>Board rentals</option>
             <option>Acommodations</option>
@@ -121,7 +116,7 @@
         </div>
         <div class="form-group">
           <label for="city">Which city?</label>
-          <select id="biz-city-input" class="form-control">
+          <select id="biz-city-input" class="form-control" required>
             <option>Malibu</option>
             <option>San Francisco</option>
             <option>Santa Cruz</option>
@@ -139,9 +134,12 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="message-textarea">Anything else?</label>
-          <textarea class="form-control" id="message-textarea" rows="8" placeholder="What do you need?"></textarea>
+          <label for="message-textarea">What are you interested in?</label>
+          <textarea class="form-control" id="message-textarea" rows="8" placeholder="Let us know..." required></textarea>
         </div>
+        <!-- FORM SUBMISSION ALERTS -->
+        <div class="alert alert-success hide" role="alert">👍 Got it! We'll email you back soon.</div>
+        <div class="alert alert-danger hide" role="alert">🤨 Op! We couldn't send your message. If it doesn't work again, email us at surftriplist@gmail.com. 🙂</div>
         <button type="submit" class="btn btn-danger">Send me <i class="fas fa-envelope"></i></button>
       </form>
 

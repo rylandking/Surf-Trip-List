@@ -412,19 +412,18 @@ function buildSurfSpotCards() {
   $("#spot-cards").append(`
     <div class="card surf-spot-card bright-hover" data-id="${spotID}">
       <img class="card-img tinted-spot-cards" src="images/surf-spot-default-photo.png" alt="${spotName}">
-      <div class="card-img-overlay">
-        <div class="card-body text-white p-0">
-          <h5 class="card-title2">${spotName} - <img src="public/icon-images/${skill}.png"></h5>
-          <h6 class="card-subtitle2 mb-2 text-light"><span class="capitalize">${skill}</span> wave</h6>
-          <p class="card-text2 note">${note}</p>
-          <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotID}">
-            MORE INFO
-          </button>
-          <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotName}">
-            STAY NEARBY
-          </button>
+        <div class="card-img-overlay">
+          <div class="card-body text-white p-0">
+            <a class="white-link" data-toggle="modal" data-target="#${spotID}">
+            <h5 class="card-title2">${spotName} - <img src="public/icon-images/${skill}.png"></h5>
+            <h6 class="card-subtitle2 mb-2 text-light"><span class="capitalize">${skill}</span> wave</h6>
+            <p class="card-text2 note">${note}</p>
+            <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotID}">
+              MORE INFO
+            </button>
+            </a>
+          </div>
         </div>
-      </div>
     </div>
 
     <div class="modal fade" id="${spotID}" tabindex="-1" role="dialog" aria-labelledby="${spotID}-label" aria-hidden="true">
@@ -605,11 +604,13 @@ function buildLessonCards () {
       <img class="card-img tinted-spot-cards" src="images/surf-lesson-default-photo.png" alt="${name}">
       <div class="card-img-overlay">
         <div class="card-body text-white p-0">
+        <a class="white-link" data-toggle="modal" data-target="#${id}">
           <h5 class="card-title2">${name}</h5>
           <h6 class="card-subtitle2 mb-2 text-light"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount} reviews)</h6>
           <p class="card-text2 note">"${note}"</p>
           <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${id}">MORE INFO</button>
           <a class="btn btn-sm btn-danger font-weight-bold mr-1" href="${website}" target="_blank">BOOK</a>
+        </a>
         </div>
       </div>
     </div>
@@ -650,7 +651,6 @@ function addAccommMarkers() {
     querySnapshot.forEach(function(doc) {
       data = doc.data();
       coords = data.coords;
-      icon = 'images/'+data.iconImage;
       accommURL = data.bookingURL;
       photo = data.photo;
       accommType = data.accommType;
@@ -677,7 +677,7 @@ function addAccommMarker(props, map) {
   accommMarker = new google.maps.Marker({
     position: coords,
     map: map,
-    icon: icon,
+    icon: 'images/pm/' + price + '.png',
     id: title,
     price: price,
   });
@@ -729,18 +729,20 @@ function addAccommMarker(props, map) {
 function buildAccommCards() {
   $("#spot-cards").prepend(`
     <div class="card accomm-spot-card bright-hover" data-id="${title}">
-      <img class="card-img tinted-spot-cards w-100" src="images/accomm-images/${photo}" alt="${title}">
-      <div class="card-img-overlay">
-        <div class="card-body text-white p-0">
-          <p class="card-subtitle2 mb-0 text-light text-uppercase"><small>${accommType} • ${bedAmount} ${bedWord} | ${guestAmount} ${guestWord}</small></p>
-          <h5 class="card-title2 cut-header">${title}</h5>
-          <p class="accomm-card-text mt-1 mb-0 text-capitalize">Near ${nearbySurfSpot}</p>
-          <p class="accomm-card-text mb-0">${proximity}</p>
-          <p class="accomm-card-text mb-0">${view}</p>
-          <p class="accomm-card-text">$${price}/n</p>
-          <button class="btn btn-sm btn-danger mt-1 mr-2"><a class="white-link font-weight-bold" href="${accommURL}" target="_blank">BOOK</a></button>
+        <img class="card-img tinted-spot-cards w-100" src="images/accomm-images/${photo}" alt="${title}">
+        <div class="card-img-overlay">
+          <div class="card-body p-0">
+            <a class="white-link" href="${accommURL}" target="_blank">
+              <p class="card-subtitle2 mb-0 text-light text-uppercase"><small>${accommType} • ${bedAmount} ${bedWord} | ${guestAmount} ${guestWord}</small></p>
+              <h5 class="card-title2 cut-header">${title}</h5>
+              <p class="accomm-card-text mt-1 mb-0 text-capitalize">Near ${nearbySurfSpot}</p>
+              <p class="accomm-card-text mb-0">${proximity}</p>
+              <p class="accomm-card-text mb-0">${view}</p>
+              <p class="accomm-card-text">$${price}/n</p>
+              <button class="btn btn-sm btn-danger mt-1 mr-2"><a class="white-link font-weight-bold" href="${accommURL}" target="_blank">BOOK</a></button>
+            </a>
+          </div>
         </div>
-      </div>
     </div>
   `);
 }//END -- BUILD THE ACCOMM CARDS
