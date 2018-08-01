@@ -71,6 +71,14 @@ let spanish;
 let french;
 let portugese;
 let indonesian;
+let map;
+let marker;
+let markers = [];
+let lat;
+let lng;
+let parkingMarkers = [];
+let parkingLat;
+let parkingLng;
 
 
 
@@ -274,8 +282,18 @@ function submitDirections(e) {
   //STOP SUBMISSION FROM SUBMITTING TO THE HTML PAGE
   e.preventDefault();
 
-  $("#surf-spot-directions").hide();
-  $("#surf-spot-characteristics").show();
+  //ADD FIELDS TO DOCUMENT IN "surf-spots-test" COLLECTION
+  surfSpotRef.set({
+    surfspot: {lat: lat, lng: lng},
+    parkingLat: parkingLat,
+    parkingLng: parkingLng,
+  }, { merge: true }).then(function(docRef) {
+    $("#surf-spot-directions").hide();
+    $("#surf-spot-characteristics").show();
+  }).catch(function(error) {
+    console.log(error);
+  });
+  //END -- ADD FIELDS TO DOCUMENT IN "surf-spots-test" COLLECTION
 
 }
 //END -- ADD DIRECTION DATA TO FIRESTORE, MOVE TO NEXT QUESTION
@@ -477,3 +495,108 @@ function submitTags(e) {
 
 //LISTEN FOR surf-spot-location FORM SUBMIT
 document.getElementById('surf-spot-tags').addEventListener('submit', submitTags);
+
+
+
+////ADD SURF SPOT COORDS
+function initMap() {
+  //map OBJECT
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 34.032682, lng: -118.679710},
+    zoom: 2,
+
+    zoomControlOptions: { position: google.maps.ControlPosition.TOP_LEFT },
+    mapTypeControl: false,
+    fullscreenControl: false,
+    streetViewControl: false,
+  });//END -- map OBJECT
+
+  function addMarker(props) {
+    marker = new google.maps.Marker({
+      position: props.coords,
+      map: map,
+    });
+
+    markers.push(marker);
+
+  }//END -- addMarker FUNCTION
+
+  //ADD LISTENER TO GOOGLE MAP
+  google.maps.event.addListener(map, "click", function(event) {
+    addMarker({coords: event.latLng})
+    lat = event.latLng.lat();
+    lng = event.latLng.lng();
+    console.log("lat: " + lat + " | lng: " + lng);
+  });//END -- ADD LISTENER TO GOOGLE MAP
+
+}//END -- initMap();
+
+// Sets the map on all markers in the array.
+function setMapOnAll(map) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
+}
+
+function deleteMarkers() {
+  setMapOnAll(null);
+  markers = [];
+  lat = "";
+  lng = "";
+}
+
+initMap();
+
+//END -- ADD SURF SPOT COORDS
+
+
+////ADD PARKING COORDS
+function initParkingMap() {
+  //map OBJECT
+  map2 = new google.maps.Map(document.getElementById('map2'), {
+    center: {lat: 34.032682, lng: -118.679710},
+    zoom: 2,
+
+    zoomControlOptions: { position: google.maps.ControlPosition.TOP_LEFT },
+    mapTypeControl: false,
+    fullscreenControl: false,
+    streetViewControl: false,
+  });//END -- map OBJECT
+
+  function addParkingMarker(props) {
+    parkingMarker = new google.maps.Marker({
+      position: props.coords,
+      map: map2,
+    });
+
+    parkingMarkers.push(parkingMarker);
+
+  }//END -- addParkingMarker()
+
+  //ADD LISTENER TO GOOGLE MAP2
+  google.maps.event.addListener(map2, "click", function(event) {
+    addParkingMarker({coords: event.latLng})
+    parkingLat = event.latLng.lat();
+    parkingLng = event.latLng.lng();
+    console.log("parkingLat: " + parkingLat + " | parkingLng: " + parkingLng);
+  });//END -- ADD LISTENER TO GOOGLE MAP2
+
+}//END -- initParkingMap()
+
+// Sets the map on all markers in the array.
+function setMapOnParkingMarkers(map2) {
+  for (var i = 0; i < parkingMarkers.length; i++) {
+    parkingMarkers[i].setMap(map2);
+  }
+}
+
+function deleteParkingMarkers() {
+  setMapOnParkingMarkers(null);
+  parkingMarkers = [];
+  parkingLat = "";
+  parkingLng = "";
+}
+
+initParkingMap();
+
+//END -- ADD PARKING COORDS

@@ -183,28 +183,30 @@
 
 
         <!-- SURF SPOT DIRECTIONS -->
-        <form id="surf-spot-directions" class="col-md-10 offset-md-1 hide">
+        <form id="surf-spot-directions" class="col-md-8 offset-md-2 hide">
           <div class="alert alert-success" role="alert">👍 Nice. Where is Rincon? (3 of 7)</div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <h4 class="mb-0">Where is the spot?</h4>
-              <small>(Click the map)</small>
-              <div class="map-admin border border-dark mt-3 mb-3">
-                MAP
+            <div class="col-md-12 mb-3">
+              <small>1. Zoom in and click where the surf spot is located</small>
+              <br>
+              <div class="row mt-2">
+                <div class="col-12">
+                  <a class="btn btn-sm btn-warning no-button-shadow font-weight-bold" onclick="deleteMarkers()">DELETE MARKERS</a>
+                </div>
               </div>
-            </div>
-
-            <div class="col-md-6">
-              <h4 class="mb-0">Where do you park at/access the spot?</h4>
-              <small>(Click the map)</small>
-              <div class="map-admin border border-dark mt-3 mb-3">
-                MAP
+              <div id="map" class="map-admin mt-1 mb-3">
               </div>
+              <hr>
+              <small>2. Zoom in and click where the parking/access spot is located</small>
+              <br>
+              <div class="row mt-2">
+                <div class="col-12">
+                  <a class="btn btn-sm btn-warning no-button-shadow font-weight-bold" onclick="deleteParkingMarkers()">DELETE MARKERS</a>
+                  <button id="surf-spot-directions-button" type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
+                </div>
+              </div>
+              <div id="map2" class="map-admin mt-1 mb-3"></div>
             </div>
-          </div>
-
-          <button id="surf-spot-directions-button" type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
         </form>
         <!-- //SURF SPOT DIRECTIONS -->
 

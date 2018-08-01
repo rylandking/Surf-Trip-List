@@ -330,3 +330,10 @@ p.card-hover-overlay {
 .hide {
   display: none;
 }
+
+
+/* SURF SPOT FORM */
+#map-surf-spot-form {
+  height: 350px;
+  width: auto;
+}
