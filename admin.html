@@ -5,16 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <!-- Google Analytics - Global site tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123074848-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-123074848-1');
-  </script>
-
   <!-- Link to custom CSS -->
   <link rel="stylesheet" href="public/stl.css">
 
@@ -72,7 +62,7 @@
       </div>
 
       <!-- NAV -->
-      <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">Add a surf spot</h6>
+      <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">Admin</h6>
       <nav id="top-nav" class="my-2 my-md-0 d-none d-md-block">
         <a class="p-2 text-dark" href="index.html">Home</a>
       </nav>
@@ -81,7 +71,7 @@
 
     <!-- STATEMENT -->
     <div id="statement" class="text-center">
-      <p class="mb-0">Add a 🏄‍ surf spot!</p>
+      <p class="mb-0">Add a surf spot!</p>
     </div>
 
     <hr class="mt-2 mb-4">
@@ -91,26 +81,27 @@
     <div class="container-fluid">
       <div class="row text-center">
 
+
         <!-- SPOT NAME FORM -->
         <form id="surf-spot-name" class="col-md-8 offset-md-2">
           <div class="form-group justify-content-center">
             <label for="name"><h4>What's the surf spot's name?</h4></label>
-            <input id="name-input" type="name" class="form-control col-md-8 offset-md-2" placeholder="Rincon" required>
+            <input id="name-input" type="name" class="form-control col-md-8 offset-md-2" placeholder="Rincon" >
           </div>
-          <button type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
+          <button id="surf-spot-name-button" type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
         </form><!-- //SPOT NAME FORM -->
 
-        <hr>
 
         <!-- SURF SPOT LOCATION -->
-        <form id="surf-spot-name" class="col-md-8 offset-md-2">
-          <div class="alert alert-success" role="alert">👍 Perfect. Where's Rincon located?</div>
+        <form id="surf-spot-location" class="col-md-10 offset-md-1 hide">
+          <div class="alert alert-success" role="alert">👍 Got it. Where's CITY located? (2 of 7)</div>
           <div class="form-group justify-content-center">
-            <div class="row">
-              <div class="form-group col-md-6">
 
+            <div class="row mb-3">
+              <div class="form-group col-md-6">
+                <!-- SELECT CITY -->
                 <label for="city"><h4>Which city?</h4></label>
-                <select id="city-select" class="form-control" required>
+                <select id="city-select" class="form-control" >
                   <option>Malibu</option>
                   <option>San Francisco</option>
                   <option>Santa Cruz</option>
@@ -128,19 +119,21 @@
                 </select>
               </div>
 
+              <!-- SELECT STATE -->
               <div class="form-group col-md-6">
                 <label for="state"><h4>Which region?</h4></label>
-                <select id="state-select" class="form-control" required>
+                <select id="state-select" class="form-control" >
                   <option>California</option>
                   <option>...</option>
                 </select>
               </div>
             </div>
 
-            <div class="row">
+            <div class="row mb-3">
               <div class="form-group col-md-6">
+              <!-- SELECT NATION -->
                 <label for="nation"><h4>Which nation?</h4></label>
-                <select id="nation-select" class="form-control" required>
+                <select id="nation-select" class="form-control" >
                   <option>United States</option>
                   <option>Mexico</option>
                   <option>Costa Rica</option>
@@ -151,8 +144,9 @@
               </div>
 
               <div class="form-group col-md-6">
+              <!-- SELECT CONTINENT -->
                 <label for="continent"><h4>Which continent?</h4></label>
-                <select id="continent-select" class="form-control" required>
+                <select id="continent-select" class="form-control" >
                   <option>Pacific Ocean</option>
                   <option>North America</option>
                   <option>Central America</option>
@@ -169,408 +163,28 @@
               </div>
             </div>
 
+            <div class="row mb-3">
+              <div class="form-group col-md-6">
+              <!-- SELECT NEAREST AIRPORT NAME -->
+                <label for="airport-name"><h4>What's the nearest airport name?</h4></label>
+                <input id="airport-name-input" type="name" class="form-control col-md-8 offset-md-2" placeholder="Los Angeles International" >
+              </div>
+
+              <div class="form-group col-md-6">
+              <!-- SELECT NEAREST AIRPORT CODE -->
+                <label for="airport-code"><h4>What's the nearest airport code?</h4></label>
+                <input id="airport-code-input" type="name" class="form-control col-md-8 offset-md-2" placeholder="LAX" >
+              </div>
+            </div>
+
           </div>
-          <button type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
+          <button id="surf-spot-location-button" type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
         </form><!-- //SURF SPOT LOCATION -->
 
 
-        <!-- SURF SPOT CHARACTERISTICS FORM -->
-        <form id="surf-spot-name" class="col-md-8 offset-md-2">
-          <div class="alert alert-success" role="alert">👍 Got it. What's Rincon's charteristics?</div>
-
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="board"><h4>What skill's needed to surf Rincon?</h4></label>
-              <select id="board-select" class="form-control" required>
-                <option>Beginner</option>
-                <option>Intermediate</option>
-                <option>Advanced</option>
-                <option>Expert</option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-6">
-              <label for="board"><h4>What's the best board for Rincon?</h4></label>
-              <select id="board-select" class="form-control" required>
-                <option>Longboard</option>
-                <option>Funboard</option>
-                <option>Shortboard</option>
-                <option>Bigwave Board</option>
-                <option>Any Board</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="quality"><h4>How good can Rincon get?</h4></label>
-              <select id="quality-select" class="form-control" required>
-                <option>1 Star</option>
-                <option>2 Stars</option>
-                <option>3 Stars</option>
-                <option>4 Stars</option>
-                <option>5 Stars</option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-6">
-              <label for="wave-size"><h4>What's Rincon's best wave size?</h4></label>
-              <select id="wave-size-select" class="form-control" required>
-                <option>Waist high</option>
-                <option>Head high</option>
-                <option>Double overhead</option>
-                <option>Double overhead+</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="wind"><h4>What's its best wind?</h4></label>
-              <select id="wind-select" class="form-control" required>
-                <option>N</option>
-                <option>NE</option>
-                <option>E</option>
-                <option>SE</option>
-                <option>S</option>
-                <option>SW</option>
-                <option>W</option>
-                <option>NW</option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-6">
-              <label for="swell-direction"><h4>What's the best swell direction?</h4></label>
-              <select id="swell-direction-select" class="form-control" required>
-                <option>N</option>
-                <option>NE</option>
-                <option>E</option>
-                <option>SE</option>
-                <option>S</option>
-                <option>SW</option>
-                <option>W</option>
-                <option>NW</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="tide"><h4>What's its best tide?</h4></label>
-              <select id="tide-select" class="form-control" required>
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
-                <option>All Tides</option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-6">
-              <label for="wind"><h4>Which way does the wave break?</h4></label>
-              <select id="wind-select" class="form-control" required>
-                <option>Right</option>
-                <option>Left</option>
-                <option>Right and Left</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="wave-type"><h4>What type of wave is Rincon?</h4></label>
-              <select id="wave-type-select" class="form-control" required>
-                <option>Point break</option>
-                <option>Beach break</option>
-                <option>Reef break</option>
-                <option>Rockreef break</option>
-                <option>Jetty</option>
-                <option>Slab</option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-6">
-              <label for="bottom"><h4>What's the bottom?</h4></label>
-              <select id="bottom-select" class="form-control" required>
-                <option>Reef</option>
-                <option>Rockreef</option>
-                <option>Rock</option>
-                <option>Sand</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="barrel"><h4>Does Rincon barrel?</h4></label>
-              <select id="barrel-select" class="form-control" required>
-                <option>Yes</option>
-                <option>Sometimes</option>
-                <option>No</option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-6">
-              <label for="localism"><h4>Is there localism at Rincon?</h4></label>
-              <select id="localism-select" class="form-control" required>
-                <option>Very friendly crowd</option>
-                <option>Please be respectful</option>
-                <option>Yes</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="beach"><h4>How is the beach Rincon?</h4></label>
-              <select id="beach-select" class="form-control" required>
-                <option>Great beach to hang out at</option>
-                <option>Rock tide and weather dependent</option>
-                <option>No beach</option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-6">
-              <label for="swell-direction"><h4>What's the best swell period?</h4></label>
-              <select id="swell-direction-select" class="form-control" required>
-                <option>7-10 sec</option>
-                <option>10-13 sec</option>
-                <option>13-16 sec</option>
-                <option>16+ sec</option>
-              </select>
-            </div>
-          </div>
-
-          <br>
-          <button type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
-        </form><!-- //SURF SPOT CHARACTERISTICS FORM -->
-
-
-        <!-- SURF SPOT SEASONALITY -->
-        <form id="surf-spot-description" class="col-md-8 offset-md-2">
-          <div class="alert alert-success" role="alert">👍 Got it. What's Rincon like each month?</div>
-          <div class="row">
-            <div class="form-group col-md-2 col-sm-4">
-              <label for="jan"><h4>Jan</h4></label>
-              <select id="jan-select" class="form-control" required>
-                <option>Epic</option>
-                <option>Good</option>
-                <option>Fair</option>
-                <option>Non-wave</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2 col-sm-4">
-              <label for="feb"><h4>Feb</h4></label>
-              <select id="feb-select" class="form-control" required>
-                <option>Epic</option>
-                <option>Good</option>
-                <option>Fair</option>
-                <option>Non-wave</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2 col-sm-4">
-              <label for="mar"><h4>Mar</h4></label>
-              <select id="mar-select" class="form-control" required>
-                <option>Epic</option>
-                <option>Good</option>
-                <option>Fair</option>
-                <option>Non-wave</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2 col-sm-4">
-              <label for="Apr"><h4>Apr</h4></label>
-              <select id="Apr-select" class="form-control" required>
-                <option>Epic</option>
-                <option>Good</option>
-                <option>Fair</option>
-                <option>Non-wave</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2 col-sm-4">
-              <label for="may"><h4>May</h4></label>
-              <select id="may-select" class="form-control" required>
-                <option>Epic</option>
-                <option>Good</option>
-                <option>Fair</option>
-                <option>Non-wave</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2 col-sm-4">
-              <label for="jun"><h4>Jun</h4></label>
-              <select id="jun-select" class="form-control" required>
-                <option>Epic</option>
-                <option>Good</option>
-                <option>Fair</option>
-                <option>Non-wave</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2 col-sm-4">
-              <label for="jul"><h4>Jul</h4></label>
-              <select id="jul-select" class="form-control" required>
-                <option>Epic</option>
-                <option>Good</option>
-                <option>Fair</option>
-                <option>Non-wave</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2 col-sm-4">
-              <label for="aug"><h4>Aug</h4></label>
-              <select id="aug-select" class="form-control" required>
-                <option>Epic</option>
-                <option>Good</option>
-                <option>Fair</option>
-                <option>Non-wave</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2 col-sm-4">
-              <label for="sep"><h4>Sep</h4></label>
-              <select id="sep-select" class="form-control" required>
-                <option>Epic</option>
-                <option>Good</option>
-                <option>Fair</option>
-                <option>Non-wave</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2 col-sm-4">
-              <label for="oct"><h4>Oct</h4></label>
-              <select id="oct-select" class="form-control" required>
-                <option>Epic</option>
-                <option>Good</option>
-                <option>Fair</option>
-                <option>Non-wave</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2 col-sm-4">
-              <label for="nov"><h4>Nov</h4></label>
-              <select id="nov-select" class="form-control" required>
-                <option>Epic</option>
-                <option>Good</option>
-                <option>Fair</option>
-                <option>Non-wave</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2 col-sm-4">
-              <label for="dec"><h4>Dec</h4></label>
-              <select id="dec-select" class="form-control" required>
-                <option>Epic</option>
-                <option>Good</option>
-                <option>Fair</option>
-                <option>Non-wave</option>
-              </select>
-            </div>
-
-          </div>
-          <br>
-          <button type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
-        </form>
-        <!-- //SURF SPOT SEASONALITY -->
-
-
-        <!-- SURF SPOT DESCRIPTION -->
-        <form id="surf-spot-description" class="col-md-8 offset-md-2">
-          <div class="alert alert-success" role="alert">👍 Got it. Please describe Rincon.</div>
-          <div class="form-group justify-content-center">
-
-            <div class="form-group">
-              <label for="forecast-link"><h4>Add a link to the best forecast.</h4></label>
-              <input id="forecast-input" type="forecast" class="form-control col-md-8 offset-md-2" placeholder="https://magicseaweed.com/Rincon-Point-Surf-Report/272/" required>
-            </div>
-
-            <br>
-
-            <div class="form-group">
-              <label for="surf-spot-textarea"><h4>Describe the surf spot.</h4></label>
-              <textarea class="form-control" id="surf-spot-textarea" rows="8" placeholder="Wave, beach, parking, access and nearby eats" required></textarea>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
-        </form><!-- //SURF SPOT DESCRIPTION -->
-
-
-        <!-- SURF SPOT TAGS -->
-        <form id="surf-spot-tags" class="col-md-8 offset-md-2">
-          <div class="alert alert-success" role="alert">👍 Perfect. Which tags relate to Rincon?</div>
-
-          <h4>Wave</h4>
-          <div class="row mb-3">
-            <div class="col-12">
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">barrel</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">powerful</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">rip currents</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">shallow</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">long paddle</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">far from shore</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">sharky</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">comfortable beach</button>
-            </div>
-          </div>
-
-          <h4>Crowd</h4>
-          <div class="row mb-3">
-            <div class="col-12">
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">crowded</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">competitive</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">localized</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">friendly</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">easy to get waves</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">uncrowded</button>
-            </div>
-          </div>
-
-          <h4>Nearby</h4>
-          <div class="row mb-3">
-            <div class="col-12">
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">good walkability</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">nature</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">views</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">nightlife</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">party scene</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">healthcare far away</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">good internet</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">touristy</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">theme park</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">pier</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">cultural sights</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">shopping</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">theft common</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">unsafe area</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">very safe</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">solo female safe</button>
-
-
-            </div>
-          </div>
-
-          <h4>Eats</h4>
-          <div class="row mb-3">
-            <div class="col-12">
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">unsafe tap water</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">bars</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">fast food</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">casual eats</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">sit down restaurants</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">good eats</button>
-            </div>
-          </div>
-
-          <h4>Language</h4>
-          <div class="row mb-3">
-            <div class="col-12">
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-dark mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">english</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-dark mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">spanish</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-dark mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">french</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-dark mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">portugese</button>
-              <button type="button" class="btn btn-sm no-button-shadow btn-outline-dark mb-1" data-toggle="button" aria-pressed="false" autocomplete="off">indonesian</button>
-            </div>
-          </div>
-
-          <button type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
-        </form>
-        <!-- //SURF SPOT TAGS -->
-
-
         <!-- SURF SPOT DIRECTIONS -->
-        <form id="surf-spot-directions" class="col-md-10 offset-md-1">
-          <div class="alert alert-success" role="alert">👍 Nice. Where is Rincon?</div>
+        <form id="surf-spot-directions" class="col-md-10 offset-md-1 hide">
+          <div class="alert alert-success" role="alert">👍 Nice. Where is Rincon? (3 of 7)</div>
 
           <div class="row">
             <div class="col-md-6">
@@ -590,21 +204,404 @@
             </div>
           </div>
 
+          <button id="surf-spot-directions-button" type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
+        </form>
+        <!-- //SURF SPOT DIRECTIONS -->
+
+
+        <!-- SURF SPOT CHARACTERISTICS FORM -->
+        <form id="surf-spot-characteristics" class="col-md-8 offset-md-2 hide">
+          <div class="alert alert-success" role="alert">👍 Got it. What's Rincon's charteristics? (4 of 7)</div>
+
           <div class="row">
-            <div class="col-md-6">
-              <label for="airport-name"><h4>What's the nearest airport name?</h4></label>
-              <input id="airport-name-input" type="name" class="form-control col-md-8 offset-md-2" placeholder="Los Angeles International" required>
+            <div class="form-group col-md-6">
+              <label for="skill"><h4>What skill's needed to surf Rincon?</h4></label>
+              <select id="skill-select" class="form-control" >
+                <option>Beginner</option>
+                <option>Intermediate</option>
+                <option>Advanced</option>
+                <option>Expert</option>
+              </select>
             </div>
 
-            <div class="col-md-6">
-              <label for="airport-code"><h4>What's the nearest airport code?</h4></label>
-              <input id="airport-code-input" type="name" class="form-control col-md-8 offset-md-2" placeholder="LAX" required>
+            <div class="form-group col-md-6">
+              <label for="board"><h4>What's the best board for Rincon?</h4></label>
+              <select id="board-select" class="form-control" >
+                <option>Longboard</option>
+                <option>Funboard</option>
+                <option>Shortboard</option>
+                <option>Bigwave Board</option>
+                <option>Any Board</option>
+              </select>
             </div>
           </div>
 
-          <button type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="quality"><h4>How good can Rincon get?</h4></label>
+              <select id="quality-select" class="form-control" >
+                <option>1 Star</option>
+                <option>2 Stars</option>
+                <option>3 Stars</option>
+                <option>4 Stars</option>
+                <option>5 Stars</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="wave-size"><h4>What's Rincon's best wave size?</h4></label>
+              <select id="wave-size-select" class="form-control" >
+                <option>Waist high</option>
+                <option>Head high</option>
+                <option>Double overhead</option>
+                <option>Double overhead+</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="wind"><h4>What's its best wind?</h4></label>
+              <select id="wind-select" class="form-control" >
+                <option>N</option>
+                <option>NE</option>
+                <option>E</option>
+                <option>SE</option>
+                <option>S</option>
+                <option>SW</option>
+                <option>W</option>
+                <option>NW</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="swell-direction"><h4>What's the best swell direction?</h4></label>
+              <select id="swell-direction-select" class="form-control" >
+                <option>N</option>
+                <option>NE</option>
+                <option>E</option>
+                <option>SE</option>
+                <option>S</option>
+                <option>SW</option>
+                <option>W</option>
+                <option>NW</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="tide"><h4>What's its best tide?</h4></label>
+              <select id="tide-select" class="form-control" >
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>All Tides</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="wave-direction"><h4>Which way does the wave break?</h4></label>
+              <select id="wave-direction-select" class="form-control" >
+                <option>Right</option>
+                <option>Left</option>
+                <option>Right and Left</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="wave-type"><h4>What type of wave is Rincon?</h4></label>
+              <select id="wave-type-select" class="form-control" >
+                <option>Point break</option>
+                <option>Beach break</option>
+                <option>Reef break</option>
+                <option>Rockreef break</option>
+                <option>Jetty</option>
+                <option>Slab</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="bottom"><h4>What's the bottom?</h4></label>
+              <select id="bottom-select" class="form-control" >
+                <option>Reef</option>
+                <option>Rockreef</option>
+                <option>Rock</option>
+                <option>Sand</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="barrel"><h4>Does Rincon barrel?</h4></label>
+              <select id="barrel-select" class="form-control" >
+                <option>Yes</option>
+                <option>Sometimes</option>
+                <option>No</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="localism"><h4>Is there localism at Rincon?</h4></label>
+              <select id="localism-select" class="form-control" >
+                <option>Friendly crowd</option>
+                <option>Please be respectful</option>
+                <option>Yes</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="beach"><h4>How is the beach Rincon?</h4></label>
+              <select id="beach-select" class="form-control" >
+                <option>Great beach to hang out at</option>
+                <option>Rock tide and weather dependent</option>
+                <option>No beach</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="period"><h4>What's the best swell period?</h4></label>
+              <select id="period-select" class="form-control" >
+                <option>7-10 sec</option>
+                <option>10-13 sec</option>
+                <option>13-16 sec</option>
+                <option>16+ sec</option>
+              </select>
+            </div>
+          </div>
+
+          <br>
+          <button id="surf-spot-characteristics-button" type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
+        </form><!-- //SURF SPOT CHARACTERISTICS FORM -->
+
+
+        <!-- SURF SPOT SEASONALITY -->
+        <form id="surf-spot-seasonality" class="col-md-8 offset-md-2 hide">
+          <div class="alert alert-success" role="alert">👍 Got it. What's Rincon like each month? (5 of 7)</div>
+          <div class="row">
+            <div class="form-group col-md-2 col-sm-4">
+              <label for="jan"><h4>Jan</h4></label>
+              <select id="jan-select" class="form-control" >
+                <option>Epic</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Non-wave</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+              <label for="feb"><h4>Feb</h4></label>
+              <select id="feb-select" class="form-control" >
+                <option>Epic</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Non-wave</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+              <label for="mar"><h4>Mar</h4></label>
+              <select id="mar-select" class="form-control" >
+                <option>Epic</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Non-wave</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+              <label for="apr"><h4>Apr</h4></label>
+              <select id="apr-select" class="form-control" >
+                <option>Epic</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Non-wave</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+              <label for="may"><h4>May</h4></label>
+              <select id="may-select" class="form-control" >
+                <option>Epic</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Non-wave</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+              <label for="jun"><h4>Jun</h4></label>
+              <select id="jun-select" class="form-control" >
+                <option>Epic</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Non-wave</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+              <label for="jul"><h4>Jul</h4></label>
+              <select id="jul-select" class="form-control" >
+                <option>Epic</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Non-wave</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+              <label for="aug"><h4>Aug</h4></label>
+              <select id="aug-select" class="form-control" >
+                <option>Epic</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Non-wave</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+              <label for="sep"><h4>Sep</h4></label>
+              <select id="sep-select" class="form-control" >
+                <option>Epic</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Non-wave</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+              <label for="oct"><h4>Oct</h4></label>
+              <select id="oct-select" class="form-control" >
+                <option>Epic</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Non-wave</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+              <label for="nov"><h4>Nov</h4></label>
+              <select id="nov-select" class="form-control" >
+                <option>Epic</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Non-wave</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+              <label for="dec"><h4>Dec</h4></label>
+              <select id="dec-select" class="form-control" >
+                <option>Epic</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Non-wave</option>
+              </select>
+            </div>
+
+          </div>
+          <br>
+          <button id="surf-spot-seasonality-button" type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
         </form>
-        <!-- //SURF SPOT DIRECTIONS -->
+        <!-- //SURF SPOT SEASONALITY -->
+
+
+        <!-- SURF SPOT DESCRIPTION -->
+        <form id="surf-spot-description" class="col-md-8 offset-md-2 hide">
+          <div class="alert alert-success" role="alert">👍 Got it. Please describe Rincon. (6 of 7)</div>
+          <div class="form-group justify-content-center">
+
+            <div class="form-group">
+              <label for="forecast-link"><h4>Add a link to the best forecast.</h4></label>
+              <input id="forecast-input" type="forecast" class="form-control col-md-8 offset-md-2" placeholder="https://magicseaweed.com/Rincon-Point-Surf-Report/272/" >
+            </div>
+
+            <br>
+
+            <div class="form-group">
+              <label for="description"><h4>Describe the surf spot.</h4></label>
+              <textarea id="description-input" class="form-control" rows="8" placeholder="Wave, beach, parking, access and nearby eats" ></textarea>
+            </div>
+          </div>
+          <button id="surf-spot-description-button" type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
+        </form><!-- //SURF SPOT DESCRIPTION -->
+
+
+        <!-- SURF SPOT TAGS -->
+        <form id="surf-spot-tags" class="col-md-8 offset-md-2 hide">
+          <div class="alert alert-success" role="alert">👍 Perfect. Which tags relate to Rincon? (7 of 7)</div>
+
+          <h4>Wave</h4>
+          <div class="row mb-3">
+            <div class="col-12">
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="powerful">powerful</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="rip-currents">rip currents</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="shallow">shallow</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="long-paddle">long paddle</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="far-from-shore">far from shore</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-primary mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="sharky">sharky</button>
+            </div>
+          </div>
+
+          <h4>Crowd</h4>
+          <div class="row mb-3">
+            <div class="col-12">
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="crowded">crowded</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="uncrowded">uncrowded</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="competitive">competitive</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="beginner-friendly">beginner friendly</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="easy-to-get-waves">easy to get waves</button>
+            </div>
+          </div>
+
+          <h4>Nearby</h4>
+          <div class="row mb-3">
+            <div class="col-12">
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="good-walkability">good walkability</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="nature">nature</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="views">views</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="nightlife">nightlife</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="party-scene">party scene</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="healthcare-far-away">healthcare far away</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="healthcare-nearby">healthcare nearby</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="good-internet">good internet</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="bad-internet">bad internet</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="touristy">touristy</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="theme-park">theme park</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="pier">pier</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="cultural-sights">cultural sights</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="shopping">shopping</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="theft-common">theft common</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-danger mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="unsafe-area">unsafe area</button>
+            </div>
+          </div>
+
+          <h4>Eats</h4>
+          <div class="row mb-3">
+            <div class="col-12">
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="unsafe-tap-water">unsafe tap water</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="good-eats">good eats</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="bars">bars</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="fast-food">fast food</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="casual-eats">casual eats</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-success mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="sit-down-restaurants">sit down restaurants</button>
+            </div>
+          </div>
+
+          <h4>Language</h4>
+          <div class="row mb-3">
+            <div class="col-12">
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-dark mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="english">english</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-dark mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="spanish">spanish</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-dark mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="french">french</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-dark mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="portugese">portugese</button>
+              <button type="button" class="btn btn-sm no-button-shadow btn-outline-dark mb-1" data-toggle="button" aria-pressed="false" autocomplete="off" id="indonesian">indonesian</button>
+            </div>
+          </div>
+
+          <button id="surf-spot-tags-button" type="submit" class="btn btn-sm no-button-shadow btn-danger font-weight-bold">SUBMIT</button>
+        </form><!-- //SURF SPOT TAGS -->
+
+        <!-- FORM COMPLETE -->
+          <div  id="surf-spot-form-complete" class="col-md-10 offset-md-1 hide">
+            <div class="alert alert-success" role="alert">🎉Finished! You've added a surf spot to Surf Trip List.</div>
+            <a class="btn btn-sm btn-danger font-weight-bold" href="admin.html">ADD ANOTHER SPOT!</a>
+          </div><!-- //FORM COMPLETE -->
+
 
       </div>
     </div><!-- //CONTAINER -->
@@ -620,7 +617,7 @@
   </div><!-- End of container-fluid -->
 
   <!-- Custom JS Library -->
-  <script type="text/javascript" src="public/contact.js"></script>
+  <script type="text/javascript" src="public/admin.js"></script>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
