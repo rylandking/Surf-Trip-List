@@ -109,6 +109,7 @@ function storeTags() {
   if ($("#sharky").hasClass("active")) {
     sharky = $('#sharky').text();
   } else { sharky = "" }
+
   //CROWD TAGS
   if ($("#crowded").hasClass("active")) {
     crowded = $("#crowded").text();
@@ -125,6 +126,24 @@ function storeTags() {
   if ($("#beginner-friendly").hasClass("active")) {
     beginnerFriendly = $("#beginner-friendly").text();
   } else { beginnerFriendly = "" }
+
+  //ACCESS TAGS
+  if ($("#parking-nearby").hasClass("active")) {
+    parkingNearby = $("#parking-nearby").text();
+  } else { parkingNearby = "" }
+  if ($("#park-and-walk").hasClass("active")) {
+    parkWalk = $("#park-and-walk").text();
+  } else { parkWalk = "" }
+  if ($("#park-and-hike").hasClass("active")) {
+    parkHike = $("#park-and-hike").text();
+  } else { parkHike = "" }
+  if ($("#park-and-long-hike").hasClass("active")) {
+    parkLongHike = $("#park-and-long-hike").text();
+  } else { parkLongHike = "" }
+  if ($("#boat-access").hasClass("active")) {
+    boatAccess = $("#boat-access").text();
+  } else { boatAccess = "" }
+
   //NEARBY TAGS
   if ($("#good-walkability").hasClass("active")) {
     walkability = $("#good-walkability").text();
@@ -174,6 +193,7 @@ function storeTags() {
   if ($("#unsafe-area").hasClass("active")) {
     unsafeArea = $("#unsafe-area").text();
   } else { unsafeArea = "" }
+
   //EATS TAGS
   if ($("#unsafe-tap-water").hasClass("active")) {
     unsafeTapWater = $("#unsafe-tap-water").text();
@@ -193,6 +213,7 @@ function storeTags() {
   if ($("#sit-down-restaurants").hasClass("active")) {
     sitDownRestaurants = $("#sit-down-restaurants").text();
   } else { sitDownRestaurants = "" }
+
   //LANGUAGE TAGS
   if ($("#english").hasClass("active")) {
     english = $("#english").text();
@@ -227,16 +248,16 @@ function submitName(e) {
   surfSpotRef.set({
     name: name,
   }, { merge: true }).then(function(docRef) {
-    $("#surf-spot-name").hide();
-    $("#surf-spot-location").show();
+    $("#one").hide();
+    $("#two").show();
   }).catch(function(error) {
     console.log(error);
   });//END -- ADD DOCUMENT TO "surf-spots-test" COLLECTION
 
 }//END -- ADD NAME TO FIRESTORE, MOVE TO NEXT FORMQUESTION
 
-//LISTEN FOR surf-spot-name FORM SUBMIT
-document.getElementById('surf-spot-name').addEventListener('submit', submitName);
+//LISTEN FOR one FORM SUBMIT
+document.getElementById('one').addEventListener('submit', submitName);
 
 
 
@@ -262,8 +283,8 @@ function submitLocation(e) {
     airportName: airportName,
     airportCode: airportCode,
   }, { merge: true }).then(function(docRef) {
-    $("#surf-spot-location").hide();
-    $("#surf-spot-directions").show();
+    $("#two").hide();
+    $("#three").show();
   }).catch(function(error) {
     console.log(error);
   });
@@ -271,8 +292,8 @@ function submitLocation(e) {
 
 }//END -- ADD LOCATION DATA TO FIRESTORE, MOVE TO NEXT FORM QUESTION
 
-//LISTEN FOR surf-spot-location FORM SUBMIT
-document.getElementById('surf-spot-location').addEventListener('submit', submitLocation);
+//LISTEN FOR two FORM SUBMIT
+document.getElementById('two').addEventListener('submit', submitLocation);
 
 
 
@@ -288,8 +309,8 @@ function submitDirections(e) {
     parkingLat: parkingLat,
     parkingLng: parkingLng,
   }, { merge: true }).then(function(docRef) {
-    $("#surf-spot-directions").hide();
-    $("#surf-spot-characteristics").show();
+    $("#three").hide();
+    $("#four").show();
   }).catch(function(error) {
     console.log(error);
   });
@@ -298,8 +319,8 @@ function submitDirections(e) {
 }
 //END -- ADD DIRECTION DATA TO FIRESTORE, MOVE TO NEXT QUESTION
 
-//LISTEN FOR surf-spot-location FORM SUBMIT
-document.getElementById('surf-spot-directions').addEventListener('submit', submitDirections);
+//LISTEN FOR two FORM SUBMIT
+document.getElementById('three').addEventListener('submit', submitDirections);
 
 
 
@@ -341,8 +362,8 @@ function submitCharacteristics(e) {
     beach: beach,
     period: period,
   }, { merge: true }).then(function(docRef) {
-    $("#surf-spot-characteristics").hide();
-    $("#surf-spot-seasonality").show();
+    $("#four").hide();
+    $("#five").show();
   }).catch(function(error) {
     console.log(error);
   });
@@ -351,8 +372,8 @@ function submitCharacteristics(e) {
 }
 //END -- ADD CHARACTERISTICS DATA TO FIRESTORE, MOVE TO NEXT QUESTION
 
-//LISTEN FOR surf-spot-characteristics FORM SUBMIT
-document.getElementById('surf-spot-characteristics').addEventListener('submit', submitCharacteristics);
+//LISTEN FOR four FORM SUBMIT
+document.getElementById('four').addEventListener('submit', submitCharacteristics);
 
 
 
@@ -390,8 +411,8 @@ function submitSeasonality(e) {
     nov: nov,
     dec: dec,
   }, { merge: true }).then(function(docRef) {
-    $("#surf-spot-seasonality").hide();
-    $("#surf-spot-description").show();
+    $("#five").hide();
+    $("#six").show();
   }).catch(function(error) {
     console.log(error);
   });
@@ -400,8 +421,8 @@ function submitSeasonality(e) {
 }
 //END -- ADD SEASONALITY DATA TO FIRESTORE, MOVE TO NEXT QUESTION
 
-//LISTEN FOR surf-spot-location FORM SUBMIT
-document.getElementById('surf-spot-seasonality').addEventListener('submit', submitSeasonality);
+//LISTEN FOR two FORM SUBMIT
+document.getElementById('five').addEventListener('submit', submitSeasonality);
 
 
 
@@ -418,8 +439,8 @@ function submitDescription(e) {
     forecast: forecast,
     description: description,
   }, { merge: true }).then(function(docRef) {
-    $("#surf-spot-description").hide();
-    $("#surf-spot-tags").show();
+    $("#six").hide();
+    $("#seven").show();
   }).catch(function(error) {
     console.log(error);
   });
@@ -428,8 +449,8 @@ function submitDescription(e) {
 }
 //END -- ADD DESCRIPTION DATA TO FIRESTORE, MOVE TO NEXT QUESTION
 
-//LISTEN FOR surf-spot-location FORM SUBMIT
-document.getElementById('surf-spot-description').addEventListener('submit', submitDescription);
+//LISTEN FOR two FORM SUBMIT
+document.getElementById('six').addEventListener('submit', submitDescription);
 
 
 
@@ -454,6 +475,11 @@ function submitTags(e) {
     competitive: competitive,
     easyToGetWaves: easyToGetWaves,
     beginnerFriendly: beginnerFriendly,
+    parkingNearby: parkingNearby,
+    parkWalk: parkWalk,
+    parkHike: parkHike,
+    parkLongHike: parkLongHike,
+    boatAccess: boatAccess,
     walkability: walkability,
     nature: nature,
     views: views,
@@ -483,8 +509,8 @@ function submitTags(e) {
     indonesian: indonesian,
 
   }, { merge: true }).then(function(docRef) {
-    $("#surf-spot-tags").hide();
-    $("#surf-spot-form-complete").show();
+    $("#seven").hide();
+    $("#restart").show();
   }).catch(function(error) {
     console.log(error);
   });
@@ -493,8 +519,8 @@ function submitTags(e) {
 }
 //END -- ADD TAGS DATA TO FIRESTORE, MOVE TO COMPLETION SCREEN
 
-//LISTEN FOR surf-spot-location FORM SUBMIT
-document.getElementById('surf-spot-tags').addEventListener('submit', submitTags);
+//LISTEN FOR two FORM SUBMIT
+document.getElementById('seven').addEventListener('submit', submitTags);
 
 
 
@@ -600,3 +626,74 @@ function deleteParkingMarkers() {
 initParkingMap();
 
 //END -- ADD PARKING COORDS
+
+
+
+
+////NAVIGATE QUESTIONS FORWARD
+function hideOneShowTwo() {
+  $("#one").hide();
+  $("#two").show();
+}
+
+function hideTwoShowThree() {
+  $("#two").hide();
+  $("#three").show();
+}
+
+function hideThreeShowFour() {
+  $("#three").hide();
+  $("#four").show();
+}
+
+function hideFourShowFive() {
+  $("#four").hide();
+  $("#five").show();
+}
+
+function hideFiveShowSix() {
+  $("#five").hide();
+  $("#six").show();
+}
+
+function hideSixShowSeven() {
+  $("#six").hide();
+  $("#seven").show();
+}
+
+function hideSevenShowRestart() {
+  $("#seven").hide();
+  $("#restart").show();
+}
+
+
+//// NAVIGATE QUESTIONS BACKWARD
+function hideTwoShowOne() {
+  $("#two").hide();
+  $("#one").show();
+}
+
+function hideThreeShowTwo() {
+  $("#three").hide();
+  $("#two").show();
+}
+
+function hideFourShowThree() {
+  $("#four").hide();
+  $("#three").show();
+}
+
+function hideFiveShowFour() {
+  $("#five").hide();
+  $("#four").show();
+}
+
+function hideSixShowFive() {
+  $("#six").hide();
+  $("#five").show();
+}
+
+function hideSevenShowSix() {
+  $("#seven").hide();
+  $("#six").show();
+}
