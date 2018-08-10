@@ -154,9 +154,6 @@ function trimHeader() {
   }
 //END -- TRIM CARD TITLE LENGTH TO 40 CHARACTERS
 
-
-
-
 ////SETS MAP ON ALL spotMarkers IN THE ARRAY. (KEEPS THEM STORED IN ARRAY SO TOGGLE WORKS.)
 function setMapOnSpotMarkers(map) {
  for (var i = 0; i < spotMarkers.length; i++) {
@@ -166,18 +163,24 @@ function setMapOnSpotMarkers(map) {
 
 ////TOGGLE spotMarkers ON MAP
 function toggleSurfSpots() {
- if ($("#toggleSurfSpots").hasClass("show")) {
+ if ($("#toggleLessons").hasClass("off") && $("#toggleAccomms").hasClass("off") && $("#toggleSurfSpots").hasClass("show")) {
+   //Display nothing when all toggles are off
+   setMapOnSpotMarkers(null);
+   $(".surf-spot-card").hide()
+   $("#toggleSurfSpots").removeClass("show");
+   $("#toggleSurfSpots").addClass("off");
+ } else if ($("#toggleSurfSpots").hasClass("show")) {
    // Removes the surfSpotMarkers from the map, but keeps them in the array.
    setMapOnSpotMarkers(null);
    $("#toggleSurfSpots").removeClass("show");
-   $("#toggleSurfSpots").addClass("disabled");
+   $("#toggleSurfSpots").addClass("off");
    $(".lesson-spot-card").show();
    $(".surf-spot-card").hide();
  } else {
    //Shows any surfSpotMarkers currently in the array.
    setMapOnSpotMarkers(map);
    $("#toggleSurfSpots").addClass("show");
-   $("#toggleSurfSpots").removeClass("disabled");
+   $("#toggleSurfSpots").removeClass("off");
    $(".lesson-spot-card").hide();
    $(".surf-spot-card").show();
    $(".accomm-spot-card").hide();
@@ -194,18 +197,30 @@ function setMapOnLessonMarkers(map) {
 
 ////TOGGLE lessonMarkers ON MAP
 function toggleLessons() {
-  if ($("#toggleLessons").hasClass("show")) {
+  if ($("#toggleSurfSpots").hasClass("off") && $("#toggleAccomms").hasClass("off") && $("#toggleLessons").hasClass("show")) {
+    //Display nothing when all toggles are off
+    setMapOnLessonMarkers(null);
+    $(".lesson-spot-card").hide();
+    $("#toggleLessons").removeClass("show");
+    $("#toggleLessons").addClass("off");
+  } else if ($("#toggleLessons").hasClass("off") && $("#toggleLessons").hasClass("lessons-not-initialized")) {
+    //Run callLessons() to add lesson cards and markers to city page
+    callLessons();
+    $("#toggleLessons").removeClass("lessons-not-initialized");
+    $("#toggleLessons").removeClass("off");
+    $("#toggleLessons").addClass("show");
+  } else if ($("#toggleLessons").hasClass("show")) {
     // Removes the lessonMarkers from the map, but keeps them in the array.
     setMapOnLessonMarkers(null);
     $("#toggleLessons").removeClass("show");
-    $("#toggleLessons").addClass("disabled");
+    $("#toggleLessons").addClass("off");
     $(".lesson-spot-card").hide();
     $(".surf-spot-card").show();
   } else {
-    //Shows any lessonMarkers currently in the array.
+    //Shows all lessonMarkers currently in the array.
     setMapOnLessonMarkers(map);
     $("#toggleLessons").addClass("show");
-    $("#toggleLessons").removeClass("disabled");
+    $("#toggleLessons").removeClass("off");
     $(".lesson-spot-card").show();
     $(".surf-spot-card").hide();
     $(".accomm-spot-card").hide();
@@ -222,24 +237,33 @@ function setMapOnAccommMarkers(map) {
 
 ////TOGGLE accommMarkers ON THE MAP
 function toggleAccomms() {
- if ($("#toggleAccomms").hasClass("disabled") && $("#toggleAccomms").hasClass("accomm-not-initialized")) {
-     //Run accommMarkers() to add accomm cards + markers to city page
-     addAccommMarkers();
-     $("#toggleAccomms").removeClass("accomm-not-initialized");
-     $("#toggleAccomms").removeClass("disabled");
-     $("#toggleAccomms").addClass("show");
+ if ($("#toggleSurfSpots").hasClass("off") && $("#toggleLessons").hasClass("off") && $("#toggleAccomms").hasClass("show")) {
+   //Display nothing when all toggles are off
+   console.log('display nothing!');
+   setMapOnAccommMarkers(null);
+   $(".accomm-spot-card").hide();
+   $(".surf-spot-card").hide();
+   $(".lesson-spot-card").hide();
+   $("#toggleAccomms").removeClass("show");
+   $("#toggleAccomms").addClass("off");
+ } else if ($("#toggleAccomms").hasClass("off") && $("#toggleAccomms").hasClass("accomm-not-initialized")) {
+   //Run accommMarkers() to add accomm cards + markers to city page
+   addAccommMarkers();
+   $("#toggleAccomms").removeClass("accomm-not-initialized");
+   $("#toggleAccomms").removeClass("off");
+   $("#toggleAccomms").addClass("show");
  } else if ($("#toggleAccomms").hasClass("show")) {
-     // Removes the accommMarkers from the map, but keeps them in the array.
-     setMapOnAccommMarkers(null);
-     $(".accomm-spot-card").hide();
-     $("#toggleAccomms").removeClass("show");
-     $("#toggleAccomms").addClass("disabled");
+   // Removes the accommMarkers from the map, but keeps them in the array.
+   setMapOnAccommMarkers(null);
+   $(".accomm-spot-card").hide();
+   $("#toggleAccomms").removeClass("show");
+   $("#toggleAccomms").addClass("off");
  } else {
-     //Shows any accommMarkers currently in the array.
-     setMapOnAccommMarkers(map);
-     $(".accomm-spot-card").show();
-     $("#toggleAccomms").addClass("show");
-     $("#toggleAccomms").removeClass("disabled");
+   //Shows any accommMarkers currently in the array.
+   setMapOnAccommMarkers(map);
+   $(".accomm-spot-card").show();
+   $("#toggleAccomms").addClass("show");
+   $("#toggleAccomms").removeClass("off");
  }
 }//END -- TOGGLE accommMarkers ON THE MAP
 
@@ -267,12 +291,12 @@ function showListMobile() {
 
 
 
-
 ////HOVER OVER CARD, CHANGE THE SURF SPOT MARKER ON THE MAP
 function highlightSurfSpotMarker(id) {
   for (i in spotMarkers){
     if(spotMarkers[i].id == id) {
       spotMarkers[i].setIcon('public/icon-images/'+spotMarkers[i].skill+'-large.png');
+      spotMarkers[i].setOptions({zIndex:9999999});
     }
   }
 }
@@ -281,6 +305,7 @@ function normalSurfSpotMarker(id) {
   for (i in spotMarkers){
     if(spotMarkers[i].id == id) {
       spotMarkers[i].setIcon('public/icon-images/'+spotMarkers[i].skill+'.png');
+      spotMarkers[i].setOptions({zIndex:2});
     }
   }
 }//END -- HOVER OVER CARD, CHANGE THE SURF SPOT MARKER ON THE MAP
@@ -291,6 +316,7 @@ function highlightMarker(id) {
   for (i in lessonMarkers){
     if(lessonMarkers[i].id == id) {
       lessonMarkers[i].setIcon('public/icon-images/surfLesson-large.png');
+      lessonMarkers[i].setOptions({zIndex:9999999});
     }
   }
 }
@@ -299,6 +325,7 @@ function normalMarker(id) {
   for (i in lessonMarkers){
     if(lessonMarkers[i].id == id) {
       lessonMarkers[i].setIcon('public/icon-images/surfLesson.png');
+      lessonMarkers[i].setOptions({zIndex:2});
     }
   }
 }//END -- HOVER OVER LESSON CARD, CHANGE THE MARKER ON THE MAP
@@ -309,6 +336,7 @@ function highlightAccommMarker(id) {
   for (i in accommMarkers){
     if(accommMarkers[i].id == id) {
       accommMarkers[i].setIcon('images/pm/' + accommMarkers[i].price + '-large.png');
+      accommMarkers[i].setOptions({zIndex:9999999});
     }
   }
 }
@@ -317,6 +345,7 @@ function normalAccommMarker(id) {
   for (i in accommMarkers){
     if(accommMarkers[i].id == id) {
       accommMarkers[i].setIcon('images/pm/' + accommMarkers[i].price + '.png');
+      accommMarkers[i].setOptions({zIndex:2});
     }
   }
 }//END -- HOVER OVER ACCOMM CARD, CHANGE THE MARKER ON THE MAP
@@ -360,6 +389,7 @@ function addSpotMarkerV2(props, map) {
     icon: 'public/icon-images/' + skill + '.png',
     id: spotID,
     skill: skill,
+    optimized: false,
   });
 
   //Add each spotMarker to the array to allow for hide/show of spotMarkers
@@ -412,17 +442,17 @@ function buildSurfSpotCards() {
   $("#spot-cards").append(`
     <div class="card surf-spot-card bright-hover" data-id="${spotID}">
       <img class="card-img tinted-spot-cards" src="images/surf-spot-default-photo.png" alt="${spotName}">
-        <div class="card-img-overlay">
-          <div class="card-body text-white p-0">
-            <a class="white-link" data-toggle="modal" data-target="#${spotID}">
-            <h5 class="card-title2">${spotName} - <img src="public/icon-images/${skill}.png"></h5>
-            <h6 class="card-subtitle2 mb-2 text-light"><span class="capitalize">${skill}</span> wave</h6>
-            <p class="card-text2 note">${note}</p>
-            <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotID}">
-              MORE INFO
-            </button>
-            </a>
-          </div>
+      <div class="card-img-overlay">
+        <div class="card-body text-white p-0">
+          <a class="white-link" data-toggle="modal" data-target="#${spotID}">
+          <h5 class="card-title2">${spotName} - <img src="public/icon-images/${skill}.png"></h5>
+          <h6 class="card-subtitle2 mb-2 text-light"><span class="capitalize">${skill}</span> wave</h6>
+          <p class="card-text2 note">${note}</p>
+          <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotID}">
+            MORE INFO
+          </button>
+          </a>
+        </div>
         </div>
     </div>
 
@@ -449,10 +479,7 @@ function buildSurfSpotCards() {
 
 
 
-
-////INIATILIZES THE MAP ON DESTIONATION.HTML
-function initializeMapCallLessons() {
-
+function initMap() {
   map = new google.maps.Map(document.getElementById('map2'), {
     center: mapCenter,
     zoom: zoom,
@@ -465,6 +492,11 @@ function initializeMapCallLessons() {
     fullscreenControl: false,
     streetViewControl: false,
   });//END -- map OBJECT
+}
+
+
+////Call Lessons ON DESTIONATION.HTML
+function callLessons() {
 
   service = new google.maps.places.PlacesService(map);
   service.nearbySearch({
@@ -473,7 +505,7 @@ function initializeMapCallLessons() {
     keyword: 'surf lessons',
   }, lessonsCallbackV2);
 
-}//END -- initializeMapCallLessons() FUNCTION
+}//END -- callLessons() FUNCTION
 
 
 ////ADD SURF LESSONS TO THE CITY PAGE VIA lessonsCallbackV2
@@ -506,7 +538,7 @@ function lessonsCallbackV2(results, status) {
 
 //IF LESSONS CALLBACK ERROR STATUS = ZERO_RESULTS, DISABLE BUTTON AND ALERT USER WHEN CLICKING ON IT
 function lessonsUnavailable() {
-  $("#toggleLessons").addClass("disabled");
+  $("#toggleLessons").addClass("off");
   $("#toggleLessons").click(function() {
     alert('👋 I looked for surf lessons here, but there\'s none available. Check another city to find your perfect surf trip with surf lessons! 🤙');
   });
@@ -521,7 +553,7 @@ function lessonsDetailsCallback(placeDetails, status) {
       //Check if .gov is in the website URL. If it's not (indexOf = -1) then we can use it.
       if (placeDetails.website !== undefined && placeDetails.website.indexOf(".gov") == -1) {
         //Check if  is in the placeDetails name. If it's not (indexOf = -1) then we can use it.
-        if (placeDetails.name.indexOf("Boardsports California") == -1 && placeDetails.name.indexOf("Shape") == -1 && placeDetails.name.indexOf("kite") == -1 && placeDetails.name.indexOf("Kite") == -1 && placeDetails.name.indexOf("Yoga") == -1 && placeDetails.name.indexOf("Bike") == -1 && placeDetails.name.indexOf("Bicycl") == -1 && placeDetails.name.indexOf("fitness") == -1) {
+        if (placeDetails.name.indexOf("Naval Postgraduate School") == -1 && placeDetails.name.indexOf("Stevenson School (Grades 9-12)") == -1 && placeDetails.name.indexOf("Boardsports California") == -1 && placeDetails.name.indexOf("Shape") == -1 && placeDetails.name.indexOf("kite") == -1 && placeDetails.name.indexOf("Kite") == -1 && placeDetails.name.indexOf("Yoga") == -1 && placeDetails.name.indexOf("Bike") == -1 && placeDetails.name.indexOf("Bicycl") == -1 && placeDetails.name.indexOf("fitness") == -1) {
           id = placeDetails.id;
           name = placeDetails.name;
           rating = placeDetails.rating;
@@ -592,6 +624,8 @@ function addLessonMarkerV2(props, map) {
     position: coords,
     map: map,
     icon: 'public/icon-images/surfLesson.png',
+    optimized: false,
+    zIndex: 4,
     id: id,
   });
 }//END -- addLessonMarkerV2 FUNCTION
@@ -599,7 +633,7 @@ function addLessonMarkerV2(props, map) {
 
 ////BUILD LESSON CARDS AND MODALS
 function buildLessonCards () {
-  $("#spot-cards").append(`
+  $("#spot-cards").prepend(`
     <div class="card lesson-spot-card bright-hover" data-id="${id}">
       <img class="card-img tinted-spot-cards" src="images/surf-lesson-default-photo.png" alt="${name}">
       <div class="card-img-overlay">
@@ -765,7 +799,7 @@ if (cityParam !== null) {
       `${city}`
     );
 
-    initializeMapCallLessons();
+    initMap();
 
     addSurfSpotMarkers();
 

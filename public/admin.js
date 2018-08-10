@@ -241,7 +241,7 @@ function submitName(e) {
   //STOP SUBMISSION FROM SUBMITTING TO THE HTML PAGE
   e.preventDefault();
 
-  name = getInputValue("name-input");
+  name = getInputValue("name-input").toLowerCase().replace(/\s+/g, "-");
   surfSpotRef = db.doc(`surf-spots-test/${name}`);
 
   //ADD DOCUMENT TO "surf-spots-test" COLLECTION
@@ -267,12 +267,12 @@ function submitLocation(e) {
   //STOP SUBMISSION FROM SUBMITTING TO THE HTML PAGE
   e.preventDefault();
 
-  city = getInputValue("city-select");
-  state = getInputValue("state-select");
-  nation = getInputValue("nation-select");
-  continent = getInputValue("continent-select");
+  city = getInputValue("city-select").toLowerCase().replace(/\s+/g, "-");
+  state = getInputValue("state-select").toLowerCase().replace(/\s+/g, "-");
+  nation = getInputValue("nation-select").toLowerCase().replace(/\s+/g, "-");
+  continent = getInputValue("continent-select").toLowerCase().replace(/\s+/g, "-");
   airportName = getInputValue("airport-name-input");
-  airportCode = getInputValue("airport-code-input");
+  airportCode = getInputValue("airport-code-input").toUpperCase();
 
   //ADD FIELDS TO DOCUMENT IN "surf-spots-test" COLLECTION
   surfSpotRef.set({
@@ -350,12 +350,12 @@ function submitCharacteristics(e) {
     skill: skill,
     board: board,
     quality: quality,
-    waveSize: waveSize,
+    size: waveSize,
     wind: wind,
     swellDir: swellDir,
     tide: tide,
-    waveDir: waveDir,
-    waveType: waveType,
+    direction: waveDir,
+    type: waveType,
     bottom: bottom,
     barrel: barrel,
     localism: localism,
@@ -437,7 +437,7 @@ function submitDescription(e) {
   //ADD FIELDS TO DOCUMENT IN "surf-spots-test" COLLECTION
   surfSpotRef.set({
     forecast: forecast,
-    description: description,
+    spotNote: description,
   }, { merge: true }).then(function(docRef) {
     $("#six").hide();
     $("#seven").show();
