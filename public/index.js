@@ -469,7 +469,7 @@ function buildSurfSpotCards() {
             <p>${fullNote}</p>
           </div>
           <div class="modal-footer bg-secondary">
-            <a class="btn btn-sm btn-danger mr-auto font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank">DIRECTIONS</a>
+            <a class="btn btn-sm btn-danger mr-auto font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank">DIRECTIONS TO PARKING</a>
           </div>
         </div>
       </div>

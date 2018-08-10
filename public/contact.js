@@ -28,6 +28,7 @@ function submitContactForm(e) {
     name: name,
     email: email,
     message: message,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
 
   }).then(function(docRef) {
     $(".alert-success").slideDown(500).delay(4000).slideUp(500);
