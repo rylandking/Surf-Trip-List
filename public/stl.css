@@ -78,7 +78,7 @@
 #floating-key {
   position: absolute;
   bottom: 10px;
-  left: 3%;
+  left: 25px;
   z-index: 5;
   background-color: #fff;
   padding: 2px;
@@ -94,8 +94,8 @@
 @media only screen and (max-width: 600px) {
   #floating-key {
     position: absolute;
-    bottom: 10px;
-    left: 5%;
+    bottom: 5px;
+    left: 25px;
     z-index: 5;
     background-color: #fff;
     text-align: left;

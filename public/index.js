@@ -63,6 +63,16 @@ let localism;
 let waveType;
 let email;
 let message;
+let neLat;
+let neLng;
+let swLat;
+let swLng;
+let lngArray = [];
+let latArray = [];
+let largerLng;
+let smallerLng;
+let largerLat;
+let smallerLat;
 
 
 
@@ -239,7 +249,6 @@ function setMapOnAccommMarkers(map) {
 function toggleAccomms() {
  if ($("#toggleSurfSpots").hasClass("off") && $("#toggleLessons").hasClass("off") && $("#toggleAccomms").hasClass("show")) {
    //Display nothing when all toggles are off
-   console.log('display nothing!');
    setMapOnAccommMarkers(null);
    $(".accomm-spot-card").hide();
    $(".surf-spot-card").hide();
@@ -355,8 +364,13 @@ function normalAccommMarker(id) {
 
 ////ADD SURF SPOT MARKERS TO THE CITY PAGE
 function addSurfSpotMarkers() {
-  //Query surf-spot collection to add spotMarkers
-  db.collection("surf-spot").where("city", "==", cityParam).get().then(function(querySnapshot) {
+  //Clear surf spot markers and cards, and show loading card
+  $(".surf-spot-card").hide();
+  setMapOnSpotMarkers(null);
+  $(".surf-spot-loading-card").show();
+
+  //Query surf-spot collection to add spotMarkers within Map bounds. IMPORTANT: Set the Lng bounds within the query as Firestore doesn't support queries on two different fields.
+  db.collection("surf-spot").where("surfspot.lat", "<=", greaterLat).where("surfspot.lat", ">=", smallerLat).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         data = doc.data();
         spotID = doc.id;
@@ -372,7 +386,10 @@ function addSurfSpotMarkers() {
         localism = data.localism;
         waveType = data.type;
 
-      addSpotMarkerV2(spotMarker, map);
+      //If the surf-spot doc is within the lat/lng map bounds, run addSpotMarkerV2()
+        if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
+          addSpotMarkerV2(spotMarker, map);
+        }
 
     });//END -- surf-spot querySnapshot
   });//END -- surf-spot FIRESTORE QUERY
@@ -425,6 +442,7 @@ function addSpotMarkerV2(props, map) {
 
   buildSurfSpotCards();
 
+  //MOUSEENTER OR LEAVE A SPOT CARD, SHOW THE RELEVANT MARKER ON THE MAP
   $(document).on('mouseenter', '.surf-spot-card', function(){
     let id = $(this).attr('data-id');
     highlightSurfSpotMarker(id);
@@ -436,9 +454,12 @@ function addSpotMarkerV2(props, map) {
 
 }//END -- addSpotMarker FUNCTION
 
-
 ////BUILDS SURF SPOT CARDS AND MODAL
 function buildSurfSpotCards() {
+  //Hide the loading card
+  $(".surf-spot-loading-card").hide();
+
+  //Build the surf spots found within the map bounds
   $("#spot-cards").append(`
     <div class="card surf-spot-card bright-hover" data-id="${spotID}">
       <img class="card-img tinted-spot-cards" src="images/surf-spot-default-photo.png" alt="${spotName}">
@@ -453,7 +474,7 @@ function buildSurfSpotCards() {
           </button>
           </a>
         </div>
-        </div>
+      </div>
     </div>
 
     <div class="modal fade" id="${spotID}" tabindex="-1" role="dialog" aria-labelledby="${spotID}-label" aria-hidden="true">
@@ -478,7 +499,6 @@ function buildSurfSpotCards() {
 }//END -- BUILDS SURF SPOT CARDS AND MODAL
 
 
-
 function initMap() {
   map = new google.maps.Map(document.getElementById('map2'), {
     center: mapCenter,
@@ -492,7 +512,36 @@ function initMap() {
     fullscreenControl: false,
     streetViewControl: false,
   });//END -- map OBJECT
-}
+
+
+  //UPDATE MAP AS BOUNDS CHANGE
+  google.maps.event.addListener(map, 'idle', function() {
+    //Clear array
+    latArray = [];
+    lngArray = [];
+
+    //Get lat of NE and SW corners of map at current state
+    neLat = map.getBounds().getNorthEast().lat();
+    swLat = map.getBounds().getSouthWest().lat();
+    neLng = map.getBounds().getNorthEast().lng();
+    swLng = map.getBounds().getSouthWest().lng();
+
+    //Push lats and lngs into arrays
+    latArray.push(neLat, swLat);
+    lngArray.push(neLng, swLng);
+
+    //Find the largest and smallest lat and lng
+    greaterLat = latArray.sort()[latArray.length - 1];
+    smallerLat = latArray.sort()[latArray.length - 2];
+    greaterLng = lngArray.sort()[lngArray.length - 2];
+    smallerLng = lngArray.sort()[lngArray.length - 1];
+
+    //ADD SURF SPOT MARKERS WITHIN INITIAL MAP BOUNDS
+    addSurfSpotMarkers();
+
+  });//END -- UPDATE MAP AS BOUNDS CHANGE
+
+}//END -- initMap() FUNCTION
 
 
 ////Call Lessons ON DESTIONATION.HTML
@@ -801,7 +850,7 @@ if (cityParam !== null) {
 
     initMap();
 
-    addSurfSpotMarkers();
+    // addSurfSpotMarkers();
 
   });//END -- BUILD CITY PAGE BASED ON CITY PARAM
 }
