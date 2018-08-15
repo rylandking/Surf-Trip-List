@@ -523,7 +523,7 @@ function buildSurfSpotCards() {
 
 
 function initMap() {
-  map = new google.maps.Map(document.getElementById('map2'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     center: mapCenter,
     zoom: zoom,
 
@@ -908,6 +908,11 @@ if (cityParam !== null) {
     );
 
     initMap();
+
+    //Add #map-wrapper back once initMap has ran, to hide map near immediately after clicking into new city on mobile
+    setTimeout(function() {
+      $("#map-wrapper").addClass("d-none");
+    }, 75);
 
   });//END -- BUILD CITY PAGE BASED ON CITY PARAM
 }
