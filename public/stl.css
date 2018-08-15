@@ -89,6 +89,7 @@
   font-size: 12px;
   font-weight: bold;
   color: #708090;
+  border-radius: 3px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -103,6 +104,7 @@
     font-size: 12px;
     font-weight: bold;
     color: #708090;
+    border-radius: 3px;
   }
 }
 
@@ -305,8 +307,10 @@ p.card-hover-overlay {
 }
 
 .bright-hover:hover {
-  filter: brightness(110%);
+  filter: brightness(115%);
 }
+
+
 
 /* FOOTER */
 #footer {

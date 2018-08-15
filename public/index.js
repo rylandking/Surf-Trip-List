@@ -73,6 +73,8 @@ let largerLng;
 let smallerLng;
 let largerLat;
 let smallerLat;
+let currentZoom;
+let markerClick;
 
 
 
@@ -192,8 +194,9 @@ function toggleSurfSpots() {
    $("#toggleSurfSpots").addClass("show");
    $("#toggleSurfSpots").removeClass("off");
    $(".lesson-spot-card").hide();
-   $(".surf-spot-card").show();
+   addSurfSpotMarkers();
    $(".accomm-spot-card").hide();
+   $(".loading-surf-spot-card").hide();
  }
 }//END -- TOGGLE spotMarkers ON THE MAP
 
@@ -225,7 +228,6 @@ function toggleLessons() {
     $("#toggleLessons").removeClass("show");
     $("#toggleLessons").addClass("off");
     $(".lesson-spot-card").hide();
-    $(".surf-spot-card").show();
   } else {
     //Shows all lessonMarkers currently in the array.
     setMapOnLessonMarkers(map);
@@ -367,9 +369,10 @@ function addSurfSpotMarkers() {
   //Clear surf spot markers and cards, and show loading card
   $(".surf-spot-card").hide();
   setMapOnSpotMarkers(null);
-  $(".surf-spot-loading-card").show();
+  spotMarkers = [];
+  $(".loading-surf-spot-card").show();
 
-  //Query surf-spot collection to add spotMarkers within Map bounds. IMPORTANT: Set the Lng bounds within the query as Firestore doesn't support queries on two different fields.
+  //Query surf-spot collection to add spotMarkers within Map bounds. IMPORTANT: THIS IS QUERYING ALL SPOTS WITHIN THE greaterLat & smallerLat VARIABLES NO MATTER THERE LNG. The Lng bounds can't be set in the the query as Firestore doesn't support queries on two different fields. Lng bounds are set in a conditional below, which then runs the addSurfSpotMarker() function.
   db.collection("surf-spot").where("surfspot.lat", "<=", greaterLat).where("surfspot.lat", ">=", smallerLat).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         data = doc.data();
@@ -386,18 +389,36 @@ function addSurfSpotMarkers() {
         localism = data.localism;
         waveType = data.type;
 
-      //If the surf-spot doc is within the lat/lng map bounds, run addSpotMarkerV2()
+        //If the surf-spot doc is within the lat/lng map bounds, run addSurfSpotMarker().
         if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
-          addSpotMarkerV2(spotMarker, map);
+          addSurfSpotMarker(spotMarker, map);
         }
 
     });//END -- surf-spot querySnapshot
+  }).then(function() {
+    //If spotMarkers array holds 0 values, show card that tells user there are no surf spots here.
+    if (spotMarkers.length == 0) {
+      $(".loading-surf-spot-card").hide();
+
+      $("#spot-cards").append(`
+        <div class="card surf-spot-card bright-hover no-surf-spots-card" data-id="loading">
+          <img class="card-img tinted-spot-cards" src="images/surf-spot-default-photo.png" alt="loading-surf-spots">
+          <div class="card-img-overlay">
+            <div class="card-body text-white p-0">
+              <h5 class="card-title2">No surf spots here.</h5>
+              <h5 class="card-text2 note mt-2">To discover more surf spots, move the map somewhere else or refresh the page.</h6>
+            </div>
+          </div>
+        </div>
+      `);
+    }//END -- spotMarker.length CONDITIONAL
+
   });//END -- surf-spot FIRESTORE QUERY
 }//END -- addSurfSpotMarkers
 
 
 ////ADDS A SURF SPOT MARKER TO THE MAP
-function addSpotMarkerV2(props, map) {
+function addSurfSpotMarker(props, map) {
 
   //Add spotMarkers to map
   spotMarker = new google.maps.Marker({
@@ -432,6 +453,8 @@ function addSpotMarkerV2(props, map) {
   `;
 
   spotMarker.addListener('click', function() {
+    //Set markerClick to true so 'idle' listener doesn't run when infowindow pans map
+    markerClick = true;
     //Open & close the spotMarker infowindow
     infowindow.setContent(this.html);
     infowindow.open(map, this);
@@ -457,7 +480,7 @@ function addSpotMarkerV2(props, map) {
 ////BUILDS SURF SPOT CARDS AND MODAL
 function buildSurfSpotCards() {
   //Hide the loading card
-  $(".surf-spot-loading-card").hide();
+  $(".loading-surf-spot-card").hide();
 
   //Build the surf spots found within the map bounds
   $("#spot-cards").append(`
@@ -466,7 +489,7 @@ function buildSurfSpotCards() {
       <div class="card-img-overlay">
         <div class="card-body text-white p-0">
           <a class="white-link" data-toggle="modal" data-target="#${spotID}">
-          <h5 class="card-title2">${spotName} - <img src="public/icon-images/${skill}.png"></h5>
+          <h5 class="card-title2">${spotName} - <img id="spot-card-skill-icon" src="public/icon-images/${skill}.png"></h5>
           <h6 class="card-subtitle2 mb-2 text-light"><span class="capitalize">${skill}</span> wave</h6>
           <p class="card-text2 note">${note}</p>
           <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotID}">
@@ -536,8 +559,15 @@ function initMap() {
     greaterLng = lngArray.sort()[lngArray.length - 2];
     smallerLng = lngArray.sort()[lngArray.length - 1];
 
-    //ADD SURF SPOT MARKERS WITHIN INITIAL MAP BOUNDS
-    addSurfSpotMarkers();
+    //If markerClick is false run addSurfSpotMarkers() spotMarker.addListener turns markerClick = true;
+    //Only run addSurfSpotMarkers() when map has been clicked so when people open an infowindow it doesn't annoyingly call addSurfSpotMarkers() again.
+    if (!markerClick) {
+      //ADD SURF SPOT MARKERS WITHIN MAP BOUNDS
+      addSurfSpotMarkers();
+    }
+
+    //Return markerClick to false to allow addSurfSpotMarkers() to run on future map 'idle's
+    markerClick = false;
 
   });//END -- UPDATE MAP AS BOUNDS CHANGE
 
@@ -849,8 +879,6 @@ if (cityParam !== null) {
     );
 
     initMap();
-
-    // addSurfSpotMarkers();
 
   });//END -- BUILD CITY PAGE BASED ON CITY PARAM
 }
