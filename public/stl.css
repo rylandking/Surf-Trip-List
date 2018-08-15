@@ -89,7 +89,7 @@
   font-size: 12px;
   font-weight: bold;
   color: #708090;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -104,8 +104,25 @@
     font-size: 12px;
     font-weight: bold;
     color: #708090;
-    border-radius: 3px;
+    border-radius: 2px;
   }
+}
+
+#floating-search-toggle {
+  position: absolute;
+  top: 10px;
+  left: 75px;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  text-align: left;
+  line-height: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #708090;
+  border-radius: 2px;
+  height: 20px;
+  width: auto;
 }
 
 .city-card {

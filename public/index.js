@@ -559,17 +559,29 @@ function initMap() {
     greaterLng = lngArray.sort()[lngArray.length - 2];
     smallerLng = lngArray.sort()[lngArray.length - 1];
 
-    //If markerClick is false run addSurfSpotMarkers() spotMarker.addListener turns markerClick = true;
-    //Only run addSurfSpotMarkers() when map has been clicked so when people open an infowindow it doesn't annoyingly call addSurfSpotMarkers() again.
-    if (!markerClick) {
-      //ADD SURF SPOT MARKERS WITHIN MAP BOUNDS
-      addSurfSpotMarkers();
+    //If search-toggle button is checked, let markers refresh when map moves
+    if ($("#floating-search-toggle").hasClass("map-search-on")) {
+      //Don't add spotMarkers to the map when a marker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
+      if (!markerClick) {
+        //ADD SURF SPOT MARKERS WITHIN MAP BOUNDS
+        addSurfSpotMarkers();
+      }
     }
 
     //Return markerClick to false to allow addSurfSpotMarkers() to run on future map 'idle's
     markerClick = false;
 
   });//END -- UPDATE MAP AS BOUNDS CHANGE
+
+  //On click of #floating-search-toggle, turn off ability to run addSurfSpotMarkers()
+  $("#floating-search-toggle").click(function() {
+    $("#floating-search-toggle").toggleClass("map-search-on");
+
+    //When you toggle the search-map checkbox back on, populate the markers within current map view
+    if ($("#floating-search-toggle").hasClass("map-search-on")) {
+      addSurfSpotMarkers();
+    }
+  });
 
 }//END -- initMap() FUNCTION
 
