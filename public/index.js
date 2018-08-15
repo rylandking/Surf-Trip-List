@@ -559,6 +559,23 @@ function initMap() {
     greaterLng = lngArray.sort()[lngArray.length - 2];
     smallerLng = lngArray.sort()[lngArray.length - 1];
 
+    addSurfSpotMarkersWrapper();
+
+    //Return markerClick to false to allow addSurfSpotMarkers() to run on future map 'idle's
+    markerClick = false;
+
+  });//END -- UPDATE MAP AS BOUNDS CHANGE
+
+  //Listener toggles ability to add spotMarkers to map when clicked
+  toggleMapSearch();
+
+}//END -- initMap() FUNCTION
+
+
+//Runs through all the conditionals before add
+function addSurfSpotMarkersWrapper() {
+  //If toggleSurfSpots button is on, let surfSpotMarkers be added to the map
+  if ($("#toggleSurfSpots").hasClass("show")) {
     //If search-toggle button is checked, let markers refresh when map moves
     if ($("#floating-search-toggle").hasClass("map-search-on")) {
       //Don't add spotMarkers to the map when a marker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
@@ -567,23 +584,23 @@ function initMap() {
         addSurfSpotMarkers();
       }
     }
+  }
+}//END -- addSurfSpotMarkersWrapper()
 
-    //Return markerClick to false to allow addSurfSpotMarkers() to run on future map 'idle's
-    markerClick = false;
 
-  });//END -- UPDATE MAP AS BOUNDS CHANGE
-
-  //On click of #floating-search-toggle, turn off ability to run addSurfSpotMarkers()
+//On click of #floating-search-toggle, turn off ability to add spotMarkers to the map (aka run addSurfSpotMarkers())
+function toggleMapSearch() {
   $("#floating-search-toggle").click(function() {
     $("#floating-search-toggle").toggleClass("map-search-on");
 
     //When you toggle the search-map checkbox back on, populate the markers within current map view
     if ($("#floating-search-toggle").hasClass("map-search-on")) {
-      addSurfSpotMarkers();
+      addSurfSpotMarkersWrapper();
     }
   });
+}
 
-}//END -- initMap() FUNCTION
+
 
 
 ////Call Lessons ON DESTIONATION.HTML
