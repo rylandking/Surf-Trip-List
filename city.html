@@ -15,9 +15,6 @@
     gtag('config', 'UA-123074848-1');
   </script>
 
-  <!-- Link to custom CSS -->
-  <link rel="stylesheet" href="public/stl.css">
-
   <!-- JQUERY -->
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -37,6 +34,9 @@
 
   <!-- FONT AWESOME - for icons -->
   <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+
+  <!-- Link to custom CSS -->
+  <link rel="stylesheet" href="public/stl.css">
 
   <!-- Initalizes Firestore -->
   <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
@@ -93,10 +93,12 @@
 
     <!-- FILTER BUTTONS -->
     <div id="primary-location-menu">
-      <button id="toggleSurfSpots" class="btn btn-danger btn-sm xs-btn no-button-shadow show spot-button surf-spot-button" onclick="toggleSurfSpots();"><b>Surf Spots</b></button>
-      <button id="toggleLessons" class="btn btn-danger btn-sm xs-btn no-button-shadow spot-button lesson-spot-button off lessons-not-initialized" onclick="toggleLessons();"><b>Lessons</b></button>
-      <button id="toggleAccomms" class="btn btn-danger btn-sm xs-btn no-button-shadow spot-button off accomm-not-initialized" onclick="toggleAccomms();"><b>Accommodations</b></button>
-      <!-- <button id="toggleRentals" class="btn btn-outline-secondary btn-sm xs-btn no-button-shadow show spot-button" onclick="toggleRentals();">Rentals</button> -->
+      <!-- <button id="toggleSurfSpots" class="btn btn-danger btn-sm xs-btn no-button-shadow markers-showing one"><b>Surf Spots</b></button>
+      <button id="toggleLessons" class="btn btn-danger btn-sm xs-btn no-button-shadow markers-hidden two"><b>Lessons</b></button>
+      <button id="toggleAccomms" class="btn btn-danger btn-sm xs-btn no-button-shadow markers-hidden three"><b>Accommodations</b></button> -->
+      <button id="toggleSurfSpots" class="toggle-button markers-showing one">Surf Spots</button>
+      <button id="toggleLessons" class="toggle-button markers-hidden two">Lessons</button>
+      <button id="toggleAccomms" class="toggle-button markers-hidden three">Accommodations</button>
     </div>
 
     <hr class="mt-2">
@@ -106,7 +108,7 @@
 
       <!-- SPOT CARDS LIST -->
       <div id="spot-cards" class="col-md-4">
-        <!-- LOADING CARD -->
+        <!-- LOADING SURF SPOT CARD -->
         <div class="card surf-spot-card bright-hover loading-surf-spot-card" data-id="loading">
           <img class="card-img tinted-spot-cards" src="images/surf-spot-default-photo.png" alt="loading-surf-spots">
           <div class="card-img-overlay">
@@ -115,6 +117,28 @@
             </div>
           </div>
         </div>
+
+        <!-- LOADING ACCOMMODATIONS CARD -->
+        <div class="card bright-hover loading-accomm-card hide" data-id="loading">
+          <img class="card-img tinted-spot-cards" src="images/accomm-default-photo.png" alt="loading-accommodations">
+          <div class="card-img-overlay">
+            <div class="card-body text-white p-0">
+              <h5 class="card-title2">LOADING ACCOMMODATIONS...</h5>
+            </div>
+          </div>
+        </div>
+
+        <!-- ALL FILTERS OFF CARD -->
+        <div class="card bright-hover all-filters-off-card hide" data-id="loading">
+          <img class="card-img tinted-spot-cards" src="images/accomm-default-photo.png" alt="all-surf-trip-filters-are-off">
+          <div class="card-img-overlay">
+            <div class="card-body text-white p-0">
+              <h5 class="card-title2">ALL FILTERS ARE OFF</h5>
+              <h5 class="card-text2 note mt-2">Click a button above or refresh the page, to discover more surf trip information.</h6>
+            </div>
+          </div>
+        </div>
+
 
       </div><!-- END OF SPOT CARDS LIST -->
 

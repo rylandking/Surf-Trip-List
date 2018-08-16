@@ -36,11 +36,9 @@
   padding: 0px;
 }
 
-
-.off {
+.markers-hidden {
   background-color: #c3c3c3 !important;
   border-color: #c3c3c3 !important;
-  font: black !important;
   cursor: pointer;
 }
 
@@ -356,13 +354,44 @@ p.card-hover-overlay {
 
 /* CUSTOM CSS */
 
+.no-button-shadow:focus {
+  box-shadow: none;
+}
+
 .xs-btn {
   height:26px;
   font-size:11px !important;
 }
 
-.no-button-shadow {
-  box-shadow: none !important;
+.toggle-button {
+  background-color: #d9534f;
+  border-radius: 2px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  height:26px;
+  font-size:11px;
+  padding-top: 2px;
+  box-shadow: none;
+}
+
+.toggle-button:hover {
+  filter: brightness(95%);
+}
+
+/* Hides blue shadow around button after click */
+.toggle-button:active,
+.toggle-button:focus,
+.toggle-button.active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+/* Adds the shadow to the button who's cards are showing */
+.one {
+  box-shadow: 0px 0px 0px 2px rgb(217, 83, 79, .5) !important;
 }
 
 .capitalize {
