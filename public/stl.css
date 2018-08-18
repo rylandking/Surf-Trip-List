@@ -36,12 +36,6 @@
   padding: 0px;
 }
 
-.markers-hidden {
-  background-color: #c3c3c3 !important;
-  border-color: #c3c3c3 !important;
-  cursor: pointer;
-}
-
 
 /* MAP */
 #map {
@@ -103,8 +97,8 @@
 
 #floating-search-toggle {
   position: absolute;
-  top: 10px;
-  left: 75px;
+  top: 50px;
+  left: 25px;
   z-index: 5;
   background-color: #fff;
   padding: 5px;
@@ -114,6 +108,19 @@
   font-weight: bold;
   color: #708090;
   border-radius: 2px;
+  height: 20px;
+  width: auto;
+}
+
+#floating-marker-buttons {
+  position: absolute;
+  top: 15px;
+  left: 25px;
+  z-index: 5;
+  text-align: left;
+  line-height: 5px;
+  font-size: 12px;
+  font-weight: bold;
   height: 20px;
   width: auto;
 }
@@ -364,7 +371,6 @@ p.card-hover-overlay {
 }
 
 .toggle-button {
-  background-color: #d9534f;
   border-radius: 2px;
   border: none;
   color: white;
@@ -373,10 +379,6 @@ p.card-hover-overlay {
   font-size:11px;
   padding-top: 2px;
   box-shadow: none;
-}
-
-.toggle-button:hover {
-  filter: brightness(95%);
 }
 
 /* Hides blue shadow around button after click */
@@ -389,9 +391,24 @@ p.card-hover-overlay {
           box-shadow: none;
 }
 
-/* Adds the shadow to the button who's cards are showing */
-.one {
-  box-shadow: 0px 0px 0px 2px rgb(217, 83, 79, .5) !important;
+.cards-showing {
+  background-color: #d9534f;
+}
+
+.markers-showing {
+  background-color: #d9534f;
+}
+
+.cards-hidden {
+  background-color: #A9A9A9 !important;
+  border-color: #A9A9A9 !important;
+  cursor: pointer;
+}
+
+.markers-hidden {
+  background-color: #A9A9A9 !important;
+  border-color: #A9A9A9 !important;
+  cursor: pointer;
 }
 
 .capitalize {

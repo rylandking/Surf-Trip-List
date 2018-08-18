@@ -93,12 +93,9 @@
 
     <!-- FILTER BUTTONS -->
     <div id="primary-location-menu">
-      <!-- <button id="toggleSurfSpots" class="btn btn-danger btn-sm xs-btn no-button-shadow markers-showing one"><b>Surf Spots</b></button>
-      <button id="toggleLessons" class="btn btn-danger btn-sm xs-btn no-button-shadow markers-hidden two"><b>Lessons</b></button>
-      <button id="toggleAccomms" class="btn btn-danger btn-sm xs-btn no-button-shadow markers-hidden three"><b>Accommodations</b></button> -->
-      <button id="toggleSurfSpots" class="toggle-button markers-showing one">Surf Spots</button>
-      <button id="toggleLessons" class="toggle-button markers-hidden two">Lessons</button>
-      <button id="toggleAccomms" class="toggle-button markers-hidden three">Accommodations</button>
+      <button id="toggleSurfSpotCards" class="toggle-button cards-showing"><i class="fas fa-list-ul"></i>   Surf Spots</button>
+      <button id="toggleLessonCards" class="toggle-button cards-hidden"><i class="fas fa-list-ul"></i>     Lessons</button>
+      <button id="toggleAccommCards" class="toggle-button cards-hidden"><i class="fas fa-list-ul"></i>    Accommodations</button>
     </div>
 
     <hr class="mt-2">
@@ -145,6 +142,12 @@
       <!-- MAP -->
       <!-- d-none is added when city page is loaded to initially hide Map on mobile -->
       <div id="map-wrapper" class="container-fluid col-md-8 d-md-block">
+
+        <div id="floating-marker-buttons">
+          <button id="toggleSurfSpotMarkers" class="toggle-button markers-showing"><i id="toggleSurfSpotMarkerIcon" class="fas fa-map-marker-alt"></i>     Surf Spots</button>
+          <button id="toggleLessonMarkers" class="toggle-button markers-hidden"><i id="toggleLessonMarkerIcon" class="fas fa-times"></i>    Lessons</button>
+          <button id="toggleAccommMarkers" class="toggle-button markers-hidden"><i id="toggleAccommMarkerIcon" class="fas fa-times"></i>     Accommodations</button>
+        </div>
 
         <div id="floating-search-toggle" class="map-search-on">
           <input type="checkbox" value="" id="search-as-you-move-map-checkbox" checked>

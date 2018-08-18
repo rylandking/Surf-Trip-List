@@ -171,7 +171,7 @@ function trimHeader() {
 
 
 ////SETS MAP ON ALL surfSpotMarkers IN THE ARRAY. (KEEPS THEM STORED IN ARRAY SO TOGGLE WORKS.)
-function setMapOnSpotMarkers(map) {
+function setMapOnSurfSpotMarkers(map) {
  for (var i = 0; i < surfSpotMarkers.length; i++) {
    surfSpotMarkers[i].setMap(map);
  }
@@ -193,314 +193,255 @@ function setMapOnAccommMarkers(map) {
 
 
 
+
 ////HIDE AND SHOW CARDS IN SPOT-CARD LIST ON CLICK OF TOGGLE BUTTONS
 function toggleSurfSpotCards() {
-  $("#toggleSurfSpots").click(function () {
-    //IF BUTTON IS OFF (markers-hidden) AND CLICKED ON
-    if ($("#toggleSurfSpots").hasClass("markers-hidden")) {
-      //Remove .two or .three from this button
-      $("#toggleSurfSpots").removeClass("two");
-      $("#toggleSurfSpots").removeClass("three");
-      //Add .one to this button
-      $("#toggleSurfSpots").addClass("one");
+  $("#toggleSurfSpotCards").click(function() {
+    //IF BUTTON IS OFF (.cards-hidden) AND CLICKED
+    if ($("#toggleSurfSpotCards").hasClass("cards-hidden")) {
+      //Remove .card-showing from others and add .cards-hidden
+      $("#toggleLessonCards").removeClass("cards-showing");
+      $("#toggleAccommCards").removeClass("cards-showing");
+      $("#toggleLessonCards").addClass("cards-hidden");
+      $("#toggleAccommCards").addClass("cards-hidden");
+      //Remove .cards-hidden and add .card-showing
+      $("#toggleSurfSpotCards").removeClass("cards-hidden");
+      $("#toggleSurfSpotCards").addClass("cards-showing");
+      //If markers are hidden (.markers-hidden) add markers to map
+      if ($("#toggleSurfSpotMarkers").hasClass("markers-hidden")) {
+        //Remove markers-hidden and close icon
+        $("#toggleSurfSpotMarkers").removeClass("markers-hidden");
+        $("#toggleSurfSpotMarkerIcon").removeClass("fa-times");
+        //Add markers-showing and marker icon
+        $("#toggleSurfSpotMarkers").addClass("markers-showing");
+        $("#toggleSurfSpotMarkerIcon").addClass("fa-map-marker-alt");
 
-      //If toggleLessons has .one replace it with .two
-      if ($("#toggleLessons").hasClass("one")) {
-        $("#toggleLessons").removeClass("one");
-        $("#toggleLessons").addClass("two");
-      //If toggleLessons has .two replace it with .three
-      } else if ($("#toggleLessons").hasClass("two")) {
-        $("#toggleLessons").removeClass("two");
-        $("#toggleLessons").addClass("three");
       }
+    //IF BUTTON IS ON (.cards-showing) AND CLICKED
+    } else if ($("#toggleSurfSpotCards").hasClass("cards-showing")) {
+      //If .markers-hidden, add markers
+      if ($("#toggleSurfSpotMarkers").hasClass("markers-hidden")) {
 
-      //If toggleAccomms has .one replace it with .two
-      if ($("#toggleAccomms").hasClass("one")) {
-        $("#toggleAccomms").removeClass("one");
-        $("#toggleAccomms").addClass("two");
-      //If toggleAccomms has .two replace it with .three
-      } else if ($("#toggleAccomms").hasClass("two")) {
-        $("#toggleAccomms").removeClass("two");
-        $("#toggleAccomms").addClass("three");
-      }
-    }//END -- IF BUTTON IS OFF (markers-hidden) AND CLICKED ON
-
-    //IF BUTTON IS ON (markers-showing) AND CLICKED OFF
-    if ($("#toggleSurfSpots").hasClass("markers-showing")) {
-      //Remove .one or .two from this button
-      $("#toggleSurfSpots").removeClass("one");
-      $("#toggleSurfSpots").removeClass("two");
-      //Add .three to this button
-      $("#toggleSurfSpots").addClass("three");
-
-      //If toggleLessons has .two replace it with .one
-      if ($("#toggleLessons").hasClass("two")) {
-        $("#toggleLessons").removeClass("two");
-        $("#toggleLessons").addClass("one");
-      //If toggleLessons has .three replace it with .two
-      } else if ($("#toggleLessons").hasClass("three")) {
-        $("#toggleLessons").removeClass("three");
-        $("#toggleLessons").addClass("two");
-      }
-
-      //If toggleAccomms has .two replace it with .one
-      if ($("#toggleAccomms").hasClass("two")) {
-        $("#toggleAccomms").removeClass("two");
-        $("#toggleAccomms").addClass("one");
-      //If toggleLessons has .three replace it with .two
-      } else if ($("#toggleAccomms").hasClass("three")) {
-        $("#toggleAccomms").removeClass("three");
-        $("#toggleAccomms").addClass("two");
       }
     }
-
   });//END -- click function
-}//END -- toggleSurfSpotCards()
-
+}//END - toggleSurfSpotCards
 
 function toggleLessonCards() {
-  //IF LESSONS BUTTON IS OFF (markers-hidden) AND CLICKED ON
-  $("#toggleLessons").click(function () {
-    if ($("#toggleLessons").hasClass("markers-hidden")) {
-      //Remove .two or .three from this button
-      $("#toggleLessons").removeClass("two");
-      $("#toggleLessons").removeClass("three");
-      //Add .one to this button
-      $("#toggleLessons").addClass("one");
+  $("#toggleLessonCards").click(function() {
+    //IF BUTTON IS OFF (.cards-hidden) AND CLICKED ON
+    if ($("#toggleLessonCards").hasClass("cards-hidden")) {
+      //Remove .card-showing from others and add .cards-hidden
+      $("#toggleSurfSpotCards").removeClass("cards-showing");
+      $("#toggleAccommCards").removeClass("cards-showing");
+      $("#toggleSurfSpotCards").addClass("cards-hidden");
+      $("#toggleAccommCards").addClass("cards-hidden");
+      //Remove .cards-hidden and add .card-showing
+      $("#toggleLessonCards").removeClass("cards-hidden");
+      $("#toggleLessonCards").addClass("cards-showing");
+      //If markers are hidden (.markers-hidden) add markers to map
+      if ($("#toggleLessonMarkers").hasClass("markers-hidden")) {
+        //Remove markers-hidden and close icon
+        $("#toggleLessonMarkers").removeClass("markers-hidden");
+        $("#toggleLessonMarkerIcon").removeClass("fa-times");
+        //Add markers-showing and marker icon
+        $("#toggleLessonMarkers").addClass("markers-showing");
+        $("#toggleLessonMarkerIcon").addClass("fa-map-marker-alt");
 
-      //If toggleSurfSpots has .one replace it with .two
-      if ($("#toggleSurfSpots").hasClass("one")) {
-        $("#toggleSurfSpots").removeClass("one");
-        $("#toggleSurfSpots").addClass("two");
-      //If toggleSurfSpots has .two replace it with .three
-      } else if ($("#toggleSurfSpots").hasClass("two")) {
-        $("#toggleSurfSpots").removeClass("two");
-        $("#toggleSurfSpots").addClass("three");
       }
+    //IF BUTTON IS ON (.cards-showing) AND CLICKED ON
+    } else if ($("#toggleLessonCards").hasClass("cards-showing")) {
+      //If .markers-hidden, add markers
+      if ($("#toggleLessonMarkers").hasClass("markers-hidden")) {
 
-      //If toggleAccomms has .one replace it with .two
-      if ($("#toggleAccomms").hasClass("one")) {
-        $("#toggleAccomms").removeClass("one");
-        $("#toggleAccomms").addClass("two");
-      //If toggleAccomms has .two replace it with .three
-      } else if ($("#toggleAccomms").hasClass("two")) {
-        $("#toggleAccomms").removeClass("two");
-        $("#toggleAccomms").addClass("three");
       }
-    }//END -- IF LESSONS BUTTON IS OFF (markers-hidden) AND CLICKED ON
-
-    //IF LESSON BUTTON IS ON (markers-showing) AND CLICKED OFF
-    if ($("#toggleLessons").hasClass("markers-showing")) {
-      //Remove .one or .two from this button
-      $("#toggleLessons").removeClass("one");
-      $("#toggleLessons").removeClass("two");
-      //Add .three to this button
-      $("#toggleLessons").addClass("three");
-
-      //If toggleSurfSpots has .two replace it with .one
-      if ($("#toggleSurfSpots").hasClass("two")) {
-        $("#toggleSurfSpots").removeClass("two");
-        $("#toggleSurfSpots").addClass("one");
-      //If toggleSurfSpots has .three replace it with .two
-      } else if ($("#toggleSurfSpots").hasClass("three")) {
-        $("#toggleSurfSpots").removeClass("three");
-        $("#toggleSurfSpots").addClass("two");
-      }
-
-      //If toggleAccomms has .two replace it with .one
-      if ($("#toggleAccomms").hasClass("two")) {
-        $("#toggleAccomms").removeClass("two");
-        $("#toggleAccomms").addClass("one");
-      //If toggleLessons has .three replace it with .two
-      } else if ($("#toggleAccomms").hasClass("three")) {
-        $("#toggleAccomms").removeClass("three");
-        $("#toggleAccomms").addClass("two");
-      }
-    }//END -- IF LESSON BUTTON IS ON (markers-showing) AND CLICKED OFF
-
+    }
   });//END -- click function
 }//END -- toggleLessonCards()
 
-
 function toggleAccommCards() {
-  //IF ACCOMMS BUTTON IS OFF (markers-hidden) AND CLICKED ON
-  $("#toggleAccomms").click(function () {
-    if ($("#toggleAccomms").hasClass("markers-hidden")) {
-      //Remove .two or .three from this button
-      $("#toggleAccomms").removeClass("two");
-      $("#toggleAccomms").removeClass("three");
-      //Add .one to this button
-      $("#toggleAccomms").addClass("one");
-      // console.log('toggleAccoms markers-hidden running');
+  $("#toggleAccommCards").click(function() {
+    //IF BUTTON IS OFF (.cards-hidden) AND CLICKED ON
+    if ($("#toggleAccommCards").hasClass("cards-hidden")) {
+      //Remove .card-showing from others and add .cards-hidden
+      $("#toggleSurfSpotCards").removeClass("cards-showing");
+      $("#toggleLessonCards").removeClass("cards-showing");
+      $("#toggleSurfSpotCards").addClass("cards-hidden");
+      $("#toggleLessonCards").addClass("cards-hidden");
+      //Remove .cards-hidden and add .card-showing
+      $("#toggleAccommCards").removeClass("cards-hidden");
+      $("#toggleAccommCards").addClass("cards-showing");
+      //If markers are hidden (.markers-hidden) add markers to map
+      if ($("#toggleAccommMarkers").hasClass("markers-hidden")) {
+        //Remove markers-hidden and close icon
+        $("#toggleAccommMarkers").removeClass("markers-hidden");
+        $("#toggleAccommMarkerIcon").removeClass("fa-times");
+        //Add markers-showing and marker icon
+        $("#toggleAccommMarkers").addClass("markers-showing");
+        $("#toggleAccommMarkerIcon").addClass("fa-map-marker-alt");
 
-      //If toggleSurfSpots has .one replace it with .two
-      if ($("#toggleSurfSpots").hasClass("one")) {
-        $("#toggleSurfSpots").removeClass("one");
-        $("#toggleSurfSpots").addClass("two");
-      //If toggleSurfSpots has .two replace it with .three
-      } else if ($("#toggleSurfSpots").hasClass("two")) {
-        $("#toggleSurfSpots").removeClass("two");
-        $("#toggleSurfSpots").addClass("three");
       }
+    //IF BUTTON IS ON (.cards-showing) AND CLICKED ON
+    } else if ($("#toggleAccommCards").hasClass("cards-showing")) {
+      //If .markers-hidden, add markers
+      if ($("#toggleAccommMarkers").hasClass("markers-hidden")) {
 
-      //If toggleLessons has .one replace it with .two
-      if ($("#toggleLessons").hasClass("one")) {
-        $("#toggleLessons").removeClass("one");
-        $("#toggleLessons").addClass("two");
-      //If toggleLessons has .two replace it with .three
-      } else if ($("#toggleLessons").hasClass("two")) {
-        $("#toggleLessons").removeClass("two");
-        $("#toggleLessons").addClass("three");
       }
-    }//END -- IF ACCOMMS BUTTON IS OFF (markers-hidden) AND CLICKED ON
-
-    //IF ACCOMMS BUTTON IS ON (markers-showing) AND CLICKED OFF
-    if ($("#toggleAccomms").hasClass("markers-showing")) {
-      //Remove .one or .two from this button
-      $("#toggleAccomms").removeClass("one");
-      $("#toggleAccomms").removeClass("two");
-      //Add .three to this button
-      $("#toggleAccomms").addClass("three");
-
-      //If toggleSurfSpots has .two replace it with .one
-      if ($("#toggleSurfSpots").hasClass("two")) {
-        $("#toggleSurfSpots").removeClass("two");
-        $("#toggleSurfSpots").addClass("one");
-      //If toggleSurfSpots has .three replace it with .two
-      } else if ($("#toggleSurfSpots").hasClass("three")) {
-        $("#toggleSurfSpots").removeClass("three");
-        $("#toggleSurfSpots").addClass("two");
-      }
-
-      //If toggleLessons has .two replace it with .one
-      if ($("#toggleLessons").hasClass("two")) {
-        $("#toggleLessons").removeClass("two");
-        $("#toggleLessons").addClass("one");
-      //If toggleLessons has .three replace it with .two
-      } else if ($("#toggleLessons").hasClass("three")) {
-        $("#toggleLessons").removeClass("three");
-        $("#toggleLessons").addClass("two");
-      }
-    }//END -- IF ACCOMMS BUTTON IS ON (markers-showing) AND CLICKED OFF
-
-  });
+    }
+  });//END -- click function
 }//END -- toggleAccommCards()
 
 
-function showInSpotCardList() {
-  //If at least one of the buttons has .markers-showing, then refresh the spot-card-list with the buttons who has .one
-  if ($("#toggleSurfSpots").hasClass("markers-showing") || $("#toggleLessons").hasClass("markers-showing") || $("#toggleAccomms").hasClass("markers-showing")) {
 
-    if ($("#toggleSurfSpots").hasClass("one")) {
-      $(".all-filters-off-card").hide();
-      $(".lesson-spot-card").hide();
-      $(".accomm-spot-card").hide();
-      //Show cards
-      $(".surf-spot-card").show();
-      //Add button shadow
-      // $("#toggleSurfSpots").css('box-shadow', '2px 2px 2px 2px #888');
-      // $("#toggleSurfSpots").removeClass("no-button-shadow");
-      // $("#toggleLessons").addClass("no-button-shadow");
-      // $("#toggleAccoms").addClass("no-button-shadow");
-      console.log('surf spots cards showing');
-    }
-    if ($("#toggleLessons").hasClass("one")) {
-      $(".all-filters-off-card").hide();
-      $(".surf-spot-card").hide();
-      $(".accomm-spot-card").hide();
-      //Show cards
-      $(".lesson-spot-card").show();
-      console.log('lessons cards showing');
-    }
-    if ($("#toggleAccomms").hasClass("one")) {
-      $(".all-filters-off-card").hide();
-      $(".surf-spot-card").hide();
-      $(".lesson-spot-card").hide();
-      //Show cards
-      $(".accomm-spot-card").show();
-      console.log('accomms cards showing');
-    }
-  //If none of the buttons have .markers-showing, then refresh the spot-card-list with no cards
-  } else {
-    $(".surf-spot-card").hide();
-    $(".lesson-spot-card").hide();
-    $(".accomm-spot-card").hide();
-    //Show cards
-    $(".all-filters-off-card").show();
-  }
-}
-
-
-
-
-////HIDE/SHOW MARKERS ON MAP WHEN TOGGLE BUTTONS ARE CLICKED
-//HIDE AND SHOW SURF SPOT MARKERS
 function toggleSurfSpotMarkers() {
-  $("#toggleSurfSpots").click(function() {
-    //Hide surf spot markers from map
-    if ($("#toggleSurfSpots").hasClass("markers-hidden")) {
-      $("#toggleSurfSpots").removeClass("markers-hidden");
-      $("#toggleSurfSpots").addClass("markers-showing");
-      addSurfSpotMarkersWrapper();
-    //Show surf spot markers on map
-    } else if ($("#toggleSurfSpots").hasClass("markers-showing")) {
-      $("#toggleSurfSpots").removeClass("markers-showing");
-      $("#toggleSurfSpots").addClass("markers-hidden");
-      setMapOnSpotMarkers(null);
-      surfSpotMarkers = [];
+  $("#toggleSurfSpotMarkers").click(function() {
+    //IF MARKER BUTTON IS ON (.markers-showing) AND CARD BUTTON IS ON (.cards-showing), hide markers and hide cards
+    if ($("#toggleSurfSpotMarkers").hasClass("markers-showing") && $("#toggleSurfSpotCards").hasClass("cards-showing") ) {
+      //Remove .markers-showing and .cards-showing
+      $("#toggleSurfSpotMarkers").removeClass("markers-showing");
+      $("#toggleSurfSpotMarkerIcon").removeClass("fa-map-marker-alt");
+      $("#toggleSurfSpotCards").removeClass("cards-showing");
+      //Add .markers-hidden and .cards-hidden
+      $("#toggleSurfSpotMarkers").addClass("markers-hidden");
+      $("#toggleSurfSpotMarkerIcon").addClass("fa-times");
+      $("#toggleSurfSpotCards").addClass("cards-hidden");
+      //Remove markers from map
+      //Hide the cards in the card list
+      //Populate 'all-filters-off' card
+    //IF MARKER BUTTON IS OFF (.markers-hidden) AND CARD BUTTON IS OFF (.cards-off), show markers and show cards
+  } else if ($("#toggleSurfSpotMarkers").hasClass("markers-hidden") && $("#toggleSurfSpotCards").hasClass("cards-hidden")) {
+      //Remove .markers-hidden and cards-hidden
+      $("#toggleSurfSpotMarkers").removeClass("markers-hidden");
+      $("#toggleSurfSpotMarkerIcon").removeClass("fa-times");
+      $("#toggleSurfSpotCards").removeClass("cards-hidden");
+      //Add .markers-showing and .cards-showing
+      $("#toggleSurfSpotMarkers").addClass("markers-showing");
+      $("#toggleSurfSpotMarkerIcon").addClass("fa-map-marker-alt");
+      $("#toggleSurfSpotCards").addClass("cards-showing");
+      //Add .cards-hidden to all others
+      $("#toggleLessonCards").addClass("cards-hidden");
+      $("#toggleAccommCards").addClass("cards-hidden");
+    //IF MARKER BUTTON IS OFF (.markers-hidden), show markers and show cards
+    } else if ($("#toggleSurfSpotMarkers").hasClass("markers-hidden")) {
+      //Remove markers-hidden and close icon
+      $("#toggleSurfSpotMarkers").removeClass("markers-hidden");
+      $("#toggleSurfSpotMarkerIcon").removeClass("fa-times");
+      //Add markers-showing and marker icon
+      $("#toggleSurfSpotMarkers").addClass("markers-showing");
+      $("#toggleSurfSpotMarkerIcon").addClass("fa-map-marker-alt");
+      //Add markers to map
+    //IF MARKER BUTTON IS ON (.markers-showing), REMOVE MARKERS FROM MAP
+    } else if ($("#toggleSurfSpotMarkers").hasClass("markers-showing")) {
+      //Remove markers-showing and marker icon
+      $("#toggleSurfSpotMarkers").removeClass("markers-showing");
+      $("#toggleSurfSpotMarkerIcon").removeClass("fa-map-marker-alt");
+      //Add markers-hidden and close icon
+      $("#toggleSurfSpotMarkers").addClass("markers-hidden");
+      $("#toggleSurfSpotMarkerIcon").addClass("fa-times");
+      //Remove markers from map
     }
-    //IF BUTTON HAS CLASS .ONE, SHOW ITS CARDS IN THE SPOT CARD LIST
-    showInSpotCardList();
-  });
+  });//END -- click function
 }
 
-
-//HIDE AND SHOW LESSON MARKERS
 function toggleLessonMarkers() {
-  $("#toggleLessons").click(function() {
-    //Hide lesson markers from map
-    if ($("#toggleLessons").hasClass("markers-hidden")) {
-      $("#toggleLessons").removeClass("markers-hidden");
-      $("#toggleLessons").addClass("markers-showing");
-      callLessons();
-    //Show lesson markers on map
-    } else if ($("#toggleLessons").hasClass("markers-showing")) {
-      $("#toggleLessons").removeClass("markers-showing");
-      $("#toggleLessons").addClass("markers-hidden");
-      setMapOnLessonMarkers(null);
-      lessonMarkers = [];
+  $("#toggleLessonMarkers").click(function() {
+    //IF MARKER BUTTON IS ON (.markers-showing) AND CARD BUTTON IS ON (.cards-showing), hide markers and hide cards
+    if ($("#toggleLessonMarkers").hasClass("markers-showing") && $("#toggleLessonCards").hasClass("cards-showing") ) {
+      //Remove .markers-showing and .cards-showing
+      $("#toggleLessonMarkers").removeClass("markers-showing");
+      $("#toggleLessonMarkerIcon").removeClass("fa-map-marker-alt");
+      $("#toggleLessonCards").removeClass("cards-showing");
+      //Add .markers-hidden and .cards-hidden
+      $("#toggleLessonMarkers").addClass("markers-hidden");
+      $("#toggleLessonMarkerIcon").addClass("fa-times");
+      $("#toggleLessonCards").addClass("cards-hidden");
+      //Hide the cards in the card list
+      //Populate 'all-filters-off' card
+    //IF MARKER BUTTON IS OFF (.markers-hidden) AND CARD BUTTON IS OFF (.cards-off), show markers and show cards
+    } else if ($("#toggleLessonMarkers").hasClass("markers-hidden") && $("#toggleLessonCards").hasClass("cards-hidden")) {
+      //Remove .markers-hidden and cards-hidden
+      $("#toggleLessonMarkers").removeClass("markers-hidden");
+      $("#toggleLessonMarkerIcon").removeClass("fa-times");
+      $("#toggleLessonCards").removeClass("cards-hidden");
+      //Add .markers-showing and .cards-showing
+      $("#toggleLessonMarkers").addClass("markers-showing");
+      $("#toggleLessonMarkerIcon").addClass("fa-map-marker-alt");
+      $("#toggleLessonCards").addClass("cards-showing");
+      //Add .cards-hidden to all others
+      $("#toggleSurfSpotCards").addClass("cards-hidden");
+      $("#toggleAccommCards").addClass("cards-hidden");
+
+    //IF MARKER BUTTON IS OFF (.markers-hidden), show markers and show cards
+    } else if ($("#toggleLessonMarkers").hasClass("markers-hidden")) {
+      //Remove markers-hidden and close icon
+      $("#toggleLessonMarkers").removeClass("markers-hidden");
+      $("#toggleLessonMarkerIcon").removeClass("fa-times");
+      //Add markers-showing and marker icon
+      $("#toggleLessonMarkers").addClass("markers-showing");
+      $("#toggleLessonMarkerIcon").addClass("fa-map-marker-alt");
+    //IF MARKER BUTTON IS ON (.markers-showing), REMOVE MARKERS FROM MAP
+    } else if ($("#toggleLessonMarkers").hasClass("markers-showing")) {
+      //Remove markers-showing and marker icon
+      $("#toggleLessonMarkers").removeClass("markers-showing");
+      $("#toggleLessonMarkerIcon").removeClass("fa-map-marker-alt");
+      //Add markers-hidden and close icon
+      $("#toggleLessonMarkers").addClass("markers-hidden");
+      $("#toggleLessonMarkerIcon").addClass("fa-times");
     }
-    //IF BUTTON HAS CLASS .ONE, SHOW ITS CARDS IN THE SPOT CARD LIST
-    showInSpotCardList();
-  });
+  });//END -- click function
 }
 
-
-//HIDE AND SHOW ACCOMM MARKERS
 function toggleAccommMarkers() {
-  $("#toggleAccomms").click(function() {
-    //Hide accomm markers from map
-    if ($("#toggleAccomms").hasClass("markers-hidden")) {
-      $("#toggleAccomms").removeClass("markers-hidden");
-      $("#toggleAccomms").addClass("markers-showing");
-      addAccommMarkersWrapper();
-    //Show accomm markers on map
-    } else if ($("#toggleAccomms").hasClass("markers-showing")) {
-      $("#toggleAccomms").removeClass("markers-showing");
-      $("#toggleAccomms").addClass("markers-hidden");
-      setMapOnAccommMarkers(null);
-      accommMarkers = [];
+  $("#toggleAccommMarkers").click(function() {
+    //IF MARKER BUTTON IS ON (.markers-showing) AND CARD BUTTON IS ON (.cards-showing), hide markers and hide cards
+    if ($("#toggleAccommMarkers").hasClass("markers-showing") && $("#toggleAccommCards").hasClass("cards-showing")) {
+      //Remove .markers-showing and .cards-showing
+      $("#toggleAccommMarkers").removeClass("markers-showing");
+      $("#toggleAccommMarkerIcon").removeClass("fa-map-marker-alt");
+      $("#toggleAccommCards").removeClass("cards-showing");
+      //Add .markers-hidden and .cards-hidden
+      $("#toggleAccommMarkers").addClass("markers-hidden");
+      $("#toggleAccommMarkerIcon").addClass("fa-times");
+      $("#toggleAccommCards").addClass("cards-hidden");
+      //Hide the cards in the card list
+      //Populate 'all-filters-off' card
+    //IF MARKER BUTTON IS OFF (.markers-hidden) AND CARD BUTTON IS OFF (.cards-off), show markers and show cards
+    } else if ($("#toggleAccommMarkers").hasClass("markers-hidden") && $("#toggleAccommCards").hasClass("cards-hidden")) {
+      //Remove .markers-hidden and cards-hidden
+      $("#toggleAccommMarkers").removeClass("markers-hidden");
+      $("#toggleAccommMarkerIcon").removeClass("fa-times");
+      $("#toggleAccommCards").removeClass("cards-hidden");
+      //Add .markers-showing and .cards-showing
+      $("#toggleAccommMarkers").addClass("markers-showing");
+      $("#toggleAccommMarkerIcon").addClass("fa-map-marker-alt");
+      $("#toggleAccommCards").addClass("cards-showing");
+      //Add .cards-hidden to all others
+      $("#toggleSurfSpotCards").addClass("cards-hidden");
+      $("#toggleLessonCards").addClass("cards-hidden");
+    //IF MARKER BUTTON IS OFF (.markers-hidden), show markers and show cards
+    } else if ($("#toggleAccommMarkers").hasClass("markers-hidden")) {
+      //Remove markers-hidden and close icon
+      $("#toggleAccommMarkers").removeClass("markers-hidden");
+      $("#toggleAccommMarkerIcon").removeClass("fa-times");
+      //Add markers-showing and marker icon
+      $("#toggleAccommMarkers").addClass("markers-showing");
+      $("#toggleAccommMarkerIcon").addClass("fa-map-marker-alt");
+    //IF MARKER BUTTON IS ON (.markers-showing), REMOVE MARKERS FROM MAP
+    } else if ($("#toggleAccommMarkers").hasClass("markers-showing")) {
+      //Remove markers-showing and marker icon
+      $("#toggleAccommMarkers").removeClass("markers-showing");
+      $("#toggleAccommMarkerIcon").removeClass("fa-map-marker-alt");
+      //Add markers-hidden and close icon
+      $("#toggleAccommMarkers").addClass("markers-hidden");
+      $("#toggleAccommMarkerIcon").addClass("fa-times");
     }
-    //IF BUTTON HAS CLASS .ONE, SHOW ITS CARDS IN THE SPOT CARD LIST
-    showInSpotCardList();
-  });
+  });//END -- click function
 }
 
-//toggle_Cards MUST BE ON TOP OF toggle_Markers SO THAT IT CAN READ IF THE BUTTON STATE IS ON OR OFF BEFORE toggle_Markers SWITCHES THE BUTTON STATE OFF OR ON
+
 toggleSurfSpotCards();
 toggleLessonCards();
 toggleAccommCards();
-
 toggleSurfSpotMarkers();
 toggleLessonMarkers();
 toggleAccommMarkers();
@@ -595,7 +536,7 @@ function normalAccommMarker(id) {
 function addSurfSpotMarkers() {
   //Clear surf spot markers and cards, and show loading surf spot card
   $(".surf-spot-card").hide();
-  setMapOnSpotMarkers(null);
+  setMapOnSurfSpotMarkers(null);
   surfSpotMarkers = [];
   $(".loading-surf-spot-card").show();
 
@@ -628,7 +569,7 @@ function addSurfSpotMarkers() {
       $(".loading-surf-spot-card").hide();
 
       $("#spot-cards").append(`
-        <div class="card surf-spot-card bright-hover no-surf-spots-card" data-id="loading">
+        <div class="card bright-hover no-surf-spots-card" data-id="loading">
           <img class="card-img tinted-spot-cards" src="images/surf-spot-default-photo.png" alt="no-surf-spots-in-map-view">
           <div class="card-img-overlay">
             <div class="card-body text-white p-0">
@@ -756,7 +697,7 @@ function initMap() {
 
     zoomControl: true,
     zoomControlOptions: {
-        position: google.maps.ControlPosition.TOP_LEFT
+        position: google.maps.ControlPosition.TOP_RIGHT
     },
     mapTypeControl: false,
     fullscreenControl: false,
@@ -804,8 +745,8 @@ function initMap() {
 
 //Runs through all the conditionals before add
 function addSurfSpotMarkersWrapper() {
-  //If toggleSurfSpots button is on, let surfSpotMarkers be added to the map on 'idle' event
-  if ($("#toggleSurfSpots").hasClass("markers-showing")) {
+  //If toggleSurfSpotMarkers button is on, let surfSpotMarkers be added to the map on 'idle' event
+  if ($("#toggleSurfSpotMarkers").hasClass("markers-showing")) {
     //If search-toggle button is checked, let markers refresh when map moves
     if ($("#floating-search-toggle").hasClass("map-search-on")) {
       //Dont add markers to the map when an accommMarker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
@@ -822,8 +763,8 @@ function addSurfSpotMarkersWrapper() {
 
 
 function addAccommMarkersWrapper() {
-  //If toggleAccommss button is on, let accommMarkers be added to the map on 'idle' event
-  if ($("#toggleAccomms").hasClass("markers-showing")) {
+  //If toggleAccommCardss button is on, let accommMarkers be added to the map on 'idle' event
+  if ($("#toggleAccommCards").hasClass("markers-showing")) {
     //If search-toggle button is checked, let markers refresh when map moves
     if ($("#floating-search-toggle").hasClass("map-search-on")) {
       //Don't add markers to the map when a surfSpotMarker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
@@ -897,8 +838,8 @@ function lessonsCallbackV2(results, status) {
 
 //IF LESSONS CALLBACK ERROR STATUS = ZERO_RESULTS, DISABLE BUTTON AND ALERT USER WHEN CLICKING ON IT
 function lessonsUnavailable() {
-  $("#toggleLessons").addClass("off");
-  $("#toggleLessons").click(function() {
+  $("#toggleLessonCards").addClass("off");
+  $("#toggleLessonCards").click(function() {
     alert('👋 I looked for surf lessons here, but there\'s none available. Check another city to find your perfect surf trip with surf lessons! 🤙');
   });
 }
