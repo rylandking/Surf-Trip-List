@@ -75,6 +75,7 @@ let largerLat;
 let smallerLat;
 let currentZoom;
 let surfSpotMarkerClick;
+let lessonMarkerClick;
 let accommMarkerClick;
 
 
@@ -813,6 +814,10 @@ function initMap() {
     latArray = [];
     lngArray = [];
 
+    //Get SW and NE bounds (for lessons callback)
+    neBounds = map.getBounds().getNorthEast();
+    swBounds = map.getBounds().getSouthWest();
+
     //Get lat of NE and SW corners of map at current state
     neLat = map.getBounds().getNorthEast().lat();
     swLat = map.getBounds().getSouthWest().lat();
@@ -823,7 +828,7 @@ function initMap() {
     latArray.push(neLat, swLat);
     lngArray.push(neLng, swLng);
 
-    //Find the largest and smallest lat and lng
+    //Find the largest and smallest lat and lng (for Firestore queries)
     greaterLat = latArray.sort()[latArray.length - 1];
     smallerLat = latArray.sort()[latArray.length - 2];
     greaterLng = lngArray.sort()[lngArray.length - 2];
@@ -831,18 +836,21 @@ function initMap() {
 
     addSurfSpotMarkersWrapper();
 
+    addLessonMarkersWrapper();
+
     addAccommMarkersWrapper();
 
     hideAndShowCards();
 
-    //Return surfSpotMarkerClick to false to allow addSurfSpotMarkers() to run on future map 'idle's
+    //Return ____MarkerClick to false to allow add____Markers() to run on future map 'idle's
     surfSpotMarkerClick = false;
+    lessonMarkerClick = false;
     accommMarkerClick = false;
 
   });//END -- UPDATE MAP AS BOUNDS CHANGE
 
   //Listener toggles on/off a checkbox that controls the ability to add markers to map
-  toggleMapSearch();
+  searchAsIMoveMapToggle();
 
 }//END -- initMap() FUNCTION
 
@@ -855,15 +863,39 @@ function addSurfSpotMarkersWrapper() {
     if ($("#floating-search-toggle").hasClass("map-search-on")) {
       //Dont add markers to the map when an accommMarker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
       if (!accommMarkerClick) {
-        //Don't add markers to the map when a marker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
-        if (!surfSpotMarkerClick) {
-          //ADD SURF SPOT MARKERS WITHIN MAP BOUNDS
-          addSurfSpotMarkers();
+        //Dont add markers to the map when a lessonMarker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
+        if (!lessonMarkerClick) {
+          //Don't add markers to the map when a marker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
+          if (!surfSpotMarkerClick) {
+            //ADD SURF SPOT MARKERS WITHIN MAP BOUNDS
+            addSurfSpotMarkers();
+          }
         }
       }
     }
   }
 }//END -- addSurfSpotMarkersWrapper()
+
+
+function addLessonMarkersWrapper() {
+  //If toggleLessonMarkers button is on, let lessonMarkers be added to the map on 'idle' event
+  if ($("#toggleLessonMarkers").hasClass("markers-showing")) {
+    //If search-toggle button is checked, let markers refresh when map moves
+    if ($("#floating-search-toggle").hasClass("map-search-on")) {
+      //Dont add markers to the map when an accommMarker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
+      if (!accommMarkerClick) {
+        //Dont add markers to the map when a lessonMarker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
+        if (!lessonMarkerClick) {
+          //Don't add markers to the map when a marker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
+          if (!surfSpotMarkerClick) {
+            //ADD LESSON MARKERS WITHIN MAP BOUNDS
+            callLessons();
+          }
+        }
+      }
+    }
+  }
+}//END -- addLessonMarkersWrapper()
 
 
 function addAccommMarkersWrapper() {
@@ -873,24 +905,30 @@ function addAccommMarkersWrapper() {
     if ($("#floating-search-toggle").hasClass("map-search-on")) {
       //Don't add markers to the map when a surfSpotMarker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
       if (!surfSpotMarkerClick) {
-        //Don't add markers to the map when an accomMarker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
-        if (!accommMarkerClick) {
-          addAccommMarkers();
+        //Dont add markers to the map when a lessonMarker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
+        if (!lessonMarkerClick) {
+          //Don't add markers to the map when an accomMarker has been clicked re: infowindow causing the map to pan and the 'idle' event to fire
+          if (!accommMarkerClick) {
+            addAccommMarkers();
+          }
         }
       }
     }
   }
-}//END -- addAccommMarkersWrapper
+}//END -- addAccommMarkersWrapper()
+
+
 
 
 //On click of #floating-search-toggle (a checkbox), turn OFF ability to add markers to the map (aka run addSurfSpotMarkers())
-function toggleMapSearch() {
+function searchAsIMoveMapToggle() {
   $("#floating-search-toggle").click(function() {
     $("#floating-search-toggle").toggleClass("map-search-on");
 
     //When you toggle the search-map checkbox back on, populate the markers within current map view
     if ($("#floating-search-toggle").hasClass("map-search-on")) {
       addSurfSpotMarkersWrapper();
+      addLessonMarkersWrapper();
       addAccommMarkersWrapper();
     }
   });
@@ -899,21 +937,48 @@ function toggleMapSearch() {
 
 
 
+
+function buildLessonLoadCard() {
+  $("#spot-cards").prepend(`
+    <div class="card bright-hover loading-lessons-card" data-id="loading">
+      <img class="card-img tinted-spot-cards" src="images/surf-lesson-default-photo.png" alt="Loading surf schools">
+      <div class="card-img-overlay">
+        <div class="card-body text-white p-0">
+          <h5 class="card-title2">LOADING SURF SCHOOLS...</h5>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+
 ////Call Lessons ON DESTIONATION.HTML
 function callLessons() {
+  //Remove old lesson cards from the card list
+  $("#spot-cards").find('.lesson-spot-card').remove();
+  $("#spot-cards").find('#no-lessons-card').remove();
+  //Remove lesson markers
+  setMapOnLessonMarkers(null);
+  lessonMarkers = [];
+
+  //Show loading lessons card if lessons has .cards-showing
+  if ($("#toggleLessonCards").hasClass("cards-showing")) {
+    buildLessonLoadCard();
+  }
 
   service = new google.maps.places.PlacesService(map);
   service.nearbySearch({
-    //Set the SW and NE corners of map on CITY page to query within that area
+    //Use map bounds to query all relative lessonp places in map view
     bounds: new google.maps.LatLngBounds(swBounds, neBounds),
     keyword: 'surf lessons',
   }, lessonsCallbackV2);
-
 }//END -- callLessons() FUNCTION
 
 
 ////ADD SURF LESSONS TO THE CITY PAGE VIA lessonsCallbackV2
 function lessonsCallbackV2(results, status) {
+
+  //Start lessons callback
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
       place = results[i];
@@ -933,23 +998,32 @@ function lessonsCallbackV2(results, status) {
     console.error("Error in lessonsCallbackV2", status);
     if (status == "ZERO_RESULTS") {
 
-      lessonsUnavailable();
+      //Make surf lesson cards are showing (.cards-showing)
+      if ($("#toggleLessonCards").hasClass("cards-showing")) {
+        //Remove old loading card and no-lesson-spot-cards from the card list
+        $("#spot-cards").find('#no-lessons-card').remove();
+        $(".loading-lessons-card").hide();
+
+        $("#spot-cards").append(`
+          <div id="no-lessons-card" class="card bright-hover" data-id="loading">
+            <img class="card-img tinted-spot-cards" src="images/surf-lesson-default-photo.png" alt="No surf schools in map view.">
+            <div class="card-img-overlay">
+              <div class="card-body text-white p-0">
+                <h5 class="card-title2">No surf schools here.</h5>
+                <h5 class="card-text2 note mt-2">Move the map somewhere else or refresh the page to discover more surf schools.</h6>
+              </div>
+            </div>
+          </div>
+        `);
+      }
 
     }//END -- SHARE ZERO RESULTS WITH PEOPLE
-  }
+  }//END -- IF LESSONS CALLBACK ERROR STATUS = ZERO_RESULTS, DISABLE BUTTON AND ALERT USER WHEN CLICKING ON IT
 }//END -- SURF LESSONS CALLBACK
-
-//IF LESSONS CALLBACK ERROR STATUS = ZERO_RESULTS, DISABLE BUTTON AND ALERT USER WHEN CLICKING ON IT
-function lessonsUnavailable() {
-  $("#toggleLessonCards").addClass("off");
-  $("#toggleLessonCards").click(function() {
-    alert('👋 I looked for surf lessons here, but there\'s none available. Check another city to find your perfect surf trip with surf lessons! 🤙');
-  });
-}
-//END -- IF LESSONS CALLBACK ERROR STATUS = ZERO_RESULTS, DISABLE BUTTON AND ALERT USER WHEN CLICKING ON IT
 
 //lessonsDetailsCallback FUNCTION
 function lessonsDetailsCallback(placeDetails, status) {
+  //Start the callback
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     //Check if place has more than one review and greater than 3 star rating as a quality check before putting on Surf Trip List
     if (placeDetails.reviews !== undefined && placeDetails.reviews.length > 1 && placeDetails.rating !== undefined && placeDetails.rating > 3) {
@@ -973,7 +1047,7 @@ function lessonsDetailsCallback(placeDetails, status) {
           lng = placeDetails.geometry.location.lng();
           coords = {lat: placeDetails.geometry.location.lat(), lng: placeDetails.geometry.location.lng()};
 
-          addLessonMarkerV2(lessonMarker, map);
+          addLessonMarker(lessonMarker, map);
 
           //Add lessonMarkers to array to allow for hide/show functionality
           lessonMarkers.push(lessonMarker);
@@ -982,6 +1056,8 @@ function lessonsDetailsCallback(placeDetails, status) {
           });
 
           lessonMarker.addListener('click', function(){
+            //Set lessonMarkerClick to true so 'idle' listener doesn't run addLessonMarkersWrapper when infowindow pans map
+            lessonMarkerClick = true;
             //Opens the lessonMarker infowindow
             //setContent won't accept ES6. The // syntax below is to make referencing easier.
             // infowindow.setContent(`
@@ -1025,7 +1101,7 @@ function lessonsDetailsCallback(placeDetails, status) {
 
 
 ////Set the lessonMarkers on the map
-function addLessonMarkerV2(props, map) {
+function addLessonMarker(props, map) {
   lessonMarker = new google.maps.Marker({
     position: coords,
     map: map,
@@ -1034,11 +1110,14 @@ function addLessonMarkerV2(props, map) {
     zIndex: 4,
     id: id,
   });
-}//END -- addLessonMarkerV2 FUNCTION
+}//END -- addLessonMarker FUNCTION
 
 
 ////BUILD LESSON CARDS AND MODALS
 function buildLessonCards () {
+  //Hide the loading card
+  $(".loading-lessons-card").hide();
+
   $("#spot-cards").prepend(`
     <div class="card lesson-spot-card bright-hover" data-id="${id}">
       <img class="card-img tinted-spot-cards" src="images/surf-lesson-default-photo.png" alt="${name}">
@@ -1250,8 +1329,8 @@ if (cityParam !== null) {
     city = doc.id.replace(/-/g,' ');
     mapCenter = data.cityCenter;
     zoom = data.zoom;
-    swBounds = data.swBounds;
-    neBounds = data.neBounds;
+    // swBounds = data.swBounds;
+    // neBounds = data.neBounds;
 
     //Add city's name next to logo
     $("#breadcrumb").append(
