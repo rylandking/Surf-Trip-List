@@ -43,6 +43,13 @@
   height:575px;
 }
 
+@media only screen and (max-width: 600px) {
+  #map {
+    width:auto;
+    height:88vh;
+  }
+}
+
 #map-wrapper {
   position: relative;
 }
