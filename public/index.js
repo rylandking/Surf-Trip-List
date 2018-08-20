@@ -1083,6 +1083,8 @@ function lessonsDetailsCallback(placeDetails, status) {
 
           buildLessonCards();
 
+          hideAndShowCards();
+
           $(document).on('mouseenter', '.lesson-spot-card', function(){
             let id = $(this).attr('data-id');
             highlightMarker(id);
