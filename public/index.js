@@ -77,6 +77,8 @@ let currentZoom;
 let surfSpotMarkerClick;
 let lessonMarkerClick;
 let accommMarkerClick;
+let input;
+let autoComplete;
 
 
 
@@ -110,8 +112,6 @@ function buildCityCards() {
     </div>`
   );
 }//END -- BUILD CITY CARDS
-
-
 
 ////PUT CITY IN QUERY PARAMS AFTER CLICKING ON CARD
 //Click city card on homepage
@@ -544,7 +544,6 @@ function showListMobile() {
     $("#show-map-mobile").show();
   });
 }//END -- SHOW LIST ON MOBILE
-
 
 showMapMobile();
 showListMobile();
@@ -1331,8 +1330,6 @@ if (cityParam !== null) {
     city = doc.id.replace(/-/g,' ');
     mapCenter = data.cityCenter;
     zoom = data.zoom;
-    // swBounds = data.swBounds;
-    // neBounds = data.neBounds;
 
     //Add city's name next to logo
     $("#breadcrumb").append(
@@ -1341,10 +1338,26 @@ if (cityParam !== null) {
 
     initMap();
 
-    //Add #map-wrapper back once initMap has ran, to hide map near immediately after clicking into new city on mobile
+    //Add d-none back to #map-wrapper once initMap has ran, to hide map near immediately after clicking into new city on mobile
     setTimeout(function() {
       $("#map-wrapper").addClass("d-none");
-    }, 100);
+
+      //If click on 'Map' on home page and screen width is mobile go straight to mobile map view
+      if (cityParam == 'california' && $(window).width() < 600) {
+        //Hide list
+        $("#spot-cards").hide();
+        $("#card-button-menu").hide();
+        $("#card-button-menu-bottom").hide();
+        //Show map
+        $("#map-wrapper").removeClass("d-none");
+        $("#map-wrapper").show();
+        //Replace 'Map' with 'List'
+        $("#show-list-mobile").show();
+        $("#show-map-mobile").hide();
+        console.log('diret map');
+      }
+    }, 300);
+
 
   });//END -- BUILD CITY PAGE BASED ON CITY PARAM
 }
