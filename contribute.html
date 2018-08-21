@@ -51,7 +51,7 @@
     firebase.initializeApp(config);
   </script>
 
-  <title>List Your Business | Surf Trip List</title>
+  <title>Contribute | Surf Trip List</title>
 </head>
 <body>
 
@@ -71,7 +71,7 @@
         </div>
       </div>
 
-      <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">List your business</h6>
+      <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold">Contribute</h6>
       <nav id="top-nav" class="my-2 my-md-0 d-none d-md-block">
         <a class="p-2 text-dark" href="index.html">Home</a>
         <a class="p-2 text-dark" href="contact.html">Help</a>
@@ -80,70 +80,75 @@
 
     <!-- STATEMENT -->
     <div id="statement" class="text-center">
-      <p class="mb-0">Interested in listing with Surf Trip List? Let us know!</p>
+      <p class="mb-0">Help us build Surf Trip List.</p>
     </div>
 
     <hr class="mt-2">
 
     <!-- HELP FORM -->
     <div class="row">
+      <div class="col-md-8 mr-auto ml-5">
+        <h2 class="font-weight-bold mb-3">Add a surf spot</h2>
+          <a class="btn btn-danger mb-5" href="https://docs.google.com/spreadsheets/d/1WydXNdEGOa_sj06mpaDblxNmwFQNOjz0Qc0s2Rp7OxY/" target="_blank">Add a surf spot</a>
+        <h2 class="font-weight-bold">List an establishment</h2>
 
-      <form id="biz-form" class="col-md-6 offset-md-3">
-        <!-- FORM -->
-        <div class="form-group">
-          <label for="name">Your first name</label>
-          <input type="name" class="form-control" id="name-input" placeholder="Miki" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Your email</label>
-          <input type="email" class="form-control" id="email-input" placeholder="mikidora@gmail.com" required>
-        </div>
-        <div class="form-group">
-          <label for="biz-name">Business name</label>
-          <input type="biz-name" class="form-control" id="biz-name-input" placeholder="Dora's Surf Shack" required>
-        </div>
-        <div class="form-group">
-          <label for="website">Website</label>
-          <input type="website" class="form-control" id="website-input" placeholder="www.dorassurflessons.com" required>
-        </div>
-        <div class="form-group">
-          <label for="biz-type">Business type</label>
-          <select class="form-control" id="biz-type-input" required>
-            <option>Surf lessons</option>
-            <option>Board rentals</option>
-            <option>Acommodations</option>
-            <option>Eats & Drinks</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="city">Which city?</label>
-          <select id="biz-city-input" class="form-control" required>
-            <option>Malibu</option>
-            <option>San Francisco</option>
-            <option>Santa Cruz</option>
-            <option>Monterey</option>
-            <option>Big Sur</option>
-            <option>San Luis Obispo</option>
-            <option>Santa Barbara</option>
-            <option>Los Angeles</option>
-            <option>Huntington Beach</option>
-            <option>Laguna Beach</option>
-            <option>San Clemente</option>
-            <option>Encinitas</option>
-            <option>San Diego</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="message-textarea">What are you interested in?</label>
-          <textarea class="form-control" id="message-textarea" rows="8" placeholder="Let us know..." required></textarea>
-        </div>
-        <!-- FORM SUBMISSION ALERTS -->
-        <div class="alert alert-success hide" role="alert">👍 Got it! We'll email you back soon.</div>
-        <div class="alert alert-danger hide" role="alert">🤨 Op! We couldn't send your message. If it doesn't work again, email us at surftriplist@gmail.com. 🙂</div>
-        <button type="submit" class="btn btn-danger">Send me <i class="fas fa-envelope"></i></button>
-      </form>
+        <form id="biz-form" class="mt-1">
+          <!-- FORM -->
+          <div class="form-group">
+            <label for="biz-name">Establishment name</label>
+            <input type="biz-name" class="form-control" id="biz-name-input" placeholder="Dora's Surf Shack" required>
+          </div>
+          <div class="form-group">
+            <label for="biz-type">Establishment type</label>
+            <select class="form-control" id="biz-type-input" required>
+              <option>Surf lessons</option>
+              <option>Board rentals</option>
+              <option>Acommodations</option>
+              <option>Eats & Drinks</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="website">Website</label>
+            <input type="website" class="form-control" id="website-input" placeholder="www.dorassurflessons.com" required>
+          </div>
+          <div class="form-group">
+            <label for="city">Which city?</label>
+            <select id="biz-city-input" class="form-control" required>
+              <option>Malibu</option>
+              <option>San Francisco</option>
+              <option>Santa Cruz</option>
+              <option>Monterey</option>
+              <option>Big Sur</option>
+              <option>San Luis Obispo</option>
+              <option>Santa Barbara</option>
+              <option>Los Angeles</option>
+              <option>Huntington Beach</option>
+              <option>Laguna Beach</option>
+              <option>San Clemente</option>
+              <option>Encinitas</option>
+              <option>San Diego</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="name">Your first name</label>
+            <input type="name" class="form-control" id="name-input" placeholder="Miki" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Your email</label>
+            <input type="email" class="form-control" id="email-input" placeholder="mikidora@gmail.com" required>
+          </div>
+          <div class="form-group">
+            <label for="message-textarea">Anything else?</label>
+            <textarea class="form-control" id="message-textarea" rows="8" placeholder="Let us know..." required></textarea>
+          </div>
+          <!-- FORM SUBMISSION ALERTS -->
+          <div class="alert alert-success hide" role="alert">👍 Got it! We'll email you back soon.</div>
+          <div class="alert alert-danger hide" role="alert">🤨 Op! We couldn't send your message. If it doesn't work again, email us at surftriplist@gmail.com. 🙂</div>
+          <button type="submit" class="btn btn-danger">Send me <i class="fas fa-envelope"></i></button>
+        </form>
+      </div>
 
     </div><!-- END OF HELP FORM -->
 
