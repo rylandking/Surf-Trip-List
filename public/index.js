@@ -38,7 +38,7 @@ let price;
 let view;
 let proximity;
 let city;
-let cityParam;
+let cityDB;
 let mapCenter;
 let zoom;
 let spotID;
@@ -79,6 +79,9 @@ let lessonMarkerClick;
 let accommMarkerClick;
 let input;
 let autoComplete;
+let viewport;
+let place;
+let bounds;
 
 
 
@@ -113,6 +116,7 @@ function buildCityCards() {
   );
 }//END -- BUILD CITY CARDS
 
+
 ////PUT CITY IN QUERY PARAMS AFTER CLICKING ON CARD
 //Click city card on homepage
 $('body').on('click','#city-card',function(e){
@@ -123,12 +127,20 @@ $('body').on('click','#city-card',function(e){
   return redirectPage(city)
 });
 
-//Opens new window with newCityPage in the query perams
-function redirectPage(city) {
-  window.location = `city.html?city=${city}`;
+
+//Opens new window with city name (and coords if it's from a search) in the query perams
+function redirectPage(city, lat, lng) {
+  if (lat !== undefined) {
+    window.location = `city.html?cityS=${city}&lat=${lat}&lng=${lng}`;
+  } else {
+    window.location = `city.html?cityDB=${city}`
+  }
   window.city = city;
+  window.lat = lat;
+  window.lng = lng;
   return false;
 }
+
 
 //Gets query perams by name
 function getParameterByName(name, url) {
@@ -141,8 +153,14 @@ function getParameterByName(name, url) {
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+
 //Store the query perams in a constant
-cityParam = getParameterByName('city');
+//City name stored in Firestore
+cityDB = getParameterByName('cityDB');
+//City name from search
+cityS = getParameterByName('cityS');
+lat = getParameterByName('lat');
+lng = getParameterByName('lng');
 //END -- PUT CITY IN QUERY PARAMS AFTER CLICKING ON CARD
 
 
@@ -399,6 +417,7 @@ function toggleSurfSpotMarkers() {
   });//END -- click function
 }
 
+
 function toggleLessonMarkers() {
   $("#toggleLessonMarkers").click(function() {
     //IF MARKER BUTTON IS ON (.markers-showing) AND CARD BUTTON IS ON (.cards-showing), hide markers and hide cards
@@ -449,6 +468,7 @@ function toggleLessonMarkers() {
     }
   });//END -- click function
 }
+
 
 function toggleAccommMarkers() {
   $("#toggleAccommMarkers").click(function() {
@@ -793,19 +813,26 @@ function buildSurfSpotCards() {
 
 
 function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: mapCenter,
-    zoom: zoom,
+  if (cityDB !== null) {
+    initMapCityDB();
+  } else if (cityS !== null) {
+    initMapCityS();
+  } else {
+    initMapCityS();
+  }
 
-    zoomControl: true,
-    zoomControlOptions: {
-        position: google.maps.ControlPosition.RIGHT_BOTTOM
-    },
-    mapTypeControl: false,
-    fullscreenControl: false,
-    streetViewControl: false,
-  });//END -- map OBJECT
-
+  // map = new google.maps.Map(document.getElementById('map'), {
+  //   center: mapCenter,
+  //   zoom: zoom,
+  //
+  //   zoomControl: true,
+  //   zoomControlOptions: {
+  //       position: google.maps.ControlPosition.RIGHT_BOTTOM
+  //   },
+  //   mapTypeControl: false,
+  //   fullscreenControl: false,
+  //   streetViewControl: false,
+  // });//END -- map OBJECT
 
   //UPDATE MAP AS BOUNDS CHANGE
   google.maps.event.addListener(map, 'idle', function() {
@@ -1323,18 +1350,157 @@ function buildAccommCards() {
 
 
 
-////BUILD CITY PAGE BASED ON CITY PARAM
-if (cityParam !== null) {
-  db.collection("city").doc(cityParam).get().then(function(doc) {
+
+function initMapCityDB() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: mapCenter,
+    zoom: zoom,
+
+    zoomControl: true,
+    zoomControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_BOTTOM
+    },
+    mapTypeControl: false,
+    fullscreenControl: false,
+    streetViewControl: false,
+  });//END -- map OBJECT
+}
+
+
+function initMapCityS() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    // center: {lat: 34.032008, lng: -118.679520},
+    center: mapCenter,
+    zoom: 12,
+
+    zoomControl: true,
+    zoomControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_BOTTOM
+    },
+    mapTypeControl: false,
+    fullscreenControl: false,
+    streetViewControl: false,
+  });
+
+  //SELECT WHAT'S TYPED INTO THE SEARCH BOX
+  input = document.getElementById('searchInput');
+
+  //BIAS AUTOCOMPLETE RESULTS WITHIN THESE BOUNDS
+  bounds = new google.maps.LatLngBounds (
+    new google.maps.LatLng(31.293808, -122.260797), //sw
+    new google.maps.LatLng(39.990799, -116.374700) //ne
+  );
+
+  options = {
+    types: ['geocode'],
+    bounds: bounds,
+  };
+
+  autocomplete = new google.maps.places.Autocomplete(input, options);
+
+  //LISTEN FOR WHEN A PLACE IS SELECTED FROM THE AUTOCOMPLETE
+  autocomplete.addListener('place_changed', function() {
+    place = autocomplete.getPlace();
+    window.city = place.name;
+    window.lat = place.geometry.location.lat(),
+    window.lng = place.geometry.location.lng();
+
+    city = window.city;
+    lat = window.lat;
+    lng = window.lng;
+
+    if (!place.geometry) {
+      // User entered the name of a Place that was not suggested and
+      // pressed the Enter key, or the Place Details request failed.
+      window.alert("No details available for: '" + place.name + "'");
+      return;
+    }
+
+    // //If the place has a geometry, then present it on a map.
+    // if (place.geometry.viewport) {
+    //   map.fitBounds(place.geometry.viewport);
+    // } else {
+    //   map.setCenter(place.geometry.location);
+    //   map.setZoom(17);  // Why 17? Because it looks good.
+    // }
+
+    //LOAD THE CITY PAGE
+    return redirectPage(city, lat, lng);
+
+  });
+}
+
+
+// function activateSearch() {
+//   map = new google.maps.Map(document.getElementById('map'), {
+//     center: {lat: 34.032008, lng: -118.679520},
+//     zoom: 17
+//   });
+//
+//   input = document.getElementById('searchInput');
+//   options = {
+//     types: ['geocode'],
+//   };
+//
+//   autocomplete = new google.maps.places.Autocomplete(input, options);
+//
+//   // Bind the map's bounds (viewport) property to the autocomplete object,
+//   // so that the autocomplete requests use the current map bounds for the
+//   // bounds option in the request.
+//   // autocomplete.bindTo('bounds', map);
+//
+//   autocomplete.addListener('place_changed', function() {
+//     place = autocomplete.getPlace();
+//     window.city = place.name;
+//     window.lat = place.geometry.location.lat(),
+//     window.lng = place.geometry.location.lng();
+//
+//     city = window.city;
+//     lat = window.lat;
+//     lng = window.lng;
+//
+//     return redirectPage(city, lat, lng);
+//
+//     if (!place.geometry) {
+//       // User entered the name of a Place that was not suggested and
+//       // pressed the Enter key, or the Place Details request failed.
+//       window.alert("No details available for input: '" + place.name + "'");
+//       return;
+//     }
+//
+//     // //If the place has a geometry, then present it on a map.
+//     // if (place.geometry.viewport) {
+//     //   map.fitBounds(place.geometry.viewport);
+//     // } else {
+//     //   map.setCenter(place.geometry.location);
+//     //   map.setZoom(17);  // Why 17? Because it looks good.
+//     // }
+//
+//   });
+// }
+
+//NO LONGER NEEDED: Allows Google Places API to be called only once and used for two different things
+// function initializeMaps() {
+//   if (cityDB !== null) {
+//     initMap();
+//   } else if ( cityS !== null) {
+//     activateSearch();
+//     //If both are null, you're on the homepage use activateSearch()
+//   } else {
+//     activateSearch();
+//   }
+// }
+
+////BUILD CITY PAGE BASED ON cityDB PARAM (user clicked on card on homepage)
+if (cityDB !== null) {
+  db.collection("city").doc(cityDB).get().then(function(doc) {
     data = doc.data();
     city = doc.id.replace(/-/g,' ');
     mapCenter = data.cityCenter;
     zoom = data.zoom;
 
-    //Add city's name next to logo
-    $("#breadcrumb").append(
-      `${city}`
-    );
+    //Add city's name as placeholder in search bar
+    $("#.city-page-search").attr("placeholder", city);
 
     initMap();
 
@@ -1343,7 +1509,7 @@ if (cityParam !== null) {
       $("#map-wrapper").addClass("d-none");
 
       //If click on 'Map' on home page and screen width is mobile go straight to mobile map view
-      if (cityParam == 'california' && $(window).width() < 600) {
+      if (cityDB == 'california' && $(window).width() < 600) {
         //Hide list
         $("#spot-cards").hide();
         $("#card-button-menu").hide();
@@ -1354,10 +1520,27 @@ if (cityParam !== null) {
         //Replace 'Map' with 'List'
         $("#show-list-mobile").show();
         $("#show-map-mobile").hide();
-        console.log('diret map');
       }
     }, 300);
 
+  });
+  //If user submitted a search from the homepage, populate the city page as so
+} else if (cityS !== null) {
+    //The variables lat and lng are stored beneath getParameterByName()
+    //The '+' (somehow) converts lat and lng to numerical format and keeps the decimal places. Without it they show up as strings.
+    mapCenter = {
+      lat: +lat,
+      lng: +lng
+    };
+    zoom = 17;
 
-  });//END -- BUILD CITY PAGE BASED ON CITY PARAM
+    //Add city's name as placeholder in search bar
+    $(".city-page-search").attr("placeholder", cityS);
+
+    initMap();
+
+    //Add d-none back to #map-wrapper once initMap has ran, to hide map on mobile city page near immediately after clicking into it
+    setTimeout(function() {
+      $("#map-wrapper").addClass("d-none");
+    }, 300);
 }

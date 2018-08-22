@@ -23,7 +23,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
   <!-- Google Places JS Library -->
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&libraries=places"></script>
+  <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&libraries=places"></script> -->
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -66,6 +66,7 @@
 
        <a href="index.html"><img id="top-logo" src="public/logo.png" alt="Surf Trip List"></a>
 
+       <!-- Mobile Dropdown Menu -->
        <div class="dropdown d-md-none">
          <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
            <i id="mobile-menu-arrow" class="fas fa-chevron-down ml-2"></i>
@@ -75,6 +76,14 @@
            <a class="dropdown-item" href="contribute.html">Contribute</a>
            <a class="dropdown-item" href="contact.html">Help</a>
          </div>
+       </div>
+
+       <!-- Search Bar -->
+       <div class="input-group input-group-sm col-md-3">
+         <div class="input-group-prepend">
+           <span class="input-group-text" id="search-descriptor"><i class="fas fa-search"></i></span>
+         </div>
+         <input id="searchInput" type="search" class="form-control search city-page-search" placeholder='' aria-label="Search surf trips">
        </div>
 
        <h6 id="breadcrumb" class="ml-2 my-0 mr-md-auto font-weight-bold"></h6>
@@ -156,6 +165,10 @@
 
   <!-- Custom JS Library -->
   <script type="text/javascript" src="public/index.js"></script>
+
+  <!-- Google Places JS Library Search Callback -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWowQZ_tEB7LA6vB-wnuETmrdvCcOVpVY&libraries=places&callback=initMap"></script>
+
 
 </body>
 
