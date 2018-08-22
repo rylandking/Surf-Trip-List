@@ -813,26 +813,66 @@ function buildSurfSpotCards() {
 
 
 function initMap() {
-  if (cityDB !== null) {
-    initMapCityDB();
-  } else if (cityS !== null) {
-    initMapCityS();
-  } else {
-    initMapCityS();
+
+  if (cityS !== null) {
+    zoom = 12;
   }
 
-  // map = new google.maps.Map(document.getElementById('map'), {
-  //   center: mapCenter,
-  //   zoom: zoom,
-  //
-  //   zoomControl: true,
-  //   zoomControlOptions: {
-  //       position: google.maps.ControlPosition.RIGHT_BOTTOM
-  //   },
-  //   mapTypeControl: false,
-  //   fullscreenControl: false,
-  //   streetViewControl: false,
-  // });//END -- map OBJECT
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: mapCenter,
+    zoom: zoom,
+
+    zoomControl: true,
+    zoomControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_BOTTOM
+    },
+    mapTypeControl: false,
+    fullscreenControl: false,
+    streetViewControl: false,
+  });//END -- map OBJECT
+
+  //IF SEARCH BAR IS NOT EMPTY WITH TEXT, INITALIZE AUTOCOMPLETE
+  if ($("#searchInput").value !== null) {
+    //SELECT WHAT'S TYPED INTO THE SEARCH BOX
+    input = document.getElementById('searchInput');
+
+    //BIAS AUTOCOMPLETE RESULTS WITHIN THESE BOUNDS
+    bounds = new google.maps.LatLngBounds (
+      new google.maps.LatLng(31.293808, -122.260797), //sw
+      new google.maps.LatLng(39.990799, -116.374700) //ne
+    );
+
+    options = {
+      types: ['geocode'],
+      bounds: bounds,
+    };
+
+    autocomplete = new google.maps.places.Autocomplete(input, options);
+
+    //LISTEN FOR WHEN A PLACE IS SELECTED FROM THE AUTOCOMPLETE
+    autocomplete.addListener('place_changed', function() {
+      place = autocomplete.getPlace();
+      window.city = place.name;
+      window.lat = place.geometry.location.lat(),
+      window.lng = place.geometry.location.lng();
+
+      city = window.city;
+      lat = window.lat;
+      lng = window.lng;
+
+      if (!place.geometry) {
+        // User entered the name of a Place that was not suggested and
+        // pressed the Enter key, or the Place Details request failed.
+        window.alert("No details available for: '" + place.name + "'");
+        return;
+      }
+
+      //LOAD THE CITY PAGE
+      return redirectPage(city, lat, lng);
+    });//END -- autocomplete listener
+  }//END -- searchInput conditional
+
+
 
   //UPDATE MAP AS BOUNDS CHANGE
   google.maps.event.addListener(map, 'idle', function() {
@@ -1351,145 +1391,6 @@ function buildAccommCards() {
 
 
 
-function initMapCityDB() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: mapCenter,
-    zoom: zoom,
-
-    zoomControl: true,
-    zoomControlOptions: {
-        position: google.maps.ControlPosition.RIGHT_BOTTOM
-    },
-    mapTypeControl: false,
-    fullscreenControl: false,
-    streetViewControl: false,
-  });//END -- map OBJECT
-}
-
-
-function initMapCityS() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    // center: {lat: 34.032008, lng: -118.679520},
-    center: mapCenter,
-    zoom: 12,
-
-    zoomControl: true,
-    zoomControlOptions: {
-        position: google.maps.ControlPosition.RIGHT_BOTTOM
-    },
-    mapTypeControl: false,
-    fullscreenControl: false,
-    streetViewControl: false,
-  });
-
-  //SELECT WHAT'S TYPED INTO THE SEARCH BOX
-  input = document.getElementById('searchInput');
-
-  //BIAS AUTOCOMPLETE RESULTS WITHIN THESE BOUNDS
-  bounds = new google.maps.LatLngBounds (
-    new google.maps.LatLng(31.293808, -122.260797), //sw
-    new google.maps.LatLng(39.990799, -116.374700) //ne
-  );
-
-  options = {
-    types: ['geocode'],
-    bounds: bounds,
-  };
-
-  autocomplete = new google.maps.places.Autocomplete(input, options);
-
-  //LISTEN FOR WHEN A PLACE IS SELECTED FROM THE AUTOCOMPLETE
-  autocomplete.addListener('place_changed', function() {
-    place = autocomplete.getPlace();
-    window.city = place.name;
-    window.lat = place.geometry.location.lat(),
-    window.lng = place.geometry.location.lng();
-
-    city = window.city;
-    lat = window.lat;
-    lng = window.lng;
-
-    if (!place.geometry) {
-      // User entered the name of a Place that was not suggested and
-      // pressed the Enter key, or the Place Details request failed.
-      window.alert("No details available for: '" + place.name + "'");
-      return;
-    }
-
-    // //If the place has a geometry, then present it on a map.
-    // if (place.geometry.viewport) {
-    //   map.fitBounds(place.geometry.viewport);
-    // } else {
-    //   map.setCenter(place.geometry.location);
-    //   map.setZoom(17);  // Why 17? Because it looks good.
-    // }
-
-    //LOAD THE CITY PAGE
-    return redirectPage(city, lat, lng);
-
-  });
-}
-
-
-// function activateSearch() {
-//   map = new google.maps.Map(document.getElementById('map'), {
-//     center: {lat: 34.032008, lng: -118.679520},
-//     zoom: 17
-//   });
-//
-//   input = document.getElementById('searchInput');
-//   options = {
-//     types: ['geocode'],
-//   };
-//
-//   autocomplete = new google.maps.places.Autocomplete(input, options);
-//
-//   // Bind the map's bounds (viewport) property to the autocomplete object,
-//   // so that the autocomplete requests use the current map bounds for the
-//   // bounds option in the request.
-//   // autocomplete.bindTo('bounds', map);
-//
-//   autocomplete.addListener('place_changed', function() {
-//     place = autocomplete.getPlace();
-//     window.city = place.name;
-//     window.lat = place.geometry.location.lat(),
-//     window.lng = place.geometry.location.lng();
-//
-//     city = window.city;
-//     lat = window.lat;
-//     lng = window.lng;
-//
-//     return redirectPage(city, lat, lng);
-//
-//     if (!place.geometry) {
-//       // User entered the name of a Place that was not suggested and
-//       // pressed the Enter key, or the Place Details request failed.
-//       window.alert("No details available for input: '" + place.name + "'");
-//       return;
-//     }
-//
-//     // //If the place has a geometry, then present it on a map.
-//     // if (place.geometry.viewport) {
-//     //   map.fitBounds(place.geometry.viewport);
-//     // } else {
-//     //   map.setCenter(place.geometry.location);
-//     //   map.setZoom(17);  // Why 17? Because it looks good.
-//     // }
-//
-//   });
-// }
-
-//NO LONGER NEEDED: Allows Google Places API to be called only once and used for two different things
-// function initializeMaps() {
-//   if (cityDB !== null) {
-//     initMap();
-//   } else if ( cityS !== null) {
-//     activateSearch();
-//     //If both are null, you're on the homepage use activateSearch()
-//   } else {
-//     activateSearch();
-//   }
-// }
 
 ////BUILD CITY PAGE BASED ON cityDB PARAM (user clicked on card on homepage)
 if (cityDB !== null) {
@@ -1500,7 +1401,7 @@ if (cityDB !== null) {
     zoom = data.zoom;
 
     //Add city's name as placeholder in search bar
-    $("#.city-page-search").attr("placeholder", city);
+    $(".city-page-search").attr("placeholder", city);
 
     initMap();
 
