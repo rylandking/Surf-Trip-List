@@ -874,6 +874,8 @@ function initMap() {
 
 
 
+  //TO DO #1: CHANGE LISTENER TO USE 'dragend' AND 'zoom_changed' INSTEAD OF 'idle' -- This takes care of markers on map movement: https://stackoverflow.com/questions/8810979/updating-maps-v3-with-idle-listener-opening-infowwindow-triggers-this-and-hid
+  //TO DO #2: MODIFY SYNTAX SO ALL THE MARKERS ARE CREATED WITHIN INITMAP() -- This takes care of markers and cards on page load. :https://stackoverflow.com/questions/37140901/how-can-i-resolve-uncaught-referenceerror-google-is-not-defined-google-maps
   //UPDATE MAP AS BOUNDS CHANGE
   google.maps.event.addListener(map, 'idle', function() {
     //Clear array
@@ -914,6 +916,7 @@ function initMap() {
     accommMarkerClick = false;
 
   });//END -- UPDATE MAP AS BOUNDS CHANGE
+
 
   //Listener toggles on/off a checkbox that controls the ability to add markers to map
   searchAsIMoveMapToggle();

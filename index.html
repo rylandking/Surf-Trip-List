@@ -59,11 +59,59 @@
 </head>
 <body>
 
+  <!-- LANDING IMAGE -->
+  <div id="landing" class="d-none d-md-flex mb-5">
+
+    <div class="container-fluid landing-nav">
+      <!-- DESKTOP NAV BAR -->
+      <div class="d-flex align-items-center py-3 mb-2">
+        <a href="index.html"><img id="top-logo" src="public/logo-white-transparent.png" alt="Surf Trip List"></a>
+
+        <!-- Mobile Dropdown Menu -->
+        <div class="dropdown d-lg-none">
+          <a href="#" role="button" id="mobile-nav-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i id="mobile-menu-arrow" class="fas fa-chevron-down ml-2 text-white"></i>
+          </a>
+          <div class="dropdown-menu p-1" aria-labelledby="mobile-nav-menu">
+            <a class="dropdown-item direct-to-map" href="city.html?cityDB=california">Map</a>
+            <a class="dropdown-item" href="contribute.html">Contribute</a>
+            <a class="dropdown-item" href="contact.html">Help</a>
+          </div>
+        </div>
+
+        <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold"><a href="index.html" class="white-link">Surf Trip List</a></h6>
+
+        <nav id="top-nav" class="my-2 my-md-0 d-none d-lg-block">
+          <a class="p-2 text-white direct-to-map" href="city.html?cityDB=california">Map</a>
+          <a class="p-2 text-white" href="contribute.html">Contribute</a>
+          <a class="p-2 text-white" href="contact.html">Help</a>
+        </nav>
+      </div>
+    </div>
+
+    <div id="landing-cta">
+      <h2 class="mb-4 mr-auto d-none d-lg-flex">Search, discover and book amazing<br>surf trips all over California.</h2>
+      <h2 class="mb-4 mr-auto d-none d-md-flex d-lg-none">Search, discover and book<br>amazing surf trips<br>all over California.</h2>
+
+      <div class="input-group input-group-lg landing-page-input-group">
+        <div class="input-group-prepend landing-page-search-icon">
+          <span class="input-group-text" id="search-descriptor"><i class="fas fa-search"></i></span>
+        </div>
+        <input id="searchInput" type="search" class="form-control search landing-page-search" placeholder='Try "Malibu"' aria-label="Search surf trips">
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+
+  </div>
+
   <div class="container-fluid">
 
-    <!-- NAV BAR -->
-    <div class="d-flex align-items-center py-3 mb-2 bg-white border-bottom box-shadow">
-      <a href="index.html"><img id="top-logo" src="public/logo.png" alt="Surf Trip List"></a>
+    <!-- MOBILE NAV BAR (hide on screens larger than md) -->
+    <div class="d-flex d-md-none align-items-center py-3 mb-2 bg-white border-bottom box-shadow">
+      <a href="index.html"><img id="top-logo" src="public/logo-red-transparent.png" alt="Surf Trip List"></a>
 
       <!-- Mobile Dropdown Menu -->
       <div class="dropdown d-md-none">
@@ -71,7 +119,7 @@
           <i id="mobile-menu-arrow" class="fas fa-chevron-down ml-2"></i>
         </a>
         <div class="dropdown-menu p-1" aria-labelledby="mobile-nav-menu">
-          <a class="dropdown-item direct-to-map" href="city.html?city=california">Map</a>
+          <a class="dropdown-item direct-to-map" href="city.html?cityDB=california">Map</a>
           <a class="dropdown-item" href="contribute.html">Contribute</a>
           <a class="dropdown-item" href="contact.html">Help</a>
         </div>
@@ -85,23 +133,10 @@
         <input id="searchInput" type="search" class="form-control search" placeholder='Try "Malibu"' aria-label="Search surf trips">
       </div>
 
-      <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold"></h6>
-
-      <nav id="top-nav" class="my-2 my-md-0 d-none d-md-block">
-        <a class="p-2 text-dark direct-to-map" href="city.html?city=california">Map</a>
-        <a class="p-2 text-dark" href="contribute.html">Contribute</a>
-        <a class="p-2 text-dark" href="contact.html">Help</a>
-      </nav>
     </div>
-
-    <!-- STATEMENT -->
-    <div id="statement" class="text-center">
-      <h5 class="mb-0">Search, discover and book surf trips all over California.</h5>
-    </div>
-
-    <hr class="mt-2">
 
     <!-- CITY CARDS -->
+    <h4 class="my-3 ml-1 font-weight-bold">Explore Surf Trip List</h4>
     <div class="container-fluid">
       <div id="city-cards" class="row">
 
