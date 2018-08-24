@@ -13,25 +13,25 @@ body {
 
 @-webkit-keyframes loadImages {
   0%, 18% {
-    background-image: url('../images/landing-image1_test.png');
+    background-image: url('../images/landing-image1.png');
   }
   20%, 38% {
-    background-image: url('../images/landing-image2_test.png');
+    background-image: url('../images/landing-image2.png');
   }
   40%, 58% {
-    background-image: url('../images/landing-image3_test.png');
+    background-image: url('../images/landing-image3.png');
   }
   60%, 78% {
-    background-image: url('../images/landing-image4_test.png');
+    background-image: url('../images/landing-image4.png');
   }
   80%, 98% {
-    background-image: url('../images/landing-image5_test.png');
+    background-image: url('../images/landing-image5.png');
   }
 }
 
 /* Landing page image show */
 #landing-page {
-  background-image:url("../images/landing-image1_test.png");
+  background-image:url("../images/landing-image1.png");
   height: 100vh;
   color: white;
   background-size: cover;
@@ -43,30 +43,30 @@ body {
   padding: 0 20px;
 
   animation-name: landingImage;
-  animation-duration: 35s;
-  animation-delay: 1s;
+  animation-duration: 40s;
+  animation-delay: 3s;
   animation-timing-function: ease-out;
   animation-iteration-count: infinite;
 }
 
 @-webkit-keyframes landingImage {
   0%, 15% {
-    background-image: url('../images/landing-image1_test.png');
+    background-image: url('../images/landing-image1.png');
   }
   20%, 35% {
-    background-image: url('../images/landing-image2_test.png');
+    background-image: url('../images/landing-image2.png');
   }
   40%, 55% {
-    background-image: url('../images/landing-image3_test.png');
+    background-image: url('../images/landing-image3.png');
   }
   60%, 75% {
-    background-image: url('../images/landing-image4_test.png');
+    background-image: url('../images/landing-image4.png');
   }
   80%, 95% {
-    background-image: url('../images/landing-image5_test.png');
+    background-image: url('../images/landing-image5.png');
   }
 
-  /* MOVE ON! YOU DID GREAT! */
+  /* MINIMIZE IMAGE SIZES AND MOVE ON! YOU DID GREAT! */
   /* 19% {
     background-position-y: bottom;
   }
