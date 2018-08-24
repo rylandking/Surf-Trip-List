@@ -59,8 +59,11 @@
 </head>
 <body>
 
+  <!-- LOADS IMAGES SO NO FLICKER ON @keyframes landingImage -->
+  <div id="load-images"></div>
+
   <!-- LANDING IMAGE -->
-  <div id="landing" class="d-none d-md-flex mb-5">
+  <div id="landing-page" class="d-none d-md-flex mb-5">
 
     <div class="container-fluid landing-nav">
       <!-- DESKTOP NAV BAR -->
@@ -79,7 +82,7 @@
           </div>
         </div>
 
-        <h6 id="location-identifier" class="ml-2 my-0 mr-md-auto font-weight-bold"><a href="index.html" class="white-link">Surf Trip List</a></h6>
+        <h6 id="site-name" class="ml-2 my-0 mr-md-auto font-weight-bold"><a href="index.html" class="white-link">Surf Trip List</a></h6>
 
         <nav id="top-nav" class="my-2 my-md-0 d-none d-lg-block">
           <a class="p-2 text-white direct-to-map" href="city.html?cityDB=california">Map</a>
@@ -90,8 +93,8 @@
     </div>
 
     <div id="landing-cta">
-      <h2 class="mb-4 mr-auto d-none d-lg-flex">Search, discover and book amazing<br>surf trips all over California.</h2>
-      <h2 class="mb-4 mr-auto d-none d-md-flex d-lg-none">Search, discover and book<br>amazing surf trips<br>all over California.</h2>
+      <h2 class="mb-4 mr-auto d-none d-lg-flex tagline">Search, discover and book amazing<br>surf trips all over California.</h2>
+      <h2 class="mb-4 mr-auto d-none d-md-flex d-lg-none tagline">Search, discover and book<br>amazing surf trips<br>all over California.</h2>
 
       <div class="input-group input-group-lg landing-page-input-group">
         <div class="input-group-prepend landing-page-search-icon">
@@ -99,6 +102,7 @@
         </div>
         <input id="searchInput" type="search" class="form-control search landing-page-search" placeholder='Try "Malibu"' aria-label="Search surf trips">
       </div>
+      <br>
       <br>
       <br>
       <br>
@@ -126,7 +130,7 @@
       </div>
 
       <!-- Search Bar -->
-      <div class="input-group input-group-sm col-md-3">
+      <div class="input-group col-md-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="search-descriptor"><i class="fas fa-search"></i></span>
         </div>

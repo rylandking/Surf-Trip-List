@@ -82,6 +82,8 @@ let autoComplete;
 let viewport;
 let place;
 let bounds;
+let landingImage;
+
 
 
 
