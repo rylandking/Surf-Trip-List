@@ -36,7 +36,7 @@
   <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
 
   <!-- Link to custom CSS -->
-  <link rel="stylesheet" href="public/stl.css">
+  <link rel="stylesheet" href="stl.css">
 
   <!-- Initalizes Firestore -->
   <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
@@ -57,14 +57,14 @@
 
   <!-- Set Preview Image and Content on Social Shares-->
   <meta property="og:site_name" content="Surf Trip List"/>
-  <meta property="og:image" content="images/landing-image1.jpg">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image1.png?alt=media&token=46accb3f-07bd-4454-bf9a-f262c56ff798">
   <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:title" content="Search, discover and book amazing surf trips all over California."/>
-  <meta property="og:description" content="Whether you've never surfed before or are an expert, Surf Trip List helps you find the perfect surf spots, accommodations and surf schools for your dream vacation."/>
+  <meta property="og:title" content="Discover Amazing Surf Trips | Surf Trip List"/>
+  <meta property="og:description" content="Surf Trip List helps you discover and book amazing surf trips — no matter your experience level. Book an amazing surf trip with Surf Trip List today!"/>
   <meta property="og:url" content="http://surftriplist.com/">
   <meta property="og:type" content="website"/>
 
-  <link rel='shortcut icon' type='image/x-icon' href='public/favicon.ico' />
+  <link rel='shortcut icon' type='image/x-icon' href='https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/logos%2Ffavicon.ico?alt=media&token=07d2e7a4-9cc0-473e-87e9-005ed4fec5ad' />
   <title>Discover Amazing Surf Trips | Surf Trip List</title>
 </head>
 
@@ -79,7 +79,7 @@
     <div class="container-fluid landing-nav">
       <!-- DESKTOP NAV BAR -->
       <div class="d-flex align-items-center py-3 mb-2">
-        <a href="index.html"><img id="top-logo" src="public/logo-white-transparent.png" alt="Surf Trip List"></a>
+        <a href="index.html"><img id="top-logo" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/logos%2Flogo-white-transparent.png?alt=media&token=623d87bf-cbbe-41eb-82f1-e3f7769c84fa" alt="Surf Trip List"></a>
 
         <!-- Mobile Dropdown Menu -->
         <div class="dropdown d-lg-none">
@@ -126,7 +126,7 @@
 
     <!-- MOBILE NAV BAR (hide on screens larger than md) -->
     <div class="d-flex d-md-none align-items-center py-3 mb-2 bg-white border-bottom box-shadow">
-      <a href="index.html"><img id="top-logo" src="public/logo-red-transparent.png" alt="Surf Trip List"></a>
+      <a href="index.html"><img id="top-logo" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/logos%2Flogo-red-transparent.png?alt=media&token=1f49b9e3-783d-4d9e-a82d-404fc81da74a" alt="Surf Trip List"></a>
 
       <!-- Mobile Dropdown Menu -->
       <div class="dropdown d-md-none">
@@ -151,7 +151,8 @@
     </div>
 
     <!-- CITY CARDS -->
-    <h4 class="my-3 ml-1 font-weight-bold">Explore Surf Trip List</h4>
+    <h4 class="d-none d-md-flex my-3 ml-1 font-weight-bold">Explore Surf Trip List</h4>
+    <h4 class="d-md-none my-3 ml-1 font-weight-bold">Discover and book amazing surf trips all over California.</h4>
     <div class="container-fluid">
       <div id="city-cards" class="row">
 
@@ -167,7 +168,7 @@
   </div><!-- End of container-fluid -->
 
   <!-- Custom JS Library -->
-  <script type="text/javascript" src="public/index.js"></script>
+  <script type="text/javascript" src="index.js"></script>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->

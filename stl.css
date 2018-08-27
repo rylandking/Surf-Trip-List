@@ -1,0 +1,690 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 400;
+    margin: 0;
+}
+
+
+/* Load images once through so no flicker */
+#load-images {
+  animation-name: loadImages;
+  animation-duration: 1s;
+}
+
+@-webkit-keyframes loadImages {
+  0%, 18% {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image1.png?alt=media&token=b9aceb0e-c552-4bb8-b7ee-9b8be5f576cd');
+  }
+  20%, 38% {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image2.png?alt=media&token=e8d80a2a-d9d3-456b-82c7-88f69f456c71');
+  }
+  40%, 58% {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image3.png?alt=media&token=c89d985f-4702-447e-8301-583992564f0d');
+  }
+  60%, 78% {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image4.png?alt=media&token=c1c545dc-0899-4aa9-a739-1d331a98825b');
+  }
+  80%, 98% {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image5.png?alt=media&token=e971ec56-5deb-48d6-9f52-d19572ff8767');
+  }
+}
+
+/* Landing page image show */
+#landing-page {
+  background-image:url("https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image1.png?alt=media&token=b9aceb0e-c552-4bb8-b7ee-9b8be5f576cd");
+  height: 100vh;
+  color: white;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+
+  animation-name: landingImage;
+  animation-duration: 40s;
+  animation-delay: 3s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes landingImage {
+  0%, 15% {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image1.png?alt=media&token=b9aceb0e-c552-4bb8-b7ee-9b8be5f576cd');
+  }
+  20%, 35% {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image2.png?alt=media&token=e8d80a2a-d9d3-456b-82c7-88f69f456c71');
+  }
+  40%, 55% {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image3.png?alt=media&token=c89d985f-4702-447e-8301-583992564f0d');
+  }
+  60%, 75% {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image4.png?alt=media&token=c1c545dc-0899-4aa9-a739-1d331a98825b');
+  }
+  80%, 95% {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image5.png?alt=media&token=e971ec56-5deb-48d6-9f52-d19572ff8767');
+  }
+
+  /* MINIMIZE IMAGE SIZES AND MOVE ON! YOU DID GREAT! */
+  /* 19% {
+    background-position-y: bottom;
+  }
+  19% {
+    background-position: center;
+  }
+  39% {
+    background-position-y: bottom;
+  }
+  60% {
+    background-position-y: bottom;
+  }
+  80% {
+    background-position-y: bottom;
+  }
+  100% {
+    background-position-y: bottom;
+  } */
+}
+
+
+.landing-nav {
+  color: white;
+  position: absolute;
+  top: 0;
+}
+
+/* NAV */
+#top-logo {
+  width:32px;
+  height:32px;
+  vertical-align:middle;
+}
+
+#top-nav {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#mobile-menu-arrow {
+ font-size: 14px;
+ color: black;
+}
+
+.dropdown-item {
+  font-size: 12px;
+  color: black;
+}
+
+#statement {
+  font-size: 14px;
+  font-weight: bold;
+  color: #D9524E;
+}
+
+#breadcrumb {
+  text-transform: capitalize;
+}
+
+.dropdown-item {
+  list-style-type: none;
+  padding: 0px;
+}
+
+#landing-cta {
+  width: 60%;
+}
+
+.search {
+  border-left: 0px;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.search:focus {
+  border-color: lightgrey;
+}
+
+.input-group-text {
+  color: black;
+  background-color: white;
+  border-right: 0px;
+}
+
+.landing-page-input-group {
+  box-shadow: 5px 5px 50px 5px darkgrey;
+}
+
+/* Landing Page Search Bar -- Display of City Name  */
+.landing-page-search::-webkit-input-placeholder {
+ font-size: 14px !important;
+ color: grey;
+ font-weight: bold;
+}
+
+.landing-page-search:-moz-placeholder { /* Firefox 18- */
+  font-size: 14px !important;
+  color: grey;
+  font-weight: bold;
+
+}
+
+.landing-page-search::-moz-placeholder {  /* Firefox 19+ */
+  font-size: 14px !important;
+  color: grey;
+  font-weight: bold;
+
+}
+
+/* Homepage Search Bar */
+::-webkit-input-placeholder {
+ font-size: 14!important;
+ font-weight: bold;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  font-size: 14!important;
+  font-weight: bold;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  font-size: 14!important;
+  font-weight: bold;
+}
+
+
+/* City Page Search Bar -- Display of City Name  */
+.city-page-search::-webkit-input-placeholder {
+ font-size: 14px;
+ color: black;
+ font-weight: bold;
+ text-transform: capitalize;
+}
+
+.city-page-search:-moz-placeholder { /* Firefox 18- */
+  font-size: 14px !important;
+  color: black;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.city-page-search::-moz-placeholder {  /* Firefox 19+ */
+  font-size: 14px !important;
+  color: black;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Hide placeholder text when search bar is clicked */
+input:focus::-webkit-input-placeholder {
+  color:transparent;
+}
+
+input:focus:-moz-placeholder {
+  color:transparent;
+} /* FF 4-18 */
+
+input:focus::-moz-placeholder {
+  color:transparent;
+} /* FF 19+ */
+
+input:focus:-ms-input-placeholder {
+  color:transparent;
+} /* IE 10+ */
+
+.city-page-search:focus::-webkit-input-placeholder {
+  color:transparent;
+}
+
+.city-page-search:focus:-moz-placeholder {
+  color:transparent;
+} /* FF 4-18 */
+
+.city-page-search:focus::-moz-placeholder {
+  color:transparent;
+} /* FF 19+ */
+
+.city-page-search:focus:-ms-input-placeholder {
+  color:transparent;
+} /* IE 10+ */
+
+
+
+/* MAP */
+#map {
+  width:auto;
+  height:575px;
+}
+
+@media only screen and (max-width: 600px) {
+  #map {
+    width:auto;
+    height:88vh;
+  }
+}
+
+#map-wrapper {
+  position: relative;
+}
+
+#iwPhoto {
+  width:225px;
+  height:150px
+}
+
+.iwSkillIcon {
+  height:22px;
+  width:22px;
+}
+
+.infoWindow {
+  /* height:100%; */
+  width:275px;
+}
+
+#floating-key {
+  position: absolute;
+  bottom: 10px;
+  left: 25px;
+  z-index: 5;
+  background-color: #fff;
+  padding: 2px;
+  padding-bottom: 0px;
+  padding-top: 5px;
+  text-align: left;
+  line-height: 1px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #708090;
+  border-radius: 2px;
+}
+
+@media only screen and (max-width: 600px) {
+  #floating-key {
+    position: absolute;
+    bottom: 5px;
+    left: 25px;
+    z-index: 5;
+    background-color: #fff;
+    text-align: left;
+    line-height: 1px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #708090;
+    border-radius: 2px;
+  }
+}
+
+.marker-key {
+  height: 14px;
+  width: 14px;
+}
+
+#floating-search-toggle {
+  position: absolute;
+  top: 50px;
+  left: 25px;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  text-align: left;
+  line-height: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #708090;
+  border-radius: 2px;
+  height: 20px;
+  width: auto;
+}
+
+#floating-marker-buttons {
+  position: absolute;
+  top: 15px;
+  left: 25px;
+  z-index: 5;
+  text-align: left;
+  line-height: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  height: 20px;
+  width: auto;
+}
+
+.city-card {
+  height: 225px !important;
+  border: none !important;
+}
+
+/* SPOT CARD DESKTOP */
+.spot-card {
+  height: 250px !important;
+  width: auto;
+  border: none !important;
+  padding-top: 0px;
+  margin-top: 0px;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.card-img {
+  height: 100% !important;
+  width: auto !important;
+  object-fit: cover;
+}
+
+.card-hover-overlay {
+  display: none;
+  height: 100%;
+}
+
+.mobile-hover-overlay {
+  display: none;
+  height: 100%;
+}
+
+p.card-hover-overlay {
+  font-size: 14px;
+}
+
+#spot-cards {
+  width: auto;
+  height: 575px;
+  overflow-y: scroll;
+}
+
+.normal-marker-size {
+  width: 30px;
+  height: 30px;
+}
+
+/* Bottom left text over cards */
+.bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+}
+
+/* Top left text over cards */
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
+/* Top right text over cards */
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+/* Bottom right text over cards */
+.bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+
+/* Centered text over cards */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width:100%;
+  text-align: center;
+  font-weight:700;
+}
+
+.card-title {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width:100%;
+  text-align: center;
+  font-weight:700;
+  margin: 0px !important;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+
+
+.card-title2 {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+.card-subtitle2 {
+  font-size: 15px;
+}
+
+.card-text2 {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.accomm-card-text {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.card {
+  height: 250px !important;
+  width: auto;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.card-pretitle {
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 0px;
+}
+
+.card-subtitle {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width:100%;
+  text-align: center;
+  font-weight:600;
+  text-transform: capitalize;
+}
+
+.surf-spot-card-subtitle {
+  position: absolute;
+  top: 46%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  width:100%;
+  text-align: center;
+  font-weight:600;
+  text-transform: capitalize;
+}
+
+/* buttom centered text over cards */
+.bottom-centered {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-weight:700;
+}
+
+/* buttom left text over cards */
+.bottom-left {
+  position: absolute;
+  bottom: 10%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-weight:700;
+}
+
+/* buttom left text over cards */
+.bottom-right {
+  position: absolute;
+  bottom: 10%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-weight:700;
+}
+
+/* Mobile bottom centered text over cards */
+.mobile-bottom-centered {
+  position: absolute;
+  bottom: -20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width:100%;
+  text-align: center;
+  font-weight:700;
+}
+
+.tinted {
+  filter: brightness(70%);
+}
+
+.tinted-spot-cards {
+  filter: brightness(55%);
+}
+
+.bright-hover:hover {
+  filter: brightness(115%);
+}
+
+
+
+/* FOOTER */
+#footer {
+  width: 100%;
+  text-align: center;
+  padding-top: 2rem;
+  font-size: 12px;
+  color: grey;
+  margin-bottom: 2rem;
+}
+
+
+/* MODALS */
+.modal-title {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.modal-header p {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.modal-body p {
+  font-size: 14px;
+}
+
+.modal-footer {
+  justify-content: left !important;
+}
+
+/* CUSTOM CSS */
+
+.no-button-shadow:focus {
+  box-shadow: none;
+}
+
+.xs-btn {
+  height:26px;
+  font-size:11px !important;
+}
+
+.toggle-button {
+  border-radius: 2px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  height:26px;
+  font-size:11px;
+  padding-top: 2px;
+  box-shadow: none;
+}
+
+/* Hides blue shadow around button after click */
+.toggle-button:active,
+.toggle-button:focus,
+.toggle-button.active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.cards-showing {
+  background-color: #d9534f;
+}
+
+.markers-showing {
+  background-color: #d9534f;
+}
+
+.cards-hidden {
+  background-color: #A9A9A9 !important;
+  border-color: #A9A9A9 !important;
+  cursor: pointer;
+}
+
+.markers-hidden {
+  background-color: #A9A9A9 !important;
+  border-color: #A9A9A9 !important;
+  cursor: pointer;
+}
+
+.capitalize {
+  text-transform:capitalize;
+}
+
+.white-link {
+  color: white !important;
+  text-decoration: none !important;
+}
+
+.white-link:hover {
+  color: white !important;
+  text-decoration: none !important;
+}
+
+.border {
+  border: solid 2px;
+}
+
+.hide {
+  display: none;
+}
+
+.inherit-link {
+  color: inherit;
+  text-decoration: none !important;
+}
+
+.inherit-link:hover {
+  color: inherit;
+  text-decoration: none !important;
+}
+
+/* SURF SPOT FORM */
+#map-surf-spot-form {
+  height: 350px;
+  width: auto;
+}
+
+.fa-chevron-right {
+  font-size: 1.5rem;
+}
+
+.fa-chevron-left {
+  font-size: 1.5rem;
+}
