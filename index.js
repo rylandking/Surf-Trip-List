@@ -98,6 +98,7 @@ let bounds;
 let landingImage;
 let cityImage;
 let skillMarker;
+let accommsHere;
 
 
 ////POPULATE CARDS ON HOME PAGE
@@ -1242,7 +1243,7 @@ function lessonsDetailsCallback(placeDetails, status) {
             //     <button class="btn btn-sm btn-danger mt-2 mr-2"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${lat},${lng}&driving" target="_blank">DIRECTIONS</a></button>
             //   </div>
             // `);
-            infowindow.setContent('<div id="iwcontent"><h5 class="mb-0">'+placeDetails.name+'</h5><h6><i class="fas fa-heart"></i> '+placeDetails.rating+' of 5 ('+placeDetails.reviews.length+' reviews)</h6><img id="iwPhoto" src="images/surf-lesson-default-photo.png" alt="'+placeDetails.name+'"><br><button type="button" class="btn btn-sm btn-danger font-weight-bold mt-2 mr-1" data-toggle="modal" data-target="#'+placeDetails.id+'">MORE INFO</button><button class="btn btn-sm btn-danger mt-2"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr='+placeDetails.geometry.location.lat()+','+placeDetails.geometry.location.lng()+'&driving" target="_blank">DIRECTIONS</a></button></div>')
+            infowindow.setContent('<div id="iwcontent"><h5 class="mb-0">'+placeDetails.name+'</h5><h6><i class="fas fa-heart"></i> '+placeDetails.rating+' of 5 ('+placeDetails.reviews.length+' reviews)</h6><img id="iwPhoto" src="' + lessonsDefaultPhoto + '" alt="'+placeDetails.name+'"><br><button type="button" class="btn btn-sm btn-danger font-weight-bold mt-2 mr-1" data-toggle="modal" data-target="#'+placeDetails.id+'">MORE INFO</button><button class="btn btn-sm btn-danger mt-2"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr='+placeDetails.geometry.location.lat()+','+placeDetails.geometry.location.lng()+'&driving" target="_blank">DIRECTIONS</a></button></div>')
             infowindow.open(map, this);
             //Close the lessonMarker infowindow
             google.maps.event.addListener(map, "click", function(event){
@@ -1271,7 +1272,7 @@ function addLessonMarker(props, map) {
   lessonMarker = new google.maps.Marker({
     position: coords,
     map: map,
-    icon: 'public/icon-images/surfLesson.png',
+    icon: {url: surfSchoolMarker, scaledSize: new google.maps.Size(30, 30)},
     optimized: false,
     zIndex: 4,
     id: id,
@@ -1367,16 +1368,18 @@ function addAccommMarkers(i) {
       view = data.view;
       proximity = data.proximity;
       nearbySurfSpot = data.surfSpot.replace(/-/g,' ');
+      accommsHere = false;
 
       //If the accomm-spot is within the lat/lng map bounds, run addAccommMarker().
       if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
-        addAccommMarker(accommMarker, map);
+        addAccommMarker(accommMarker, map, coords, title, price, accommURL, accommType, bedAmount, bedWord, guestAmount, guestWord, view, proximity);
+        accommsHere = true;
       }
 
     });//END -- querySnapshot OF accommMarkers
   }).then(function() {
     //If accommMarkers array holds 0 values, show card that tells user there are no surf spots in this map view.
-    if (accommMarkers.length == 0) {
+    if (accommsHere !== true) {
       //Make sure Accomm Cards are showing (.cards-showing)
       if ($("#toggleAccommCards").hasClass("cards-showing")) {
         //Remove old no-accomm-cards from the card list
@@ -1402,35 +1405,72 @@ function addAccommMarkers(i) {
 }//END -- addAccommMarkers FUNCTION
 
 
-////ADDS AN ACCOMM MARKER TO THE MAP
-function addAccommMarker(props, map) {
-  //ADD accommMarkers TO MAP
-  accommMarker = new google.maps.Marker({
-    position: coords,
-    map: map,
-    icon: 'images/pm/' + price + '.png',
-    id: title,
-    price: price,
-  });
 
-  //ADD EACH accommMarker TO THE ARRAY TO ALLOW FOR HIDE/SHOW OF accommMakers
-  accommMarkers.push(accommMarker);
+////ADDS AN ACCOMM MARKER TO THE MAP
+function addAccommMarker(props, map, coords, title, price, accommURL, accommType, bedAmount, bedWord, guestAmount, guestWord, view, proximity) {
+  //ADD accommMarkers TO MAP
+  //Get the correct accommMarker download URL
+  setAccommMarkerIcon = storage.ref('accomm-markers/' + price + '.png');
+
+  setAccommMarkerIcon.getDownloadURL().then(function(url) {
+  //   //Size the two digit and three digit accomm markers differently
+    if (price < 100) {
+      accommMarker = new google.maps.Marker({
+        position: coords,
+        map: map,
+        icon: {url: url, scaledSize: new google.maps.Size(36, 32)},
+        id: title,
+        price: price,
+      });
+    } else {
+      accommMarker = new google.maps.Marker({
+        position: coords,
+        map: map,
+        icon: {url: url, scaledSize: new google.maps.Size(45, 32)},
+        id: title,
+        price: price,
+      });
+    }
+    //ADD EACH accommMarker TO THE ARRAY TO ALLOW FOR HIDE/SHOW OF accommMakers
+    accommMarkers.push(accommMarker);
+  });
 
   //CREATE THE accommMarker infowindow
   infowindow = new google.maps.InfoWindow({
   });
 
-  //SET THE infowindow HTML/CSS
-  accommMarker.html = `
-  <div class="infowindow">
-     <a href="${accommURL}" target="_blank"><img class="w-100" src="images/accomm-images/${photo}"></img></a>
-     <b><p class="mt-2 mb-0 nounderline text-uppercase" style="color:brown"><small>${accommType} • ${bedAmount} ${bedWord} | ${guestAmount} ${guestWord}</small></p></b>
-     <h5 class="my-0 text-capitalize">${title}</h5>
-     <b><p class="mt-0 mb-2">$${price}/n • ${view} | ‍${proximity}</p></b>
-     <a class="btn btn-sm btn-danger font-weight-bold" href="${accommURL}" target="_blank">BOOK</a>
-   </div>
-  `;
+  setAccommInfoWindow();
 
+  trimHeader();
+
+  buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWord, guestAmount, guestWord, nearbySurfSpot, proximity, view, price);
+
+  hideAndShowCards();
+
+}//END -- addAccommMarker FUNCTION
+
+
+//Set the accomm info window
+function setAccommInfoWindow() {
+  accommImage = storage.ref('accomm-images/' + title + '.png');
+
+  accommImage.getDownloadURL().then(function(url) {
+    //SET THE infowindow HTML/CSS
+    accommMarker.html = `
+    <div class="infowindow">
+       <a href="${accommURL}" target="_blank"><img class="w-100" src="${url}"></img></a>
+       <b><p class="mt-2 mb-0 nounderline text-uppercase" style="color:brown"><small>${accommType} • ${bedAmount} ${bedWord} | ${guestAmount} ${guestWord}</small></p></b>
+       <h5 class="my-0 text-capitalize">${title}</h5>
+       <b><p class="mt-0 mb-2">$${price}/n • ${view} | ‍${proximity}</p></b>
+       <a class="btn btn-sm btn-danger font-weight-bold" href="${accommURL}" target="_blank">BOOK</a>
+     </div>
+    `;
+  });
+}
+
+
+//Set the accomm marker listener
+function setAccommMarkerListener() {
   accommMarker.addListener('click', function() {
     //Set accommMarkerClick to true so 'idle' listener doesn't run addAccommMarkersWrapper() when infowindow pans map
     accommMarkerClick = true;
@@ -1441,15 +1481,8 @@ function addAccommMarker(props, map) {
       infowindow.close();
     });
   });//End of accommMarker listener
+}
 
-  trimHeader();
-
-  buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWord, guestAmount, guestWord, nearbySurfSpot, proximity, view, price);
-
-  hideAndShowCards();
-
-
-}//END -- addAccommMarker FUNCTION
 
 ////BUILD THE ACCOMM CARDS
 function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWord, guestAmount, guestWord, nearbySurfSpot, proximity, view, price) {
