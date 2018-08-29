@@ -99,6 +99,9 @@ let landingImage;
 let cityImage;
 let skillMarker;
 let accommsHere;
+let badge;
+
+
 
 
 ////POPULATE CARDS ON HOME PAGE
@@ -646,7 +649,7 @@ function highlightMarker(id) {
 }
 
 
-function returnToNormalMarkerSize(id, i) {
+function returnToNormalMarkerSize(id) {
   for (i in surfSpotMarkers){
     if(surfSpotMarkers[i].id == id) {
       setHighlightedSkillMarkers();
@@ -741,6 +744,9 @@ function onCardHoverHighlightMarker() {
 onCardHoverHighlightMarker();
 
 
+
+
+
 ////ADD SURF SPOT MARKERS TO THE CITY PAGE
 function addSurfSpotMarkers() {
   //Remove old surf spot cards from the card list
@@ -778,6 +784,17 @@ function addSurfSpotMarkers() {
         waveDir = data.direction;
         localism = data.localism;
         waveType = data.type;
+
+        localism = data.localism;
+        crowd = data.crowd;
+        barrel = data.barrel;
+        skill = data.skill;
+        // waveDirection = data.direction;
+        // waveType = data.type;
+        bottom = data.bottom;
+
+        //Quick Description: Adjective 1
+        writeQuickDescription();
 
         //If the surf-spot is within the lat/lng map bounds, run addSurfSpotMarker().
         if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
@@ -868,10 +885,53 @@ function addSurfSpotMarker(props, map) {
 }//END -- addSpotMarker FUNCTION
 
 
+function writeQuickDescription() {
+  //Quick Description: Adjective
+  if (barrel == "yes") {
+    qdAdj = "barreling";
+    badge = "badge-dark";
+  } else if (skill == "expert" || skill == "advanced") {
+    qdAdj = "powerful";
+    badge = "badge-dark";
+  } else if (skill == "intermediate") {
+    qdAdj = "fun";
+    badge = "badge-primary";
+  } else if (skill == "beginner") {
+    qdAdj = "mellow";
+    badge = "badge-success";
+  }
+
+  //Quick Description: WaveDirection
+  if (waveDir == "right") {
+    waveDir == "right";
+  } else if (waveDir == "left") {
+    waveDir = "left";
+  } else if (waveDir == "both") {
+    waveDir = "right and left"
+  }
+
+  //Quick Description: waveType
+  if (waveType == "beach") {
+    waveType = "beach break";
+  } else if (waveType == "point") {
+    waveType = "point break";
+  } else if (waveType == "reef") {
+    waveType = "reef break";
+  } else if (waveType == "rockreef") {
+    waveType = "rockreef break";
+  }
+}
+
+
 ////BUILDS SURF SPOT CARDS AND MODAL
 function buildSurfSpotCards() {
   //Select the skill icon
   setSkillMarker();
+
+  //Make badge say "expert only" for expert waves
+  if (skill == "expert") {
+    skill = "expert only";
+  }
 
   //Hide the loading card
   $(".loading-surf-spot-card").hide();
@@ -879,12 +939,13 @@ function buildSurfSpotCards() {
     //Build the surf spots found within the map bounds
     $("#spot-cards").prepend(`
       <a class="white-link" data-toggle="modal" data-target="#${spotID}">
-        <div class="card surf-spot-card bright-hover" data-id="${spotID}">
+        <div class="card surf-spot-card bright-hover-spot-cards" data-id="${spotID}">
           <img class="card-img surf-spot-image tinted-spot-cards" src="${surfSpotDefaultPhoto}" alt="${spotName}">
           <div class="card-img-overlay">
             <div class="card-body text-white p-0">
-              <h5 class="card-title2">${spotName} - <img class="normal-marker-size" src="${skillMarker}"></h5>
-              <h6 class="card-subtitle2 mb-2 text-light"><span class="capitalize">${skill}</span> wave</h6>
+              <small class="text-uppercase font-weight-bold">${qdAdj} ${waveDir} ${waveType}</small>
+              <h4 class="card-title2 mb-2 mt-0">${spotName}</h4>
+              <span class="badge ${badge} text-uppercase mb-1">${skill}</span>
               <p class="card-text2 note">${note}</p>
               <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotID}">
                 MORE INFO
@@ -1287,7 +1348,7 @@ function buildLessonCards() {
 
     $("#spot-cards").prepend(`
       <a class="white-link" data-toggle="modal" data-target="#${id}">
-        <div class="card lesson-spot-card bright-hover" data-id="${id}">
+        <div class="card lesson-spot-card bright-hover-spot-cards" data-id="${id}">
           <img class="card-img tinted-spot-cards" src="${lessonsDefaultPhoto}" alt="${name}">
           <div class="card-img-overlay">
             <div class="card-body text-white p-0">
@@ -1447,6 +1508,8 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
 
   hideAndShowCards();
 
+  $("#spot-cards").find('#no-accomms-card').remove();
+
 }//END -- addAccommMarker FUNCTION
 
 
@@ -1496,7 +1559,7 @@ function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWor
     //Build the accomm cards within map bounds
     $("#spot-cards").prepend(`
       <a class="white-link" href="${accommURL}" target="_blank">
-        <div class="card accomm-spot-card bright-hover" data-id="${title}">
+        <div class="card accomm-spot-card bright-hover-spot-cards" data-id="${title}">
           <img class="card-img tinted-spot-cards w-100" src="${url}" alt="${title}">
           <div class="card-img-overlay">
             <div class="card-body p-0">

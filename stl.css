@@ -452,7 +452,7 @@ p.card-hover-overlay {
 
 
 .card-title2 {
-  text-transform: uppercase;
+  text-transform: capitalize;
   font-weight: bold;
   margin-bottom: 0px;
 }
@@ -551,12 +551,16 @@ p.card-hover-overlay {
   filter: brightness(70%);
 }
 
+.bright-hover:hover img {
+  filter: brightness(90%);
+}
+
 .tinted-spot-cards {
   filter: brightness(55%);
 }
 
-.bright-hover:hover {
-  filter: brightness(115%);
+.bright-hover-spot-cards:hover img {
+  filter: brightness(70%);
 }
 
 
