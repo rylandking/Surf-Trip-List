@@ -1,7 +1,7 @@
 //Initalize Cloud Firestore through Firebase
 const db = firebase.firestore();
 const storage = firebase.storage();
-const surfSpotDefaultPhoto = "https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7";
+let surfSpotDefaultPhoto = "https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7";
 const lessonsDefaultPhoto = "https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-lesson-default-photo.png?alt=media&token=e05b69b4-a7b3-4df4-a042-30260a7dcca1";
 const accommDefaultPhoto = "https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/city%2Fbukit-peninsula.jpg?alt=media&token=706726d8-35cd-434c-9f40-e1493b4ce674";
 const allCardsOffPhoto = "https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/city%2Fsalina-cruz.jpg?alt=media&token=b3f2d278-5e8d-4951-903a-0846eb62ac68";
@@ -54,7 +54,7 @@ let city;
 let cityDB;
 let mapCenter;
 let zoom;
-let spotID;
+let surfSpotID;
 let id;
 let lat;
 let lng;
@@ -100,6 +100,12 @@ let cityImage;
 let skillMarker;
 let accommsHere;
 let badge;
+let surfSpotPhoto;
+let attribution;
+let attributionLink;
+let useCustomPhotos;
+let ssProps;
+
 
 
 
@@ -193,8 +199,8 @@ lng = getParameterByName('lng');
 
 ////TRIM CARD NOTE LENGTH TO 200 CHARACTERS
 function trimNote() {
-  if (note.length > 180) {
-    note = note.substr(0, 180);
+  if (note.length > 160) {
+    note = note.substr(0, 160);
     //re-trim if we are in the middle of a word
     note = note.substr(0, Math.min(note.length, note.lastIndexOf(" "))) + '...';
   }
@@ -772,7 +778,7 @@ function addSurfSpotMarkers() {
   db.collection("surf-spot").where("surfspot.lat", "<=", greaterLat).where("surfspot.lat", ">=", smallerLat).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         data = doc.data();
-        spotID = doc.id;
+        surfSpotID = doc.id;
         spotName = doc.id.replace(/-/g,' ');
         coords = data.surfspot;
         skill = data.skill;
@@ -784,17 +790,14 @@ function addSurfSpotMarkers() {
         waveDir = data.direction;
         localism = data.localism;
         waveType = data.type;
-
         localism = data.localism;
         crowd = data.crowd;
         barrel = data.barrel;
         skill = data.skill;
-        // waveDirection = data.direction;
-        // waveType = data.type;
         bottom = data.bottom;
 
-        //Quick Description: Adjective 1
-        writeQuickDescription();
+        //Build a quick description for surf spot cards
+        writeQuickSurfSpotDescription();
 
         //If the surf-spot is within the lat/lng map bounds, run addSurfSpotMarker().
         if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
@@ -832,6 +835,7 @@ function addSurfSpotMarkers() {
 
 ////ADDS A SURF SPOT MARKER TO THE MAP
 function addSurfSpotMarker(props, map) {
+
   //Set the skill icon
   setSkillMarker();
 
@@ -840,7 +844,7 @@ function addSurfSpotMarker(props, map) {
     position: coords,
     map: map,
     icon: {url: skillMarker, scaledSize: new google.maps.Size(30, 30)},
-    id: spotID,
+    id: surfSpotID,
     skill: skill,
     optimized: false,
   });
@@ -862,7 +866,7 @@ function addSurfSpotMarker(props, map) {
       </h5>
       <h6><span class="text-capitalize">${skill}</span> wave</h6>
         <p>${note}</p>
-        <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotID}">MORE INFO</button>
+        <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${surfSpotID}">MORE INFO</button>
         <a class="btn btn-sm btn-danger font-weight-bold white-link" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank">DIRECTIONS</a>
     </div>
   `;
@@ -878,26 +882,45 @@ function addSurfSpotMarker(props, map) {
     });
   });//END -- surfSpotMarker LISTENER
 
-  buildSurfSpotCards();
+  //useCustomPhotos set to false as default value for first surfSpotID passed through areCustomSurfSpotPhotosAvailable. Explained: (https://www.davidbcalhoun.com/2009/ways-of-passing-data-to-functions-in-javascript/)
+  useCustomPhotos = false;
+
+  ssProps = {
+    surfSpotID: surfSpotID,
+    spotName: spotName,
+    surfSpotDefaultPhoto: surfSpotDefaultPhoto,
+    waveDir: waveDir,
+    waveType: waveType,
+    note: note,
+    skill: skill,
+    fullNote: fullNote,
+    parkingLat: parkingLat,
+    parkingLng: parkingLng,
+    badge: badge,
+    waveDir: waveDir,
+    waveType: waveType,
+    skillMarker: skillMarker,
+  }
+
+  //Get relevant surf spot photos
+  areCustomSurfSpotPhotosAvailable(ssProps);
 
   hideAndShowCards();
 
 }//END -- addSpotMarker FUNCTION
 
 
-function writeQuickDescription() {
+
+//Write a quick description for surf spot cards
+function writeQuickSurfSpotDescription() {
   //Quick Description: Adjective
   if (barrel == "yes") {
-    qdAdj = "barreling";
     badge = "badge-dark";
   } else if (skill == "expert" || skill == "advanced") {
-    qdAdj = "powerful";
     badge = "badge-dark";
   } else if (skill == "intermediate") {
-    qdAdj = "fun";
     badge = "badge-primary";
   } else if (skill == "beginner") {
-    qdAdj = "mellow";
     badge = "badge-success";
   }
 
@@ -923,61 +946,101 @@ function writeQuickDescription() {
 }
 
 
+
+
+
+//Check if custom photos are available
+function areCustomSurfSpotPhotosAvailable(ssProps) {
+  //In the surfSpotImages collection get each document that has the surfSpot field with relevant surfSpotID
+  db.collection("surfSpotImages").where("surfSpot", "==", surfSpotID).get()
+  .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+          data = doc.data();
+          surfSpotPhoto = data.image;
+          //Update useCustomPhotos to true so that the relevant surfSpotID doesn't build another card with default photos in the following .then(function(){})
+          useCustomPhotos = true;
+          attribution = data.attribution;
+          attributionLink = data.attributionLink;
+
+          //Build surf spot cards with the custom photo. Pass the ssProps object that holds all necessary variables
+          buildSurfSpotCards(ssProps);
+
+      });
+  }).then(function() {
+
+    //If useCustomPhotos is NOT true, then buildSurfSpotCards with default photo
+    if (useCustomPhotos !== true) {
+      surfSpotPhoto = surfSpotDefaultPhoto;
+      // console.log(ssProps.surfSpotID, useCustomPhotos);
+      //Build surf spot cards with the default photo. Pass the ssProps object that holds all necessary variables
+      buildSurfSpotCards(ssProps);
+    }
+
+    //Reset useCustomPhotos to false to restart the loop
+    useCustomPhotos = false;
+
+  });
+}
+
+
 ////BUILDS SURF SPOT CARDS AND MODAL
-function buildSurfSpotCards() {
-  //Select the skill icon
-  setSkillMarker();
+function buildSurfSpotCards(ssProps) {
 
   //Make badge say "expert only" for expert waves
-  if (skill == "expert") {
-    skill = "expert only";
+  if (ssProps.skill == "expert") {
+    ssProps.skill = "expert only";
   }
 
   //Hide the loading card
   $(".loading-surf-spot-card").hide();
 
-    //Build the surf spots found within the map bounds
-    $("#spot-cards").prepend(`
-      <a class="white-link" data-toggle="modal" data-target="#${spotID}">
-        <div class="card surf-spot-card bright-hover-spot-cards" data-id="${spotID}">
-          <img class="card-img surf-spot-image tinted-spot-cards" src="${surfSpotDefaultPhoto}" alt="${spotName}">
-          <div class="card-img-overlay">
-            <div class="card-body text-white p-0">
-              <small class="text-uppercase font-weight-bold">${qdAdj} ${waveDir} ${waveType}</small>
-              <h4 class="card-title2 mb-2 mt-0">${spotName}</h4>
-              <span class="badge ${badge} text-uppercase mb-1">${skill}</span>
-              <p class="card-text2 note">${note}</p>
-              <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${spotID}">
-                MORE INFO
-              </button>
-            </div>
-          </div>
-        </div>
-      </a>
+  console.log('buildCards: ' + ssProps.surfSpotID + " " + surfSpotPhoto);
 
-      <div class="modal fade" id="${spotID}" tabindex="-1" role="dialog" aria-labelledby="${spotID}-label" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="surf-spot-title">${spotName} - <img class="normal-marker-size" src="${skillMarker}"></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>${fullNote}</p>
-            </div>
-            <div class="modal-footer bg-secondary">
-              <a class="btn btn-sm btn-danger mr-auto font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank">DIRECTIONS TO PARKING</a>
-            </div>
+  $("#spot-cards").prepend(`
+    <a class="white-link" data-toggle="modal" data-target="#${ssProps.surfSpotID}">
+      <div class="card surf-spot-card bright-hover-spot-cards" data-id="${ssProps.surfSpotID}">
+        <img class="card-img surf-spot-image tinted-spot-cards" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
+        <div class="card-img-overlay">
+          <div class="card-body text-white p-0">
+            <small class="text-uppercase font-weight-bold">${ssProps.waveDir} ${ssProps.waveType}</small>
+            <h4 class="card-title2 mb-2 t-0">${ssProps.spotName}</h4>
+            <span class="badge ${ssProps.badge} text-uppercase mb-1">${ssProps.skill}</span>
+            <p class="card-text2 note">${ssProps.note}</p>
+            <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${ssProps.surfSpotID}">
+              MORE INFO
+            </button>
           </div>
         </div>
       </div>
-    `);
+    </a>
+
+    <div class="modal fade" id="${ssProps.surfSpotID}" tabindex="-1" role="dialog" aria-labelledby="${ssProps.surfSpotID}-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="surf-spot-title">${ssProps.spotName} - <img class="normal-marker-size" src="${ssProps.skillMarker}"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>${ssProps.fullNote}</p>
+          </div>
+          <div class="modal-footer bg-secondary">
+            <a class="btn btn-sm btn-danger mr-auto font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${ssProps.parkingLat},${ssProps.parkingLng}&driving" target="_blank">DIRECTIONS TO PARKING</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
 
 }//END -- BUILDS SURF SPOT CARDS AND MODAL
 
 
+
+
+
+////INITALIZE GOOGLE MAPS
 function initMap() {
 
   if (cityS !== null) {
@@ -1044,7 +1107,7 @@ function initMap() {
   //TO DO #2: MODIFY SYNTAX SO ALL THE MARKERS ARE CREATED WITHIN INITMAP() -- This takes care of markers and cards on page load. :https://stackoverflow.com/questions/37140901/how-can-i-resolve-uncaught-referenceerror-google-is-not-defined-google-maps
   //UPDATE MAP AS BOUNDS CHANGE
   google.maps.event.addListener(map, 'idle', function() {
-    //Clear array
+    //Clear array & card list
     latArray = [];
     lngArray = [];
 
