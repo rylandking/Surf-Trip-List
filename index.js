@@ -119,26 +119,32 @@ db.collection("city").where("beta", "==", true).get().then(function(querySnapsho
     region = data.region.replace(/-/g,' ');
     photo = data.cityimage;
 
-    buildCityCards(cityID, city, region);
+    cityProps = {
+      cityID: cityID,
+      city: city,
+      region: region,
+    }
+
+    buildCityCards(cityProps);
 
   });
 });//END -- POPULATE CARDS ON HOME PAGE
 
 
 //BUILD CITY CARDS
-function buildCityCards(cityID, city, region) {
+function buildCityCards(cityProps) {
   //Create a reference for each city photo in Firestore storage
-  cityImage = storage.ref('city/' + cityID + '.png');
+  cityImage = storage.ref('city/' + cityProps.cityID + '.png');
 
   //Get each cityImage from Firestore storage and
   cityImage.getDownloadURL().then(function(cityImage) {
     $("#city-cards").append(
-      `<div id="city-card" class="card city-card bright-hover text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3" data-id="${cityID}">
-        <img class="card-img tinted" src="${cityImage}" alt="${city}">
+      `<div id="city-card" class="card city-card bright-hover text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3" data-id="${cityProps.cityID}">
+        <img class="card-img tinted" src="${cityImage}" alt="${cityProps.city}">
         <a class="white-link" href="city.html">
           <div class="card-img-overlay">
-            <h4 class="card-title position-relative">${city}</h4>
-            <p class="card-subtitle position-relative">${region}</p>
+            <h4 class="card-title position-relative">${cityProps.city}</h4>
+            <p class="card-subtitle position-relative">${cityProps.region}</p>
           </div>
         </a>
       </div>`
@@ -835,7 +841,6 @@ function addSurfSpotMarkers() {
 
 ////ADDS A SURF SPOT MARKER TO THE MAP
 function addSurfSpotMarker(props, map) {
-
   //Set the skill icon
   setSkillMarker();
 
@@ -974,6 +979,7 @@ function areCustomSurfSpotPhotosAvailable(ssProps) {
       // console.log(ssProps.surfSpotID, useCustomPhotos);
       //Build surf spot cards with the default photo. Pass the ssProps object that holds all necessary variables
       buildSurfSpotCards(ssProps);
+
     }
 
     //Reset useCustomPhotos to false to restart the loop
@@ -994,8 +1000,7 @@ function buildSurfSpotCards(ssProps) {
   //Hide the loading card
   $(".loading-surf-spot-card").hide();
 
-  console.log('buildCards: ' + ssProps.surfSpotID + " " + surfSpotPhoto);
-
+  //Build each surf spot card and its modal
   $("#spot-cards").prepend(`
     <a class="white-link" data-toggle="modal" data-target="#${ssProps.surfSpotID}">
       <div class="card surf-spot-card bright-hover-spot-cards" data-id="${ssProps.surfSpotID}">
@@ -1042,7 +1047,7 @@ function buildSurfSpotCards(ssProps) {
 
 ////INITALIZE GOOGLE MAPS
 function initMap() {
-
+  console.log("initMap");
   if (cityS !== null) {
     zoom = 12;
   }
@@ -1058,7 +1063,7 @@ function initMap() {
     mapTypeControl: false,
     fullscreenControl: false,
     streetViewControl: false,
-  });//END -- map OBJECT
+  } );//END -- map OBJECT
 
   //IF SEARCH BAR IS NOT EMPTY WITH TEXT, INITALIZE AUTOCOMPLETE
   if ($("#searchInput").value !== null) {
@@ -1071,6 +1076,7 @@ function initMap() {
       new google.maps.LatLng(39.990799, -116.374700) //ne
     );
 
+    //Only show cities (geocodes) in the autocomplete and bias results within the bounds set in the variable bounds
     options = {
       types: ['geocode'],
       bounds: bounds,
@@ -1101,11 +1107,9 @@ function initMap() {
     });//END -- autocomplete listener
   }//END -- searchInput conditional
 
-
-
   //TO DO #1: CHANGE LISTENER TO USE 'dragend' AND 'zoom_changed' INSTEAD OF 'idle' -- This takes care of markers on map movement: https://stackoverflow.com/questions/8810979/updating-maps-v3-with-idle-listener-opening-infowwindow-triggers-this-and-hid
   //TO DO #2: MODIFY SYNTAX SO ALL THE MARKERS ARE CREATED WITHIN INITMAP() -- This takes care of markers and cards on page load. :https://stackoverflow.com/questions/37140901/how-can-i-resolve-uncaught-referenceerror-google-is-not-defined-google-maps
-  //UPDATE MAP AS BOUNDS CHANGE
+  //UPDATE MAP AS MAP STOPS MOVING AFTER BOUNDS CHANGE
   google.maps.event.addListener(map, 'idle', function() {
     //Clear array & card list
     latArray = [];
@@ -1144,8 +1148,7 @@ function initMap() {
     lessonMarkerClick = false;
     accommMarkerClick = false;
 
-  });//END -- UPDATE MAP AS BOUNDS CHANGE
-
+  });//END -- UPDATE MAP ON 'idle'
 
   //Listener toggles on/off a checkbox that controls the ability to add markers to map
   searchAsIMoveMapToggle();
@@ -1235,7 +1238,7 @@ function searchAsIMoveMapToggle() {
 
 
 
-
+//Builds lessons loading card
 function buildLessonLoadCard() {
   $("#spot-cards").prepend(`
     <div class="card bright-hover loading-lessons-card" data-id="loading">
@@ -1530,6 +1533,7 @@ function addAccommMarkers(i) {
 
 
 
+
 ////ADDS AN ACCOMM MARKER TO THE MAP
 function addAccommMarker(props, map, coords, title, price, accommURL, accommType, bedAmount, bedWord, guestAmount, guestWord, view, proximity) {
   //ADD accommMarkers TO MAP
@@ -1645,9 +1649,11 @@ function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWor
 
 
 
-
+//Called from the Google Maps API script tag on the bottom of city.html body. Initalized the building of the city page based on whether user clicked a city card or entered a search
+function initialize() {
 ////BUILD CITY PAGE BASED ON cityDB PARAM (user clicked on card on homepage)
 if (cityDB !== null) {
+
   db.collection("city").doc(cityDB).get().then(function(doc) {
     data = doc.data();
     city = doc.id.replace(/-/g,' ');
@@ -1698,4 +1704,5 @@ if (cityDB !== null) {
     setTimeout(function() {
       $("#map-wrapper").addClass("d-none");
     }, 300);
+}
 }
