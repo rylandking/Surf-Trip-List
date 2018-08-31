@@ -143,7 +143,7 @@ function buildCityCards(cityProps) {
         <img class="card-img tinted" src="${cityImage}" alt="${cityProps.city}">
         <a class="white-link" href="city.html">
           <div class="card-img-overlay">
-            <h4 class="card-title position-relative">${cityProps.city}</h4>
+            <h4 class=" surf-spot-card-title position-relative">${cityProps.city}</h4>
             <p class="card-subtitle position-relative">${cityProps.region}</p>
           </div>
         </a>
@@ -968,7 +968,8 @@ function areCustomSurfSpotPhotosAvailable(ssProps) {
           attributionLink = data.attributionLink;
 
           //Build surf spot cards with the custom photo. Pass the ssProps object that holds all necessary variables
-          buildSurfSpotCards(ssProps);
+          buildCustomPhotoSurfSpotCards(ssProps)
+          // buildSurfSpotCards(ssProps);
 
       });
   }).then(function() {
@@ -976,7 +977,6 @@ function areCustomSurfSpotPhotosAvailable(ssProps) {
     //If useCustomPhotos is NOT true, then buildSurfSpotCards with default photo
     if (useCustomPhotos !== true) {
       surfSpotPhoto = surfSpotDefaultPhoto;
-      // console.log(ssProps.surfSpotID, useCustomPhotos);
       //Build surf spot cards with the default photo. Pass the ssProps object that holds all necessary variables
       buildSurfSpotCards(ssProps);
 
@@ -987,6 +987,53 @@ function areCustomSurfSpotPhotosAvailable(ssProps) {
 
   });
 }
+
+
+//IN PROGRESS: BUILD OF THE NEW CARDS
+function buildCustomPhotoSurfSpotCards(ssProps) {
+  //Make badge say "expert only" for expert waves
+  if (ssProps.skill == "expert") {
+    ssProps.skill = "expert only";
+  }
+
+  //Hide the loading card
+  $(".loading-surf-spot-card").hide();
+
+  $("#spot-cards").prepend(`
+    <a class="inherit-link" data-toggle="modal" data-target="#${ssProps.surfSpotID}">
+      <div class="card photo-card surf-spot-card illuminate-hover" data-id="${ssProps.surfSpotID}">
+        <img class="card-img-top card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
+        <div class="card-body mx-0 p-0 pt-2">
+          <small class="text-muted card-preheader-text font-weight-bold">${ssProps.waveDir} ${ssProps.waveType}</small>
+          <h5 class="card-title card-title-text font-weight-bold">${ssProps.spotName}</h5>
+          <span class="badge card-badge ${ssProps.badge} text-uppercase mb-1">${ssProps.skill}</span>
+          <p class="card-note">${ssProps.note}</p>
+        </div>
+      </div>
+    </a>
+
+    <div class="modal fade" id="${ssProps.surfSpotID}" tabindex="-1" role="dialog" aria-labelledby="${ssProps.surfSpotID}-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="surf-spot-title">${ssProps.spotName} - <img class="normal-marker-size" src="${ssProps.skillMarker}"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>${ssProps.fullNote}</p>
+          </div>
+          <div class="modal-footer bg-secondary">
+            <a class="btn btn-sm btn-danger mr-auto font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${ssProps.parkingLat},${ssProps.parkingLng}&driving" target="_blank">DIRECTIONS TO PARKING</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  `);
+}
+
 
 
 ////BUILDS SURF SPOT CARDS AND MODAL
@@ -1047,7 +1094,7 @@ function buildSurfSpotCards(ssProps) {
 
 ////INITALIZE GOOGLE MAPS
 function initMap() {
-  console.log("initMap");
+
   if (cityS !== null) {
     zoom = 12;
   }

@@ -437,7 +437,20 @@ p.card-hover-overlay {
   font-weight:700;
 }
 
-.card-title {
+/* .card-title {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width:100%;
+  text-align: center;
+  font-weight:700;
+  margin: 0px !important;
+  white-space: nowrap;
+  text-transform: capitalize;
+} */
+
+.surf-spot-card-title {
   position: absolute;
   top: 42%;
   left: 50%;
@@ -472,6 +485,49 @@ p.card-hover-overlay {
 }
 
 .card {
+  height: 250px !important;
+  width: auto;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+
+
+.photo-card {
+  height: 150px !important;
+  width: auto;
+  margin-bottom: 175px;
+}
+
+.card-preheader-text {
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.card-title-text {
+  margin-bottom: .25rem;
+  text-transform: capitalize;
+}
+
+.card-badge {
+  font-size: 9px;
+  border-radius: 0px;
+}
+
+.card-note  {
+  font-size: 11px;
+}
+
+.card-custom-image {
+  height: 200px !important;
+  width: auto;
+  object-fit: cover;
+}
+
+
+
+
+.initial-card-specs {
   height: 250px !important;
   width: auto;
   margin-bottom: 1rem;
@@ -549,6 +605,10 @@ p.card-hover-overlay {
 
 .tinted {
   filter: brightness(70%);
+}
+
+.illuminate-hover:hover img {
+  filter: brightness(110%);
 }
 
 .bright-hover:hover img {
