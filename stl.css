@@ -499,6 +499,13 @@ p.card-hover-overlay {
   margin-bottom: 175px;
 }
 
+@media only screen and (max-width: 600px) {
+  .photo-card {
+    margin-bottom: 200px;
+  }
+}
+
+
 .card-preheader-text {
   font-size: 9px;
   text-transform: uppercase;
@@ -515,24 +522,40 @@ p.card-hover-overlay {
 }
 
 .card-note  {
-  font-size: 11px;
+  font-size: 11.5px;
+  color: grey;
+  margin-bottom: 0px;
 }
 
 .card-custom-image {
   height: 200px !important;
-  width: auto;
+  width: 100%;
   object-fit: cover;
+  position: relative;
 }
 
-
-
-
-.initial-card-specs {
-  height: 250px !important;
-  width: auto;
-  margin-bottom: 1rem;
-  cursor: pointer;
+.carousel-control-prev {
+ opacity: 1 !important;
 }
+
+.carousel-control-next {
+ opacity: 1 !important;
+ padding-top: 20px;
+ margin-bottom: 20px;
+}
+
+.card-photo-credit {
+  font-size: 8px;
+  color: white;
+  z-index: 10;
+  position: absolute;
+  top: 95%;
+  left: 90%;
+  transform: translate(-50%, -50%);
+  text-align: right !important;
+  z-index: 10000;
+}
+
 
 .card-pretitle {
   font-size: 12px;
@@ -607,9 +630,33 @@ p.card-hover-overlay {
   filter: brightness(70%);
 }
 
-.illuminate-hover:hover img {
+.illuminate img {
   filter: brightness(110%);
 }
+
+.illuminate-hover:hover img {
+  filter: brightness(105%);
+}
+
+.carousel-indicators li {
+  width: 6px;
+  height: 6px;
+  border-radius: 100%;
+  margin-right: 8px;
+}
+
+.carousel-indicators {
+  bottom: 0px;
+}
+
+/* Controls carousel slide transition speed */
+.carousel-inner .carousel-item {
+  transition: -webkit-transform .35s ease;
+  transition: transform .35s ease;
+  transition: transform .35s ease, -webkit-transform .35s ease;
+}
+
+
 
 .bright-hover:hover img {
   filter: brightness(90%);

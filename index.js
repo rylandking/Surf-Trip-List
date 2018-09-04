@@ -105,6 +105,9 @@ let attribution;
 let attributionLink;
 let useCustomPhotos;
 let ssProps;
+let surfSpotPhotoID;
+let surfSpotSlideCount = 1;
+let onePhotoOfSpot;
 
 
 
@@ -907,6 +910,9 @@ function addSurfSpotMarker(props, map) {
     skillMarker: skillMarker,
   }
 
+  //Build the surf spot card skeleton
+  buildSurfSpotCardTEST(ssProps);
+
   //Get relevant surf spot photos
   areCustomSurfSpotPhotosAvailable(ssProps);
 
@@ -961,36 +967,38 @@ function areCustomSurfSpotPhotosAvailable(ssProps) {
   .then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
           data = doc.data();
+          surfSpotPhotoID = doc.id;
           surfSpotPhoto = data.image;
+          surfSpotPhotoLocation = data.surfSpot;
+          surfSpotCoverPhoto = data.coverImage;
           //Update useCustomPhotos to true so that the relevant surfSpotID doesn't build another card with default photos in the following .then(function(){})
           useCustomPhotos = true;
           attribution = data.attribution;
           attributionLink = data.attributionLink;
 
           //Build surf spot cards with the custom photo. Pass the ssProps object that holds all necessary variables
-          buildCustomPhotoSurfSpotCards(ssProps)
-          // buildSurfSpotCards(ssProps);
+          addSurfSpotPhotosToCards(ssProps);
 
       });
   }).then(function() {
-
     //If useCustomPhotos is NOT true, then buildSurfSpotCards with default photo
     if (useCustomPhotos !== true) {
       surfSpotPhoto = surfSpotDefaultPhoto;
+      attribution = " ";
       //Build surf spot cards with the default photo. Pass the ssProps object that holds all necessary variables
-      buildSurfSpotCards(ssProps);
-
+      addSurfSpotPhotosToCards(ssProps);
+      // buildSurfSpotCards(ssProps);
     }
-
     //Reset useCustomPhotos to false to restart the loop
     useCustomPhotos = false;
-
   });
 }
 
 
+
 //IN PROGRESS: BUILD OF THE NEW CARDS
-function buildCustomPhotoSurfSpotCards(ssProps) {
+//Build the card skeleton
+function buildSurfSpotCardTEST(ssProps) {
   //Make badge say "expert only" for expert waves
   if (ssProps.skill == "expert") {
     ssProps.skill = "expert only";
@@ -1000,9 +1008,29 @@ function buildCustomPhotoSurfSpotCards(ssProps) {
   $(".loading-surf-spot-card").hide();
 
   $("#spot-cards").prepend(`
-    <a class="inherit-link" data-toggle="modal" data-target="#${ssProps.surfSpotID}">
+    <!-- SURF SPOT CARD -->
+    <a class="inherit-link surf-spot-modal-trigger" data-toggle="modal" data-target="#${ssProps.surfSpotID}-modal">
       <div class="card photo-card surf-spot-card illuminate-hover" data-id="${ssProps.surfSpotID}">
-        <img class="card-img-top card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
+
+        <!-- SURF SPOT IMAGE CAROUSEL -->
+        <div id="${ssProps.surfSpotID}" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location="${ssProps.surfSpotID}">
+          <ol class="carousel-indicators" data-carousel-indicators="${ssProps.surfSpotID}">
+          </ol>
+
+          <div class="carousel-inner" data-carousel-inner="${ssProps.surfSpotID}">
+          </div>
+
+          <a class="carousel-control-prev" href="#${ssProps.surfSpotID}" role="button" data-slide="prev" data-prev="${ssProps.surfSpotID}">
+            <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#${ssProps.surfSpotID}" role="button" data-slide="next" data-next="${ssProps.surfSpotID}">
+            <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+
+        <!-- SURF SPOT DESCRIPTORS -->
         <div class="card-body mx-0 p-0 pt-2">
           <small class="text-muted card-preheader-text font-weight-bold">${ssProps.waveDir} ${ssProps.waveType}</small>
           <h5 class="card-title card-title-text font-weight-bold">${ssProps.spotName}</h5>
@@ -1012,7 +1040,8 @@ function buildCustomPhotoSurfSpotCards(ssProps) {
       </div>
     </a>
 
-    <div class="modal fade" id="${ssProps.surfSpotID}" tabindex="-1" role="dialog" aria-labelledby="${ssProps.surfSpotID}-label" aria-hidden="true">
+    <!-- SURF SPOT MODAL -->
+    <div class="modal fade" id="${ssProps.surfSpotID}-modal" tabindex="-1" role="dialog" aria-labelledby="${ssProps.surfSpotID}-label" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -1030,9 +1059,95 @@ function buildCustomPhotoSurfSpotCards(ssProps) {
         </div>
       </div>
     </div>
-
   `);
+
+}//END -- buildSurfSpotCardTEST()
+
+
+
+//Build the first photo you see representing a surf spot
+function buildSurfSpotCoverPhoto(ssProps) {
+  //Add dot indicator for the cover photo
+  $("[data-carousel-indicators='" + ssProps.surfSpotID + "']").prepend(`
+      <li data-target="#${ssProps.surfSpotID}" data-slide-to="0"></li>
+  `);
+  //Add the cover photo
+  $("[data-carousel-inner='" + ssProps.surfSpotID + "']").prepend(`
+      <div class="carousel-item active">
+        <img class="d-block card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
+        <small class="card-photo-credit font-weight-light"><a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">${attribution}</a></small>
+      </div>
+  `);
+  //Set onePhotoOfSpot to 'true' because this is the first photo to be added to a surf spot card
+  onePhotoOfSpot = true;
 }
+
+
+
+//Add photos to surf spot card
+function addSurfSpotPhotosToCards(ssProps) {
+  //If coverImage set to 'true' use photo as cover photo
+  if (surfSpotPhoto == surfSpotDefaultPhoto) {
+    //Build the surf spot cover photo
+    buildSurfSpotCoverPhoto(ssProps);
+  //If coverImage set to 'true' use photo as cover photo
+  } else if (surfSpotCoverPhoto == true) {
+    //Build the surf spot cover photo
+    buildSurfSpotCoverPhoto(ssProps);
+  //If coverImage set to 'false' use photo as part of the slideshow
+  } else {
+    //Add dot indicators for the photos
+    $("[data-carousel-indicators='" + ssProps.surfSpotID + "']").prepend(`
+        <li data-target="#${ssProps.surfSpotID}" data-slide-to="${surfSpotSlideCount}"></li>
+    `);
+    //Add each of the photos
+    $("[data-carousel-inner='" + ssProps.surfSpotID + "']").prepend(`
+        <div class="carousel-item">
+          <img class="d-block card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
+          <small class="card-photo-credit font-weight-light"><a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">${attribution}</a></small>
+        </div>
+    `);
+      surfSpotSlideCount++
+      //Set onePhotoOfSpot to 'false' since this adds second or greater photo to the surf spot card
+      onePhotoOfSpot = false;
+
+  }//END -- conditional
+
+  //Set listener show and hide prev and next controls on mouseenter/leave
+  showCarouselControlsOnHover(ssProps);
+  //Hide prev, next and indicators on card load
+  hideCarouselControls(ssProps);
+
+}//END -- addSurfSpotPhotosToCards()
+
+
+
+function showCarouselControlsOnHover(ssProps) {
+  //If the surf spot card has one photo (true), never show prev and next controls. If false, show prev and next controls on mouseenter/leave
+  if (onePhotoOfSpot == false) {
+    $(document).on('mouseenter', '[data-photo-location="' + ssProps.surfSpotID + '"]', function(){
+      $('[data-prev="' + ssProps.surfSpotID + '"]').show();
+      $('[data-next="' + ssProps.surfSpotID + '"]').show();
+    })
+    .on('mouseleave', '[data-photo-location="' + ssProps.surfSpotID + '"]', function(){
+      //Hides prev and next arrows on surf spot photos in surf spot card
+      hideCarouselControls(ssProps);
+    });
+  }
+}
+
+//Hides prev and next arrows on surf spot photos in surf spot card
+function hideCarouselControls(ssProps) {
+  //If window is bigger than mobile, hide the prev/next controls on page load. If window is mobile (less than 600px), show the prev hide controls on page load.
+  if ($(window).width() > 600) {
+    $('[data-prev="' + ssProps.surfSpotID + '"]').hide();
+    $('[data-next="' + ssProps.surfSpotID + '"]').hide();
+  }
+}
+
+
+
+
 
 
 
