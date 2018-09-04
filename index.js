@@ -911,7 +911,7 @@ function addSurfSpotMarker(props, map) {
   }
 
   //Build the surf spot card skeleton
-  buildSurfSpotCardTEST(ssProps);
+  buildSurfSpotCard(ssProps);
 
   //Get relevant surf spot photos
   areCustomSurfSpotPhotosAvailable(ssProps);
@@ -987,7 +987,6 @@ function areCustomSurfSpotPhotosAvailable(ssProps) {
       attribution = " ";
       //Build surf spot cards with the default photo. Pass the ssProps object that holds all necessary variables
       addSurfSpotPhotosToCards(ssProps);
-      // buildSurfSpotCards(ssProps);
     }
     //Reset useCustomPhotos to false to restart the loop
     useCustomPhotos = false;
@@ -998,7 +997,7 @@ function areCustomSurfSpotPhotosAvailable(ssProps) {
 
 //IN PROGRESS: BUILD OF THE NEW CARDS
 //Build the card skeleton
-function buildSurfSpotCardTEST(ssProps) {
+function buildSurfSpotCard(ssProps) {
   //Make badge say "expert only" for expert waves
   if (ssProps.skill == "expert") {
     ssProps.skill = "expert only";
@@ -1061,7 +1060,7 @@ function buildSurfSpotCardTEST(ssProps) {
     </div>
   `);
 
-}//END -- buildSurfSpotCardTEST()
+}//END -- buildSurfSpotCard()
 
 
 
@@ -1121,7 +1120,7 @@ function addSurfSpotPhotosToCards(ssProps) {
 }//END -- addSurfSpotPhotosToCards()
 
 
-
+//Show prev and next controls on mouseenter/leave of surf spot photo
 function showCarouselControlsOnHover(ssProps) {
   //If the surf spot card has one photo (true), never show prev and next controls. If false, show prev and next controls on mouseenter/leave
   if (onePhotoOfSpot == false) {
@@ -1144,64 +1143,6 @@ function hideCarouselControls(ssProps) {
     $('[data-next="' + ssProps.surfSpotID + '"]').hide();
   }
 }
-
-
-
-
-
-
-
-////BUILDS SURF SPOT CARDS AND MODAL
-function buildSurfSpotCards(ssProps) {
-
-  //Make badge say "expert only" for expert waves
-  if (ssProps.skill == "expert") {
-    ssProps.skill = "expert only";
-  }
-
-  //Hide the loading card
-  $(".loading-surf-spot-card").hide();
-
-  //Build each surf spot card and its modal
-  $("#spot-cards").prepend(`
-    <a class="white-link" data-toggle="modal" data-target="#${ssProps.surfSpotID}">
-      <div class="card surf-spot-card bright-hover-spot-cards" data-id="${ssProps.surfSpotID}">
-        <img class="card-img surf-spot-image tinted-spot-cards" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
-        <div class="card-img-overlay">
-          <div class="card-body text-white p-0">
-            <small class="text-uppercase font-weight-bold">${ssProps.waveDir} ${ssProps.waveType}</small>
-            <h4 class="card-title2 mb-2 t-0">${ssProps.spotName}</h4>
-            <span class="badge ${ssProps.badge} text-uppercase mb-1">${ssProps.skill}</span>
-            <p class="card-text2 note">${ssProps.note}</p>
-            <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${ssProps.surfSpotID}">
-              MORE INFO
-            </button>
-          </div>
-        </div>
-      </div>
-    </a>
-
-    <div class="modal fade" id="${ssProps.surfSpotID}" tabindex="-1" role="dialog" aria-labelledby="${ssProps.surfSpotID}-label" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="surf-spot-title">${ssProps.spotName} - <img class="normal-marker-size" src="${ssProps.skillMarker}"></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>${ssProps.fullNote}</p>
-          </div>
-          <div class="modal-footer bg-secondary">
-            <a class="btn btn-sm btn-danger mr-auto font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${ssProps.parkingLat},${ssProps.parkingLng}&driving" target="_blank">DIRECTIONS TO PARKING</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  `);
-
-}//END -- BUILDS SURF SPOT CARDS AND MODAL
 
 
 
