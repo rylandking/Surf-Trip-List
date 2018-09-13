@@ -103,11 +103,14 @@ let badge;
 let surfSpotPhoto;
 let attribution;
 let attributionLink;
+let surferAttribution;
+let surferAttributionLink;
 let useCustomPhotos;
 let ssProps;
 let surfSpotPhotoID;
 let surfSpotSlideCount = 1;
 let onePhotoOfSpot;
+let accommProps;
 
 
 
@@ -657,7 +660,7 @@ function highlightMarker(id) {
   }
 
   for (i in accommMarkers){
-      if(accommMarkers[i].id == id) {
+    if(accommMarkers[i].id == id) {
       highlightAccommMarkers(i)
     }
   }
@@ -874,8 +877,7 @@ function addSurfSpotMarker(props, map) {
       </h5>
       <h6><span class="text-capitalize">${skill}</span> wave</h6>
         <p>${note}</p>
-        <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${surfSpotID}">MORE INFO</button>
-        <a class="btn btn-sm btn-danger font-weight-bold white-link" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank">DIRECTIONS</a>
+        <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${surfSpotID}-modal">MORE INFO</button>
     </div>
   `;
 
@@ -893,6 +895,7 @@ function addSurfSpotMarker(props, map) {
   //useCustomPhotos set to false as default value for first surfSpotID passed through areCustomSurfSpotPhotosAvailable. Explained: (https://www.davidbcalhoun.com/2009/ways-of-passing-data-to-functions-in-javascript/)
   useCustomPhotos = false;
 
+  //Surf spot variables to pass between functions
   ssProps = {
     surfSpotID: surfSpotID,
     spotName: spotName,
@@ -975,6 +978,8 @@ function areCustomSurfSpotPhotosAvailable(ssProps) {
           useCustomPhotos = true;
           attribution = data.attribution;
           attributionLink = data.attributionLink;
+          surferAttribution = data.surferAttribution;
+          surferAttributionLink = data.surferAttributionLink;
 
           //Build surf spot cards with the custom photo. Pass the ssProps object that holds all necessary variables
           addSurfSpotPhotosToCards(ssProps);
@@ -1064,8 +1069,20 @@ function buildSurfSpotCard(ssProps) {
 
 
 
+//If surferAttribution is not available, don't show the "S: " on the photo
+function showOrHideSurferAttribution() {
+  if (surferAttribution !== undefined) {
+    if (surferAttribution.length < 4) {
+      surferAttribution = " ";
+    }
+  }
+}
+
+
 //Build the first photo you see representing a surf spot
 function buildSurfSpotCoverPhoto(ssProps) {
+  //If surferAttribution is not available, don't show the "S: " on the photo
+  showOrHideSurferAttribution();
   //Add dot indicator for the cover photo
   $("[data-carousel-indicators='" + ssProps.surfSpotID + "']").prepend(`
       <li data-target="#${ssProps.surfSpotID}" data-slide-to="0"></li>
@@ -1074,7 +1091,14 @@ function buildSurfSpotCoverPhoto(ssProps) {
   $("[data-carousel-inner='" + ssProps.surfSpotID + "']").prepend(`
       <div class="carousel-item active">
         <img class="d-block card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
-        <small class="card-photo-credit font-weight-light"><a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">${attribution}</a></small>
+        <small class="card-photo-credit font-weight-bold">
+          <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+            <p class="m-0">${surferAttribution}</p>
+          </a>
+          <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+            <p>P: ${attribution}</p>
+          </a>
+        </small>
       </div>
   `);
   //Set onePhotoOfSpot to 'true' because this is the first photo to be added to a surf spot card
@@ -1095,6 +1119,8 @@ function addSurfSpotPhotosToCards(ssProps) {
     buildSurfSpotCoverPhoto(ssProps);
   //If coverImage set to 'false' use photo as part of the slideshow
   } else {
+    //If surferAttribution is not available, don't show the "S: " on the photo
+    showOrHideSurferAttribution()
     //Add dot indicators for the photos
     $("[data-carousel-indicators='" + ssProps.surfSpotID + "']").prepend(`
         <li data-target="#${ssProps.surfSpotID}" data-slide-to="${surfSpotSlideCount}"></li>
@@ -1103,7 +1129,14 @@ function addSurfSpotPhotosToCards(ssProps) {
     $("[data-carousel-inner='" + ssProps.surfSpotID + "']").prepend(`
         <div class="carousel-item">
           <img class="d-block card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
-          <small class="card-photo-credit font-weight-light"><a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">${attribution}</a></small>
+          <small class="card-photo-credit font-weight-bold">
+            <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+              <p class="m-0">${surferAttribution}</p>
+            </a>
+            <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+              <p>P: ${attribution}</p>
+            </a>
+          </small>
         </div>
     `);
       surfSpotSlideCount++
@@ -1169,9 +1202,19 @@ function initMap() {
   } );//END -- map OBJECT
 
   //IF SEARCH BAR IS NOT EMPTY WITH TEXT, INITALIZE AUTOCOMPLETE
-  if ($("#searchInput").value !== null) {
-    //SELECT WHAT'S TYPED INTO THE SEARCH BOX
-    input = document.getElementById('searchInput');
+  if ($(".search-input").value !== null) {
+
+    //If cityDB or cityS exist (...on city page), use the city.html input #searchInput
+    if (cityDB !== null || cityS !== null) {
+      //SELECT WHAT'S TYPED INTO THE SEARCH BOX
+      input = document.getElementById('searchInput');
+      //If it's on mobile and not on city.html, use #mobileSearchInput
+    } else if (cityDB == null && cityS == null && $(window).width() < 960) {
+      input = document.getElementById('mobileSearchInput');
+      //If it's on desktop and not on city.html, use the index.html #searchInput
+    } else {
+      input = document.getElementById('searchInput');
+    }//END -- Conditional for which input to use
 
     //BIAS AUTOCOMPLETE RESULTS WITHIN THESE BOUNDS
     bounds = new google.maps.LatLngBounds (
@@ -1585,6 +1628,7 @@ function addAccommMarkers(i) {
   db.collection("priceMarkers").where("coords.lat", "<=", greaterLat).where("coords.lat", ">=", smallerLat).get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
       data = doc.data();
+      accommID = doc.id;
       coords = data.coords;
       accommURL = data.bookingURL;
       photo = data.photo;
@@ -1600,9 +1644,27 @@ function addAccommMarkers(i) {
       nearbySurfSpot = data.surfSpot.replace(/-/g,' ');
       accommsHere = false;
 
+      //TO DO: Use this props object to pass accomm variables between functions
+      accommProps = {
+        coords: coords,
+        accommURL: accommURL,
+        photo: photo,
+        accommType: accommType,
+        bedAmount: bedAmount,
+        bedWord: bedWord,
+        guestAmount: guestAmount,
+        guestWord: guestWord,
+        title: title,
+        price: price,
+        view: view,
+        proximity: proximity,
+        nearbySurfSpot: nearbySurfSpot,
+        accommsHere: accommsHere,
+      }
+
       //If the accomm-spot is within the lat/lng map bounds, run addAccommMarker().
       if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
-        addAccommMarker(accommMarker, map, coords, title, price, accommURL, accommType, bedAmount, bedWord, guestAmount, guestWord, view, proximity);
+        addAccommMarker(accommMarker, map, coords, title, price, accommURL, accommType, bedAmount, bedWord, guestAmount, guestWord, view, proximity, accommID);
         accommsHere = true;
       }
 
@@ -1638,43 +1700,80 @@ function addAccommMarkers(i) {
 
 
 ////ADDS AN ACCOMM MARKER TO THE MAP
-function addAccommMarker(props, map, coords, title, price, accommURL, accommType, bedAmount, bedWord, guestAmount, guestWord, view, proximity) {
+function addAccommMarker(props, map, coords, title, price, accommURL, accommType, bedAmount, bedWord, guestAmount, guestWord, view, proximity, accommID) {
   //ADD accommMarkers TO MAP
   //Get the correct accommMarker download URL
   setAccommMarkerIcon = storage.ref('accomm-markers/' + price + '.png');
-
   setAccommMarkerIcon.getDownloadURL().then(function(url) {
-  //   //Size the two digit and three digit accomm markers differently
-    if (price < 100) {
-      accommMarker = new google.maps.Marker({
-        position: coords,
-        map: map,
-        icon: {url: url, scaledSize: new google.maps.Size(36, 32)},
-        id: title,
-        price: price,
-      });
-    } else {
-      accommMarker = new google.maps.Marker({
-        position: coords,
-        map: map,
-        icon: {url: url, scaledSize: new google.maps.Size(45, 32)},
-        id: title,
-        price: price,
-      });
-    }
-    //ADD EACH accommMarker TO THE ARRAY TO ALLOW FOR HIDE/SHOW OF accommMakers
-    accommMarkers.push(accommMarker);
-  });
+    //Get the correct accommImage download URL
+    accommImage = storage.ref('accomm-images/' + title + '.png');
+    accommImage.getDownloadURL().then(function(accommPhoto) {
 
-  //CREATE THE accommMarker infowindow
-  infowindow = new google.maps.InfoWindow({
-  });
+      //Size the two digit and three digit accomm markers differently
+      if (price < 100) {
+        accommMarker = new google.maps.Marker({
+          position: coords,
+          map: map,
+          icon: {url: url, scaledSize: new google.maps.Size(36, 32)},
+          id: accommID,
+          price: price,
+        });
+      } else {
+        accommMarker = new google.maps.Marker({
+          position: coords,
+          map: map,
+          icon: {url: url, scaledSize: new google.maps.Size(45, 32)},
+          id: accommID,
+          price: price,
+        });
+      }
 
-  setAccommInfoWindow();
+      //ADD EACH accommMarker TO THE ARRAY TO ALLOW FOR HIDE/SHOW OF accommMakers
+      accommMarkers.push(accommMarker);
+
+      //CREATE THE accommMarker infowindow
+      infowindow = new google.maps.InfoWindow({
+      });
+
+      accommImage = storage.ref('accomm-images/' + title + '.png');
+
+      //SET THE infowindow HTML/CSS
+      accommMarker.html = `
+       <div class="infowindow">
+         <a data-toggle="modal" data-target="#${accommID}">
+          <img class="accomm-infowindow-photo w-100 mb-2" src="${accommPhoto}"></img>
+         </a>
+
+         <span class="text-muted infowindow-preheader-text font-weight-bold mb-2">${accommType} • ${bedAmount} ${bedWord}</span>
+         <h5 class="card-title card-title-text font-weight-bold">${title}</h5>
+         <p class="accomm-card-price">$${price} per night • Free cancellation</p>
+
+         <div class="mt-2">
+           <a class="btn btn-sm btn-danger font-weight-bold white-link accomm-modal-trigger" data-toggle="modal" data-target="#${accommID}">MORE INFO</a>
+         </div>
+
+       </div>
+      `;
+
+      //Set a 'click' listner on each accommMarker to show the infowindow
+      accommMarker.addListener('click', function() {
+        //Set accommMarkerClick to true so 'idle' listener doesn't run addAccommMarkersWrapper() when infowindow pans map
+        accommMarkerClick = true;
+        //Open & close the accommMarker infowindow
+        infowindow.setContent(this.html);
+        infowindow.open(map, this);
+        google.maps.event.addListener(map, "click", function(event) {
+          infowindow.close();
+        });
+      });//End of accommMarker listener
+
+    });//END -- accommImage.getDownloadURL
+
+  });//END -- setAccommMarkerIcon.getDownloadURL
 
   trimHeader();
 
-  buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWord, guestAmount, guestWord, nearbySurfSpot, proximity, view, price);
+  buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWord, guestAmount, guestWord, nearbySurfSpot, proximity, view, price, accommID);
 
   hideAndShowCards();
 
@@ -1682,24 +1781,6 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
 
 }//END -- addAccommMarker FUNCTION
 
-
-//Set the accomm info window
-function setAccommInfoWindow() {
-  accommImage = storage.ref('accomm-images/' + title + '.png');
-
-  accommImage.getDownloadURL().then(function(url) {
-    //SET THE infowindow HTML/CSS
-    accommMarker.html = `
-    <div class="infowindow">
-       <a href="${accommURL}" target="_blank"><img class="w-100" src="${url}"></img></a>
-       <b><p class="mt-2 mb-0 nounderline text-uppercase" style="color:brown"><small>${accommType} • ${bedAmount} ${bedWord} | ${guestAmount} ${guestWord}</small></p></b>
-       <h5 class="my-0 text-capitalize">${title}</h5>
-       <b><p class="mt-0 mb-2">$${price}/n • ${view} | ‍${proximity}</p></b>
-       <a class="btn btn-sm btn-danger font-weight-bold" href="${accommURL}" target="_blank">BOOK</a>
-     </div>
-    `;
-  });
-}
 
 
 //Set the accomm marker listener
@@ -1713,12 +1794,48 @@ function setAccommMarkerListener() {
     google.maps.event.addListener(map, "click", function(event) {
       infowindow.close();
     });
+
+    console.log(accommMarker.price);
   });//End of accommMarker listener
 }
 
+//Set the accomm info window
+// function setAccommInfoWindow() {
+//   accommImage = storage.ref('accomm-images/' + title + '.png');
+//
+//   accommImage.getDownloadURL().then(function(url) {
+//     //SET THE infowindow HTML/CSS
+//     accommMarker.html = `
+//      <div class="infowindow">
+//        <a data-toggle="modal" data-target="#${accommID}">
+//         <img class="accomm-infowindow-photo w-100 mb-2" src="${url}"></img>
+//        </a>
+//
+//        <span class="text-muted infowindow-preheader-text font-weight-bold mb-2">${accommType} • ${bedAmount} ${bedWord}</span>
+//        <h5 class="card-title card-title-text font-weight-bold">${title}</h5>
+//        <p class="accomm-card-price">$${price} per night • Free cancellation</p>
+//
+//        <div class="mt-2">
+//          <a class="btn btn-sm btn-danger font-weight-bold white-link accomm-modal-trigger" data-toggle="modal" data-target="#${accommID}">MORE INFO</a>
+//        </div>
+//
+//      </div>
+//     `;
+//
+//     //SET THE accommMarker LISTENER TO POP UP infowindow ON 'click'
+//     setAccommMarkerListener();
+//   });
+// }
+
+// <b><p class="mt-2 mb-0 nounderline text-uppercase" style="color:brown"><small>${accommType} • ${bedAmount} ${bedWord} | ${guestAmount} ${guestWord}</small></p></b>
+// <h6 class="my-0 text-capitalize">${title}</h6>
+// <b><p class="mt-0 mb-2">$${price}/n • ${view} | ‍${proximity}</p></b>
+
+
+
 
 ////BUILD THE ACCOMM CARDS
-function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWord, guestAmount, guestWord, nearbySurfSpot, proximity, view, price) {
+function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWord, guestAmount, guestWord, nearbySurfSpot, proximity, view, price, accommID) {
   //Hide the accomm loading card
   $(".loading-accomm-card").hide();
 
@@ -1728,26 +1845,66 @@ function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWor
     // Insert url into an <img> tag to "download"
     //Build the accomm cards within map bounds
     $("#spot-cards").prepend(`
-      <a class="white-link" href="${accommURL}" target="_blank">
-        <div class="card accomm-spot-card bright-hover-spot-cards" data-id="${title}">
-          <img class="card-img tinted-spot-cards w-100" src="${url}" alt="${title}">
-          <div class="card-img-overlay">
-            <div class="card-body p-0">
-              <p class="card-subtitle2 mb-0 text-light text-uppercase"><small>${accommType} • ${bedAmount} ${bedWord} | ${guestAmount} ${guestWord}</small></p>
-              <h5 class="card-title2 cut-header">${title}</h5>
-              <p class="accomm-card-text mt-1 mb-0 text-capitalize">Near ${nearbySurfSpot}</p>
-              <p class="accomm-card-text mb-0">${proximity}</p>
-              <p class="accomm-card-text mb-0">${view}</p>
-              <p class="accomm-card-text">$${price}/n</p>
-              <button class="btn btn-sm btn-danger mt-1 mr-2 font-weight-bold">BOOK</button>
-            </div>
+      <a class="inherit-link accomm-modal-trigger" data-toggle="modal" data-target="#${accommID}">
+        <div class="card accomm-spot-card accomm-photo-card illuminate-hover" data-id="${accommID}">
+          <img class="card-img-top accomm-card-custom-image" src="${accommDefaultPhoto}" alt="${title}">
+
+          <!-- ACCOMM DESCRIPTORS -->
+          <div class="card-body mx-0 p-0 pt-2">
+            <small class="text-muted card-preheader-text font-weight-bold">${accommType} • ${bedAmount} ${bedWord}</small>
+            <h5 class="card-title card-title-text font-weight-bold">${title}</h5>
+            <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
+            <p class="accomm-card-price">$${price} per night • Free cancellation</p>
           </div>
         </div>
       </a>
+
+      <!-- ACCOMM MODAL -->
+      <div class="modal fade" id="${accommID}" tabindex="-1" role="dialog" aria-labelledby="documentID-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+
+            <div class="modal-body">
+              <div class="card accomm-photo-modal illuminate-hover">
+                <img class="card-img-top accomm-card-custom-image" src="${accommDefaultPhoto}" alt="${title}"></img>
+                <small class="text-muted card-preheader-text font-weight-bold mt-2">${accommType} • ${bedAmount} ${bedWord}</small>
+                <h5 class="card-title card-title-text font-weight-bold">${title}</h5>
+                <span class="badge badge-danger card-badge text-uppercase accomm-modal-badge mb-1">AIRBNB</span>
+                <p class="accomm-card-price">$${price} per night • Free cancellation</p>
+              </div>
+            </div>
+
+            <div class="modal-footer bg-secondary">
+              <a class="btn btn-sm btn-danger mr-auto font-weight-bold" href="${accommURL}" target="_blank">BOOK</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
     `);
   });
 }//END -- BUILD THE ACCOMM CARDS
 
+
+
+
+// <a class="white-link" href="${accommURL}" target="_blank">
+//   <div class="card accomm-spot-card bright-hover-spot-cards" data-id="${title}">
+//     <img class="card-img tinted-spot-cards w-100" src="${url}" alt="${title}">
+//     <div class="card-img-overlay">
+//       <div class="card-body p-0">
+//         <p class="card-subtitle2 mb-0 text-light text-uppercase"><small>${accommType} • ${bedAmount} ${bedWord} | ${guestAmount} ${guestWord}</small></p>
+//         <h5 class="card-title2 cut-header">${title}</h5>
+//         <p class="accomm-card-text mt-1 mb-0 text-capitalize">Near ${nearbySurfSpot}</p>
+//         <p class="accomm-card-text mb-0">${proximity}</p>
+//         <p class="accomm-card-text mb-0">${view}</p>
+//         <p class="accomm-card-text">$${price}/n</p>
+//         <button class="btn btn-sm btn-danger mt-1 mr-2 font-weight-bold">BOOK</button>
+//       </div>
+//     </div>
+//   </div>
+// </a>
 
 
 
@@ -1789,7 +1946,7 @@ if (cityDB !== null) {
 
   });
   //If user submitted a search from the homepage, populate the city page as so
-} else if (cityS !== null) {
+  } else if (cityS !== null) {
     //The variables lat and lng are stored beneath getParameterByName()
     //The '+' (somehow) converts lat and lng to numerical format and keeps the decimal places. Without it they show up as strings.
     mapCenter = {
@@ -1807,5 +1964,8 @@ if (cityDB !== null) {
     setTimeout(function() {
       $("#map-wrapper").addClass("d-none");
     }, 300);
-}
+  } else {
+    //Initiate the map on load of index.html
+    initMap();
+  }
 }
