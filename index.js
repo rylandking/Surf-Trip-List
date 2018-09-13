@@ -1816,8 +1816,12 @@ function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWor
 
             <div class="modal-body">
               <div class="card accomm-photo-modal illuminate-hover">
-                <img class="card-img-top" src="${accommPhoto}" alt="${title}"></img>
-                <small class="text-muted card-preheader-text font-weight-bold mt-2">${accommType} • ${bedAmount} ${bedWord}</small>
+
+                <!-- ACCOMM MODAL PHOTOS -->
+                <img class="accomm-card-custom-image mb-1" src="${accommPhoto}" alt="${title}"></img>
+
+                <!-- ACCOMM MODAL DESCRIPTORS -->
+                <small class="text-muted card-preheader-text font-weight-bold">${accommType} • ${bedAmount} ${bedWord}</small>
                 <h5 class="card-title card-title-text font-weight-bold">${title}</h5>
                 <span class="badge badge-danger card-badge text-uppercase accomm-modal-badge mb-1">AIRBNB</span>
                 <p class="accomm-card-price">$${price} per night • Free cancellation</p>

@@ -533,7 +533,8 @@ p.card-hover-overlay {
 .accomm-photo-modal {
   height: 165px !important;
   width: auto;
-  margin-bottom: 90px;
+  margin-bottom: 130px;
+  display: block;
 }
 
 .accomm-infowindow-photo {
