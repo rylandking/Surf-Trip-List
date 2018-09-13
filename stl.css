@@ -498,13 +498,6 @@ p.card-hover-overlay {
   position: relative;
 }
 
-.accomm-card-custom-image {
-  height: 200px !important;
-  width: 100%;
-  object-fit: cover;
-  position: relative;
-}
-
 .photo-card {
   height: 165px !important;
   width: auto;
@@ -517,22 +510,30 @@ p.card-hover-overlay {
   }
 }
 
+.accomm-card-custom-image {
+  height: 200px !important;
+  width: 100%;
+  object-fit: cover;
+  position: relative;
+}
+
 .accomm-photo-card {
-  height: 100px !important;
+  height: 165px !important;
   width: auto;
-  margin-bottom: 218px;
+  margin-bottom: 155px;
+  display: block;
 }
 
 @media only screen and (max-width: 600px) {
   .accomm-photo-card {
-    margin-bottom: 208px;
+    margin-bottom: 158px;
   }
 }
 
 .accomm-photo-modal {
   height: 165px !important;
   width: auto;
-  margin-bottom: 130px;
+  margin-bottom: 90px;
 }
 
 .accomm-infowindow-photo {
@@ -674,7 +675,7 @@ p.card-hover-overlay {
 }
 
 .illuminate-hover:hover img {
-  filter: brightness(105%);
+  filter: brightness(110%);
 }
 
 .carousel-indicators li {

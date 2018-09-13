@@ -1768,7 +1768,6 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
       });//End of accommMarker listener
 
     });//END -- accommImage.getDownloadURL
-
   });//END -- setAccommMarkerIcon.getDownloadURL
 
   trimHeader();
@@ -1783,71 +1782,22 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
 
 
 
-//Set the accomm marker listener
-function setAccommMarkerListener() {
-  accommMarker.addListener('click', function() {
-    //Set accommMarkerClick to true so 'idle' listener doesn't run addAccommMarkersWrapper() when infowindow pans map
-    accommMarkerClick = true;
-    //Open & close the accommMarker infowindow
-    infowindow.setContent(this.html);
-    infowindow.open(map, this);
-    google.maps.event.addListener(map, "click", function(event) {
-      infowindow.close();
-    });
-
-    console.log(accommMarker.price);
-  });//End of accommMarker listener
-}
-
-//Set the accomm info window
-// function setAccommInfoWindow() {
-//   accommImage = storage.ref('accomm-images/' + title + '.png');
-//
-//   accommImage.getDownloadURL().then(function(url) {
-//     //SET THE infowindow HTML/CSS
-//     accommMarker.html = `
-//      <div class="infowindow">
-//        <a data-toggle="modal" data-target="#${accommID}">
-//         <img class="accomm-infowindow-photo w-100 mb-2" src="${url}"></img>
-//        </a>
-//
-//        <span class="text-muted infowindow-preheader-text font-weight-bold mb-2">${accommType} • ${bedAmount} ${bedWord}</span>
-//        <h5 class="card-title card-title-text font-weight-bold">${title}</h5>
-//        <p class="accomm-card-price">$${price} per night • Free cancellation</p>
-//
-//        <div class="mt-2">
-//          <a class="btn btn-sm btn-danger font-weight-bold white-link accomm-modal-trigger" data-toggle="modal" data-target="#${accommID}">MORE INFO</a>
-//        </div>
-//
-//      </div>
-//     `;
-//
-//     //SET THE accommMarker LISTENER TO POP UP infowindow ON 'click'
-//     setAccommMarkerListener();
-//   });
-// }
-
-// <b><p class="mt-2 mb-0 nounderline text-uppercase" style="color:brown"><small>${accommType} • ${bedAmount} ${bedWord} | ${guestAmount} ${guestWord}</small></p></b>
-// <h6 class="my-0 text-capitalize">${title}</h6>
-// <b><p class="mt-0 mb-2">$${price}/n • ${view} | ‍${proximity}</p></b>
-
-
-
-
 ////BUILD THE ACCOMM CARDS
 function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWord, guestAmount, guestWord, nearbySurfSpot, proximity, view, price, accommID) {
   //Hide the accomm loading card
   $(".loading-accomm-card").hide();
 
+  //Set a reference to location of accommImage in Firebase Storage. Then get its download URL
   accommImage = storage.ref('accomm-images/' + photo);
-  // Get the download URL
-  accommImage.getDownloadURL().then(function(url) {
+  accommImage.getDownloadURL().then(function(accommPhoto) {
     // Insert url into an <img> tag to "download"
     //Build the accomm cards within map bounds
     $("#spot-cards").prepend(`
       <a class="inherit-link accomm-modal-trigger" data-toggle="modal" data-target="#${accommID}">
         <div class="card accomm-spot-card accomm-photo-card illuminate-hover" data-id="${accommID}">
-          <img class="card-img-top accomm-card-custom-image" src="${accommDefaultPhoto}" alt="${title}">
+
+          <!-- ACCOMM PHOTOS -->
+          <img class="accomm-card-custom-image" src="${accommPhoto}" alt="${title}">
 
           <!-- ACCOMM DESCRIPTORS -->
           <div class="card-body mx-0 p-0 pt-2">
@@ -1866,7 +1816,7 @@ function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWor
 
             <div class="modal-body">
               <div class="card accomm-photo-modal illuminate-hover">
-                <img class="card-img-top accomm-card-custom-image" src="${accommDefaultPhoto}" alt="${title}"></img>
+                <img class="card-img-top" src="${accommPhoto}" alt="${title}"></img>
                 <small class="text-muted card-preheader-text font-weight-bold mt-2">${accommType} • ${bedAmount} ${bedWord}</small>
                 <h5 class="card-title card-title-text font-weight-bold">${title}</h5>
                 <span class="badge badge-danger card-badge text-uppercase accomm-modal-badge mb-1">AIRBNB</span>
@@ -1886,25 +1836,6 @@ function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWor
   });
 }//END -- BUILD THE ACCOMM CARDS
 
-
-
-
-// <a class="white-link" href="${accommURL}" target="_blank">
-//   <div class="card accomm-spot-card bright-hover-spot-cards" data-id="${title}">
-//     <img class="card-img tinted-spot-cards w-100" src="${url}" alt="${title}">
-//     <div class="card-img-overlay">
-//       <div class="card-body p-0">
-//         <p class="card-subtitle2 mb-0 text-light text-uppercase"><small>${accommType} • ${bedAmount} ${bedWord} | ${guestAmount} ${guestWord}</small></p>
-//         <h5 class="card-title2 cut-header">${title}</h5>
-//         <p class="accomm-card-text mt-1 mb-0 text-capitalize">Near ${nearbySurfSpot}</p>
-//         <p class="accomm-card-text mb-0">${proximity}</p>
-//         <p class="accomm-card-text mb-0">${view}</p>
-//         <p class="accomm-card-text">$${price}/n</p>
-//         <button class="btn btn-sm btn-danger mt-1 mr-2 font-weight-bold">BOOK</button>
-//       </div>
-//     </div>
-//   </div>
-// </a>
 
 
 
