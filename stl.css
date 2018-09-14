@@ -537,12 +537,29 @@ p.card-hover-overlay {
   display: block;
 }
 
+.lesson-photo-modal {
+  height: 165px !important;
+  width: auto;
+  margin-bottom: 350px;
+  display: block;
+}
+
 .accomm-infowindow-photo {
   cursor: pointer;
 }
 
+.lesson-modal-body {
+  overflow-y:scroll;
+  /* position: absolute; */
+}
+
 .card-preheader-text {
-  font-size: 9px;
+  font-size: 9.5px;
+  text-transform: uppercase;
+}
+
+.large-card-preheader-text {
+  font-size: 11px;
   text-transform: uppercase;
 }
 

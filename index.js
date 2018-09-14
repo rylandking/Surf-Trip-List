@@ -1433,7 +1433,7 @@ function lessonsCallbackV2(results, status) {
       //Stores the details we want of each surf lesson place
       let detailsRequest = {
         placeId: place.place_id,
-        field: ['website', 'formatted_phone_number', 'formatted_address', 'review', 'rating', 'name', 'geometry'],
+        field: ['website', 'formatted_phone_number', 'review', 'rating', 'name', 'geometry', 'photo',],
       };
 
       service = new google.maps.places.PlacesService(map);
@@ -1487,12 +1487,15 @@ function lessonsDetailsCallback(placeDetails, status) {
           //Gets the most recent review.
           note = placeDetails.reviews[0].text;
           review1 = placeDetails.reviews[0].text;
-          // review2 = placeDetails.reviews[1].text;
-          // review3 = placeDetails.reviews[2].text;
+          console.log(placeDetails.reviews[0]);
+          review2 = placeDetails.reviews[1].text;
+          review3 = placeDetails.reviews[2].text;
           reviewCount = placeDetails.reviews.length;
           lat = placeDetails.geometry.location.lat();
           lng = placeDetails.geometry.location.lng();
           coords = {lat: placeDetails.geometry.location.lat(), lng: placeDetails.geometry.location.lng()};
+          photos = placeDetails.photos;
+          lessonPhoto = photos[0].getUrl();
 
           addLessonMarker(lessonMarker, map);
 
@@ -1559,40 +1562,52 @@ function buildLessonCards() {
   $(".loading-lessons-card").hide();
 
     $("#spot-cards").prepend(`
-      <a class="white-link" data-toggle="modal" data-target="#${id}">
-        <div class="card lesson-spot-card bright-hover-spot-cards" data-id="${id}">
-          <img class="card-img tinted-spot-cards" src="${lessonsDefaultPhoto}" alt="${name}">
-          <div class="card-img-overlay">
-            <div class="card-body text-white p-0">
-              <h5 class="card-title2">${name}</h5>
-              <h6 class="card-subtitle2 mb-2 text-light"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount} reviews)</h6>
-              <p class="card-text2 note">"${note}"</p>
-              <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${id}">MORE INFO</button>
-            </div>
+      <a class="inherit-link" data-toggle="modal" data-target="#${id}">
+        <div class="card photo-card lesson-spot-card illuminate-hover" data-id="${id}">
+
+          <!-- LESSON PHOTOS -->
+          <img class="card-img card-custom-image" src="${lessonPhoto}" alt="${name}">
+
+          <!-- LESSON DESCRIPTORS -->
+          <div class="card-body mx-0 p-0 pt-2">
+            <small class="text-muted large-card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount} reviews)</small>
+            <h5 class="card-title card-title-text font-weight-bold">${name}</h5>
+            <p class="card-note">${note}</p>
           </div>
+
         </div>
       </a>
 
-      <div class="modal fade" id="${id}" tabindex="-1" role="dialog" aria-labelledby="${name}-label" aria-hidden="true">
+      <div class="modal fade lesson-modal" id="${id}" tabindex="-1" role="dialog" aria-labelledby="${name}-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <div class="modal-header d-block mb-0">
-              <div class="d-flex">
-                <h5 class="modal-title" id="lesson-name">${name}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                   <span aria-hidden="true">&times;</span>
-                </button>
+
+            <div class="modal-body lesson-modal-body">
+              <div class="card lesson-photo-modal illuminate-hover">
+
+                <!-- LESSON MODAL PHOTOS -->
+                <a href="${website}" target="_blank">
+                  <img class="accomm-card-custom-image mb-1" src="${lessonPhoto}" alt="${name}">
+                </a>
+
+                <!-- LESSON MODAL DESCRIPTORS -->
+                <small class="text-muted large-card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount} reviews)</small>
+                <h5 class="card-title card-title-text font-weight-bold">${name}</h5>
+                <small>${phone}</small>
+                <p class="card-note mt-3">"${review1}"</p>
+                <hr>
+                <p class="card-note mt-2">"${review2}"</p>
+                <hr>
+                <p class="card-note mt-2">"${review3}"</p>
+
               </div>
-              <h6 class="modal-title"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount} reviews)</h6>
-              <p>${phone}</p>
             </div>
-            <div class="modal-body">
-              <p>"${review1}"</p>
-            </div>
-            <div class="modal-footer bg-secondary">
+
+            <div class="modal-footer lesson-modal-footer bg-secondary">
               <button class="btn btn-sm btn-danger mr-2"><a class="white-link font-weight-bold" href="${website}" target="_blank">BOOK</a></button>
               <button class="btn btn-sm btn-danger"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${lat},${lng}&driving" target="_blank">DIRECTIONS</a></button>
             </div>
+
           </div>
         </div>
       </div>
@@ -1806,6 +1821,7 @@ function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWor
             <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
             <p class="accomm-card-price">$${price} per night • Free cancellation</p>
           </div>
+
         </div>
       </a>
 
