@@ -802,7 +802,6 @@ function addSurfSpotMarkers() {
         waveDir = data.direction;
         localism = data.localism;
         waveType = data.type;
-        localism = data.localism;
         crowd = data.crowd;
         barrel = data.barrel;
         skill = data.skill;
@@ -1016,7 +1015,7 @@ function buildSurfSpotCard(ssProps) {
     <a class="inherit-link surf-spot-modal-trigger" data-toggle="modal" data-target="#${ssProps.surfSpotID}-modal">
       <div class="card photo-card surf-spot-card illuminate-hover" data-id="${ssProps.surfSpotID}">
 
-        <!-- SURF SPOT IMAGE CAROUSEL -->
+        <!-- SURF SPOT CARD IMAGE CAROUSEL -->
         <div id="${ssProps.surfSpotID}" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location="${ssProps.surfSpotID}">
           <ol class="carousel-indicators" data-carousel-indicators="${ssProps.surfSpotID}">
           </ol>
@@ -1046,20 +1045,156 @@ function buildSurfSpotCard(ssProps) {
 
     <!-- SURF SPOT MODAL -->
     <div class="modal fade" id="${ssProps.surfSpotID}-modal" tabindex="-1" role="dialog" aria-labelledby="${ssProps.surfSpotID}-label" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="surf-spot-title">${ssProps.spotName} - <img class="normal-marker-size" src="${ssProps.skillMarker}"></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
+
           <div class="modal-body">
-            <p>${ssProps.fullNote}</p>
+
+            <!-- SURF SPOT MODAL IMAGE CAROUSEL -->
+            <div id="${ssProps.surfSpotID}" class="carousel slide mb-2" data-ride="carousel" data-interval="false" data-photo-location="${ssProps.surfSpotID}">
+              <ol class="carousel-indicators" data-carousel-indicators="${ssProps.surfSpotID}">
+              </ol>
+
+              <div class="carousel-inner" data-carousel-inner="${ssProps.surfSpotID}">
+              </div>
+
+              <a class="carousel-control-prev" href="#${ssProps.surfSpotID}" role="button" data-slide="prev" data-prev="${ssProps.surfSpotID}">
+                <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#${ssProps.surfSpotID}" role="button" data-slide="next" data-next="${ssProps.surfSpotID}">
+                <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+
+            <!-- SURF SPOT MODAL DESCRIPTION -->
+            <small class="text-muted large-card-preheader-text font-weight-bold">${ssProps.waveDir} ${ssProps.waveType}</small>
+            <h5 class="card-title card-title-text font-weight-bold mt-0">${ssProps.spotName}</h5>
+            <span class="badge modal-badge ${ssProps.badge} text-uppercase">${ssProps.skill}</span>
+
+            <!-- SURF SPOT MODAL SEASONALITY CHART -->
+            <div class="container seasonality-chart mt-3 mb-0 pb-0">
+
+              <div class="row">
+                <ul class="list-unstyled col-1 mx-0 px-0">
+                  <li class="text-center">
+                    <div class="bg-success">
+                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JAN</p>
+                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
+                    </div>
+                  </li>
+                </ul>
+
+                <ul class="list-unstyled col-1 mx-0 px-0">
+                  <li class="text-center">
+                    <div class="bg-success">
+                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">FEB</p>
+                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">F</p>
+                    </div>
+                  </li>
+                </ul>
+
+                <ul class="list-unstyled col-1 mx-0 px-0">
+                  <li class="text-center">
+                    <div class="bg-success">
+                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">MAR</p>
+                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">M</p>
+                    </div>
+                  </li>
+                </ul>
+
+                <ul class="list-unstyled col-1 mx-0 px-0">
+                  <li class="text-center">
+                    <div class="bg-success">
+                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">APR</p>
+                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">A</p>
+                    </div>
+                  </li>
+                </ul>
+
+                <ul class="list-unstyled col-1 mx-0 px-0">
+                  <li class="text-center">
+                    <div class="bg-success">
+                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">MAY</p>
+                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">M</p>
+                    </div>
+                  </li>
+                </ul>
+
+                <ul class="list-unstyled col-1 mx-0 px-0">
+                  <li class="text-center">
+                    <div class="bg-warning">
+                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JUN</p>
+                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
+                    </div>
+                  </li>
+                </ul>
+
+                <ul class="list-unstyled col-1 mx-0 px-0">
+                  <li class="text-center">
+                    <div class="bg-warning">
+                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JUL</p>
+                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
+                    </div>
+                  </li>
+                </ul>
+
+                <ul class="list-unstyled col-1 mx-0 px-0">
+                  <li class="text-center">
+                    <div class="bg-warning">
+                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">AUG</p>
+                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">A</p>
+                    </div>
+                  </li>
+                </ul>
+
+                <ul class="list-unstyled col-1 mx-0 px-0">
+                  <li class="text-center">
+                    <div class="bg-warning">
+                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">SEP</p>
+                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">S</p>
+                    </div>
+                  </li>
+                </ul>
+
+                <ul class="list-unstyled col-1 mx-0 px-0">
+                  <li class="text-center">
+                    <div class="bg-danger">
+                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">OCT</p>
+                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">O</p>
+                    </div>
+                  </li>
+                </ul>
+
+                <ul class="list-unstyled col-1 mx-0 px-0">
+                  <li class="text-center">
+                    <div class="bg-danger">
+                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">NOV</p>
+                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">N</p>
+                    </div>
+                  </li>
+                </ul>
+
+                <ul class="list-unstyled text-center col-1 mx-0 px-0">
+                  <li class="text-center pb-0 mb-0">
+                    <div class="bg-danger">
+                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">DEC</p>
+                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">D</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div><!-- //SURF SPOT MODAL SEASONALITY CHART -->
+
+            <p class="modal-note mt-0 pt-0">${ssProps.fullNote}</p>
+
           </div>
+
           <div class="modal-footer bg-secondary">
             <a class="btn btn-sm btn-danger mr-auto font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${ssProps.parkingLat},${ssProps.parkingLng}&driving" target="_blank">DIRECTIONS TO PARKING</a>
           </div>
+
         </div>
       </div>
     </div>
@@ -1083,11 +1218,11 @@ function showOrHideSurferAttribution() {
 function buildSurfSpotCoverPhoto(ssProps) {
   //If surferAttribution is not available, don't show the "S: " on the photo
   showOrHideSurferAttribution();
-  //Add dot indicator for the cover photo
+  //Add dot indicator for the card cover photo
   $("[data-carousel-indicators='" + ssProps.surfSpotID + "']").prepend(`
       <li data-target="#${ssProps.surfSpotID}" data-slide-to="0"></li>
   `);
-  //Add the cover photo
+  //Add the card cover photo
   $("[data-carousel-inner='" + ssProps.surfSpotID + "']").prepend(`
       <div class="carousel-item active">
         <img class="d-block card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
@@ -1101,6 +1236,7 @@ function buildSurfSpotCoverPhoto(ssProps) {
         </small>
       </div>
   `);
+
   //Set onePhotoOfSpot to 'true' because this is the first photo to be added to a surf spot card
   onePhotoOfSpot = true;
 }
@@ -1121,11 +1257,11 @@ function addSurfSpotPhotosToCards(ssProps) {
   } else {
     //If surferAttribution is not available, don't show the "S: " on the photo
     showOrHideSurferAttribution()
-    //Add dot indicators for the photos
+    //Add dot indicators for the card photos
     $("[data-carousel-indicators='" + ssProps.surfSpotID + "']").prepend(`
         <li data-target="#${ssProps.surfSpotID}" data-slide-to="${surfSpotSlideCount}"></li>
     `);
-    //Add each of the photos
+    //Add each of the card photos
     $("[data-carousel-inner='" + ssProps.surfSpotID + "']").prepend(`
         <div class="carousel-item">
           <img class="d-block card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
