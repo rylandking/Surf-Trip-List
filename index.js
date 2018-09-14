@@ -1473,7 +1473,7 @@ function lessonsDetailsCallback(placeDetails, status) {
   //Start the callback
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     //Check if place has more than one review and greater than 3 star rating as a quality check before putting on Surf Trip List
-    if (placeDetails.reviews !== undefined && placeDetails.reviews.length > 1 && placeDetails.rating !== undefined && placeDetails.rating > 3) {
+    if (placeDetails.reviews !== undefined && placeDetails.reviews.length > 3 && placeDetails.rating !== undefined && placeDetails.rating > 4) {
       //Check if .gov is in the website URL. If it's not (indexOf = -1) then we can use it.
       if (placeDetails.website !== undefined && placeDetails.website.indexOf(".gov") == -1) {
         //Check if  is in the placeDetails name. If it's not (indexOf = -1) then we can use it.
@@ -1483,13 +1483,18 @@ function lessonsDetailsCallback(placeDetails, status) {
           rating = placeDetails.rating;
           website = placeDetails.website;
           phone = placeDetails.formatted_phone_number;
-          address = placeDetails.formatted_address;
+          // address = placeDetails.formatted_address;
           //Gets the most recent review.
           note = placeDetails.reviews[0].text;
           review1 = placeDetails.reviews[0].text;
-          console.log(placeDetails.reviews[0]);
+          authorReview1= placeDetails.reviews[0].author_name;
+          timeDescriptionReview1 = placeDetails.reviews[0].relative_time_description;
           review2 = placeDetails.reviews[1].text;
+          authorReview2 = placeDetails.reviews[1].author_name;
+          timeDescriptionReview2 = placeDetails.reviews[1].relative_time_description;
           review3 = placeDetails.reviews[2].text;
+          authorReview3 = placeDetails.reviews[2].author_name;
+          timeDescriptionReview3 = placeDetails.reviews[2].relative_time_description;
           reviewCount = placeDetails.reviews.length;
           lat = placeDetails.geometry.location.lat();
           lng = placeDetails.geometry.location.lng();
@@ -1510,16 +1515,19 @@ function lessonsDetailsCallback(placeDetails, status) {
             lessonMarkerClick = true;
             //Opens the lessonMarker infowindow
             //setContent won't accept ES6. The // syntax below is to make referencing easier.
-            // infowindow.setContent(`
-            //   <div id="iwcontent">
-            //     <h5 class="mb-0">${name}</h5>
-            //     <h6><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount} reviews)</h6>
-            //     <img id='iwPhoto' src="images/surf-lesson-default-photo.png" alt="${name}"><br>
-            //     <button type="button" class="btn btn-sm btn-danger font-weight-bold mt-2 mr-1" data-toggle="modal" data-target="#${id}">MORE INFO</button>
-            //     <button class="btn btn-sm btn-danger mt-2 mr-2"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${lat},${lng}&driving" target="_blank">DIRECTIONS</a></button>
-            //   </div>
-            // `);
-            infowindow.setContent('<div id="iwcontent"><h5 class="mb-0">'+placeDetails.name+'</h5><h6><i class="fas fa-heart"></i> '+placeDetails.rating+' of 5 ('+placeDetails.reviews.length+' reviews)</h6><img id="iwPhoto" src="' + lessonsDefaultPhoto + '" alt="'+placeDetails.name+'"><br><button type="button" class="btn btn-sm btn-danger font-weight-bold mt-2 mr-1" data-toggle="modal" data-target="#'+placeDetails.id+'">MORE INFO</button><button class="btn btn-sm btn-danger mt-2"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr='+placeDetails.geometry.location.lat()+','+placeDetails.geometry.location.lng()+'&driving" target="_blank">DIRECTIONS</a></button></div>')
+            infowindow.setContent(`
+              <div id="iwcontent">
+                <img id='iwPhoto' class="mb-2" src="${placeDetails.photos[0].getUrl()}" alt="${placeDetails.name}"><br>
+
+                <small><i class="fas fa-heart"></i> ${placeDetails.rating} of 5 (${placeDetails.reviews.length} reviews)</small>
+                <h5 class="mb-0">${placeDetails.name}</h5>
+                <small>${placeDetails.formatted_phone_number}</small>
+                <br>
+                <button type="button" class="btn btn-sm btn-danger font-weight-bold mt-3 mr-1" data-toggle="modal" data-target="#${placeDetails.id}">MORE INFO</button>
+
+              </div>
+            `);
+
             infowindow.open(map, this);
             //Close the lessonMarker infowindow
             google.maps.event.addListener(map, "click", function(event){
@@ -1570,7 +1578,7 @@ function buildLessonCards() {
 
           <!-- LESSON DESCRIPTORS -->
           <div class="card-body mx-0 p-0 pt-2">
-            <small class="text-muted large-card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount} reviews)</small>
+            <small class="text-muted large-card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount}+ reviews)</small>
             <h5 class="card-title card-title-text font-weight-bold">${name}</h5>
             <p class="card-note">${note}</p>
           </div>
@@ -1591,19 +1599,23 @@ function buildLessonCards() {
                 </a>
 
                 <!-- LESSON MODAL DESCRIPTORS -->
-                <small class="text-muted large-card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount} reviews)</small>
+                <small class="text-muted large-card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount}+ reviews)</small>
                 <h5 class="card-title card-title-text font-weight-bold">${name}</h5>
-                <small>${phone}</small>
+                <small class="review-attribution">${phone}</small>
+
                 <p class="card-note mt-3">"${review1}"</p>
+                <small class="review-attribution"><span class="capitalize">${authorReview1}</span>, ${timeDescriptionReview1}</small>
                 <hr>
                 <p class="card-note mt-2">"${review2}"</p>
+                <small class="review-attribution"><span class="capitalize">${authorReview2}</span>, ${timeDescriptionReview2}</small>
                 <hr>
                 <p class="card-note mt-2">"${review3}"</p>
+                <small class="review-attribution"><span class="capitalize">${authorReview3}</span>, ${timeDescriptionReview3}</small>
 
               </div>
             </div>
 
-            <div class="modal-footer lesson-modal-footer bg-secondary">
+            <div class="modal-footer lesson-modal-footer bg-secondary mt-3">
               <button class="btn btn-sm btn-danger mr-2"><a class="white-link font-weight-bold" href="${website}" target="_blank">BOOK</a></button>
               <button class="btn btn-sm btn-danger"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${lat},${lng}&driving" target="_blank">DIRECTIONS</a></button>
             </div>

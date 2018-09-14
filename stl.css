@@ -550,11 +550,16 @@ p.card-hover-overlay {
 
 .lesson-modal-body {
   overflow-y:scroll;
-  /* position: absolute; */
+}
+
+.review-attribution {
+  font-size: 10px;
+  color: grey;
+  margin-top: .25rem;
 }
 
 .card-preheader-text {
-  font-size: 9.5px;
+  font-size: 10px;
   text-transform: uppercase;
 }
 
