@@ -818,6 +818,7 @@ function addSurfSpotMarkers() {
         oct = data.oct;
         nov = data.nov;
         dec = data.dec;
+        forecast = data.forecast;
 
         //Build a quick description for surf spot cards
         writeQuickSurfSpotDescription();
@@ -937,6 +938,7 @@ function addSurfSpotMarker(props, map) {
     oct: oct,
     nov: nov,
     dec: dec,
+    forecast: forecast,
   }
 
   //Build the surf spot card skeleton
@@ -1349,12 +1351,15 @@ function buildSurfSpotCard(ssProps) {
               </div>
             </div><!-- //SURF SPOT MODAL SEASONALITY CHART -->
 
-            <p class="modal-note mt-0 pt-0">${ssProps.fullNote}</p>
+            <p class="modal-note mt-0 pt-0">${ssProps.fullNote} Always check the report before you go. Be kind and surf respectfully.</p>
 
           </div>
 
           <div class="modal-footer bg-secondary">
-            <a class="btn btn-sm btn-danger mr-auto font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${ssProps.parkingLat},${ssProps.parkingLng}&driving" target="_blank">DIRECTIONS TO PARKING</a>
+            <div class="mr-auto">
+              <a class="btn btn-sm btn-danger font-weight-bold text-uppercase mr-2" href="${ssProps.forecast}" target="_blank">${ssProps.spotName} SURF REPORT</a>
+              <a class="btn btn-sm btn-danger font-weight-bold margin-top-mobile-five-rem" href="https://maps.google.com/?saddr=Current+Location&daddr=${ssProps.parkingLat},${ssProps.parkingLng}&driving" target="_blank">DIRECTIONS TO PARKING</a>
+            </div>
           </div>
 
         </div>
@@ -1407,14 +1412,14 @@ function buildSurfSpotCoverPhoto(ssProps) {
   $("[data-carousel-inner-modal='" + ssProps.surfSpotID + "']").prepend(`
       <div class="carousel-item active">
         <img class="d-block modal-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
-        <p class="modal-photo-credit">
+        <small class="modal-photo-credit font-weight-bold">
           <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
-            <small class="m-0 font-weight-bold">${surferAttribution}</small>
+            <p class="m-0">${surferAttribution}</p>
           </a>
           <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
-            <small class="font-weight-bold">P: ${attribution}</small>
+            <p>P: ${attribution}</p>
           </a>
-        </p>
+        </small>
       </div>
   `);
 
@@ -1465,14 +1470,14 @@ function addSurfSpotPhotosToCards(ssProps) {
     $("[data-carousel-inner-modal='" + ssProps.surfSpotID + "']").prepend(`
         <div class="carousel-item">
           <img class="d-block modal-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
-          <p class="modal-photo-credit">
+          <small class="modal-photo-credit font-weight-bold">
             <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
-              <small class="m-0 font-weight-bold">${surferAttribution}</small>
+              <p class="m-0">${surferAttribution}</p>
             </a>
             <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
-              <small class="font-weight-bold">P: ${attribution}</small>
+              <p>P: ${attribution}</p>
             </a>
-          </p>
+          </small>
         </div>
     `);
 
