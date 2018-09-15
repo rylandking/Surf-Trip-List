@@ -806,9 +806,24 @@ function addSurfSpotMarkers() {
         barrel = data.barrel;
         skill = data.skill;
         bottom = data.bottom;
+        jan = data.jan;
+        feb = data.feb;
+        mar = data.mar;
+        apr = data.apr;
+        may = data.may;
+        jun = data.jun;
+        jul = data.jul;
+        aug = data.aug;
+        sep = data.sep;
+        oct = data.oct;
+        nov = data.nov;
+        dec = data.dec;
 
         //Build a quick description for surf spot cards
         writeQuickSurfSpotDescription();
+
+        //Create the color for each month
+        buildSeasonalityChartColors();
 
         //If the surf-spot is within the lat/lng map bounds, run addSurfSpotMarker().
         if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
@@ -910,6 +925,18 @@ function addSurfSpotMarker(props, map) {
     waveDir: waveDir,
     waveType: waveType,
     skillMarker: skillMarker,
+    jan: jan,
+    feb: feb,
+    mar: mar,
+    apr: apr,
+    may: may,
+    jun: jun,
+    jul: jul,
+    aug: aug,
+    sep: sep,
+    oct: oct,
+    nov: nov,
+    dec: dec,
   }
 
   //Build the surf spot card skeleton
@@ -956,7 +983,132 @@ function writeQuickSurfSpotDescription() {
   } else if (waveType == "rockreef") {
     waveType = "rockreef break";
   }
-}
+}//END -- writeQuickSurfSpotDescription()
+
+
+function buildSeasonalityChartColors() {
+  //Set background color of seasonality chart for JAN
+  if (jan >= 90) {
+    jan = "dark-green-bg";
+  } else if (jan >= 70) {
+    jan = "green-bg";
+  } else if (jan >= 50) {
+    jan = "yellow-bg";
+  } else if (jan < 50) {
+    jan = "red-bg";
+  }
+
+  if (feb >= 90) {
+    feb = "dark-green-bg";
+  } else if (feb >= 70) {
+    feb = "green-bg";
+  } else if (feb >= 50) {
+    feb = "yellow-bg";
+  } else if (feb < 50) {
+    feb = "red-bg";
+  }
+
+  if (mar >= 90) {
+    mar = "dark-green-bg";
+  } else if (mar >= 70) {
+    mar = "green-bg";
+  } else if (mar >= 50) {
+    mar = "yellow-bg";
+  } else if (mar < 50) {
+    mar = "red-bg";
+  }
+
+  if (apr >= 90) {
+    apr = "dark-green-bg";
+  } else if (apr >= 70) {
+    apr = "green-bg";
+  } else if (apr >= 50) {
+    apr = "yellow-bg";
+  } else if (apr < 50) {
+    apr = "red-bg";
+  }
+
+  if (may >= 90) {
+    may = "dark-green-bg";
+  } else if (may >= 70) {
+    may = "green-bg";
+  } else if (may >= 50) {
+    may = "yellow-bg";
+  } else if (may < 50) {
+    may = "red-bg";
+  }
+
+  if (jun >= 90) {
+    jun = "dark-green-bg";
+  } else if (jun >= 70) {
+    jun = "green-bg";
+  } else if (jun >= 50) {
+    jun = "yellow-bg";
+  } else if (jun < 50) {
+    jun = "red-bg";
+  }
+
+  if (jul >= 90) {
+    jul = "dark-green-bg";
+  } else if (jul >= 70) {
+    jul = "green-bg";
+  } else if (jul >= 50) {
+    jul = "yellow-bg";
+  } else if (jul < 50) {
+    jul = "red-bg";
+  }
+
+  if (aug >= 90) {
+    aug = "dark-green-bg";
+  } else if (aug >= 70) {
+    aug = "green-bg";
+  } else if (aug >= 50) {
+    aug = "yellow-bg";
+  } else if (aug < 50) {
+    aug = "red-bg";
+  }
+
+  if (sep >= 90) {
+    sep = "dark-green-bg";
+  } else if (sep >= 70) {
+    sep = "green-bg";
+  } else if (sep >= 50) {
+    sep = "yellow-bg";
+  } else if (sep < 50) {
+    sep = "red-bg";
+  }
+
+  if (oct >= 90) {
+    oct = "dark-green-bg";
+  } else if (oct >= 70) {
+    oct = "green-bg";
+  } else if (oct >= 50) {
+    oct = "yellow-bg";
+  } else if (oct < 50) {
+    oct = "red-bg";
+  }
+
+  if (nov >= 90) {
+    nov = "dark-green-bg";
+  } else if (nov >= 70) {
+    nov = "green-bg";
+  } else if (nov >= 50) {
+    nov = "yellow-bg";
+  } else if (nov < 50) {
+    nov = "red-bg";
+  }
+
+  if (dec >= 90) {
+    dec = "dark-green-bg";
+  } else if (dec >= 70) {
+    dec = "green-bg";
+  } else if (dec >= 50) {
+    dec = "yellow-bg";
+  } else if (dec < 50) {
+    dec = "red-bg";
+  }
+
+}//END -- buildSeasonalityChartColors()
 
 
 
@@ -1015,7 +1167,7 @@ function buildSurfSpotCard(ssProps) {
     <a class="inherit-link surf-spot-modal-trigger" data-toggle="modal" data-target="#${ssProps.surfSpotID}-modal">
       <div class="card photo-card surf-spot-card illuminate-hover" data-id="${ssProps.surfSpotID}">
 
-        <!-- SURF SPOT CARD IMAGE CAROUSEL -->
+        <!-- SURF SPOT IMAGE CAROUSEL -->
         <div id="${ssProps.surfSpotID}" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location="${ssProps.surfSpotID}">
           <ol class="carousel-indicators" data-carousel-indicators="${ssProps.surfSpotID}">
           </ol>
@@ -1050,7 +1202,7 @@ function buildSurfSpotCard(ssProps) {
 
           <div class="modal-body">
 
-            <!-- SURF SPOT MODAL IMAGE CAROUSEL -->
+            <!-- SURF SPOT IMAGE CAROUSEL -->
             <div id="${ssProps.surfSpotID}" class="carousel slide mb-2" data-ride="carousel" data-interval="false" data-photo-location="${ssProps.surfSpotID}">
               <ol class="carousel-indicators" data-carousel-indicators="${ssProps.surfSpotID}">
               </ol>
@@ -1079,7 +1231,7 @@ function buildSurfSpotCard(ssProps) {
               <div class="row">
                 <ul class="list-unstyled col-1 mx-0 px-0">
                   <li class="text-center">
-                    <div class="bg-success">
+                    <div class="${ssProps.jan}">
                       <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JAN</p>
                       <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
                     </div>
@@ -1088,7 +1240,7 @@ function buildSurfSpotCard(ssProps) {
 
                 <ul class="list-unstyled col-1 mx-0 px-0">
                   <li class="text-center">
-                    <div class="bg-success">
+                    <div class="${ssProps.feb}">
                       <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">FEB</p>
                       <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">F</p>
                     </div>
@@ -1097,7 +1249,7 @@ function buildSurfSpotCard(ssProps) {
 
                 <ul class="list-unstyled col-1 mx-0 px-0">
                   <li class="text-center">
-                    <div class="bg-success">
+                    <div class="${ssProps.mar}">
                       <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">MAR</p>
                       <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">M</p>
                     </div>
@@ -1106,7 +1258,7 @@ function buildSurfSpotCard(ssProps) {
 
                 <ul class="list-unstyled col-1 mx-0 px-0">
                   <li class="text-center">
-                    <div class="bg-success">
+                    <div class="${ssProps.apr}">
                       <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">APR</p>
                       <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">A</p>
                     </div>
@@ -1115,7 +1267,7 @@ function buildSurfSpotCard(ssProps) {
 
                 <ul class="list-unstyled col-1 mx-0 px-0">
                   <li class="text-center">
-                    <div class="bg-success">
+                    <div class="${ssProps.may}">
                       <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">MAY</p>
                       <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">M</p>
                     </div>
@@ -1124,7 +1276,7 @@ function buildSurfSpotCard(ssProps) {
 
                 <ul class="list-unstyled col-1 mx-0 px-0">
                   <li class="text-center">
-                    <div class="bg-warning">
+                    <div class="${ssProps.jun}">
                       <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JUN</p>
                       <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
                     </div>
@@ -1133,7 +1285,7 @@ function buildSurfSpotCard(ssProps) {
 
                 <ul class="list-unstyled col-1 mx-0 px-0">
                   <li class="text-center">
-                    <div class="bg-warning">
+                    <div class="${ssProps.jul}">
                       <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JUL</p>
                       <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
                     </div>
@@ -1142,7 +1294,7 @@ function buildSurfSpotCard(ssProps) {
 
                 <ul class="list-unstyled col-1 mx-0 px-0">
                   <li class="text-center">
-                    <div class="bg-warning">
+                    <div class="${ssProps.aug}">
                       <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">AUG</p>
                       <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">A</p>
                     </div>
@@ -1151,7 +1303,7 @@ function buildSurfSpotCard(ssProps) {
 
                 <ul class="list-unstyled col-1 mx-0 px-0">
                   <li class="text-center">
-                    <div class="bg-warning">
+                    <div class="${ssProps.sep}">
                       <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">SEP</p>
                       <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">S</p>
                     </div>
@@ -1160,7 +1312,7 @@ function buildSurfSpotCard(ssProps) {
 
                 <ul class="list-unstyled col-1 mx-0 px-0">
                   <li class="text-center">
-                    <div class="bg-danger">
+                    <div class="${ssProps.oct}">
                       <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">OCT</p>
                       <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">O</p>
                     </div>
@@ -1169,7 +1321,7 @@ function buildSurfSpotCard(ssProps) {
 
                 <ul class="list-unstyled col-1 mx-0 px-0">
                   <li class="text-center">
-                    <div class="bg-danger">
+                    <div class="${ssProps.nov}">
                       <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">NOV</p>
                       <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">N</p>
                     </div>
@@ -1178,7 +1330,7 @@ function buildSurfSpotCard(ssProps) {
 
                 <ul class="list-unstyled text-center col-1 mx-0 px-0">
                   <li class="text-center pb-0 mb-0">
-                    <div class="bg-danger">
+                    <div class="${ssProps.dec}">
                       <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">DEC</p>
                       <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">D</p>
                     </div>
@@ -1235,6 +1387,11 @@ function buildSurfSpotCoverPhoto(ssProps) {
           </a>
         </small>
       </div>
+  `);
+
+  //Add dot indicator for the card cover photo
+  $("[data-carousel-indicators='" + ssProps.surfSpotID + "']").prepend(`
+      <li data-target="#${ssProps.surfSpotID}" data-slide-to="0"></li>
   `);
 
   //Set onePhotoOfSpot to 'true' because this is the first photo to be added to a surf spot card

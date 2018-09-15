@@ -638,6 +638,22 @@ p.card-hover-overlay {
 }
 
 
+.dark-green-bg {
+  background-color: #4FD600;
+}
+
+.green-bg {
+  background-color: #90EE90;
+}
+
+.yellow-bg {
+  background-color: #F5D327;
+}
+
+.red-bg {
+  background-color: #EC5D57;
+}
+
 
 .card-pretitle {
   font-size: 12px;
