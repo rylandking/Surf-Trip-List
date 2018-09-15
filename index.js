@@ -1169,12 +1169,16 @@ function buildSurfSpotCard(ssProps) {
 
         <!-- SURF SPOT CARD IMAGE CAROUSEL -->
         <div id="${ssProps.surfSpotID}" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location="${ssProps.surfSpotID}">
+
+          <!-- SURF SPOT CARD CAROUSEL DOTS -->
           <ol class="carousel-indicators" data-carousel-indicators="${ssProps.surfSpotID}">
           </ol>
 
+          <!-- SURF SPOT CARD CAROUSEL PHOTOS -->
           <div class="carousel-inner" data-carousel-inner="${ssProps.surfSpotID}">
           </div>
 
+          <!-- SURF SPOT CARD CAROUSEL CONTROLS -->
           <a class="carousel-control-prev" href="#${ssProps.surfSpotID}" role="button" data-slide="prev" data-prev="${ssProps.surfSpotID}">
             <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
             <span class="sr-only">Previous</span>
@@ -1183,6 +1187,7 @@ function buildSurfSpotCard(ssProps) {
             <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
             <span class="sr-only">Next</span>
           </a>
+
         </div>
 
         <!-- SURF SPOT DESCRIPTORS -->
@@ -1203,21 +1208,26 @@ function buildSurfSpotCard(ssProps) {
           <div class="modal-body">
 
             <!-- SURF SPOT MODAL IMAGE CAROUSEL -->
-            <div id="${ssProps.surfSpotID}" class="carousel slide mb-2" data-ride="carousel" data-interval="false" data-photo-location-modal="${ssProps.surfSpotID}">
-              <ol class="carousel-indicators" data-carousel-indicators="${ssProps.surfSpotID}">
+            <div id="${ssProps.surfSpotID}ModalCarousel" class="carousel slide mb-2" data-ride="carousel" data-interval="false" data-photo-location-modal="${ssProps.surfSpotID}">
+
+              <!-- SURF SPOT MODAL CAROUSEL DOTS -->
+              <ol class="carousel-indicators" data-carousel-indicators-modal="${ssProps.surfSpotID}">
               </ol>
 
+              <!-- SURF SPOT MODAL CAROUSEL PHOTOS -->
               <div class="carousel-inner" data-carousel-inner-modal="${ssProps.surfSpotID}">
               </div>
 
-              <a class="carousel-control-prev" href="#${ssProps.surfSpotID}" role="button" data-slide="prev" data-prev-modal="${ssProps.surfSpotID}">
+              <!-- SURF SPOT CARD CAROUSEL CONTROLS -->
+              <a class="carousel-control-prev" href="#${ssProps.surfSpotID}ModalCarousel" role="button" data-slide="prev" data-prev-modal="${ssProps.surfSpotID}">
                 <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
                 <span class="sr-only">Previous</span>
               </a>
-              <a class="carousel-control-next" href="#${ssProps.surfSpotID}" role="button" data-slide="next" data-next-modal="${ssProps.surfSpotID}">
+              <a class="carousel-control-next" href="#${ssProps.surfSpotID}ModalCarousel" role="button" data-slide="next" data-next-modal="${ssProps.surfSpotID}">
                 <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
                 <span class="sr-only">Next</span>
               </a>
+
             </div>
 
             <!-- SURF SPOT MODAL DESCRIPTION -->
@@ -1389,12 +1399,11 @@ function buildSurfSpotCoverPhoto(ssProps) {
       </div>
   `);
 
-  //Add dot indicator for the MODAL cover photo
+  //MODAL: Add dot indicator for the MODAL cover photo
   $("[data-carousel-indicators-modal='" + ssProps.surfSpotID + "']").prepend(`
-      <li data-target="#${ssProps.surfSpotID}" data-slide-to="0"></li>
+      <li data-target="#${ssProps.surfSpotID}ModalCarousel" data-slide-to="0"></li>
   `);
-
-  //Add the MODAL cover photo
+  //MODAL: Add the MODAL cover photo
   $("[data-carousel-inner-modal='" + ssProps.surfSpotID + "']").prepend(`
       <div class="carousel-item active">
         <img class="d-block modal-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
@@ -1408,7 +1417,6 @@ function buildSurfSpotCoverPhoto(ssProps) {
         </p>
       </div>
   `);
-
 
   //Set onePhotoOfSurfSpot to 'true' because this is the first photo to be added to a surf spot card
   onePhotoOfSurfSpot = true;
@@ -1448,6 +1456,26 @@ function addSurfSpotPhotosToCards(ssProps) {
           </small>
         </div>
     `);
+
+    //MODAL: Add dot indicators for the MODAL photos
+    $("[data-carousel-indicators-modal='" + ssProps.surfSpotID + "']").prepend(`
+        <li data-target="#${ssProps.surfSpotID}ModalCarousel" data-slide-to="${surfSpotSlideCount}"></li>
+    `);
+    //MODAL: Add the MODAL cover photo
+    $("[data-carousel-inner-modal='" + ssProps.surfSpotID + "']").prepend(`
+        <div class="carousel-item">
+          <img class="d-block modal-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
+          <p class="modal-photo-credit">
+            <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+              <small class="m-0 font-weight-bold">${surferAttribution}</small>
+            </a>
+            <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+              <small class="font-weight-bold">P: ${attribution}</small>
+            </a>
+          </p>
+        </div>
+    `);
+
       surfSpotSlideCount++
       //Set onePhotoOfSurfSpot to 'false' since this adds second or greater photo to the surf spot card
       onePhotoOfSurfSpot = false;
