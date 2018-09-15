@@ -109,7 +109,7 @@ let useCustomPhotos;
 let ssProps;
 let surfSpotPhotoID;
 let surfSpotSlideCount = 1;
-let onePhotoOfSpot;
+let onePhotoOfSurfSpot;
 let accommProps;
 
 
@@ -1167,7 +1167,7 @@ function buildSurfSpotCard(ssProps) {
     <a class="inherit-link surf-spot-modal-trigger" data-toggle="modal" data-target="#${ssProps.surfSpotID}-modal">
       <div class="card photo-card surf-spot-card illuminate-hover" data-id="${ssProps.surfSpotID}">
 
-        <!-- SURF SPOT IMAGE CAROUSEL -->
+        <!-- SURF SPOT CARD IMAGE CAROUSEL -->
         <div id="${ssProps.surfSpotID}" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location="${ssProps.surfSpotID}">
           <ol class="carousel-indicators" data-carousel-indicators="${ssProps.surfSpotID}">
           </ol>
@@ -1202,19 +1202,19 @@ function buildSurfSpotCard(ssProps) {
 
           <div class="modal-body">
 
-            <!-- SURF SPOT IMAGE CAROUSEL -->
-            <div id="${ssProps.surfSpotID}" class="carousel slide mb-2" data-ride="carousel" data-interval="false" data-photo-location="${ssProps.surfSpotID}">
+            <!-- SURF SPOT MODAL IMAGE CAROUSEL -->
+            <div id="${ssProps.surfSpotID}" class="carousel slide mb-2" data-ride="carousel" data-interval="false" data-photo-location-modal="${ssProps.surfSpotID}">
               <ol class="carousel-indicators" data-carousel-indicators="${ssProps.surfSpotID}">
               </ol>
 
-              <div class="carousel-inner" data-carousel-inner="${ssProps.surfSpotID}">
+              <div class="carousel-inner" data-carousel-inner-modal="${ssProps.surfSpotID}">
               </div>
 
-              <a class="carousel-control-prev" href="#${ssProps.surfSpotID}" role="button" data-slide="prev" data-prev="${ssProps.surfSpotID}">
+              <a class="carousel-control-prev" href="#${ssProps.surfSpotID}" role="button" data-slide="prev" data-prev-modal="${ssProps.surfSpotID}">
                 <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
                 <span class="sr-only">Previous</span>
               </a>
-              <a class="carousel-control-next" href="#${ssProps.surfSpotID}" role="button" data-slide="next" data-next="${ssProps.surfSpotID}">
+              <a class="carousel-control-next" href="#${ssProps.surfSpotID}" role="button" data-slide="next" data-next-modal="${ssProps.surfSpotID}">
                 <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
                 <span class="sr-only">Next</span>
               </a>
@@ -1389,13 +1389,29 @@ function buildSurfSpotCoverPhoto(ssProps) {
       </div>
   `);
 
-  //Add dot indicator for the card cover photo
-  $("[data-carousel-indicators='" + ssProps.surfSpotID + "']").prepend(`
+  //Add dot indicator for the MODAL cover photo
+  $("[data-carousel-indicators-modal='" + ssProps.surfSpotID + "']").prepend(`
       <li data-target="#${ssProps.surfSpotID}" data-slide-to="0"></li>
   `);
 
-  //Set onePhotoOfSpot to 'true' because this is the first photo to be added to a surf spot card
-  onePhotoOfSpot = true;
+  //Add the MODAL cover photo
+  $("[data-carousel-inner-modal='" + ssProps.surfSpotID + "']").prepend(`
+      <div class="carousel-item active">
+        <img class="d-block modal-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
+        <p class="modal-photo-credit">
+          <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+            <small class="m-0 font-weight-bold">${surferAttribution}</small>
+          </a>
+          <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+            <small class="font-weight-bold">P: ${attribution}</small>
+          </a>
+        </p>
+      </div>
+  `);
+
+
+  //Set onePhotoOfSurfSpot to 'true' because this is the first photo to be added to a surf spot card
+  onePhotoOfSurfSpot = true;
 }
 
 
@@ -1433,8 +1449,8 @@ function addSurfSpotPhotosToCards(ssProps) {
         </div>
     `);
       surfSpotSlideCount++
-      //Set onePhotoOfSpot to 'false' since this adds second or greater photo to the surf spot card
-      onePhotoOfSpot = false;
+      //Set onePhotoOfSurfSpot to 'false' since this adds second or greater photo to the surf spot card
+      onePhotoOfSurfSpot = false;
 
   }//END -- conditional
 
@@ -1449,13 +1465,24 @@ function addSurfSpotPhotosToCards(ssProps) {
 //Show prev and next controls on mouseenter/leave of surf spot photo
 function showCarouselControlsOnHover(ssProps) {
   //If the surf spot card has one photo (true), never show prev and next controls. If false, show prev and next controls on mouseenter/leave
-  if (onePhotoOfSpot == false) {
+  if (onePhotoOfSurfSpot == false) {
+    //Show and hide card prev and next controls on hover
     $(document).on('mouseenter', '[data-photo-location="' + ssProps.surfSpotID + '"]', function(){
       $('[data-prev="' + ssProps.surfSpotID + '"]').show();
       $('[data-next="' + ssProps.surfSpotID + '"]').show();
     })
     .on('mouseleave', '[data-photo-location="' + ssProps.surfSpotID + '"]', function(){
       //Hides prev and next arrows on surf spot photos in surf spot card
+      hideCarouselControls(ssProps);
+    });
+
+    //Show and hide MODAL prev and next controls on hover
+    $(document).on('mouseenter', '[data-photo-location-modal="' + ssProps.surfSpotID + '"]', function(){
+      $('[data-prev-modal="' + ssProps.surfSpotID + '"]').show();
+      $('[data-next-modal="' + ssProps.surfSpotID + '"]').show();
+    })
+    .on('mouseleave', '[data-photo-location-modal="' + ssProps.surfSpotID + '"]', function(){
+      //Hides prev and next arrows on surf spot photos in surf spot MODAL
       hideCarouselControls(ssProps);
     });
   }
@@ -1467,6 +1494,9 @@ function hideCarouselControls(ssProps) {
   if ($(window).width() > 600) {
     $('[data-prev="' + ssProps.surfSpotID + '"]').hide();
     $('[data-next="' + ssProps.surfSpotID + '"]').hide();
+
+    $('[data-prev-modal="' + ssProps.surfSpotID + '"]').hide();
+    $('[data-next-modal="' + ssProps.surfSpotID + '"]').hide();
   }
 }
 
@@ -1770,7 +1800,7 @@ function lessonsDetailsCallback(placeDetails, status) {
       //Check if .gov is in the website URL. If it's not (indexOf = -1) then we can use it.
       if (placeDetails.website !== undefined && placeDetails.website.indexOf(".gov") == -1) {
         //Check if  is in the placeDetails name. If it's not (indexOf = -1) then we can use it.
-        if (placeDetails.name.indexOf("Naval Postgraduate School") == -1 && placeDetails.name.indexOf("Stevenson School (Grades 9-12)") == -1 && placeDetails.name.indexOf("Boardsports California") == -1 && placeDetails.name.indexOf("Shape") == -1 && placeDetails.name.indexOf("kite") == -1 && placeDetails.name.indexOf("Kite") == -1 && placeDetails.name.indexOf("Yoga") == -1 && placeDetails.name.indexOf("Bike") == -1 && placeDetails.name.indexOf("Bicycl") == -1 && placeDetails.name.indexOf("fitness") == -1 && placeDetails.name.indexOf("Tech") == -1 && placeDetails.name.indexOf("Wind") == -1 && placeDetails.name.indexOf("Proof") == -1 && placeDetails.name.indexOf("Mavericks Beach") == -1 && placeDetails.name.indexOf("Sky") == -1 && placeDetails.name.indexOf("Campground") == -1 && placeDetails.name.indexOf("Institute") == -1 && placeDetails.name.indexOf("Castle") == -1 && placeDetails.name.indexOf("Inn") == -1 && placeDetails.name.indexOf("Aquatic") == -1 && placeDetails.name.indexOf("El Capitan") == -1 && placeDetails.name.indexOf("University Of California") == -1 && placeDetails.name.indexOf("Proctor") == -1 && placeDetails.name.indexOf("Skate Shop") == -1) {
+        if (placeDetails.name.indexOf("Naval Postgraduate School") == -1 && placeDetails.name.indexOf("Stevenson School (Grades 9-12)") == -1 && placeDetails.name.indexOf("Boardsports California") == -1 && placeDetails.name.indexOf("Shape") == -1 && placeDetails.name.indexOf("kite") == -1 && placeDetails.name.indexOf("Kite") == -1 && placeDetails.name.indexOf("Yoga") == -1 && placeDetails.name.indexOf("Bike") == -1 && placeDetails.name.indexOf("Bicycl") == -1 && placeDetails.name.indexOf("fitness") == -1 && placeDetails.name.indexOf("Tech") == -1 && placeDetails.name.indexOf("Wind") == -1 && placeDetails.name.indexOf("Proof") == -1 && placeDetails.name.indexOf("Mavericks Beach") == -1 && placeDetails.name.indexOf("Sky") == -1 && placeDetails.name.indexOf("Campground") == -1 && placeDetails.name.indexOf("Institute") == -1 && placeDetails.name.indexOf("Castle") == -1 && placeDetails.name.indexOf("Inn") == -1 && placeDetails.name.indexOf("Aquatic") == -1 && placeDetails.name.indexOf("El Capitan") == -1 && placeDetails.name.indexOf("University Of California") == -1 && placeDetails.name.indexOf("Proctor") == -1 && placeDetails.name.indexOf("Skate Shop") == -1 && placeDetails.name.indexOf("Village") == -1 && placeDetails.name.indexOf("Point Lobos") == -1) {
           id = placeDetails.id;
           name = placeDetails.name;
           rating = placeDetails.rating;
