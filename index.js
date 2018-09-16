@@ -1206,6 +1206,9 @@ function buildSurfSpotCard(ssProps) {
     <div class="modal fade" id="${ssProps.surfSpotID}-modal" tabindex="-1" role="dialog" aria-labelledby="${ssProps.surfSpotID}-label" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+          <div class="ml-auto">
+            <button type="button" class="close mt-2 mr-3 d-block d-sm-none" data-dismiss="modal">&times;</button>
+          </div>
 
           <div class="modal-body">
 
