@@ -887,12 +887,15 @@ function addSurfSpotMarker(props, map) {
   //Set the surf spot infowindow html
   surfSpotMarker.html = `
     <div class="infoWindow">
-      <h5 class="mb-1">
-        <span class="text-uppercase">${spotName}</span> - <img class="normal-marker-size mb-1" src="${skillMarker}" alt="${spotName}">
-      </h5>
-      <h6><span class="text-capitalize">${skill}</span> wave</h6>
-        <p>${note}</p>
-        <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${surfSpotID}-modal">MORE INFO</button>
+
+      <!-- SURF SPOT INFOWINDOW DESCRIPTORS -->
+      <small class="text-muted card-preheader-text font-weight-bold">${waveDir} ${waveType}</small>
+      <h5 class="card-title card-title-text font-weight-bold">${spotName}</h5>
+      <span class="badge card-badge ${badge} text-uppercase mb-1">${skill}</span>
+      <p class="card-note mb-2">${note}</p>
+
+      <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${surfSpotID}-modal">MORE INFO</button>
+
     </div>
   `;
 
@@ -988,134 +991,6 @@ function writeQuickSurfSpotDescription() {
 }//END -- writeQuickSurfSpotDescription()
 
 
-function buildSeasonalityChartColors() {
-  //Set background color of seasonality chart for JAN
-  if (jan >= 90) {
-    jan = "dark-green-bg";
-  } else if (jan >= 70) {
-    jan = "green-bg";
-  } else if (jan >= 50) {
-    jan = "yellow-bg";
-  } else if (jan < 50) {
-    jan = "red-bg";
-  }
-
-  if (feb >= 90) {
-    feb = "dark-green-bg";
-  } else if (feb >= 70) {
-    feb = "green-bg";
-  } else if (feb >= 50) {
-    feb = "yellow-bg";
-  } else if (feb < 50) {
-    feb = "red-bg";
-  }
-
-  if (mar >= 90) {
-    mar = "dark-green-bg";
-  } else if (mar >= 70) {
-    mar = "green-bg";
-  } else if (mar >= 50) {
-    mar = "yellow-bg";
-  } else if (mar < 50) {
-    mar = "red-bg";
-  }
-
-  if (apr >= 90) {
-    apr = "dark-green-bg";
-  } else if (apr >= 70) {
-    apr = "green-bg";
-  } else if (apr >= 50) {
-    apr = "yellow-bg";
-  } else if (apr < 50) {
-    apr = "red-bg";
-  }
-
-  if (may >= 90) {
-    may = "dark-green-bg";
-  } else if (may >= 70) {
-    may = "green-bg";
-  } else if (may >= 50) {
-    may = "yellow-bg";
-  } else if (may < 50) {
-    may = "red-bg";
-  }
-
-  if (jun >= 90) {
-    jun = "dark-green-bg";
-  } else if (jun >= 70) {
-    jun = "green-bg";
-  } else if (jun >= 50) {
-    jun = "yellow-bg";
-  } else if (jun < 50) {
-    jun = "red-bg";
-  }
-
-  if (jul >= 90) {
-    jul = "dark-green-bg";
-  } else if (jul >= 70) {
-    jul = "green-bg";
-  } else if (jul >= 50) {
-    jul = "yellow-bg";
-  } else if (jul < 50) {
-    jul = "red-bg";
-  }
-
-  if (aug >= 90) {
-    aug = "dark-green-bg";
-  } else if (aug >= 70) {
-    aug = "green-bg";
-  } else if (aug >= 50) {
-    aug = "yellow-bg";
-  } else if (aug < 50) {
-    aug = "red-bg";
-  }
-
-  if (sep >= 90) {
-    sep = "dark-green-bg";
-  } else if (sep >= 70) {
-    sep = "green-bg";
-  } else if (sep >= 50) {
-    sep = "yellow-bg";
-  } else if (sep < 50) {
-    sep = "red-bg";
-  }
-
-  if (oct >= 90) {
-    oct = "dark-green-bg";
-  } else if (oct >= 70) {
-    oct = "green-bg";
-  } else if (oct >= 50) {
-    oct = "yellow-bg";
-  } else if (oct < 50) {
-    oct = "red-bg";
-  }
-
-  if (nov >= 90) {
-    nov = "dark-green-bg";
-  } else if (nov >= 70) {
-    nov = "green-bg";
-  } else if (nov >= 50) {
-    nov = "yellow-bg";
-  } else if (nov < 50) {
-    nov = "red-bg";
-  }
-
-  if (dec >= 90) {
-    dec = "dark-green-bg";
-  } else if (dec >= 70) {
-    dec = "green-bg";
-  } else if (dec >= 50) {
-    dec = "yellow-bg";
-  } else if (dec < 50) {
-    dec = "red-bg";
-  }
-
-}//END -- buildSeasonalityChartColors()
-
-
-
-
-
 //Check if custom photos are available
 function areCustomSurfSpotPhotosAvailable(ssProps) {
   //In the surfSpotImages collection get each document that has the surfSpot field with relevant surfSpotID
@@ -1192,7 +1067,7 @@ function buildSurfSpotCard(ssProps) {
 
         </div>
 
-        <!-- SURF SPOT DESCRIPTORS -->
+        <!-- SURF SPOT CARD DESCRIPTORS -->
         <div class="card-body mx-0 p-0 pt-2">
           <small class="text-muted card-preheader-text font-weight-bold">${ssProps.waveDir} ${ssProps.waveType}</small>
           <h5 class="card-title card-title-text font-weight-bold">${ssProps.spotName}</h5>
@@ -1469,7 +1344,7 @@ function addSurfSpotPhotosToCards(ssProps) {
     $("[data-carousel-indicators-modal='" + ssProps.surfSpotID + "']").prepend(`
         <li data-target="#${ssProps.surfSpotID}ModalCarousel" data-slide-to="${surfSpotSlideCount}"></li>
     `);
-    //MODAL: Add the MODAL cover photo
+    //MODAL: Add each of the MODAL photos
     $("[data-carousel-inner-modal='" + ssProps.surfSpotID + "']").prepend(`
         <div class="carousel-item">
           <img class="d-block modal-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
@@ -1535,6 +1410,131 @@ function hideCarouselControls(ssProps) {
     $('[data-next-modal="' + ssProps.surfSpotID + '"]').hide();
   }
 }
+
+
+function buildSeasonalityChartColors() {
+  //Set background color of seasonality chart for JAN
+  if (jan >= 90) {
+    jan = "dark-green-bg";
+  } else if (jan >= 70) {
+    jan = "green-bg";
+  } else if (jan >= 50) {
+    jan = "yellow-bg";
+  } else if (jan < 50) {
+    jan = "red-bg";
+  }
+
+  if (feb >= 90) {
+    feb = "dark-green-bg";
+  } else if (feb >= 70) {
+    feb = "green-bg";
+  } else if (feb >= 50) {
+    feb = "yellow-bg";
+  } else if (feb < 50) {
+    feb = "red-bg";
+  }
+
+  if (mar >= 90) {
+    mar = "dark-green-bg";
+  } else if (mar >= 70) {
+    mar = "green-bg";
+  } else if (mar >= 50) {
+    mar = "yellow-bg";
+  } else if (mar < 50) {
+    mar = "red-bg";
+  }
+
+  if (apr >= 90) {
+    apr = "dark-green-bg";
+  } else if (apr >= 70) {
+    apr = "green-bg";
+  } else if (apr >= 50) {
+    apr = "yellow-bg";
+  } else if (apr < 50) {
+    apr = "red-bg";
+  }
+
+  if (may >= 90) {
+    may = "dark-green-bg";
+  } else if (may >= 70) {
+    may = "green-bg";
+  } else if (may >= 50) {
+    may = "yellow-bg";
+  } else if (may < 50) {
+    may = "red-bg";
+  }
+
+  if (jun >= 90) {
+    jun = "dark-green-bg";
+  } else if (jun >= 70) {
+    jun = "green-bg";
+  } else if (jun >= 50) {
+    jun = "yellow-bg";
+  } else if (jun < 50) {
+    jun = "red-bg";
+  }
+
+  if (jul >= 90) {
+    jul = "dark-green-bg";
+  } else if (jul >= 70) {
+    jul = "green-bg";
+  } else if (jul >= 50) {
+    jul = "yellow-bg";
+  } else if (jul < 50) {
+    jul = "red-bg";
+  }
+
+  if (aug >= 90) {
+    aug = "dark-green-bg";
+  } else if (aug >= 70) {
+    aug = "green-bg";
+  } else if (aug >= 50) {
+    aug = "yellow-bg";
+  } else if (aug < 50) {
+    aug = "red-bg";
+  }
+
+  if (sep >= 90) {
+    sep = "dark-green-bg";
+  } else if (sep >= 70) {
+    sep = "green-bg";
+  } else if (sep >= 50) {
+    sep = "yellow-bg";
+  } else if (sep < 50) {
+    sep = "red-bg";
+  }
+
+  if (oct >= 90) {
+    oct = "dark-green-bg";
+  } else if (oct >= 70) {
+    oct = "green-bg";
+  } else if (oct >= 50) {
+    oct = "yellow-bg";
+  } else if (oct < 50) {
+    oct = "red-bg";
+  }
+
+  if (nov >= 90) {
+    nov = "dark-green-bg";
+  } else if (nov >= 70) {
+    nov = "green-bg";
+  } else if (nov >= 50) {
+    nov = "yellow-bg";
+  } else if (nov < 50) {
+    nov = "red-bg";
+  }
+
+  if (dec >= 90) {
+    dec = "dark-green-bg";
+  } else if (dec >= 70) {
+    dec = "green-bg";
+  } else if (dec >= 50) {
+    dec = "yellow-bg";
+  } else if (dec < 50) {
+    dec = "red-bg";
+  }
+
+}//END -- buildSeasonalityChartColors()
 
 
 
@@ -1948,6 +1948,9 @@ function buildLessonCards() {
       <div class="modal fade lesson-modal" id="${id}" tabindex="-1" role="dialog" aria-labelledby="${name}-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
+            <div class="ml-auto">
+              <button type="button" class="close mt-2 mr-3 d-block d-sm-none" data-dismiss="modal">&times;</button>
+            </div>
 
             <div class="modal-body lesson-modal-body">
               <div class="card lesson-photo-modal illuminate-hover">
@@ -2200,6 +2203,9 @@ function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWor
       <div class="modal fade" id="${accommID}" tabindex="-1" role="dialog" aria-labelledby="documentID-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
+            <div class="ml-auto">
+              <button type="button" class="close mt-2 mr-3 d-block d-sm-none" data-dismiss="modal">&times;</button>
+            </div>
 
             <div class="modal-body">
               <div class="card accomm-photo-modal illuminate-hover">
