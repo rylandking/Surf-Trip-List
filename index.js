@@ -865,6 +865,25 @@ function addSurfSpotMarker(props, map) {
   //Set the skill icon
   setSkillMarker();
 
+  //INFOWINDOW WAS PREVIOUSLY BUILT HERE
+  // content = `
+  // <a class="inherit-link cursor d-none d-sm-block" data-toggle="modal" data-target="#${surfSpotID}-modal">
+  //   <div class="infoWindow">
+  //
+  //     <img class="surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotDefaultPhoto}">
+  //
+  //     <!-- SURF SPOT INFOWINDOW DESCRIPTORS -->
+  //     <div class="surf-spot-iw-description ml-2 mb-2">
+  //       <small class="text-muted card-preheader-text font-weight-bold">${waveDir} ${waveType}</small>
+  //       <h5 class="card-title card-title-text font-weight-bold">${spotName}</h5>
+  //       <span class="badge card-badge ${badge} text-uppercase mb-1">${skill}</span>
+  //       <p class="card-note mb-2">${note}</p>
+  //     </div>
+  //
+  //   </div>
+  //   </a>
+  // `;
+
   //Add surfSpotMarkers to map
   surfSpotMarker = new google.maps.Marker({
     position: coords,
@@ -878,26 +897,59 @@ function addSurfSpotMarker(props, map) {
   //Add each surfSpotMarker to the array to allow for hide/show of surfSpotMarkers
   surfSpotMarkers.push(surfSpotMarker);
 
+  trimNote();
+
   //Create the surfSpotMarker infowindow
   infowindow = new google.maps.InfoWindow ({
   });
 
-  trimNote();
+  // //Set the surf spot infowindow html
+  buildSurfSpotInfoWindow();
+  // surfSpotMarker.html = `
+  //   <a class="inherit-link cursor d-none d-sm-block" data-toggle="modal" data-target="#${surfSpotID}-modal">
+  //     <div id="surfSpotInfoWindow" class="infoWindow">
+  //
+  //       <img class="surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotDefaultPhoto}">
+  //
+  //       <!-- SURF SPOT INFOWINDOW DESCRIPTORS -->
+  //       <div class="surf-spot-iw-description ml-2 mb-2">
+  //         <small class="text-muted card-preheader-text font-weight-bold">${waveDir} ${waveType}</small>
+  //         <h5 class="card-title card-title-text font-weight-bold">${spotName}</h5>
+  //         <span class="badge card-badge ${badge} text-uppercase mb-1">${skill}</span>
+  //         <p class="card-note mb-2">${note}</p>
+  //       </div>
+  //
+  //     </div>
+  //   </a>
+  // `;
 
-  //Set the surf spot infowindow html
-  surfSpotMarker.html = `
-    <div class="infoWindow">
 
-      <!-- SURF SPOT INFOWINDOW DESCRIPTORS -->
-      <small class="text-muted card-preheader-text font-weight-bold">${waveDir} ${waveType}</small>
-      <h5 class="card-title card-title-text font-weight-bold">${spotName}</h5>
-      <span class="badge card-badge ${badge} text-uppercase mb-1">${skill}</span>
-      <p class="card-note mb-2">${note}</p>
+  //Listen for surfSpotMarker click. Get it's 'id' to pass into buildSurfSpotInfoWindowPhotos() to query images to add to carousel within the infowindow.
+  surfSpotMarker.addListener('click', function() {
+     surfSpotMarkerID = this.id;
+  });
 
-      <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-1" data-toggle="modal" data-target="#${surfSpotID}-modal">MORE INFO</button>
+  //The google.maps.event.addListener() event waits for the creation of the infowindow HTML structure 'domready' and before the opening of the infowindow defined styles are applied. (http://en.marnoto.com/2014/09/5-formas-de-personalizar-infowindow.html)
+  google.maps.event.addListener(infowindow, 'domready', function() {
 
-    </div>
-  `;
+     buildSurfSpotInfoWindowPhotos();
+
+     //Reference to the DIV which receives the contents of the infowindow using jQuery
+     var iwOuter = $('.gm-style-iw');
+
+     //The DIV we want to change is above the .gm-style-iw DIV. So, we use jQuery and create a iwBackground variable, and took advantage of the existing reference to .gm-style-iw for the previous DIV with .prev().
+     var iwBackground = iwOuter.prev();
+
+     //Remove the background shadow DIV
+     iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+
+     //Remove the white background DIV
+     iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+
+     //Changes the desired color for the tail outline. The outline of the tail is composed of two descendants of div which contains the tail. The .find('div').children() method refers to all the div which are direct descendants of the previous div.
+     iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 1px', 'z-index' : '1',});
+
+  });
 
   surfSpotMarker.addListener('click', function() {
     //Set surfSpotMarkerClick to true so 'idle' listener doesn't run addSurfSpotMarkersWrapper when infowindow pans map
@@ -954,6 +1006,57 @@ function addSurfSpotMarker(props, map) {
 
 }//END -- addSpotMarker FUNCTION
 
+
+
+function buildSurfSpotInfoWindow() {
+  //Make badge say "expert only" for expert waves
+  if (skill == "expert") {
+    skill = "expert only";
+  }
+
+  //Set the surf spot infowindow html
+  surfSpotMarker.html = `
+    <a class="inherit-link cursor d-none d-sm-block" data-toggle="modal" data-target="#${surfSpotID}-modal">
+      <div id="surfSpotInfoWindow" class="infoWindow">
+
+        <!-- SURF SPOT INFOWINDOW DESCRIPTORS -->
+        <div class="surf-spot-iw-description ml-2 mb-2">
+          <small class="text-muted card-preheader-text font-weight-bold">${waveDir} ${waveType}</small>
+          <h5 class="card-title card-title-text font-weight-bold">${spotName}</h5>
+          <span class="badge card-badge ${badge} text-uppercase mb-1">${skill}</span>
+          <p class="card-note mb-2">${note}</p>
+        </div>
+
+      </div>
+    </a>
+  `;
+}
+
+
+function buildSurfSpotInfoWindowPhotos() {
+  //In the surfSpotImages collection get each document that has the surfSpot field with relevant surfSpotID
+  db.collection("surfSpotImages").where("surfSpot", "==",  surfSpotMarkerID).where("coverImage", "==", true).get()
+  .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+          data = doc.data();
+          surfSpotPhotoID = doc.id;
+          surfSpotPhoto = data.image;
+          surfSpotPhotoLocation = data.surfSpot;
+          surfSpotCoverPhoto = data.coverImage;
+          //Update useCustomPhotos to true so that the relevant surfSpotID doesn't build another card with default photos in the following .then(function(){})
+          useCustomPhotos = true;
+          attribution = data.attribution;
+          attributionLink = data.attributionLink;
+          surferAttribution = data.surferAttribution;
+          surferAttributionLink = data.surferAttributionLink;
+
+          $(".infoWindow").prepend(`
+            <img class="surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}">
+          `);
+
+      });
+    });
+}
 
 
 //Write a quick description for surf spot cards
@@ -1025,7 +1128,6 @@ function areCustomSurfSpotPhotosAvailable(ssProps) {
     useCustomPhotos = false;
   });
 }
-
 
 
 //IN PROGRESS: BUILD OF THE NEW CARDS
@@ -1261,6 +1363,7 @@ function showOrHideSurferAttribution() {
 
 //Build the first photo you see representing a surf spot
 function buildSurfSpotCoverPhoto(ssProps) {
+
   //If surferAttribution is not available, don't show the "S: " on the photo
   showOrHideSurferAttribution();
   //Add dot indicator for the card cover photo
