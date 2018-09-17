@@ -219,6 +219,15 @@ function trimNote() {
 }
 //END -- TRIM CARD NOTE LENGTH TO 200 CHARACTERS
 
+function trimInfoWindowNote() {
+  if (note.length > 120) {
+    note = note.substr(0, 120);
+    //re-trim if we are in the middle of a word
+    note = note.substr(0, Math.min(note.length, note.lastIndexOf(" "))) + '...';
+  }
+}
+//END -- TRIM CARD NOTE LENGTH TO 200 CHARACTERS
+
 ////TRIM CARD TITLE LENGTH TO 40 CHARACTERS
 function trimHeader() {
   if (title.length > 40) {
@@ -1014,17 +1023,42 @@ function buildSurfSpotInfoWindow() {
     skill = "expert only";
   }
 
+  trimInfoWindowNote();
+
   //Set the surf spot infowindow html
   surfSpotMarker.html = `
     <a class="inherit-link cursor d-none d-sm-block" data-toggle="modal" data-target="#${surfSpotID}-modal">
       <div id="surfSpotInfoWindow" class="infoWindow">
 
+        <!-- SURF SPOT IW IMAGE CAROUSEL -->
+        <div id="${surfSpotID}IWCarousel" class="carousel carousel-infowindow slide" data-ride="carousel" data-interval="false" data-photo-location-iw="${surfSpotID}">
+
+          <!-- SURF SPOT IW CAROUSEL DOTS -->
+          <ol class="carousel-indicators carousel-indicators-iw" data-carousel-indicators-iw="${surfSpotID}">
+          </ol>
+
+          <!-- SURF SPOT IW CAROUSEL PHOTOS -->
+          <div class="carousel-inner" data-carousel-inner-iw="${surfSpotID}">
+          </div>
+
+          <!-- SURF SPOT IW CAROUSEL CONTROLS -->
+          <a class="carousel-control-prev carousel-control-prev-iw" href="#${surfSpotID}IWCarousel" role="button" data-slide="prev" data-prev-iw="${surfSpotID}">
+            <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next carousel-control-next-iw" href="#${surfSpotID}IWCarousel" role="button" data-slide="next" data-next-iw="${surfSpotID}">
+            <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
+            <span class="sr-only">Next</span>
+          </a>
+
+        </div>
+
         <!-- SURF SPOT INFOWINDOW DESCRIPTORS -->
         <div class="surf-spot-iw-description ml-2 mb-2">
           <small class="text-muted card-preheader-text font-weight-bold">${waveDir} ${waveType}</small>
-          <h5 class="card-title card-title-text font-weight-bold">${spotName}</h5>
+          <h5 class="card-title card-title-text font-weight-bold mb-0">${spotName}</h5>
           <span class="badge card-badge ${badge} text-uppercase mb-1">${skill}</span>
-          <p class="card-note mb-2">${note}</p>
+          <p class="iw-note mb-2">${note}</p>
         </div>
 
       </div>
@@ -1035,7 +1069,7 @@ function buildSurfSpotInfoWindow() {
 
 function buildSurfSpotInfoWindowPhotos() {
   //In the surfSpotImages collection get each document that has the surfSpot field with relevant surfSpotID
-  db.collection("surfSpotImages").where("surfSpot", "==",  surfSpotMarkerID).where("coverImage", "==", true).get()
+  db.collection("surfSpotImages").where("surfSpot", "==",  surfSpotMarkerID).get()
   .then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
           data = doc.data();
@@ -1050,13 +1084,32 @@ function buildSurfSpotInfoWindowPhotos() {
           surferAttribution = data.surferAttribution;
           surferAttributionLink = data.surferAttributionLink;
 
-          $(".infoWindow").prepend(`
-            <img class="surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}">
-          `);
+          addSurfSpotPhotosToCards(ssProps);
+          // addSurfSpotPhotosToInfoWindow();
+          // $(".infoWindow").prepend(`
+          //   <img class="surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}">
+          // `);
 
       });
+    }).then(function() {
+      //If useCustomPhotos is NOT true (because didn't go into Firestore because no surf photos available), then buildSurfSpotCards with default photo
+      if (useCustomPhotos !== true) {
+        surfSpotPhoto = surfSpotDefaultPhoto;
+        attribution = " ";
+        //Build surf spot cards with the default photo. Pass the ssProps object that holds all necessary variables
+        addSurfSpotPhotosToCards(ssProps);
+      }
+      //Reset useCustomPhotos to false to restart the loop
+      useCustomPhotos = false;
     });
-}
+}//END -- buildSurfSpotInfoWindowPhotos()
+
+
+// function addSurfSpotPhotosToInfoWindow() {
+//   $(".infoWindow").prepend(`
+//     <img class="surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}">
+//   `);
+// }
 
 
 //Write a quick description for surf spot cards
@@ -1200,7 +1253,7 @@ function buildSurfSpotCard(ssProps) {
               <div class="carousel-inner" data-carousel-inner-modal="${ssProps.surfSpotID}">
               </div>
 
-              <!-- SURF SPOT CARD CAROUSEL CONTROLS -->
+              <!-- SURF SPOT MODAL CAROUSEL CONTROLS -->
               <a class="carousel-control-prev" href="#${ssProps.surfSpotID}ModalCarousel" role="button" data-slide="prev" data-prev-modal="${ssProps.surfSpotID}">
                 <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
                 <span class="sr-only">Previous</span>
@@ -1363,46 +1416,69 @@ function showOrHideSurferAttribution() {
 
 //Build the first photo you see representing a surf spot
 function buildSurfSpotCoverPhoto(ssProps) {
-
   //If surferAttribution is not available, don't show the "S: " on the photo
   showOrHideSurferAttribution();
-  //Add dot indicator for the card cover photo
-  $("[data-carousel-indicators='" + ssProps.surfSpotID + "']").prepend(`
-      <li data-target="#${ssProps.surfSpotID}" data-slide-to="0"></li>
-  `);
-  //Add the card cover photo
-  $("[data-carousel-inner='" + ssProps.surfSpotID + "']").prepend(`
-      <div class="carousel-item active">
-        <img class="d-block card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
-        <small class="card-photo-credit font-weight-bold">
-          <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
-            <p class="m-0">${surferAttribution}</p>
-          </a>
-          <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
-            <p>P: ${attribution}</p>
-          </a>
-        </small>
-      </div>
-  `);
 
-  //MODAL: Add dot indicator for the MODAL cover photo
-  $("[data-carousel-indicators-modal='" + ssProps.surfSpotID + "']").prepend(`
-      <li data-target="#${ssProps.surfSpotID}ModalCarousel" data-slide-to="0"></li>
-  `);
-  //MODAL: Add the MODAL cover photo
-  $("[data-carousel-inner-modal='" + ssProps.surfSpotID + "']").prepend(`
-      <div class="carousel-item active">
-        <img class="d-block modal-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
-        <small class="modal-photo-credit font-weight-bold">
-          <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
-            <p class="m-0">${surferAttribution}</p>
-          </a>
-          <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
-            <p>P: ${attribution}</p>
-          </a>
-        </small>
-      </div>
-  `);
+  //If a surfSpotMarker was clicked, run build the gallery into the infowindow (surfSpotMarkerID from buildSurfSpotInfoWindowPhotos())
+  if (surfSpotMarkerClick == true) {
+    //INFOWINDOW: Add dot indicator for the INFOWINDOW cover photo
+    $("[data-carousel-indicators-iw='" + surfSpotMarkerID + "']").prepend(`
+        <li data-target="#${surfSpotMarkerID}IWCarousel" data-slide-to="0"></li>
+    `);
+    //INFOWINDOW: Add the INFOWINDOW cover photo
+    $("[data-carousel-inner-iw='" + surfSpotMarkerID + "']").prepend(`
+        <div class="carousel-item active">
+          <img class="d-block surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}" alt="${surfSpotMarkerID}">
+          <small class="iw-photo-credit font-weight-bold">
+            <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+              <p class="m-0">${surferAttribution}</p>
+            </a>
+            <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+              <p>P: ${attribution}</p>
+            </a>
+          </small>
+        </div>
+    `);
+  //If a surfSpotMarker was NOT clicked ('surfSpotMarkerClick == false'), build the galleries into the cards and their modals
+  } else {
+    //Add dot indicator for the card cover photo
+    $("[data-carousel-indicators='" + ssProps.surfSpotID + "']").prepend(`
+        <li data-target="#${ssProps.surfSpotID}" data-slide-to="0"></li>
+    `);
+    //Add the card cover photo
+    $("[data-carousel-inner='" + ssProps.surfSpotID + "']").prepend(`
+        <div class="carousel-item active">
+          <img class="d-block card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
+          <small class="card-photo-credit font-weight-bold">
+            <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+              <p class="m-0">${surferAttribution}</p>
+            </a>
+            <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+              <p>P: ${attribution}</p>
+            </a>
+          </small>
+        </div>
+    `);
+
+    //MODAL: Add dot indicator for the MODAL cover photo
+    $("[data-carousel-indicators-modal='" + ssProps.surfSpotID + "']").prepend(`
+        <li data-target="#${ssProps.surfSpotID}ModalCarousel" data-slide-to="0"></li>
+    `);
+    //MODAL: Add the MODAL cover photo
+    $("[data-carousel-inner-modal='" + ssProps.surfSpotID + "']").prepend(`
+        <div class="carousel-item active">
+          <img class="d-block modal-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
+          <small class="modal-photo-credit font-weight-bold">
+            <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+              <p class="m-0">${surferAttribution}</p>
+            </a>
+            <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+              <p>P: ${attribution}</p>
+            </a>
+          </small>
+        </div>
+    `);
+  }//END -- surfSpotMarkerClick conditional
 
   //Set onePhotoOfSurfSpot to 'true' because this is the first photo to be added to a surf spot card
   onePhotoOfSurfSpot = true;
@@ -1424,47 +1500,72 @@ function addSurfSpotPhotosToCards(ssProps) {
   } else {
     //If surferAttribution is not available, don't show the "S: " on the photo
     showOrHideSurferAttribution()
-    //Add dot indicators for the card photos
-    $("[data-carousel-indicators='" + ssProps.surfSpotID + "']").prepend(`
-        <li data-target="#${ssProps.surfSpotID}" data-slide-to="${surfSpotSlideCount}"></li>
-    `);
-    //Add each of the card photos
-    $("[data-carousel-inner='" + ssProps.surfSpotID + "']").prepend(`
-        <div class="carousel-item">
-          <img class="d-block card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
-          <small class="card-photo-credit font-weight-bold">
-            <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
-              <p class="m-0">${surferAttribution}</p>
-            </a>
-            <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
-              <p>P: ${attribution}</p>
-            </a>
-          </small>
-        </div>
-    `);
 
-    //MODAL: Add dot indicators for the MODAL photos
-    $("[data-carousel-indicators-modal='" + ssProps.surfSpotID + "']").prepend(`
-        <li data-target="#${ssProps.surfSpotID}ModalCarousel" data-slide-to="${surfSpotSlideCount}"></li>
-    `);
-    //MODAL: Add each of the MODAL photos
-    $("[data-carousel-inner-modal='" + ssProps.surfSpotID + "']").prepend(`
-        <div class="carousel-item">
-          <img class="d-block modal-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
-          <small class="modal-photo-credit font-weight-bold">
-            <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
-              <p class="m-0">${surferAttribution}</p>
-            </a>
-            <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
-              <p>P: ${attribution}</p>
-            </a>
-          </small>
-        </div>
-    `);
+    //If a surfSpotMarker was clicked, run build the gallery into the infowindow
+    if (surfSpotMarkerClick == true) {
+      //INFOWINDOW: Add dot indicators for the INFOWINDOW photos (surfSpotMarkerID from buildSurfSpotInfoWindowPhotos())
+      $("[data-carousel-indicators-iw='" + surfSpotMarkerID + "']").prepend(`
+          <li data-target="#${surfSpotMarkerID}IWCarousel" data-slide-to="${surfSpotSlideCount}"></li>
+      `);
+      //INFOWINDOW: Add each of the INFOWINDOW photos
+      $("[data-carousel-inner-iw='" + surfSpotMarkerID + "']").prepend(`
+          <div class="carousel-item">
+            <img class="d-block surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}" alt="${surfSpotMarkerID}">
+            <small class="iw-photo-credit font-weight-bold">
+              <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+                <p class="m-0">${surferAttribution}</p>
+              </a>
+              <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+                <p>P: ${attribution}</p>
+              </a>
+            </small>
+          </div>
+      `);
+    //If a surfSpotMarker was NOT clicked ('surfSpotMarkerClick == false'), build the galleries into the cards and their modals
+    } else {
+      //Add dot indicators for the card photos
+      $("[data-carousel-indicators='" + ssProps.surfSpotID + "']").prepend(`
+          <li data-target="#${ssProps.surfSpotID}" data-slide-to="${surfSpotSlideCount}"></li>
+      `);
+      //Add each of the card photos
+      $("[data-carousel-inner='" + ssProps.surfSpotID + "']").prepend(`
+          <div class="carousel-item">
+            <img class="d-block card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
+            <small class="card-photo-credit font-weight-bold">
+              <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+                <p class="m-0">${surferAttribution}</p>
+              </a>
+              <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+                <p>P: ${attribution}</p>
+              </a>
+            </small>
+          </div>
+      `);
 
-      surfSpotSlideCount++
-      //Set onePhotoOfSurfSpot to 'false' since this adds second or greater photo to the surf spot card
-      onePhotoOfSurfSpot = false;
+      //MODAL: Add dot indicators for the MODAL photos
+      $("[data-carousel-indicators-modal='" + ssProps.surfSpotID + "']").prepend(`
+          <li data-target="#${ssProps.surfSpotID}ModalCarousel" data-slide-to="${surfSpotSlideCount}"></li>
+      `);
+      //MODAL: Add each of the MODAL photos
+      $("[data-carousel-inner-modal='" + ssProps.surfSpotID + "']").prepend(`
+          <div class="carousel-item">
+            <img class="d-block modal-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
+            <small class="modal-photo-credit font-weight-bold">
+              <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+                <p class="m-0">${surferAttribution}</p>
+              </a>
+              <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+                <p>P: ${attribution}</p>
+              </a>
+            </small>
+          </div>
+      `);
+
+    }//END -- surfSpotMarkerClick conditional
+
+    surfSpotSlideCount++
+    //Set onePhotoOfSurfSpot to 'false' since this adds second or greater photo to the surf spot card
+    onePhotoOfSurfSpot = false;
 
   }//END -- conditional
 
@@ -1499,6 +1600,16 @@ function showCarouselControlsOnHover(ssProps) {
       //Hides prev and next arrows on surf spot photos in surf spot MODAL
       hideCarouselControls(ssProps);
     });
+
+    //Show and hide MODAL prev and next controls on hover
+    $(document).on('mouseenter', '[data-photo-location-iw="' + ssProps.surfSpotID + '"]', function(){
+      $('[data-prev-iw="' + ssProps.surfSpotID + '"]').show();
+      $('[data-next-iw="' + ssProps.surfSpotID + '"]').show();
+    })
+    .on('mouseleave', '[data-photo-location-iw="' + ssProps.surfSpotID + '"]', function(){
+      //Hides prev and next arrows on surf spot photos in surf spot MODAL
+      hideCarouselControls(ssProps);
+    });
   }
 }
 
@@ -1511,6 +1622,9 @@ function hideCarouselControls(ssProps) {
 
     $('[data-prev-modal="' + ssProps.surfSpotID + '"]').hide();
     $('[data-next-modal="' + ssProps.surfSpotID + '"]').hide();
+
+    $('[data-prev-iw="' + ssProps.surfSpotID + '"]').hide();
+    $('[data-next-iw="' + ssProps.surfSpotID + '"]').hide();
   }
 }
 
