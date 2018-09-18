@@ -111,8 +111,9 @@ let surfSpotPhotoID;
 let surfSpotSlideCount = 1;
 let onePhotoOfSurfSpot;
 let accommProps;
-let surfSpotMarkerClickForInfoWindowBuilds = false;
+let surfSpotMarkerClickForIW = false;
 let surfSpotMarkerID;
+let lessonInfowindow;
 
 
 
@@ -898,16 +899,15 @@ function addSurfSpotMarker(props, map) {
   // //Set the surf spot infowindow html
   buildSurfSpotInfoWindow();
 
-  // surfSpotMarker.addListener('click', function() {
-  //    surfSpotMarkerID = this.id;
-  //    surfSpotMarkerClick = true;
-  // });
-
   //The google.maps.event.addListener() event waits for the creation of the infowindow HTML structure 'domready' and before the opening of the infowindow defined styles are applied. (http://en.marnoto.com/2014/09/5-formas-de-personalizar-infowindow.html)
   google.maps.event.addListener(infowindow, 'domready', function() {
 
      //Set surfSpotMarkerClick to true so 'idle' listener doesn't run addSurfSpotMarkersWrapper when infowindow pans map
      surfSpotMarkerClick = true;
+     //Set surfSpotMarkerClickForIW to true so clicking on surf spot marker doesn't render prepended html to cards and modals
+     surfSpotMarkerClickForIW = true;
+
+     console.log('google.maps.event.addListener() ' + surfSpotMarkerClick);
 
      buildSurfSpotInfoWindowPhotos(surfSpotMarkerClick);
 
@@ -935,6 +935,10 @@ function addSurfSpotMarker(props, map) {
     //Open & close the surfSpotMarker infowindow
     infowindow.setContent(this.html);
     infowindow.open(map, this);
+
+    //Close lesson infowindow when surfSpotMarker is clicked
+    lessonInfowindow.close();
+
     google.maps.event.addListener(map, "click", function(event) {
       infowindow.close();
     });
@@ -994,11 +998,11 @@ function buildSurfSpotInfoWindow() {
 
   trimInfoWindowNote();
 
-  //Set the surf spot infowindow html
+  //Set the surf spot marker's infowindow html
   surfSpotMarker.html = `
-    <a class="inherit-link cursor d-none d-sm-block" data-toggle="modal" data-target="#${surfSpotID}-modal">
-      <div id="surfSpotInfoWindow" class="infoWindow">
+    <div id="surfSpotInfoWindow" class="infoWindow">
 
+      <a class="inherit-link cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
         <!-- SURF SPOT IW IMAGE CAROUSEL -->
         <div id="${surfSpotID}IWCarousel" class="carousel carousel-infowindow slide" data-ride="carousel" data-interval="false" data-photo-location-iw="${surfSpotID}">
 
@@ -1021,17 +1025,19 @@ function buildSurfSpotInfoWindow() {
           </a>
 
         </div>
+      </a>
 
-        <!-- SURF SPOT INFOWINDOW DESCRIPTORS -->
+      <!-- SURF SPOT INFOWINDOW DESCRIPTORS -->
+      <a class="inherit-link cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
         <div class="surf-spot-iw-description ml-2 mb-2">
           <small class="text-muted card-preheader-text font-weight-bold">${waveDir} ${waveType}</small>
           <h5 class="card-title card-title-text font-weight-bold mb-0">${spotName}</h5>
           <span class="badge card-badge ${badge} text-uppercase mb-1">${skill}</span>
           <p class="iw-note mb-2">${note}</p>
         </div>
+      </a>
+    </div>
 
-      </div>
-    </a>
   `;
 }
 
@@ -1053,8 +1059,7 @@ function buildSurfSpotInfoWindowPhotos(surfSpotMarkerClick) {
           surferAttribution = data.surferAttribution;
           surferAttributionLink = data.surferAttributionLink;
 
-          console.log('Build SS IW Photos Function: ' + surfSpotMarkerID);
-          console.log('Build SS IW Photos Function: ' + surfSpotMarkerClick);
+          console.log('buildSurfSpotInfoWindowPhotos() ' + surfSpotMarkerClickForIW);
 
           addSurfSpotPhotosToCards(ssProps);
 
@@ -1380,9 +1385,9 @@ function showOrHideSurferAttribution() {
 function buildSurfSpotCoverPhoto(ssProps) {
   //If surferAttribution is not available, don't show the "S: " on the photo
   showOrHideSurferAttribution();
-
+  console.log('buildSurfSpotCoverPhoto() ' + surfSpotMarkerClickForIW);
   //If a surfSpotMarker was clicked, run build the gallery into the infowindow (surfSpotMarkerID from buildSurfSpotInfoWindowPhotos())
-  if (surfSpotMarkerClick == true) {
+  if (surfSpotMarkerClickForIW == true) {
     //INFOWINDOW: Add dot indicator for the INFOWINDOW cover photo
     $("[data-carousel-indicators-iw='" + surfSpotMarkerID + "']").prepend(`
         <li data-target="#${surfSpotMarkerID}IWCarousel" data-slide-to="0"></li>
@@ -1450,8 +1455,7 @@ function buildSurfSpotCoverPhoto(ssProps) {
 
 //Add photos to surf spot card
 function addSurfSpotPhotosToCards(ssProps) {
-  console.log('addSurfSpotPhotosToCards: ' + surfSpotMarkerID);
-  console.log('addSurfSpotPhotosToCards: ' + surfSpotMarkerClick);
+  console.log('addSurfSpotPhotosToCards() ' + surfSpotMarkerClickForIW);
   //If coverImage set to 'true' use photo as cover photo
   if (surfSpotPhoto == surfSpotDefaultPhoto) {
     //Build the surf spot cover photo
@@ -1466,7 +1470,7 @@ function addSurfSpotPhotosToCards(ssProps) {
     showOrHideSurferAttribution()
 
     //If a surfSpotMarker was clicked, run build the gallery into the infowindow
-    if (surfSpotMarkerClick == true) {
+    if (surfSpotMarkerClickForIW == true) {
       //INFOWINDOW: Add dot indicators for the INFOWINDOW photos (surfSpotMarkerID from buildSurfSpotInfoWindowPhotos())
       $("[data-carousel-indicators-iw='" + surfSpotMarkerID + "']").prepend(`
           <li data-target="#${surfSpotMarkerID}IWCarousel" data-slide-to="${surfSpotSlideCount}"></li>
@@ -1834,6 +1838,8 @@ function initMap() {
     lessonMarkerClick = false;
     accommMarkerClick = false;
 
+    console.log("'idle Listner':" + surfSpotMarkerClick);
+
   });//END -- UPDATE MAP ON 'idle'
 
   //Listener toggles on/off a checkbox that controls the ability to add markers to map
@@ -2047,35 +2053,63 @@ function lessonsDetailsCallback(placeDetails, status) {
           //Add lessonMarkers to array to allow for hide/show functionality
           lessonMarkers.push(lessonMarker);
           //Creates the lessonMarker info window
-          infowindow = new google.maps.InfoWindow({
+          lessonInfowindow = new google.maps.InfoWindow({
+          });
+
+          trimName();
+
+          trimInfoWindowNote();
+
+          //Set the lesson marker's infowindow html
+          lessonMarker.html = `
+            <div class="infoWindow">
+              <img id='iwPhoto' class="mb-2" src="${placeDetails.photos[0].getUrl()}" alt="${placeDetails.name}"><br>
+
+              <a class="cursor" data-toggle="modal" data-target="#${placeDetails.id}">
+                <div class="ml-2 mb-2">
+                  <small class="text-muted large-card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${placeDetails.rating} of 5 (${placeDetails.reviews.length} reviews)</small>
+                  <h5 class="mb-0">${placeDetails.name}</h5>
+                  <p class="card-note">${note}</p>
+                </div>
+              </a>
+
+            </div>
+          `;
+
+          //The google.maps.event.addListener() event waits for the creation of the infowindow HTML structure 'domready' and before the opening of the infowindow defined styles are applied. (http://en.marnoto.com/2014/09/5-formas-de-personalizar-infowindow.html)
+          google.maps.event.addListener(lessonInfowindow, 'domready', function() {
+
+             //Reference to the DIV which receives the contents of the infowindow using jQuery
+             var iwOuter = $('.gm-style-iw');
+
+             //The DIV we want to change is above the .gm-style-iw DIV. So, we use jQuery and create a iwBackground variable, and took advantage of the existing reference to .gm-style-iw for the previous DIV with .prev().
+             var iwBackground = iwOuter.prev();
+
+             //Remove the background shadow DIV
+             iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+
+             //Remove the white background DIV
+             iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+
+             //Changes the desired color for the tail outline. The outline of the tail is composed of two descendants of div which contains the tail. The .find('div').children() method refers to all the div which are direct descendants of the previous div.
+             iwBackground.children(':nth-child(3)').find('div').children().css({'color' : 'white', 'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 1px', 'z-index' : '-1',});
+
           });
 
           lessonMarker.addListener('click', function(){
             //Set lessonMarkerClick to true so 'idle' listener doesn't run addLessonMarkersWrapper when infowindow pans map
             lessonMarkerClick = true;
             //Opens the lessonMarker infowindow
-            //setContent won't accept ES6. The // syntax below is to make referencing easier.
-            infowindow.setContent(`
-              <div id="iwcontent">
-                <img id='iwPhoto' class="mb-2" src="${placeDetails.photos[0].getUrl()}" alt="${placeDetails.name}"><br>
+            lessonInfowindow.setContent(this.html);
+            lessonInfowindow.open(map, this);
 
-                <small><i class="fas fa-heart"></i> ${placeDetails.rating} of 5 (${placeDetails.reviews.length} reviews)</small>
-                <h5 class="mb-0">${placeDetails.name}</h5>
-                <small>${placeDetails.formatted_phone_number}</small>
-                <br>
-                <button type="button" class="btn btn-sm btn-danger font-weight-bold mt-3 mr-1" data-toggle="modal" data-target="#${placeDetails.id}">MORE INFO</button>
-
-              </div>
-            `);
-
-            infowindow.open(map, this);
+            //Close surf spot infowindow when lessonMarker is clicked
+            infowindow.close();
             //Close the lessonMarker infowindow
             google.maps.event.addListener(map, "click", function(event){
-              infowindow.close();
+              lessonInfowindow.close();
             });//END -- CLOSE lessonMarker LISTENER
           });//END -- OPEN lessonMarker LISTENER
-
-          trimName();
 
           trimNote();
 
@@ -2307,7 +2341,7 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
 
       accommImage = storage.ref('accomm-images/' + title + '.png');
 
-      //SET THE infowindow HTML/CSS
+      //Set the accomm marker's infowindow html
       accommMarker.html = `
        <div class="infowindow">
          <a data-toggle="modal" data-target="#${accommID}">

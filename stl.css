@@ -249,8 +249,6 @@ input:focus:-ms-input-placeholder {
   color:transparent;
 } /* IE 10+ */
 
-
-
 /* MAP */
 #map {
   width:auto;
@@ -280,7 +278,7 @@ input:focus:-ms-input-placeholder {
 
 #floating-key {
   position: absolute;
-  bottom: 10px;
+  bottom: 5px;
   left: 25px;
   z-index: 5;
   background-color: #fff;
@@ -297,7 +295,7 @@ input:focus:-ms-input-placeholder {
 
 @media only screen and (max-width: 600px) {
   #floating-key {
-    bottom: 10px;
+    bottom: 5px;
     left: 15px;
   }
 }
@@ -444,18 +442,6 @@ p.card-hover-overlay {
   font-weight:700;
 }
 
-/* .card-title {
-  position: absolute;
-  top: 42%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width:100%;
-  text-align: center;
-  font-weight:700;
-  margin: 0px !important;
-  white-space: nowrap;
-  text-transform: capitalize;
-} */
 
 .surf-spot-card-title {
   position: absolute;
@@ -580,7 +566,7 @@ p.card-hover-overlay {
 /* Infowindow image is full width. Learned from here: http://en.marnoto.com/2014/09/5-formas-de-personalizar-infowindow.html */
 .gm-style-iw {
   width: 225px !important;
-  top: 30px !important; /* move the infowindow 15px down */
+  top: 30px !important; /* move the infowindow 30px down */
   left: 75px !important;
   background-color: #fff;
   /* box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6); */
