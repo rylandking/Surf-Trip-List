@@ -297,17 +297,8 @@ input:focus:-ms-input-placeholder {
 
 @media only screen and (max-width: 600px) {
   #floating-key {
-    position: absolute;
-    bottom: 5px;
-    left: 25px;
-    z-index: 5;
-    background-color: #fff;
-    text-align: left;
-    line-height: 1px;
-    font-size: 12px;
-    font-weight: bold;
-    color: #708090;
-    border-radius: 2px;
+    bottom: 10px;
+    left: 15px;
   }
 }
 
@@ -344,6 +335,27 @@ input:focus:-ms-input-placeholder {
   font-weight: bold;
   height: 20px;
   width: auto;
+}
+
+@media only screen and (max-width: 600px) {
+ #map-wrapper{
+   margin: 0px;
+   padding: 0px;
+ }
+}
+
+@media only screen and (max-width: 600px) {
+  #floating-marker-buttons {
+    top: 10px;
+    left: 15px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #floating-search-toggle {
+    top: 45px;
+    left: 15px;
+  }
 }
 
 .city-card {
@@ -551,7 +563,7 @@ p.card-hover-overlay {
 }
 
 .surf-spot-infowindow-photo {
-  height: 150px;
+  height: 175px;
   width: auto;
   cursor: pointer;
 }
@@ -568,7 +580,7 @@ p.card-hover-overlay {
 /* Infowindow image is full width. Learned from here: http://en.marnoto.com/2014/09/5-formas-de-personalizar-infowindow.html */
 .gm-style-iw {
   width: 225px !important;
-  top: 15px !important; /* move the infowindow 15px down */
+  top: 30px !important; /* move the infowindow 15px down */
   left: 75px !important;
   background-color: #fff;
   /* box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6); */
@@ -699,7 +711,7 @@ p.card-hover-overlay {
   color: white;
   z-index: 10;
   position: absolute;
-  bottom: -10px;
+  bottom: -10px !important;
   right: 90px;
   text-align: right;
 }
