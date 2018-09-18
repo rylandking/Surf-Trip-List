@@ -258,7 +258,11 @@ input:focus:-ms-input-placeholder {
 @media only screen and (max-width: 600px) {
   #map {
     width:auto;
-    height:88vh;
+    /* height:90vh; */
+    /* Adjusts the height of the mobile map to full height of screen */
+    height: -o-calc(100% - 65px); /* opera */
+    height: -webkit-calc(100% - 65px); /* google, safari */
+    height: -moz-calc(100% - 65px); /* firefox */
   }
 }
 

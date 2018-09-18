@@ -596,6 +596,8 @@ function showMapMobile() {
     $("#spot-cards").hide();
     $("#card-button-menu").hide();
     $("#card-button-menu-bottom").hide();
+    //Remove margin below nav bottom border
+    $("#city-page-nav").removeClass("mb-2");
     //Show map
     $("#map-wrapper").removeClass("d-none");
     $("#map-wrapper").show();
@@ -611,6 +613,8 @@ function showListMobile() {
     //Hide map
     $("#map-wrapper").addClass("d-none");
     $("#map-wrapper").hide();
+    //Add margin below nav bottom border
+    $("#city-page-nav").addClass("mb-2");
     //Show list
     $("#spot-cards").show();
     $("#card-button-menu").show();
@@ -1771,10 +1775,7 @@ function initMap() {
       center: mapCenter,
       zoom: zoom,
 
-      zoomControl: true,
-      zoomControlOptions: {
-          position: google.maps.ControlPosition.RIGHT_BOTTOM
-      },
+      zoomControl: false,
       mapTypeControl: false,
       fullscreenControl: false,
       streetViewControl: false,
