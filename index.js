@@ -114,6 +114,7 @@ let accommProps;
 let surfSpotMarkerClickForIW = false;
 let surfSpotMarkerID;
 let lessonInfowindow;
+let accommInfowindow;
 
 
 
@@ -902,14 +903,7 @@ function addSurfSpotMarker(props, map) {
   //The google.maps.event.addListener() event waits for the creation of the infowindow HTML structure 'domready' and before the opening of the infowindow defined styles are applied. (http://en.marnoto.com/2014/09/5-formas-de-personalizar-infowindow.html)
   google.maps.event.addListener(infowindow, 'domready', function() {
 
-     //Set surfSpotMarkerClick to true so 'idle' listener doesn't run addSurfSpotMarkersWrapper when infowindow pans map
-     surfSpotMarkerClick = true;
-     //Set surfSpotMarkerClickForIW to true so clicking on surf spot marker doesn't render prepended html to cards and modals
-     surfSpotMarkerClickForIW = true;
-
-     console.log('google.maps.event.addListener() ' + surfSpotMarkerClick);
-
-     buildSurfSpotInfoWindowPhotos(surfSpotMarkerClick);
+     buildSurfSpotInfoWindowPhotos(surfSpotMarkerClickForIW);
 
      //Reference to the DIV which receives the contents of the infowindow using jQuery
      var iwOuter = $('.gm-style-iw');
@@ -932,24 +926,30 @@ function addSurfSpotMarker(props, map) {
   surfSpotMarker.addListener('click', function() {
     surfSpotMarkerID = this.id;
 
+    //Set surfSpotMarkerClickForIW to true so clicking on surf spot marker doesn't render prepended html to cards and modals
+    surfSpotMarkerClickForIW = true;
+
+    //Set surfSpotMarkerClick to true so 'idle' listener doesn't run addSurfSpotMarkersWrapper when infowindow pans map
+    surfSpotMarkerClick = true;
+
     //Open & close the surfSpotMarker infowindow
     infowindow.setContent(this.html);
     infowindow.open(map, this);
 
-    //Close lesson and accomm infowindow when surfSpotMarker is clicked
-    lessonInfowindow.close();
-    accommInfowindow.close();
+    //If lessonMarkers are on the map, close lesson infowindow when accommMarker is clicked
+    if ($("#toggleLessonMarkers").hasClass("markers-showing")) {
+      lessonInfowindow.close();
+    }
+    //If accommMarkers are on the map, close accomm infowindow when accommMarker is clicked
+    if ($("#toggleAccommMarkers").hasClass("markers-showing")) {
+      accommInfowindow.close();
+    }
 
-    google.maps.event.addListener(map, "click", function(event) {
-      infowindow.close();
-    });
   });//END -- surfSpotMarker LISTENER
 
   //Close all infowindows on map click
   google.maps.event.addListener(map, "click", function(event) {
     infowindow.close();
-    lessonInfowindow.close();
-    accommInfowindow.close();
   });
 
   //useCustomPhotos set to false as default value for first surfSpotID passed through areCustomSurfSpotPhotosAvailable. Explained: (https://www.davidbcalhoun.com/2009/ways-of-passing-data-to-functions-in-javascript/)
@@ -1050,7 +1050,7 @@ function buildSurfSpotInfoWindow() {
 }
 
 
-function buildSurfSpotInfoWindowPhotos(surfSpotMarkerClick) {
+function buildSurfSpotInfoWindowPhotos(surfSpotMarkerClickForIW) {
   //In the surfSpotImages collection get each document that has the surfSpot field with relevant surfSpotID
   db.collection("surfSpotImages").where("surfSpot", "==",  surfSpotMarkerID).get()
   .then(function(querySnapshot) {
@@ -1066,8 +1066,6 @@ function buildSurfSpotInfoWindowPhotos(surfSpotMarkerClick) {
           attributionLink = data.attributionLink;
           surferAttribution = data.surferAttribution;
           surferAttributionLink = data.surferAttributionLink;
-
-          console.log('buildSurfSpotInfoWindowPhotos() ' + surfSpotMarkerClickForIW);
 
           addSurfSpotPhotosToCards(ssProps);
 
@@ -1393,7 +1391,6 @@ function showOrHideSurferAttribution() {
 function buildSurfSpotCoverPhoto(ssProps) {
   //If surferAttribution is not available, don't show the "S: " on the photo
   showOrHideSurferAttribution();
-  console.log('buildSurfSpotCoverPhoto() ' + surfSpotMarkerClickForIW);
   //If a surfSpotMarker was clicked, run build the gallery into the infowindow (surfSpotMarkerID from buildSurfSpotInfoWindowPhotos())
   if (surfSpotMarkerClickForIW == true) {
     //INFOWINDOW: Add dot indicator for the INFOWINDOW cover photo
@@ -1457,13 +1454,18 @@ function buildSurfSpotCoverPhoto(ssProps) {
 
   //Set onePhotoOfSurfSpot to 'true' because this is the first photo to be added to a surf spot card
   onePhotoOfSurfSpot = true;
+
+  //Wait .3 seconds to allow 'idle' listener to run while 'surfSpotMarkerClick = true' so it doesn't refresh everything on the map.
+  setTimeout(function() {
+    //Return surfSpotMarkerClick to false to allow accomms to render on map and in list
+    surfSpotMarkerClick = false;
+  }, 300);
 }
 
 
 
 //Add photos to surf spot card
 function addSurfSpotPhotosToCards(ssProps) {
-  console.log('addSurfSpotPhotosToCards() ' + surfSpotMarkerClickForIW);
   //If coverImage set to 'true' use photo as cover photo
   if (surfSpotPhoto == surfSpotDefaultPhoto) {
     //Build the surf spot cover photo
@@ -1477,7 +1479,7 @@ function addSurfSpotPhotosToCards(ssProps) {
     //If surferAttribution is not available, don't show the "S: " on the photo
     showOrHideSurferAttribution()
 
-    //If a surfSpotMarker was clicked, run build the gallery into the infowindow
+    //If a surfSpotMarker was clicked, run build the carousel into the infowindow
     if (surfSpotMarkerClickForIW == true) {
       //INFOWINDOW: Add dot indicators for the INFOWINDOW photos (surfSpotMarkerID from buildSurfSpotInfoWindowPhotos())
       $("[data-carousel-indicators-iw='" + surfSpotMarkerID + "']").prepend(`
@@ -1542,6 +1544,12 @@ function addSurfSpotPhotosToCards(ssProps) {
     surfSpotSlideCount++
     //Set onePhotoOfSurfSpot to 'false' since this adds second or greater photo to the surf spot card
     onePhotoOfSurfSpot = false;
+
+    //Wait .3 seconds to allow 'idle' listener to run while 'surfSpotMarkerClick = true' so it doesn't refresh everything on the map.
+    setTimeout(function() {
+      //Return surfSpotMarkerClick to false to allow accomms to render on map and in list
+      surfSpotMarkerClick = false;
+    }, 300);
 
   }//END -- conditional
 
@@ -1846,8 +1854,6 @@ function initMap() {
     lessonMarkerClick = false;
     accommMarkerClick = false;
 
-    console.log("'idle Listner':" + surfSpotMarkerClick);
-
   });//END -- UPDATE MAP ON 'idle'
 
   //Listener toggles on/off a checkbox that controls the ability to add markers to map
@@ -2111,20 +2117,20 @@ function lessonsDetailsCallback(placeDetails, status) {
             lessonInfowindow.setContent(this.html);
             lessonInfowindow.open(map, this);
 
-            //Close surf spot and accomm infowindow when lessonMarker is clicked
-            infowindow.close();
-            accommInfowindow.close();
-            //Close the lessonMarker infowindow
-            google.maps.event.addListener(map, "click", function(event){
-              lessonInfowindow.close();
-            });//END -- CLOSE lessonMarker LISTENER
+            //If surfSpotMarkers are on the map, close surf spot infowindow when lessonMarker is clicked
+            if ($("#toggleSurfSpotMarkers").hasClass("markers-showing")) {
+              infowindow.close();
+            }
+            //If accommMarkers are on the map, close accomm infowindow when lessonMarker is clicked
+            if ($("#toggleAccommMarkers").hasClass("markers-showing")) {
+              accommInfowindow.close();
+            }
+
           });//END -- OPEN lessonMarker LISTENER
 
           //Close all infowindows on map click
           google.maps.event.addListener(map, "click", function(event) {
-            infowindow.close();
             lessonInfowindow.close();
-            accommInfowindow.close();
           });
 
           trimNote();
@@ -2402,19 +2408,20 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
         //Open & close the accommMarker infowindow
         accommInfowindow.setContent(this.html);
         accommInfowindow.open(map, this);
-        //Close surf spot and lesson infowindow when accommMarker is clicked
-        infowindow.close();
-        lessonInfowindow.close();
 
-        google.maps.event.addListener(map, "click", function(event) {
-          accommInfowindow.close();
-        });
+        //If surfSpotMarkers are on the map, close surf spot infowindow when accommMarker is clicked
+        if ($("#toggleSurfSpotMarkers").hasClass("markers-showing")) {
+          infowindow.close();
+        }
+        //If lessonMarkers are on the map, close lesson infowindow when accommMarker is clicked
+        if ($("#toggleLessonMarkers").hasClass("markers-showing")) {
+          lessonInfowindow.close();
+        }
+
       });//End of accommMarker listener
 
       //Close all infowindows on map click
       google.maps.event.addListener(map, "click", function(event) {
-        infowindow.close();
-        lessonInfowindow.close();
         accommInfowindow.close();
       });
 

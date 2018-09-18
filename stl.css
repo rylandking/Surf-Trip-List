@@ -698,7 +698,7 @@ p.card-hover-overlay {
   z-index: 10;
   position: absolute;
   bottom: -10px !important;
-  right: 90px;
+  right: 95px;
   text-align: right;
 }
 
