@@ -1039,7 +1039,7 @@ function buildSurfSpotInfoWindow() {
       <a class="inherit-link cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
         <div class="surf-spot-iw-description ml-2 mb-2">
           <small class="text-muted card-preheader-text font-weight-bold">${waveDir} ${waveType}</small>
-          <h5 class="card-title card-title-text font-weight-bold mb-0">${spotName}</h5>
+          <h6 class="card-title card-title-text font-weight-bold mb-1">${spotName}</h6>
           <span class="badge card-badge ${badge} text-uppercase mb-1">${skill}</span>
           <p class="iw-note mb-2">${note}</p>
         </div>
@@ -2083,8 +2083,8 @@ function lessonsDetailsCallback(placeDetails, status) {
 
               <a class="cursor" data-toggle="modal" data-target="#${placeDetails.id}">
                 <div class="surf-spot-iw-description ml-2 mb-2">
-                  <small class="text-muted large-card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${placeDetails.rating} of 5 (${placeDetails.reviews.length} reviews)</small>
-                  <h5 class="mb-0">${placeDetails.name}</h5>
+                  <small class="text-muted card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${placeDetails.rating} of 5 (${placeDetails.reviews.length} reviews)</small>
+                  <h6 class="mb-1">${placeDetails.name}</h6>
                   <p class="card-note">${note}</p>
                 </div>
               </a>
@@ -2374,8 +2374,8 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
 
          <a class="cursor" data-toggle="modal" data-target="#${accommID}">
            <div class="surf-spot-iw-description ml-2 mb-2">
-             <span class="text-muted large-card-preheader-text font-weight-bold mb-2">${accommType} • ${bedAmount} ${bedWord}</span>
-             <h5 class="card-title card-title-text mb-1">${title}</h5>
+             <span class="text-muted card-preheader-text font-weight-bold mb-2">${accommType} • ${bedAmount} ${bedWord}</span>
+             <h6 class="card-title card-title-text mb-1">${title}</h6>
              <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
              <p class="accomm-card-price">$${price} per night • Free cancellation</p>
            </div>
