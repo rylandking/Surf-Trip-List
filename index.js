@@ -1750,18 +1750,39 @@ function initMap() {
     zoom = 12;
   }
 
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: mapCenter,
-    zoom: zoom,
 
-    zoomControl: true,
-    zoomControlOptions: {
-        position: google.maps.ControlPosition.RIGHT_BOTTOM
-    },
-    mapTypeControl: false,
-    fullscreenControl: false,
-    streetViewControl: false,
-  } );//END -- map OBJECT
+  //If window is bigger than mobile (desktop), two fingers does NOT zoom map.
+  if ($(window).width() > 600) {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: mapCenter,
+      zoom: zoom,
+
+      zoomControl: true,
+      zoomControlOptions: {
+          position: google.maps.ControlPosition.RIGHT_BOTTOM
+      },
+      mapTypeControl: false,
+      fullscreenControl: false,
+      streetViewControl: false,
+    });//END -- map OBJECT
+  //If window is mobile (less than 600px), show the prev hide controls on page load.
+  } else {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: mapCenter,
+      zoom: zoom,
+
+      zoomControl: true,
+      zoomControlOptions: {
+          position: google.maps.ControlPosition.RIGHT_BOTTOM
+      },
+      mapTypeControl: false,
+      fullscreenControl: false,
+      streetViewControl: false,
+      gestureHandling: "greedy",
+    });//END -- map OBJECT
+  }
+
+
 
   //IF SEARCH BAR IS NOT EMPTY WITH TEXT, INITALIZE AUTOCOMPLETE
   if ($(".search-input").value !== null) {
