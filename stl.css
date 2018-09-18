@@ -555,7 +555,7 @@ p.card-hover-overlay {
 }
 
 .surf-spot-iw-description {
-  margin-right: 6.2rem;
+  margin-right: .25rem;
 }
 
 /* Hide the infowwindow close icon */
@@ -567,7 +567,8 @@ p.card-hover-overlay {
 .gm-style-iw {
   width: 220px !important;
   top: 30px !important; /* move the infowindow 30px down */
-  left: 75px !important;
+  /* left: 75px !important; */
+  left: 30px !important;
   background-color: #fff;
   /* box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6); */
   border: none;
@@ -576,7 +577,8 @@ p.card-hover-overlay {
 
 .infoWindow {
   /* height:100%; */
-  width:310px;
+  /* width:310px; */
+  width:220px;
 }
 
 .lesson-modal-body {
@@ -698,7 +700,8 @@ p.card-hover-overlay {
   z-index: 10;
   position: absolute;
   bottom: -10px !important;
-  right: 95px;
+  /* right: 95px; */
+  right: 5px;
   text-align: right;
 }
 
@@ -815,7 +818,7 @@ p.card-hover-overlay {
   width: 5px !important;
   height: 5px !important;
   border-radius: 100%;
-  left: -45px;
+  left: 0px;
   margin-right: 6px;
 }
 
