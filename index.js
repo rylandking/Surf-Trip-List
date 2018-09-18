@@ -936,13 +936,21 @@ function addSurfSpotMarker(props, map) {
     infowindow.setContent(this.html);
     infowindow.open(map, this);
 
-    //Close lesson infowindow when surfSpotMarker is clicked
+    //Close lesson and accomm infowindow when surfSpotMarker is clicked
     lessonInfowindow.close();
+    accommInfowindow.close();
 
     google.maps.event.addListener(map, "click", function(event) {
       infowindow.close();
     });
   });//END -- surfSpotMarker LISTENER
+
+  //Close all infowindows on map click
+  google.maps.event.addListener(map, "click", function(event) {
+    infowindow.close();
+    lessonInfowindow.close();
+    accommInfowindow.close();
+  });
 
   //useCustomPhotos set to false as default value for first surfSpotID passed through areCustomSurfSpotPhotosAvailable. Explained: (https://www.davidbcalhoun.com/2009/ways-of-passing-data-to-functions-in-javascript/)
   useCustomPhotos = false;
@@ -2103,13 +2111,21 @@ function lessonsDetailsCallback(placeDetails, status) {
             lessonInfowindow.setContent(this.html);
             lessonInfowindow.open(map, this);
 
-            //Close surf spot infowindow when lessonMarker is clicked
+            //Close surf spot and accomm infowindow when lessonMarker is clicked
             infowindow.close();
+            accommInfowindow.close();
             //Close the lessonMarker infowindow
             google.maps.event.addListener(map, "click", function(event){
               lessonInfowindow.close();
             });//END -- CLOSE lessonMarker LISTENER
           });//END -- OPEN lessonMarker LISTENER
+
+          //Close all infowindows on map click
+          google.maps.event.addListener(map, "click", function(event) {
+            infowindow.close();
+            lessonInfowindow.close();
+            accommInfowindow.close();
+          });
 
           trimNote();
 
@@ -2336,40 +2352,71 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
       accommMarkers.push(accommMarker);
 
       //CREATE THE accommMarker infowindow
-      infowindow = new google.maps.InfoWindow({
+      accommInfowindow = new google.maps.InfoWindow({
       });
 
       accommImage = storage.ref('accomm-images/' + title + '.png');
 
       //Set the accomm marker's infowindow html
       accommMarker.html = `
-       <div class="infowindow">
+       <div class="infoWindow">
          <a data-toggle="modal" data-target="#${accommID}">
-          <img class="accomm-infowindow-photo w-100 mb-2" src="${accommPhoto}"></img>
+          <img class="accomm-infowindow-photo mb-2" src="${accommPhoto}"></img>
          </a>
 
-         <span class="text-muted infowindow-preheader-text font-weight-bold mb-2">${accommType} • ${bedAmount} ${bedWord}</span>
-         <h5 class="card-title card-title-text font-weight-bold">${title}</h5>
-         <p class="accomm-card-price">$${price} per night • Free cancellation</p>
-
-         <div class="mt-2">
-           <a class="btn btn-sm btn-danger font-weight-bold white-link accomm-modal-trigger" data-toggle="modal" data-target="#${accommID}">MORE INFO</a>
-         </div>
-
+         <a class="cursor" data-toggle="modal" data-target="#${accommID}">
+           <div class="ml-2 mb-2">
+             <span class="text-muted large-card-preheader-text font-weight-bold mb-2">${accommType} • ${bedAmount} ${bedWord}</span>
+             <h5 class="card-title card-title-text font-weight-bold">${title}</h5>
+             <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
+             <p class="accomm-card-price">$${price} per night • Free cancellation</p>
+           </div>
+         </a>
        </div>
       `;
+
+      //The google.maps.event.addListener() event waits for the creation of the infowindow HTML structure 'domready' and before the opening of the infowindow defined styles are applied. (http://en.marnoto.com/2014/09/5-formas-de-personalizar-infowindow.html)
+      google.maps.event.addListener(accommInfowindow, 'domready', function() {
+
+         //Reference to the DIV which receives the contents of the infowindow using jQuery
+         var iwOuter = $('.gm-style-iw');
+
+         //The DIV we want to change is above the .gm-style-iw DIV. So, we use jQuery and create a iwBackground variable, and took advantage of the existing reference to .gm-style-iw for the previous DIV with .prev().
+         var iwBackground = iwOuter.prev();
+
+         //Remove the background shadow DIV
+         iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+
+         //Remove the white background DIV
+         iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+
+         //Changes the desired color for the tail outline. The outline of the tail is composed of two descendants of div which contains the tail. The .find('div').children() method refers to all the div which are direct descendants of the previous div.
+         iwBackground.children(':nth-child(3)').find('div').children().css({'color' : 'white', 'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 1px', 'z-index' : '-1',});
+
+      });
 
       //Set a 'click' listner on each accommMarker to show the infowindow
       accommMarker.addListener('click', function() {
         //Set accommMarkerClick to true so 'idle' listener doesn't run addAccommMarkersWrapper() when infowindow pans map
         accommMarkerClick = true;
         //Open & close the accommMarker infowindow
-        infowindow.setContent(this.html);
-        infowindow.open(map, this);
+        accommInfowindow.setContent(this.html);
+        accommInfowindow.open(map, this);
+        //Close surf spot and lesson infowindow when accommMarker is clicked
+        infowindow.close();
+        lessonInfowindow.close();
+
         google.maps.event.addListener(map, "click", function(event) {
-          infowindow.close();
+          accommInfowindow.close();
         });
       });//End of accommMarker listener
+
+      //Close all infowindows on map click
+      google.maps.event.addListener(map, "click", function(event) {
+        infowindow.close();
+        lessonInfowindow.close();
+        accommInfowindow.close();
+      });
 
     });//END -- accommImage.getDownloadURL
   });//END -- setAccommMarkerIcon.getDownloadURL
