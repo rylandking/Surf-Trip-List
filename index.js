@@ -1403,7 +1403,7 @@ function buildSurfSpotCoverPhoto(ssProps) {
     //INFOWINDOW: Add the INFOWINDOW cover photo
     $("[data-carousel-inner-iw='" + surfSpotMarkerID + "']").prepend(`
         <div class="carousel-item active">
-          <img class="d-block surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}" alt="${surfSpotMarkerID}">
+          <img id="iwPhoto" class="d-block surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}" alt="${surfSpotMarkerID}">
           <small class="iw-photo-credit font-weight-bold">
             <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
               <p class="m-0">${surferAttribution}</p>
@@ -1486,7 +1486,7 @@ function addSurfSpotPhotosToCards(ssProps) {
       //INFOWINDOW: Add each of the INFOWINDOW photos
       $("[data-carousel-inner-iw='" + surfSpotMarkerID + "']").prepend(`
           <div class="carousel-item">
-            <img class="d-block surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}" alt="${surfSpotMarkerID}">
+            <img id="iwPhoto" class="d-block surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}" alt="${surfSpotMarkerID}">
             <small class="iw-photo-credit font-weight-bold">
               <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
                 <p class="m-0">${surferAttribution}</p>
@@ -2074,7 +2074,7 @@ function lessonsDetailsCallback(placeDetails, status) {
               <img id='iwPhoto' class="mb-2" src="${placeDetails.photos[0].getUrl()}" alt="${placeDetails.name}"><br>
 
               <a class="cursor" data-toggle="modal" data-target="#${placeDetails.id}">
-                <div class="ml-2 mb-2">
+                <div class="surf-spot-iw-description ml-2 mb-2">
                   <small class="text-muted large-card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${placeDetails.rating} of 5 (${placeDetails.reviews.length} reviews)</small>
                   <h5 class="mb-0">${placeDetails.name}</h5>
                   <p class="card-note">${note}</p>
@@ -2365,9 +2365,9 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
          </a>
 
          <a class="cursor" data-toggle="modal" data-target="#${accommID}">
-           <div class="ml-2 mb-2">
+           <div class="surf-spot-iw-description ml-2 mb-2">
              <span class="text-muted large-card-preheader-text font-weight-bold mb-2">${accommType} • ${bedAmount} ${bedWord}</span>
-             <h5 class="card-title card-title-text font-weight-bold">${title}</h5>
+             <h5 class="card-title card-title-text mb-1">${title}</h5>
              <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
              <p class="accomm-card-price">$${price} per night • Free cancellation</p>
            </div>

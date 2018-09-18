@@ -555,7 +555,7 @@ p.card-hover-overlay {
 }
 
 .surf-spot-iw-description {
-  margin-right: 6rem;
+  margin-right: 6.2rem;
 }
 
 /* Hide the infowwindow close icon */
@@ -565,7 +565,7 @@ p.card-hover-overlay {
 
 /* Infowindow image is full width. Learned from here: http://en.marnoto.com/2014/09/5-formas-de-personalizar-infowindow.html */
 .gm-style-iw {
-  width: 225px !important;
+  width: 220px !important;
   top: 30px !important; /* move the infowindow 30px down */
   left: 75px !important;
   background-color: #fff;
