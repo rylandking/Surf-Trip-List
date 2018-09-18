@@ -1761,7 +1761,7 @@ function initMap() {
       center: mapCenter,
       zoom: zoom,
 
-      zoomControl: true,
+      zoomControl: false,
       zoomControlOptions: {
           position: google.maps.ControlPosition.RIGHT_BOTTOM
       },

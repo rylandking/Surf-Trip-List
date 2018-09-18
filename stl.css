@@ -252,7 +252,10 @@ input:focus:-ms-input-placeholder {
 /* MAP */
 #map {
   width:auto;
-  height:575px;
+  /* Adjusts the height of the mobile map to full height of screen */
+  height: -o-calc(100vh - 105px); /* opera */
+  height: -webkit-calc(100vh - 105px); /* google, safari */
+  height: -moz-calc(100vh - 105px); /* firefox */
 }
 
 @media only screen and (max-width: 600px) {
@@ -282,7 +285,7 @@ input:focus:-ms-input-placeholder {
 
 #floating-key {
   position: absolute;
-  bottom: 5px;
+  bottom: 15px;
   left: 25px;
   z-index: 5;
   background-color: #fff;
@@ -398,7 +401,11 @@ p.card-hover-overlay {
 
 #spot-cards {
   width: auto;
-  height: 575px;
+  /* height: 575px; */
+  /* Adjusts the height of the mobile map to full height of screen */
+  height: -o-calc(100vh - 130px); /* opera */
+  height: -webkit-calc(100vh - 130px); /* google, safari */
+  height: -moz-calc(100vh - 130px); /* firefox */
   overflow-y: scroll;
 }
 
