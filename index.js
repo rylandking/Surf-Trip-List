@@ -1459,6 +1459,7 @@ function buildSurfSpotCoverPhoto(ssProps) {
   setTimeout(function() {
     //Return surfSpotMarkerClick to false to allow accomms to render on map and in list
     surfSpotMarkerClick = false;
+    surfSpotMarkerClickForIW = false;
   }, 300);
 }
 
@@ -1549,6 +1550,7 @@ function addSurfSpotPhotosToCards(ssProps) {
     setTimeout(function() {
       //Return surfSpotMarkerClick to false to allow accomms to render on map and in list
       surfSpotMarkerClick = false;
+      surfSpotMarkerClickForIW = false;
     }, 300);
 
   }//END -- conditional
@@ -2037,7 +2039,7 @@ function lessonsDetailsCallback(placeDetails, status) {
       //Check if .gov is in the website URL. If it's not (indexOf = -1) then we can use it.
       if (placeDetails.website !== undefined && placeDetails.website.indexOf(".gov") == -1) {
         //Check if  is in the placeDetails name. If it's not (indexOf = -1) then we can use it.
-        if (placeDetails.name.indexOf("Naval Postgraduate School") == -1 && placeDetails.name.indexOf("Stevenson School (Grades 9-12)") == -1 && placeDetails.name.indexOf("Boardsports California") == -1 && placeDetails.name.indexOf("Shape") == -1 && placeDetails.name.indexOf("kite") == -1 && placeDetails.name.indexOf("Kite") == -1 && placeDetails.name.indexOf("Yoga") == -1 && placeDetails.name.indexOf("Bike") == -1 && placeDetails.name.indexOf("Bicycl") == -1 && placeDetails.name.indexOf("fitness") == -1 && placeDetails.name.indexOf("Tech") == -1 && placeDetails.name.indexOf("Wind") == -1 && placeDetails.name.indexOf("Proof") == -1 && placeDetails.name.indexOf("Mavericks Beach") == -1 && placeDetails.name.indexOf("Sky") == -1 && placeDetails.name.indexOf("Campground") == -1 && placeDetails.name.indexOf("Institute") == -1 && placeDetails.name.indexOf("Castle") == -1 && placeDetails.name.indexOf("Inn") == -1 && placeDetails.name.indexOf("Aquatic") == -1 && placeDetails.name.indexOf("El Capitan") == -1 && placeDetails.name.indexOf("University Of California") == -1 && placeDetails.name.indexOf("Proctor") == -1 && placeDetails.name.indexOf("Skate Shop") == -1 && placeDetails.name.indexOf("Village") == -1 && placeDetails.name.indexOf("Point Lobos") == -1) {
+        if (placeDetails.name.indexOf("Naval Postgraduate School") == -1 && placeDetails.name.indexOf("Stevenson School (Grades 9-12)") == -1 && placeDetails.name.indexOf("Boardsports California") == -1 && placeDetails.name.indexOf("Shape") == -1 && placeDetails.name.indexOf("kite") == -1 && placeDetails.name.indexOf("Kite") == -1 && placeDetails.name.indexOf("Yoga") == -1 && placeDetails.name.indexOf("Bike") == -1 && placeDetails.name.indexOf("Bicycl") == -1 && placeDetails.name.indexOf("fitness") == -1 && placeDetails.name.indexOf("Tech") == -1 && placeDetails.name.indexOf("Wind") == -1 && placeDetails.name.indexOf("Proof") == -1 && placeDetails.name.indexOf("Mavericks Beach") == -1 && placeDetails.name.indexOf("Sky") == -1 && placeDetails.name.indexOf("Campground") == -1 && placeDetails.name.indexOf("Institute") == -1 && placeDetails.name.indexOf("Castle") == -1 && placeDetails.name.indexOf("Inn") == -1 && placeDetails.name.indexOf("Aquatic") == -1 && placeDetails.name.indexOf("El Capitan") == -1 && placeDetails.name.indexOf("University Of California") == -1 && placeDetails.name.indexOf("Proctor") == -1 && placeDetails.name.indexOf("Skate Shop") == -1 && placeDetails.name.indexOf("Village") == -1 && placeDetails.name.indexOf("Point Lobos") == -1 && placeDetails.name.indexOf("Driving") == -1) {
           id = placeDetails.id;
           name = placeDetails.name;
           rating = placeDetails.rating;
