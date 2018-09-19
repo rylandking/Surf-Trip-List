@@ -587,8 +587,6 @@ toggleLessonMarkers();
 toggleAccommMarkers();
 
 
-
-
 //SHOW MAP ON MOBILE
 function showMapMobile() {
   $("#show-map-mobile").click(function() {
@@ -1171,6 +1169,7 @@ function buildSurfSpotCard(ssProps) {
   //Hide the loading card
   $(".loading-surf-spot-card").hide();
 
+  //Build the surf spot cards into the list section
   $("#spot-cards").prepend(`
     <!-- SURF SPOT CARD -->
     <a class="inherit-link surf-spot-modal-trigger" data-toggle="modal" data-target="#${ssProps.surfSpotID}-modal">
@@ -1208,7 +1207,10 @@ function buildSurfSpotCard(ssProps) {
         </div>
       </div>
     </a>
+  `);
 
+  //Build the surf spot cards into the list section
+  $("#modals").prepend(`
     <!-- SURF SPOT MODAL -->
     <div class="modal fade" id="${ssProps.surfSpotID}-modal" tabindex="-1" role="dialog" aria-labelledby="${ssProps.surfSpotID}-label" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
@@ -1754,13 +1756,11 @@ function initMap() {
     zoom = 12;
   }
 
-
   //If window is bigger than mobile (desktop), two fingers does NOT zoom map.
   if ($(window).width() > 600) {
     map = new google.maps.Map(document.getElementById('map'), {
       center: mapCenter,
       zoom: zoom,
-
       zoomControl: false,
       zoomControlOptions: {
           position: google.maps.ControlPosition.RIGHT_BOTTOM
@@ -1774,7 +1774,6 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
       center: mapCenter,
       zoom: zoom,
-
       zoomControl: false,
       mapTypeControl: false,
       fullscreenControl: false,
@@ -1782,8 +1781,6 @@ function initMap() {
       gestureHandling: "greedy",
     });//END -- map OBJECT
   }
-
-
 
   //IF SEARCH BAR IS NOT EMPTY WITH TEXT, INITALIZE AUTOCOMPLETE
   if ($(".search-input").value !== null) {
@@ -2101,9 +2098,9 @@ function lessonsDetailsCallback(placeDetails, status) {
           //Set the lesson marker's infowindow html
           lessonMarker.html = `
             <div class="infoWindow">
-              <img id='iwPhoto' class="mb-2" src="${placeDetails.photos[0].getUrl()}" alt="${placeDetails.name}"><br>
-
               <a class="cursor" data-toggle="modal" data-target="#${placeDetails.id}">
+                <img id='iwPhoto' class="mb-2" src="${placeDetails.photos[0].getUrl()}" alt="${placeDetails.name}"><br>
+
                 <div class="surf-spot-iw-description ml-2 mb-2">
                   <small class="text-muted card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${placeDetails.rating} of 5 (${placeDetails.reviews.length} reviews)</small>
                   <h6 class="mb-1">${placeDetails.name}</h6>
@@ -2189,64 +2186,69 @@ function buildLessonCards() {
   //Hide the loading card
   $(".loading-lessons-card").hide();
 
-    $("#spot-cards").prepend(`
-      <a class="inherit-link" data-toggle="modal" data-target="#${id}">
-        <div class="card photo-card lesson-spot-card illuminate-hover" data-id="${id}">
+  //Build the lesson cards into the list section
+  $("#spot-cards").prepend(`
+  <a class="cursor" data-toggle="modal" data-target="#${id}">
+    <div class="card photo-card lesson-spot-card illuminate-hover" data-id="${id}">
 
-          <!-- LESSON PHOTOS -->
-          <img class="card-img card-custom-image" src="${lessonPhoto}" alt="${name}">
+      <!-- LESSON PHOTOS -->
+      <img class="card-img card-custom-image" src="${lessonPhoto}" alt="${name}">
 
-          <!-- LESSON DESCRIPTORS -->
-          <div class="card-body mx-0 p-0 pt-2">
-            <small class="text-muted large-card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount}+ reviews)</small>
-            <h5 class="card-title card-title-text font-weight-bold">${name}</h5>
-            <p class="card-note">${note}</p>
+      <!-- LESSON DESCRIPTORS -->
+      <div class="card-body mx-0 p-0 pt-2">
+        <small class="text-muted large-card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount}+ reviews)</small>
+        <h5 class="card-title card-title-text font-weight-bold">${name}</h5>
+        <p class="card-note">${note}</p>
+      </div>
+
+    </div>
+  </a>
+  `);
+
+  //Build the lesson modals into non-visible modal div
+  $("#modals").prepend(`
+    <!-- LESSON MODAL -->
+    <div class="modal fade lesson-modal" id="${id}" tabindex="-1" role="dialog" aria-labelledby="${name}-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="ml-auto">
+            <button type="button" class="close mt-2 mr-3 d-block d-sm-none" data-dismiss="modal">&times;</button>
           </div>
 
-        </div>
-      </a>
+          <div class="modal-body lesson-modal-body">
+            <div class="card lesson-photo-modal illuminate-hover">
 
-      <div class="modal fade lesson-modal" id="${id}" tabindex="-1" role="dialog" aria-labelledby="${name}-label" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="ml-auto">
-              <button type="button" class="close mt-2 mr-3 d-block d-sm-none" data-dismiss="modal">&times;</button>
+              <!-- LESSON MODAL PHOTO -->
+              <a href="${website}" target="_blank">
+                <img class="accomm-card-custom-image mb-1" src="${lessonPhoto}" alt="${name}">
+              </a>
+
+              <!-- LESSON MODAL DESCRIPTORS -->
+              <small class="text-muted large-card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount}+ reviews)</small>
+              <h5 class="card-title card-title-text font-weight-bold">${name}</h5>
+              <small class="review-attribution">${phone}</small>
+
+              <p class="card-note mt-3">"${review1}"</p>
+              <small class="review-attribution"><span class="capitalize">${authorReview1}</span>, ${timeDescriptionReview1}</small>
+              <hr>
+              <p class="card-note mt-2">"${review2}"</p>
+              <small class="review-attribution"><span class="capitalize">${authorReview2}</span>, ${timeDescriptionReview2}</small>
+              <hr>
+              <p class="card-note mt-2">"${review3}"</p>
+              <small class="review-attribution"><span class="capitalize">${authorReview3}</span>, ${timeDescriptionReview3}</small>
+
             </div>
-
-            <div class="modal-body lesson-modal-body">
-              <div class="card lesson-photo-modal illuminate-hover">
-
-                <!-- LESSON MODAL PHOTOS -->
-                <a href="${website}" target="_blank">
-                  <img class="accomm-card-custom-image mb-1" src="${lessonPhoto}" alt="${name}">
-                </a>
-
-                <!-- LESSON MODAL DESCRIPTORS -->
-                <small class="text-muted large-card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${rating} of 5 (${reviewCount}+ reviews)</small>
-                <h5 class="card-title card-title-text font-weight-bold">${name}</h5>
-                <small class="review-attribution">${phone}</small>
-
-                <p class="card-note mt-3">"${review1}"</p>
-                <small class="review-attribution"><span class="capitalize">${authorReview1}</span>, ${timeDescriptionReview1}</small>
-                <hr>
-                <p class="card-note mt-2">"${review2}"</p>
-                <small class="review-attribution"><span class="capitalize">${authorReview2}</span>, ${timeDescriptionReview2}</small>
-                <hr>
-                <p class="card-note mt-2">"${review3}"</p>
-                <small class="review-attribution"><span class="capitalize">${authorReview3}</span>, ${timeDescriptionReview3}</small>
-
-              </div>
-            </div>
-
-            <div class="modal-footer lesson-modal-footer bg-secondary mt-3">
-              <button class="btn btn-sm btn-danger mr-2"><a class="white-link font-weight-bold" href="${website}" target="_blank">BOOK</a></button>
-              <button class="btn btn-sm btn-danger"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${lat},${lng}&driving" target="_blank">DIRECTIONS</a></button>
-            </div>
-
           </div>
+
+          <div class="modal-footer lesson-modal-footer bg-secondary mt-3">
+            <button class="btn btn-sm btn-danger mr-2"><a class="white-link font-weight-bold" href="${website}" target="_blank">BOOK</a></button>
+            <button class="btn btn-sm btn-danger"><a class="white-link font-weight-bold" href="https://maps.google.com/?saddr=Current+Location&daddr=${lat},${lng}&driving" target="_blank">DIRECTIONS</a></button>
+          </div>
+
         </div>
       </div>
-    `);
+    </div>
+  `);
 
 }//END -- BUILD LESSON CARDS AND MODALS
 
@@ -2390,11 +2392,9 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
       //Set the accomm marker's infowindow html
       accommMarker.html = `
        <div class="infoWindow">
-         <a data-toggle="modal" data-target="#${accommID}">
-          <img class="accomm-infowindow-photo mb-2" src="${accommPhoto}"></img>
-         </a>
-
          <a class="cursor" data-toggle="modal" data-target="#${accommID}">
+           <img class="accomm-infowindow-photo mb-2" src="${accommPhoto}"></img>
+
            <div class="surf-spot-iw-description ml-2 mb-2">
              <span class="text-muted card-preheader-text font-weight-bold mb-2">${accommType} • ${bedAmount} ${bedWord}</span>
              <h6 class="card-title card-title-text mb-1">${title}</h6>
@@ -2491,7 +2491,10 @@ function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWor
 
         </div>
       </a>
+    `);
 
+    //Build the accomm modals into non-visible modal div
+    $("#modals").prepend(`
       <!-- ACCOMM MODAL -->
       <div class="modal fade" id="${accommID}" tabindex="-1" role="dialog" aria-labelledby="documentID-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -2521,8 +2524,8 @@ function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWor
           </div>
         </div>
       </div>
-
     `);
+
   });
 }//END -- BUILD THE ACCOMM CARDS
 
