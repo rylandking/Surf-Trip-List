@@ -418,7 +418,12 @@ p.card-hover-overlay {
   #city-page-nav {
     padding-right: .75rem;
   }
+}
 
+@media only screen and (max-width: 600px) {
+  #city-page-nav {
+    position: sticky;
+  }
 }
 
 .normal-marker-size {
