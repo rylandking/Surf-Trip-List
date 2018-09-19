@@ -112,27 +112,105 @@
      </div>
 
     <!-- FILTER BUTTONS -->
-    <div id="card-button-menu">
-      <button id="toggleSurfSpotCards" class="toggle-button cards-showing"><i class="fas fa-list-ul"></i>   Surf Spots</button>
-      <button id="toggleLessonCards" class="toggle-button cards-hidden"><i class="fas fa-list-ul"></i>     Lessons</button>
-      <button id="toggleAccommCards" class="toggle-button cards-hidden"><i class="fas fa-list-ul"></i>    Accommodations</button>
-    </div>
+    <!-- <div id="filter-menu">
+      <div id="card-button-menu">
+        <button id="toggleSurfSpotCards" class="toggle-button cards-showing"><i class="fas fa-list-ul"></i>   Surf Spots</button>
+        <button id="toggleLessonCards" class="toggle-button cards-hidden"><i class="fas fa-list-ul"></i>     Lessons</button>
+        <button id="toggleAccommCards" class="toggle-button cards-hidden"><i class="fas fa-list-ul"></i>    Accommodations</button>
+      </div>
+    </div> -->
 
-    <hr id="card-button-menu-bottom" class="mt-2 mb-0">
+
 
     <!-- MAP & CARDS ROW -->
     <div id="map-cards-wrapper" class="row d-flex flex-column flex-md-row">
 
-      <!-- SPOT CARDS LIST -->
-      <div id="spot-cards" class="col-md-4 mt-3">
+      <!-- LIST WRAPPER -->
+      <div id="spot-card-list-wrapper" class="col-md-4">
 
-      </div><!-- END OF SPOT CARDS LIST -->
+        <!-- FILTER BUTTONS -->
+        <div id="filter-menu" class="mb-2">
+          <div id="card-button-menu">
+            <button id="toggleSurfSpotCards" class="toggle-button cards-showing"><i class="fas fa-list-ul"></i>   Surf Spots</button>
+            <button id="toggleLessonCards" class="toggle-button cards-hidden"><i class="fas fa-list-ul"></i>     Lessons</button>
+            <button id="toggleAccommCards" class="toggle-button cards-hidden"><i class="fas fa-list-ul"></i>    Accommodations</button>
+          </div>
+        </div><!-- //FILTER BUTTONS -->
 
-      <!-- MAP -->
+        <!-- SPOT CARDS LIST -->
+        <div id="spot-cards" class="">
+        </div><!-- //SPOT CARDS LIST -->
+
+      </div><!-- //LIST WRAPPER -->
+
+      <!-- MAP WRAPPER -->
       <!-- d-none is added when city page is loaded to initially hide Map on mobile -->
       <div id="map-wrapper" class="col-md-8 d-md-block">
 
-        <div id="floating-marker-buttons">
+        <!-- MAP MENU -->
+        <div id="map-filter-menu" class="mb-2">
+
+          <!-- MAP MENU DROPDOWN -->
+          <a href="#" class="dropdown-toggle inherit-link" data-toggle="dropdown"  aria-expanded="false">
+            <small id="filter-map-text" class="font-weight-bold text-muted">
+              <span class="map-filter-arrow"><i class="fas fa-chevron-down"></i></span>
+                Filter map
+              </small>
+          </a>
+
+          <ul class="dropdown-menu">
+            <div id="dropdown-wrapper" class="container">
+
+              <div class="row">
+                <div class="col-3 mt-1 mr-3">
+                  <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleSurfSpotMarkerIcon" class="fas fa-map-marker-alt"></i> Surf Spots</small>
+                </div>
+                <div class="col-1 ml-5">
+                  <a href="#" class="small" data-value="option1" tabIndex="-1">
+                    <label class="switch">
+                      <input type="checkbox">
+                      <span class="slider round"></span>
+                    </label>
+                  </a>
+                </div>
+              </div>
+              <hr class="p-0 m-0">
+
+              <div class="row mt-2">
+                <div class="col-3 mt-1 mr-3">
+                  <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleLessonsMarkerIcon" class="fas fa-map-marker-alt"></i> Lessons</small>
+                </div>
+                <div class="col-1 ml-5">
+                  <a href="#" class="small" data-value="option1" tabIndex="-1">
+                    <label class="switch">
+                      <input type="checkbox">
+                      <span class="slider round"></span>
+                    </label>
+                  </a>
+                </div>
+              </div>
+              <hr class="p-0 m-0">
+
+              <div class="row mt-2">
+                <div class="col-3 mt-1 mr-3">
+                  <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleAccommsMarkerIcon" class="fas fa-map-marker-alt"></i> Accommodations</small>
+                </div>
+                <div class="col-1 ml-5">
+                  <a href="#" class="small" data-value="option1" tabIndex="-1">
+                    <label class="switch">
+                      <input type="checkbox">
+                      <span class="slider round"></span>
+                    </label>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </ul><!-- //MAP MENU DROPDOWN -->
+
+        </div><!-- //MAP MENU -->
+
+        <div id="floating-marker-buttons" class="d-none">
           <button id="toggleSurfSpotMarkers" class="toggle-button markers-showing"><i id="toggleSurfSpotMarkerIcon" class="fas fa-map-marker-alt"></i>     Surf Spots</button>
           <button id="toggleLessonMarkers" class="toggle-button markers-hidden"><i id="toggleLessonMarkerIcon" class="fas fa-times"></i>    Lessons</button>
           <button id="toggleAccommMarkers" class="toggle-button markers-hidden"><i id="toggleAccommMarkerIcon" class="fas fa-times"></i>     Accommodations</button>
@@ -163,7 +241,7 @@
 
         <div id="modals"></div>
 
-      </div>
+      </div><!-- //MAP WRAPPER -->
 
     </div><!-- End of map & cards row -->
 

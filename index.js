@@ -627,6 +627,22 @@ showMapMobile();
 showListMobile();
 
 
+function preventMapFilterDropdownFromClosingOnClick() {
+  $('.dropdown-menu input, .dropdown-menu label').click(function(e) {
+      e.stopPropagation();
+  });
+}
+
+preventMapFilterDropdownFromClosingOnClick()
+
+
+function mapFilterArrowUpDown() {
+  $(".dropdown-toggle").click(function () {
+      $(".map-filter-arrow").children('.fas').toggleClass('fa-chevron-up fa-chevron-down');
+  });
+}
+mapFilterArrowUpDown();
+
 
 ////SET MARKER IMG URLS
 function setSkillMarker() {
@@ -1010,9 +1026,10 @@ function buildSurfSpotInfoWindow() {
 
   //Set the surf spot marker's infowindow html
   surfSpotMarker.html = `
-    <div id="surfSpotInfoWindow" class="infoWindow">
+    <div class="infoWindow">
 
-      <a class="inherit-link cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
+      <a class="cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
+
         <!-- SURF SPOT IW IMAGE CAROUSEL -->
         <div id="${surfSpotID}IWCarousel" class="carousel carousel-infowindow slide" data-ride="carousel" data-interval="false" data-photo-location-iw="${surfSpotID}">
 
@@ -1033,19 +1050,18 @@ function buildSurfSpotInfoWindow() {
             <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
             <span class="sr-only">Next</span>
           </a>
-
         </div>
-      </a>
 
-      <!-- SURF SPOT INFOWINDOW DESCRIPTORS -->
-      <a class="inherit-link cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
+        <!-- SURF SPOT INFOWINDOW DESCRIPTORS -->
         <div class="surf-spot-iw-description ml-2 mb-2">
           <small class="text-muted card-preheader-text font-weight-bold">${waveDir} ${waveType}</small>
           <h6 class="card-title card-title-text font-weight-bold mb-1">${spotName}</h6>
           <span class="badge card-badge ${badge} text-uppercase mb-1">${skill}</span>
           <p class="iw-note mb-2">${note}</p>
         </div>
+
       </a>
+
     </div>
 
   `;
@@ -2098,6 +2114,7 @@ function lessonsDetailsCallback(placeDetails, status) {
           //Set the lesson marker's infowindow html
           lessonMarker.html = `
             <div class="infoWindow">
+
               <a class="cursor" data-toggle="modal" data-target="#${placeDetails.id}">
                 <img id='iwPhoto' class="mb-2" src="${placeDetails.photos[0].getUrl()}" alt="${placeDetails.name}"><br>
 
