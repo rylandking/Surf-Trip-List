@@ -810,9 +810,14 @@ onCardHoverHighlightMarker();
 function addSurfSpotMarkers() {
   //Remove old surf spot cards from the card list
   $("#spot-cards").find('.surf-spot-card').remove();
+
   //Remove surf spot markers
   setMapOnSurfSpotMarkers(null);
   surfSpotMarkers = [];
+
+  //Show loading button on mobile map
+  $("#loading-button").show();
+
   //Show loading surf spot card if surf spots has .cards-showing
   if ($("#toggleSurfSpotCards").hasClass("cards-showing")) {
     $("#spot-cards").prepend(`
@@ -894,6 +899,9 @@ function addSurfSpotMarkers() {
           </div>
         `);
       }
+
+      $("#no-surf-spots-here-button").show();
+
     }//END -- spotMarkers.length CONDITIONAL
 
   });//END -- surf-spot FIRESTORE QUERY
@@ -1196,6 +1204,9 @@ function buildSurfSpotCard(ssProps) {
 
   //Hide the loading card
   $(".loading-surf-spot-card").hide();
+
+  //Hide loading button on mobile map
+  $("#loading-button").hide();
 
   //Build the surf spot cards into the list section
   $("#spot-cards").prepend(`
@@ -1890,6 +1901,11 @@ function initMap() {
     greaterLng = lngArray.sort()[lngArray.length - 2];
     smallerLng = lngArray.sort()[lngArray.length - 1];
 
+    //Hide the "Nothing here" buttons on the mobile map on after 'idle' listener fires
+    $("#no-surf-spots-here-button").hide();
+    $("#no-lessons-here-button").hide();
+    $("#no-accomms-here-button").hide();
+
     addSurfSpotMarkersWrapper();
 
     addLessonMarkersWrapper();
@@ -2022,6 +2038,9 @@ function callLessons() {
     buildLessonLoadCard();
   }
 
+  //Show loading button on mobile map
+  $("#loading-button").show();
+
   service = new google.maps.places.PlacesService(map);
   service.nearbySearch({
     //Use map bounds to query all relative lessonp places in map view
@@ -2072,6 +2091,8 @@ function lessonsCallbackV2(results, status) {
           </div>
         `);
       }
+
+      $("#no-lessons-here-button").show();
 
     }//END -- SHARE ZERO RESULTS WITH PEOPLE
   }//END -- IF LESSONS CALLBACK ERROR STATUS = ZERO_RESULTS, DISABLE BUTTON AND ALERT USER WHEN CLICKING ON IT
@@ -2215,6 +2236,9 @@ function buildLessonCards() {
   //Hide the loading card
   $(".loading-lessons-card").hide();
 
+  //Hide loading button on mobile map
+  $("#loading-button").hide();
+
   //Build the lesson cards into the list section
   $("#spot-cards").prepend(`
   <a class="cursor" data-toggle="modal" data-target="#${id}">
@@ -2282,7 +2306,7 @@ function buildLessonCards() {
 }//END -- BUILD LESSON CARDS AND MODALS
 
 
-
+$("#loading-button").show();
 
 ////ADD ACCOMM MARKERS TO THE CITY PAGE
 function addAccommMarkers(i) {
@@ -2291,6 +2315,10 @@ function addAccommMarkers(i) {
   //Remove surf spot markers
   setMapOnAccommMarkers(null);
   accommMarkers = [];
+
+  //Show loading button on mobile map
+  $("#loading-button").show();
+
   //Show loading accomm cards if accomms has .cards-showing
   if ($("#toggleAccommCards").hasClass("cards-showing")) {
     $("#spot-cards").prepend(`
@@ -2371,6 +2399,8 @@ function addAccommMarkers(i) {
           </div>
         `);
       }
+
+      $("#no-accomms-here-button").show();
     }//END -- spotMarkers.length CONDITIONAL
 
   });//END -- QUERY accommMarkers (priceMarkers) COLLECTION TO ADD accommMarkers
@@ -2556,6 +2586,12 @@ function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWor
     `);
 
   });
+
+  setTimeout(function() {
+    //Hide loading button on mobile map
+    $("#loading-button").hide();
+  }, 200)
+
 }//END -- BUILD THE ACCOMM CARDS
 
 

@@ -260,7 +260,7 @@ input:focus:-ms-input-placeholder {
 
 @media only screen and (max-width: 600px) {
   #map {
-    width:auto;
+    width:100%;
     /* Adjusts the height of the mobile map to full height of screen */
     height: -o-calc(100% - 100px); /* opera */
     height: -webkit-calc(100% - 100px); /* google, safari */
@@ -1124,4 +1124,33 @@ input:checked + .slider:before {
   .gmnoprint {
     zoom: 1;
   }
+}
+
+/* Dont display loading button on desktop */
+@media only screen and (min-width: 600px) {
+  .floating-map-notification-button {
+    display: none !important;
+  }
+
+  .map-notification-button {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .floating-map-notification-button {
+    position: absolute;
+    bottom: 2%;
+    width: 100vw;
+    display: none;
+  }
+
+  .map-notification-button {
+    position: relative;
+    left: 33%;
+    z-index: 7;
+    line-height: 5px;
+    font-size: 12px;
+  }
+
 }
