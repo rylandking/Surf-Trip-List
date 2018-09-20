@@ -611,8 +611,18 @@ p.card-hover-overlay {
   border-radius: 2px 2px 0 0;
 }
 
-.infoWindow {
+.surfSpotInfoWindow {
   height:255px;
+  width:220px;
+}
+
+.lessonInfoWindow {
+  height:255px;
+  width:220px;
+}
+
+.accommInfoWindow {
+  height:265px;
   width:220px;
 }
 

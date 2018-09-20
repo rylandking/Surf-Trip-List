@@ -1038,7 +1038,7 @@ function buildSurfSpotInfoWindow() {
 
   //Set the surf spot marker's infowindow html
   surfSpotMarker.html = `
-    <div class="infoWindow">
+    <div class="surfSpotInfoWindow">
 
       <a class="cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
 
@@ -2125,7 +2125,7 @@ function lessonsDetailsCallback(placeDetails, status) {
 
           //Set the lesson marker's infowindow html
           lessonMarker.html = `
-            <div class="infoWindow">
+            <div class="lessonInfoWindow">
 
               <a class="cursor" data-toggle="modal" data-target="#${placeDetails.id}">
                 <img id='iwPhoto' class="mb-2" src="${placeDetails.photos[0].getUrl()}" alt="${placeDetails.name}"><br>
@@ -2133,7 +2133,7 @@ function lessonsDetailsCallback(placeDetails, status) {
                 <div class="surf-spot-iw-description ml-2 mb-2">
                   <small class="text-muted card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${placeDetails.rating} of 5 (${placeDetails.reviews.length} reviews)</small>
                   <h6 class="mb-1">${placeDetails.name}</h6>
-                  <p class="card-note">${note}</p>
+                  <p class="iw-note">${note}</p>
                 </div>
               </a>
 
@@ -2420,7 +2420,7 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
 
       //Set the accomm marker's infowindow html
       accommMarker.html = `
-       <div class="infoWindow">
+       <div class="accommInfoWindow">
          <a class="cursor" data-toggle="modal" data-target="#${accommID}">
            <img class="accomm-infowindow-photo mb-2" src="${accommPhoto}"></img>
 
