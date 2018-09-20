@@ -261,7 +261,6 @@ input:focus:-ms-input-placeholder {
 @media only screen and (max-width: 600px) {
   #map {
     width:auto;
-    /* height:90vh; */
     /* Adjusts the height of the mobile map to full height of screen */
     height: -o-calc(100% - 100px); /* opera */
     height: -webkit-calc(100% - 100px); /* google, safari */
@@ -289,7 +288,6 @@ input:focus:-ms-input-placeholder {
   z-index: 6;
   font-size: 11px;
   font-weight: bold;
-  /* color: #708090; */
   margin-left: .1rem;
 }
 
@@ -414,7 +412,6 @@ p.card-hover-overlay {
 
 #spot-cards {
   width: auto;
-  /* height: 575px; */
   /* Adjusts the height of the mobile map to full height of screen */
   height: -o-calc(100vh - 130px); /* opera */
   height: -webkit-calc(100vh - 130px); /* google, safari */
@@ -608,17 +605,14 @@ p.card-hover-overlay {
 .gm-style-iw {
   width: 220px !important;
   top: 30px !important; /* move the infowindow 30px down */
-  /* left: 75px !important; */
   left: 30px !important;
   background-color: #fff;
-  /* box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6); */
   border: none;
   border-radius: 2px 2px 0 0;
 }
 
 .infoWindow {
   height:255px;
-  /* width:310px; */
   width:220px;
 }
 
@@ -734,7 +728,6 @@ p.card-hover-overlay {
   z-index: 10;
   position: absolute;
   bottom: -10px !important;
-  /* right: 95px; */
   right: 5px;
   text-align: right;
 }

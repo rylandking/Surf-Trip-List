@@ -298,10 +298,10 @@ function toggleSurfSpotCards() {
       if ($("#toggleSurfSpotMarkers").hasClass("markers-hidden")) {
         //Remove markers-hidden and close icon
         $("#toggleSurfSpotMarkers").removeClass("markers-hidden");
-        $("#toggleSurfSpotMarkerIcon").removeClass("fa-times");
         //Add markers-showing and marker icon
         $("#toggleSurfSpotMarkers").addClass("markers-showing");
-        $("#toggleSurfSpotMarkerIcon").addClass("fa-map-marker-alt");
+        $("#surfSpotMarkerSwitch").prop('checked', true);
+
         addSurfSpotMarkersWrapper();
         hideAndShowCards();
       }
@@ -327,10 +327,10 @@ function toggleLessonCards() {
       if ($("#toggleLessonMarkers").hasClass("markers-hidden")) {
         //Remove markers-hidden and close icon
         $("#toggleLessonMarkers").removeClass("markers-hidden");
-        $("#toggleLessonMarkerIcon").removeClass("fa-times");
         //Add markers-showing and marker icon
         $("#toggleLessonMarkers").addClass("markers-showing");
-        $("#toggleLessonMarkerIcon").addClass("fa-map-marker-alt");
+        $("#lessonMarkerSwitch").prop('checked', true);
+
         callLessons();
         hideAndShowCards();
       }
@@ -354,12 +354,12 @@ function toggleAccommCards() {
       hideAndShowCards();
       //If markers are hidden (.markers-hidden) add markers to map
       if ($("#toggleAccommMarkers").hasClass("markers-hidden")) {
-        //Remove markers-hidden and close icon
+        //Remove markers-hidden
         $("#toggleAccommMarkers").removeClass("markers-hidden");
-        $("#toggleAccommMarkerIcon").removeClass("fa-times");
-        //Add markers-showing and marker icon
+        //Add markers-showing
         $("#toggleAccommMarkers").addClass("markers-showing");
-        $("#toggleAccommMarkerIcon").addClass("fa-map-marker-alt");
+        $("#accommMarkerSwitch").prop('checked', true);
+
         addAccommMarkersWrapper();
         hideAndShowCards();
       }
@@ -419,20 +419,15 @@ function hideAndShowCards() {
 }
 
 
-
-
-
 function toggleSurfSpotMarkers() {
   $("#toggleSurfSpotMarkers").click(function() {
     //IF MARKER BUTTON IS ON (.markers-showing) AND CARD BUTTON IS ON (.cards-showing), hide markers and hide cards
-    if ($("#toggleSurfSpotMarkers").hasClass("markers-showing") && $("#toggleSurfSpotCards").hasClass("cards-showing") ) {
+    if ($("#toggleSurfSpotMarkers").hasClass("markers-showing") && $("#toggleSurfSpotCards").hasClass("cards-showing")) {
       //Remove .markers-showing and .cards-showing
       $("#toggleSurfSpotMarkers").removeClass("markers-showing");
-      $("#toggleSurfSpotMarkerIcon").removeClass("fa-map-marker-alt");
       $("#toggleSurfSpotCards").removeClass("cards-showing");
       //Add .markers-hidden and .cards-hidden
       $("#toggleSurfSpotMarkers").addClass("markers-hidden");
-      $("#toggleSurfSpotMarkerIcon").addClass("fa-times");
       $("#toggleSurfSpotCards").addClass("cards-hidden");
       //Remove markers from map
       setMapOnSurfSpotMarkers(null);
@@ -449,11 +444,9 @@ function toggleSurfSpotMarkers() {
       $("#toggleAccommCards").addClass("cards-hidden");
       //Remove .markers-hidden and cards-hidden
       $("#toggleSurfSpotMarkers").removeClass("markers-hidden");
-      $("#toggleSurfSpotMarkerIcon").removeClass("fa-times");
       $("#toggleSurfSpotCards").removeClass("cards-hidden");
       //Add .markers-showing and .cards-showing
       $("#toggleSurfSpotMarkers").addClass("markers-showing");
-      $("#toggleSurfSpotMarkerIcon").addClass("fa-map-marker-alt");
       $("#toggleSurfSpotCards").addClass("cards-showing");
       //Add markers on map and show cards
       addSurfSpotMarkersWrapper();
@@ -462,10 +455,8 @@ function toggleSurfSpotMarkers() {
     } else if ($("#toggleSurfSpotMarkers").hasClass("markers-showing")) {
       //Remove markers-showing and marker icon
       $("#toggleSurfSpotMarkers").removeClass("markers-showing");
-      $("#toggleSurfSpotMarkerIcon").removeClass("fa-map-marker-alt");
       //Add markers-hidden and close icon
       $("#toggleSurfSpotMarkers").addClass("markers-hidden");
-      $("#toggleSurfSpotMarkerIcon").addClass("fa-times");
       //Remove markers from map
       setMapOnSurfSpotMarkers(null);
       surfSpotMarkers =[];
@@ -480,11 +471,9 @@ function toggleLessonMarkers() {
     if ($("#toggleLessonMarkers").hasClass("markers-showing") && $("#toggleLessonCards").hasClass("cards-showing") ) {
       //Remove .markers-showing and .cards-showing
       $("#toggleLessonMarkers").removeClass("markers-showing");
-      $("#toggleLessonMarkerIcon").removeClass("fa-map-marker-alt");
       $("#toggleLessonCards").removeClass("cards-showing");
       //Add .markers-hidden and .cards-hidden
       $("#toggleLessonMarkers").addClass("markers-hidden");
-      $("#toggleLessonMarkerIcon").addClass("fa-times");
       $("#toggleLessonCards").addClass("cards-hidden");
       //Remove markers from map
       setMapOnLessonMarkers(null);
@@ -501,11 +490,9 @@ function toggleLessonMarkers() {
       $("#toggleAccommCards").addClass("cards-hidden");
       //Remove .markers-hidden and cards-hidden
       $("#toggleLessonMarkers").removeClass("markers-hidden");
-      $("#toggleLessonMarkerIcon").removeClass("fa-times");
       $("#toggleLessonCards").removeClass("cards-hidden");
       //Add .markers-showing and .cards-showing
       $("#toggleLessonMarkers").addClass("markers-showing");
-      $("#toggleLessonMarkerIcon").addClass("fa-map-marker-alt");
       $("#toggleLessonCards").addClass("cards-showing");
       //Add markers on map and show cards
       callLessons();
@@ -514,10 +501,8 @@ function toggleLessonMarkers() {
     } else if ($("#toggleLessonMarkers").hasClass("markers-showing")) {
       //Remove markers-showing and marker icon
       $("#toggleLessonMarkers").removeClass("markers-showing");
-      $("#toggleLessonMarkerIcon").removeClass("fa-map-marker-alt");
       //Add markers-hidden and close icon
       $("#toggleLessonMarkers").addClass("markers-hidden");
-      $("#toggleLessonMarkerIcon").addClass("fa-times");
       //Remove markers from map
       setMapOnLessonMarkers(null);
       lessonMarkers = [];
@@ -532,11 +517,9 @@ function toggleAccommMarkers() {
     if ($("#toggleAccommMarkers").hasClass("markers-showing") && $("#toggleAccommCards").hasClass("cards-showing")) {
       //Remove .markers-showing and .cards-showing
       $("#toggleAccommMarkers").removeClass("markers-showing");
-      $("#toggleAccommMarkerIcon").removeClass("fa-map-marker-alt");
       $("#toggleAccommCards").removeClass("cards-showing");
       //Add .markers-hidden and .cards-hidden
       $("#toggleAccommMarkers").addClass("markers-hidden");
-      $("#toggleAccommMarkerIcon").addClass("fa-times");
       $("#toggleAccommCards").addClass("cards-hidden");
       //Remove markers from map
       setMapOnAccommMarkers(null);
@@ -553,11 +536,9 @@ function toggleAccommMarkers() {
       $("#toggleLessonCards").addClass("cards-hidden");
       //Remove .markers-hidden and cards-hidden
       $("#toggleAccommMarkers").removeClass("markers-hidden");
-      $("#toggleAccommMarkerIcon").removeClass("fa-times");
       $("#toggleAccommCards").removeClass("cards-hidden");
       //Add .markers-showing and .cards-showing
       $("#toggleAccommMarkers").addClass("markers-showing");
-      $("#toggleAccommMarkerIcon").addClass("fa-map-marker-alt");
       $("#toggleAccommCards").addClass("cards-showing");
       //Add markers on map
       addAccommMarkersWrapper();
@@ -566,10 +547,8 @@ function toggleAccommMarkers() {
     } else if ($("#toggleAccommMarkers").hasClass("markers-showing")) {
       //Remove markers-showing and marker icon
       $("#toggleAccommMarkers").removeClass("markers-showing");
-      $("#toggleAccommMarkerIcon").removeClass("fa-map-marker-alt");
       //Add markers-hidden and close icon
       $("#toggleAccommMarkers").addClass("markers-hidden");
-      $("#toggleAccommMarkerIcon").addClass("fa-times");
       //Remove markers from map
       setMapOnAccommMarkers(null);
       accommMarkers = [];

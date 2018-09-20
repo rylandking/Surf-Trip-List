@@ -111,17 +111,6 @@
 
      </div>
 
-    <!-- FILTER BUTTONS -->
-    <!-- <div id="filter-menu">
-      <div id="card-button-menu">
-        <button id="toggleSurfSpotCards" class="toggle-button cards-showing"><i class="fas fa-list-ul"></i>   Surf Spots</button>
-        <button id="toggleLessonCards" class="toggle-button cards-hidden"><i class="fas fa-list-ul"></i>     Lessons</button>
-        <button id="toggleAccommCards" class="toggle-button cards-hidden"><i class="fas fa-list-ul"></i>    Accommodations</button>
-      </div>
-    </div> -->
-
-
-
     <!-- MAP & CARDS ROW -->
     <div id="map-cards-wrapper" class="row d-flex flex-column flex-md-row">
 
@@ -162,48 +151,57 @@
             <ul class="dropdown-menu">
               <div id="dropdown-wrapper" class="container">
 
+                <!-- Filter Map - Surf Spots -->
                 <div class="row">
                   <div class="col-3 mt-1 mr-3">
                     <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleSurfSpotMarkerIcon" class="fas fa-map-marker-alt"></i> Surf Spots</small>
                   </div>
+
                   <div class="col-1 ml-5">
                     <a href="#" class="small" data-value="option1" tabIndex="-1">
                       <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider round"></span>
+                        <input id="surfSpotMarkerSwitch" type="checkbox" checked>
+                        <span id="toggleSurfSpotMarkers" class="markers-showing slider round"></span>
                       </label>
                     </a>
                   </div>
+
                 </div>
                 <hr class="p-0 m-0">
 
+                <!-- Filter Map - Lessons -->
                 <div class="row mt-2">
                   <div class="col-3 mt-1 mr-3">
-                    <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleLessonsMarkerIcon" class="fas fa-map-marker-alt"></i> Lessons</small>
+                    <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleLessonMarkerIcon" class="fas fa-map-marker-alt"></i> Lessons</small>
                   </div>
+
                   <div class="col-1 ml-5">
-                    <a href="#" class="small" data-value="option1" tabIndex="-1">
+                    <a href="#" class="small" data-value="option2" tabIndex="-1">
                       <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider round"></span>
+                        <input id="lessonMarkerSwitch" type="checkbox">
+                        <span id="toggleLessonMarkers" class="markers-hidden slider round"></span>
                       </label>
                     </a>
                   </div>
+
                 </div>
                 <hr class="p-0 m-0">
 
+                <!-- Filter Map - Accomms -->
                 <div class="row mt-2">
                   <div class="col-3 mt-1 mr-3">
-                    <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleAccommsMarkerIcon" class="fas fa-map-marker-alt"></i> Accommodations</small>
+                    <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleAccommMarkerIcon" class="fas fa-map-marker-alt"></i> Accommodations</small>
                   </div>
+
                   <div class="col-1 ml-5">
-                    <a href="#" class="small" data-value="option1" tabIndex="-1">
+                    <a href="#" class="small" data-value="option3" tabIndex="-1">
                       <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider round"></span>
+                        <input id="accommMarkerSwitch" type="checkbox">
+                        <span id="toggleAccommMarkers" class="markers-hidden slider round"></span>
                       </label>
                     </a>
                   </div>
+
                 </div>
 
               </div>
@@ -241,12 +239,6 @@
           </div><!-- //MAP KEY DROPDOWN -->
 
         </div><!-- //MAP MENU -->
-
-        <div id="floating-marker-buttons" class="d-none">
-          <button id="toggleSurfSpotMarkers" class="toggle-button markers-showing"><i id="toggleSurfSpotMarkerIcon" class="fas fa-map-marker-alt"></i>     Surf Spots</button>
-          <button id="toggleLessonMarkers" class="toggle-button markers-hidden"><i id="toggleLessonMarkerIcon" class="fas fa-times"></i>    Lessons</button>
-          <button id="toggleAccommMarkers" class="toggle-button markers-hidden"><i id="toggleAccommMarkerIcon" class="fas fa-times"></i>     Accommodations</button>
-        </div>
 
         <div id="floating-search-toggle" class="map-search-on py-1 d-none d-md-block">
           <input type="checkbox" value="" id="search-as-you-move-map-checkbox" checked>
