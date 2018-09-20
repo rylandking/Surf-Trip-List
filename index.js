@@ -644,7 +644,7 @@ function mapFilterOnOffState() {
       $(".map-filter-arrow").children('.fas-map-filters').toggleClass('fa-chevron-up fa-sliders-h');
   });
 
-  //Toggle the map filter fontawesome icon on click of body after opening dropdown
+  //Toggle the map filter fontawesome icon on click of body after opening filter map dropdown
   $(document).click(function(event) {
     if($('.fa-chevron-up').is(":visible")) {
         $('#map-filters-icon').removeClass('fa-chevron-up');
@@ -657,12 +657,12 @@ mapFilterOnOffState();
 
 //Toggle the map key dropdown icon state
 function mapKeyOnOffState() {
-  //Toggle the map key fontawesome icon on click of "Filter map"
+  //Toggle the map key fontawesome icon on click of "Map key"
   $(".map-key-dropdown-toggle").click(function () {
       $(".map-key-arrow").children('.fas-map-key').toggleClass('fa-chevron-up fa-map-marked-alt');
   });
 
-  //Toggle the map filter fontawesome icon on click of body after opening dropdown
+  //Toggle the map filter fontawesome icon on click of body after opening map key dropdown
   $(document).click(function(event) {
     if($('.fa-chevron-up').is(":visible")) {
         $('#map-key-icon').removeClass('fa-chevron-up');
@@ -980,6 +980,8 @@ function addSurfSpotMarker(props, map) {
 
     //Set surfSpotMarkerClick to true so 'idle' listener doesn't run addSurfSpotMarkersWrapper when infowindow pans map
     surfSpotMarkerClick = true;
+
+    console.log(surfSpotMarkerClick);
 
     //Open & close the surfSpotMarker infowindow
     infowindow.setContent(this.html);
@@ -1508,12 +1510,12 @@ function buildSurfSpotCoverPhoto(ssProps) {
   //Set onePhotoOfSurfSpot to 'true' because this is the first photo to be added to a surf spot card
   onePhotoOfSurfSpot = true;
 
-  //Wait .3 seconds to allow 'idle' listener to run while 'surfSpotMarkerClick = true' so it doesn't refresh everything on the map.
+  //Wait 1 seconds to allow 'idle' listener to run while 'surfSpotMarkerClick = true' so it doesn't refresh everything on the map.
   setTimeout(function() {
     //Return surfSpotMarkerClick to false to allow accomms to render on map and in list
     surfSpotMarkerClick = false;
     surfSpotMarkerClickForIW = false;
-  }, 300);
+  }, 1000);
 }
 
 
