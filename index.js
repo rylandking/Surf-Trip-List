@@ -2422,7 +2422,7 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
       accommMarker.html = `
        <div class="accommInfoWindow">
          <a class="cursor" data-toggle="modal" data-target="#${accommID}">
-           <img class="accomm-infowindow-photo mb-2" src="${accommPhoto}"></img>
+           <img id="iwPhoto" class="accomm-infowindow-photo mb-2" src="${accommPhoto}"></img>
 
            <div class="surf-spot-iw-description ml-2 mb-2">
              <span class="text-muted card-preheader-text font-weight-bold mb-2">${accommType} • ${bedAmount} ${bedWord}</span>
