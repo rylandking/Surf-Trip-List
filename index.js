@@ -115,6 +115,7 @@ let surfSpotMarkerClickForIW = false;
 let surfSpotMarkerID;
 let lessonInfowindow;
 let accommInfowindow;
+let pageLoad = true;
 
 
 
@@ -967,8 +968,6 @@ function addSurfSpotMarker(props, map) {
 
     //Set surfSpotMarkerClick to true so 'idle' listener doesn't run addSurfSpotMarkersWrapper when infowindow pans map
     surfSpotMarkerClick = true;
-
-    console.log(surfSpotMarkerClick);
 
     //Open & close the surfSpotMarker infowindow
     infowindow.setContent(this.html);
@@ -1873,58 +1872,80 @@ function initMap() {
     });//END -- autocomplete listener
   }//END -- searchInput conditional
 
-  //TO DO #1: CHANGE LISTENER TO USE 'dragend' AND 'zoom_changed' INSTEAD OF 'idle' -- This takes care of markers on map movement: https://stackoverflow.com/questions/8810979/updating-maps-v3-with-idle-listener-opening-infowwindow-triggers-this-and-hid
-  //TO DO #2: MODIFY SYNTAX SO ALL THE MARKERS ARE CREATED WITHIN INITMAP() -- This takes care of markers and cards on page load. :https://stackoverflow.com/questions/37140901/how-can-i-resolve-uncaught-referenceerror-google-is-not-defined-google-maps
-  //UPDATE MAP AS MAP STOPS MOVING AFTER BOUNDS CHANGE
+  //Listen for 'idle' on map
   google.maps.event.addListener(map, 'idle', function() {
-    //Clear array & card list
-    latArray = [];
-    lngArray = [];
+    //If it's the first pageLoad run refreshMapAndList()
+    if (pageLoad == true) {
+      //Run refreshMapAndList
+      refreshMapAndList();
+      //Reset pageLoad back to false so that 'idle' never triggers refreshMapAndList() again
+      pageLoad = false;
+    }
+  });
 
-    //Get SW and NE bounds (for lessons callback)
-    neBounds = map.getBounds().getNorthEast();
-    swBounds = map.getBounds().getSouthWest();
+  //Listen for 'dragend' on map
+  google.maps.event.addListener(map, 'dragend', function() {
+    //Run refreshMapAndList()
+    refreshMapAndList();
+  });
 
-    //Get lat of NE and SW corners of map at current state
-    neLat = map.getBounds().getNorthEast().lat();
-    swLat = map.getBounds().getSouthWest().lat();
-    neLng = map.getBounds().getNorthEast().lng();
-    swLng = map.getBounds().getSouthWest().lng();
-
-    //Push lats and lngs into arrays
-    latArray.push(neLat, swLat);
-    lngArray.push(neLng, swLng);
-
-    //Find the largest and smallest lat and lng (for Firestore queries)
-    greaterLat = latArray.sort()[latArray.length - 1];
-    smallerLat = latArray.sort()[latArray.length - 2];
-    greaterLng = lngArray.sort()[lngArray.length - 2];
-    smallerLng = lngArray.sort()[lngArray.length - 1];
-
-    //Hide the "Nothing here" buttons on the mobile map on after 'idle' listener fires
-    $("#no-surf-spots-here-button").hide();
-    $("#no-lessons-here-button").hide();
-    $("#no-accomms-here-button").hide();
-
-    addSurfSpotMarkersWrapper();
-
-    addLessonMarkersWrapper();
-
-    addAccommMarkersWrapper();
-
-    hideAndShowCards();
-
-    //Return ____MarkerClick to false to allow add____Markers() to run on future map 'idle's
-    surfSpotMarkerClick = false;
-    lessonMarkerClick = false;
-    accommMarkerClick = false;
-
-  });//END -- UPDATE MAP ON 'idle'
+  //Listen for 'zoom_changed' on map
+  google.maps.event.addListener(map, 'zoom_changed', function() {
+    //Run refreshMapAndList()
+    refreshMapAndList();
+  });
 
   //Listener toggles on/off a checkbox that controls the ability to add markers to map
   searchAsIMoveMapToggle();
 
 }//END -- initMap() FUNCTION
+
+
+
+function refreshMapAndList() {
+  //Clear array & card list
+  latArray = [];
+  lngArray = [];
+
+  //Get SW and NE bounds (for lessons callback)
+  neBounds = map.getBounds().getNorthEast();
+  swBounds = map.getBounds().getSouthWest();
+
+  //Get lat of NE and SW corners of map at current state
+  neLat = map.getBounds().getNorthEast().lat();
+  swLat = map.getBounds().getSouthWest().lat();
+  neLng = map.getBounds().getNorthEast().lng();
+  swLng = map.getBounds().getSouthWest().lng();
+
+  //Push lats and lngs into arrays
+  latArray.push(neLat, swLat);
+  lngArray.push(neLng, swLng);
+
+  //Find the largest and smallest lat and lng (for Firestore queries)
+  greaterLat = latArray.sort()[latArray.length - 1];
+  smallerLat = latArray.sort()[latArray.length - 2];
+  greaterLng = lngArray.sort()[lngArray.length - 2];
+  smallerLng = lngArray.sort()[lngArray.length - 1];
+
+  //Hide the "Nothing here" buttons on the mobile map on after 'idle' listener fires
+  $("#no-surf-spots-here-button").hide();
+  $("#no-lessons-here-button").hide();
+  $("#no-accomms-here-button").hide();
+
+  addSurfSpotMarkersWrapper();
+
+  addLessonMarkersWrapper();
+
+  addAccommMarkersWrapper();
+
+  hideAndShowCards();
+
+  //Return ____MarkerClick to false to allow add____Markers() to run on future map 'idle's
+  surfSpotMarkerClick = false;
+  lessonMarkerClick = false;
+  accommMarkerClick = false;
+}
+
 
 
 //Runs through all the conditionals before add
