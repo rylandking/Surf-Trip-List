@@ -627,6 +627,7 @@ showMapMobile();
 showListMobile();
 
 
+//Prevent filter map and map key dropdowns from closing on a click anywhere
 function preventMapFilterDropdownFromClosingOnClick() {
   $('.dropdown-menu input, .dropdown-menu label').click(function(e) {
       e.stopPropagation();
@@ -636,12 +637,42 @@ function preventMapFilterDropdownFromClosingOnClick() {
 preventMapFilterDropdownFromClosingOnClick()
 
 
-function mapFilterArrowUpDown() {
-  $(".dropdown-toggle").click(function () {
-      $(".map-filter-arrow").children('.fas').toggleClass('fa-chevron-up fa-chevron-down');
+//Toggle the map filter dropdown icon state
+function mapFilterOnOffState() {
+  //Toggle the map filter fontawesome icon on click of "Filter map"
+  $(".map-filters-dropdown-toggle").click(function () {
+      $(".map-filter-arrow").children('.fas-map-filters').toggleClass('fa-chevron-up fa-sliders-h');
+  });
+
+  //Toggle the map filter fontawesome icon on click of body after opening dropdown
+  $(document).click(function(event) {
+    if($('.fa-chevron-up').is(":visible")) {
+        $('#map-filters-icon').removeClass('fa-chevron-up');
+        $('#map-filters-icon').addClass('fa-sliders-h');
+    }
   });
 }
-mapFilterArrowUpDown();
+
+mapFilterOnOffState();
+
+//Toggle the map key dropdown icon state
+function mapKeyOnOffState() {
+  //Toggle the map key fontawesome icon on click of "Filter map"
+  $(".map-key-dropdown-toggle").click(function () {
+      $(".map-key-arrow").children('.fas-map-key').toggleClass('fa-chevron-up fa-map-marked-alt');
+  });
+
+  //Toggle the map filter fontawesome icon on click of body after opening dropdown
+  $(document).click(function(event) {
+    if($('.fa-chevron-up').is(":visible")) {
+        $('#map-key-icon').removeClass('fa-chevron-up');
+        $('#map-key-icon').addClass('fa-map-marked-alt');
+    }
+  });
+}
+
+mapKeyOnOffState();
+
 
 
 ////SET MARKER IMG URLS
@@ -1777,9 +1808,9 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
       center: mapCenter,
       zoom: zoom,
-      zoomControl: false,
+      zoomControl: true,
       zoomControlOptions: {
-          position: google.maps.ControlPosition.RIGHT_BOTTOM
+          position: google.maps.ControlPosition.LEFT_TOP,
       },
       mapTypeControl: false,
       fullscreenControl: false,

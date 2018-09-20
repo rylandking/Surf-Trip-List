@@ -148,65 +148,97 @@
       <div id="map-wrapper" class="col-md-8 d-md-block">
 
         <!-- MAP MENU -->
-        <div id="map-filter-menu" class="mb-2">
+        <div id="map-filter-menu" class="row mb-2">
 
-          <!-- MAP MENU DROPDOWN -->
-          <a href="#" class="dropdown-toggle inherit-link" data-toggle="dropdown"  aria-expanded="false">
-            <small id="filter-map-text" class="font-weight-bold text-muted">
-              <span class="map-filter-arrow"><i class="fas fa-chevron-down"></i></span>
+          <!-- FILTER MAP DROPDOWN -->
+          <div class="dropdown">
+            <a href="#" class="map-filters-dropdown-toggle dropdown-toggle inherit-link" data-toggle="dropdown" aria-expanded="false">
+              <small id="filter-map-text" class="font-weight-bold text-muted">
+                <span class="map-filter-arrow"><i id="map-filters-icon" class="fas-map-filters fas fa-sliders-h"></i></span>
                 Filter map
               </small>
-          </a>
+            </a>
 
-          <ul class="dropdown-menu">
-            <div id="dropdown-wrapper" class="container">
+            <ul class="dropdown-menu">
+              <div id="dropdown-wrapper" class="container">
 
-              <div class="row">
-                <div class="col-3 mt-1 mr-3">
-                  <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleSurfSpotMarkerIcon" class="fas fa-map-marker-alt"></i> Surf Spots</small>
+                <div class="row">
+                  <div class="col-3 mt-1 mr-3">
+                    <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleSurfSpotMarkerIcon" class="fas fa-map-marker-alt"></i> Surf Spots</small>
+                  </div>
+                  <div class="col-1 ml-5">
+                    <a href="#" class="small" data-value="option1" tabIndex="-1">
+                      <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                      </label>
+                    </a>
+                  </div>
                 </div>
-                <div class="col-1 ml-5">
-                  <a href="#" class="small" data-value="option1" tabIndex="-1">
-                    <label class="switch">
-                      <input type="checkbox">
-                      <span class="slider round"></span>
-                    </label>
-                  </a>
+                <hr class="p-0 m-0">
+
+                <div class="row mt-2">
+                  <div class="col-3 mt-1 mr-3">
+                    <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleLessonsMarkerIcon" class="fas fa-map-marker-alt"></i> Lessons</small>
+                  </div>
+                  <div class="col-1 ml-5">
+                    <a href="#" class="small" data-value="option1" tabIndex="-1">
+                      <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                      </label>
+                    </a>
+                  </div>
                 </div>
+                <hr class="p-0 m-0">
+
+                <div class="row mt-2">
+                  <div class="col-3 mt-1 mr-3">
+                    <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleAccommsMarkerIcon" class="fas fa-map-marker-alt"></i> Accommodations</small>
+                  </div>
+                  <div class="col-1 ml-5">
+                    <a href="#" class="small" data-value="option1" tabIndex="-1">
+                      <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                      </label>
+                    </a>
+                  </div>
+                </div>
+
               </div>
-              <hr class="p-0 m-0">
+            </ul>
+          </div><!-- //FILTER MAP DROPDOWN -->
 
-              <div class="row mt-2">
-                <div class="col-3 mt-1 mr-3">
-                  <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleLessonsMarkerIcon" class="fas fa-map-marker-alt"></i> Lessons</small>
+          <!-- MAP KEY DROPDOWN -->
+          <div class="dropdown col-4">
+            <a href="#" class="map-key-dropdown-toggle dropdown-toggle inherit-link" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <small id="map-key-text" class="font-weight-bold text-muted ml-2">
+                <span class="map-key-arrow"><i id="map-key-icon" class="fas-map-key fas fa-map-marked-alt"></i></span>
+                Map key
+              </small>
+            </a>
+
+            <ul class="dropdown-menu key-dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <div id="dropdown-wrapper" class="container">
+
+                <div class="row map-key-dropdown">
+                  <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fbeginner.png?alt=media&token=062d4ec7-19cb-4232-b035-455a1cff86ac" alt="beginner-marker"> Beginner wave</span>
+                  <br>
+                  <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fintermediate.png?alt=media&token=a59c89f8-18d1-4183-8ca8-55f6ae5e26e8" alt="intermediate-marker"> Intermediate wave</span>
+                  <br>
+                  <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fadvanced.png?alt=media&token=e921c849-e5c5-48df-8269-50d45b32b33a" alt="advanced-marker"> Advanced wave</span>
+                  <br>
+                  <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fexpert.png?alt=media&token=fe0030f6-d7a9-49f0-8cce-81f6afec35a6" alt="expert-marker"> Expert wave</span>
+                  <br>
+                  <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fsurf-lessons.png?alt=media&token=5505ee2f-be62-4d32-80b9-d657e89a8c6a" alt="surf-school-marker"> Surf school</span>
+                  <br>
+                  <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/accomm-markers%2F10.png?alt=media&token=9ad1ffc3-b413-43ee-8cd4-d768c0d5fd1a" alt="accommodation-marker"> Accommodation</span>
                 </div>
-                <div class="col-1 ml-5">
-                  <a href="#" class="small" data-value="option1" tabIndex="-1">
-                    <label class="switch">
-                      <input type="checkbox">
-                      <span class="slider round"></span>
-                    </label>
-                  </a>
-                </div>
+
               </div>
-              <hr class="p-0 m-0">
-
-              <div class="row mt-2">
-                <div class="col-3 mt-1 mr-3">
-                  <small class="map-dropdown-text font-weight-bold text-nowrap align-middle"><i id="toggleAccommsMarkerIcon" class="fas fa-map-marker-alt"></i> Accommodations</small>
-                </div>
-                <div class="col-1 ml-5">
-                  <a href="#" class="small" data-value="option1" tabIndex="-1">
-                    <label class="switch">
-                      <input type="checkbox">
-                      <span class="slider round"></span>
-                    </label>
-                  </a>
-                </div>
-              </div>
-
-            </div>
-          </ul><!-- //MAP MENU DROPDOWN -->
+            </ul>
+          </div><!-- //MAP KEY DROPDOWN -->
 
         </div><!-- //MAP MENU -->
 
@@ -216,25 +248,11 @@
           <button id="toggleAccommMarkers" class="toggle-button markers-hidden"><i id="toggleAccommMarkerIcon" class="fas fa-times"></i>     Accommodations</button>
         </div>
 
-        <div id="floating-search-toggle" class="map-search-on">
+        <div id="floating-search-toggle" class="map-search-on py-1 d-none d-md-block">
           <input type="checkbox" value="" id="search-as-you-move-map-checkbox" checked>
           <label class="form-check-label" for="search-as-you-move-map-checkbox" id="search-as-you-move-map-label">
             <p>Search as I move the map</p>
           </label>
-        </div>
-
-        <div id="floating-key">
-          <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fbeginner.png?alt=media&token=062d4ec7-19cb-4232-b035-455a1cff86ac" alt="beginner-marker"> - Beginner wave</span>
-          <br>
-          <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fintermediate.png?alt=media&token=a59c89f8-18d1-4183-8ca8-55f6ae5e26e8" alt="intermediate-marker"> - Intermediate wave</span>
-          <br>
-          <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fadvanced.png?alt=media&token=e921c849-e5c5-48df-8269-50d45b32b33a" alt="advanced-marker"> - Advanced wave</span>
-          <br>
-          <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fexpert.png?alt=media&token=fe0030f6-d7a9-49f0-8cce-81f6afec35a6" alt="expert-marker"> - Expert wave</span>
-          <br>
-          <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fsurf-lessons.png?alt=media&token=5505ee2f-be62-4d32-80b9-d657e89a8c6a" alt="surf-school-marker"> - Surf school</span>
-          <br>
-          <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/accomm-markers%2F10.png?alt=media&token=9ad1ffc3-b413-43ee-8cd4-d768c0d5fd1a" alt="accommodation-marker"> - Accommodation</span>
         </div>
 
         <div id="map"></div>

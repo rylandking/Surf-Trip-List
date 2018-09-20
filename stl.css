@@ -253,9 +253,9 @@ input:focus:-ms-input-placeholder {
 #map {
   width:auto;
   /* Adjusts the height of the mobile map to full height of screen */
-  height: -o-calc(100vh - 105px); /* opera */
-  height: -webkit-calc(100vh - 105px); /* google, safari */
-  height: -moz-calc(100vh - 105px); /* firefox */
+  height: -o-calc(100vh - 100px); /* opera */
+  height: -webkit-calc(100vh - 100px); /* google, safari */
+  height: -moz-calc(100vh - 100px); /* firefox */
 }
 
 @media only screen and (max-width: 600px) {
@@ -263,9 +263,9 @@ input:focus:-ms-input-placeholder {
     width:auto;
     /* height:90vh; */
     /* Adjusts the height of the mobile map to full height of screen */
-    height: -o-calc(100% - 65px); /* opera */
-    height: -webkit-calc(100% - 65px); /* google, safari */
-    height: -moz-calc(100% - 65px); /* firefox */
+    height: -o-calc(100% - 100px); /* opera */
+    height: -webkit-calc(100% - 100px); /* google, safari */
+    height: -moz-calc(100% - 100px); /* firefox */
   }
 }
 
@@ -281,6 +281,14 @@ input:focus:-ms-input-placeholder {
 .iwSkillIcon {
   height:22px;
   width:22px;
+}
+
+.map-key-dropdown {
+  z-index: 6;
+  font-size: 11px;
+  font-weight: bold;
+  /* color: #708090; */
+  margin-left: .1rem;
 }
 
 #floating-key {
@@ -308,14 +316,15 @@ input:focus:-ms-input-placeholder {
 }
 
 .marker-key {
-  height: 14px;
-  width: 14px;
+  height: 20px;
+  width: 20px;
+  margin-top: .25rem;
 }
 
 #floating-search-toggle {
   position: absolute;
-  top: 50px;
-  left: 25px;
+  top: 35px;
+  left: 50px;
   z-index: 5;
   background-color: #fff;
   padding: 5px;
@@ -328,6 +337,8 @@ input:focus:-ms-input-placeholder {
   height: 20px;
   width: auto;
 }
+
+
 
 #floating-marker-buttons {
   position: absolute;
@@ -1081,4 +1092,29 @@ input:checked + .slider:before {
 .dropdown-menu {
   width: 200px !important;
   height: auto !important;
+}
+
+.key-dropdown-menu {
+  width: 160px !important;
+  height: auto !important;
+}
+
+/* @media only screen and (max-width: 600px) { */
+  #map-filter-menu {
+    margin-left: .25rem;
+  }
+/* } */
+
+@media only screen and (max-width: 600px) {
+  #map-filter-menu {
+    margin-left: 1rem;
+  }
+}
+
+/* Changes size of google maps zoomControl */
+.gmnoprint, .gm-fullscreen-control {
+  zoom: 0.75;
+  .gmnoprint {
+    zoom: 1;
+  }
 }
