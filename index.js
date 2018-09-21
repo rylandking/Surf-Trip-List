@@ -1895,17 +1895,33 @@ function initMap() {
 
   //Listen for 'dragend' on map
   google.maps.event.addListener(map, 'dragend', function() {
+    //If infowindow is not open, then allow refreshMapAndList() to run
     if (infoWindowOpen == false) {
       //Run refreshMapAndList()
       refreshMapAndList();
+      //If redo search button is showing, hide it
+      $("#redo-search-button").hide();
+    }
+
+    //If infoWindowOpen == 'true' and 'dragend' occurred show Redo Search Button. People can click it and refresh the map and list. See redoSearchHere()
+    if(infoWindowOpen == true) {
+      $("#redo-search-button").show();
     }
   });
 
   //Listen for 'zoom_changed' on map
   google.maps.event.addListener(map, 'zoom_changed', function() {
+    //If infowindow is not open, then allow refreshMapAndList() to run
     if (infoWindowOpen == false) {
       //Run refreshMapAndList()
       refreshMapAndList();
+      //If redo search button is showing, hide it
+      $("#redo-search-button").hide();
+    }
+
+    //If infoWindowOpen == 'true' and 'zoom_changed' occurred show Redo Search Button. People can click it and refresh the map and list. See redoSearchHere()
+    if(infoWindowOpen == true) {
+      $("#redo-search-button").show();
     }
   });
 
@@ -2040,6 +2056,17 @@ function searchAsIMoveMapToggle() {
     }
   });
 }
+
+//Click listner for the redo search button that sets infoWindowOpen back to 'false', runs refreshMapAndList() and then hides the button
+function redoSearchHere() {
+  $("#redo-search-button").click(function() {
+    infoWindowOpen = false;
+    refreshMapAndList();
+    $("#redo-search-button").hide();
+  });
+}
+
+redoSearchHere();
 
 
 
