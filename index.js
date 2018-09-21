@@ -1077,7 +1077,11 @@ function buildSurfSpotInfoWindow() {
           </a>
         </div>
 
+      </a>
+
         <!-- SURF SPOT INFOWINDOW DESCRIPTORS -->
+        <a class="cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
+
         <div class="surf-spot-iw-description ml-2 mb-2">
           <small class="text-muted card-preheader-text font-weight-bold">${waveDir} ${waveType}</small>
           <h6 class="card-title card-title-text font-weight-bold mb-1">${spotName}</h6>
@@ -1216,10 +1220,10 @@ function buildSurfSpotCard(ssProps) {
   //Build the surf spot cards into the list section
   $("#spot-cards").prepend(`
     <!-- SURF SPOT CARD -->
-    <a class="inherit-link surf-spot-modal-trigger" data-toggle="modal" data-target="#${ssProps.surfSpotID}-modal">
-      <div class="card photo-card surf-spot-card illuminate-hover" data-id="${ssProps.surfSpotID}">
+    <div class="card photo-card surf-spot-card illuminate-hover" data-id="${ssProps.surfSpotID}">
 
-        <!-- SURF SPOT CARD IMAGE CAROUSEL -->
+      <!-- SURF SPOT CARD IMAGE CAROUSEL -->
+      <a class="inherit-link surf-spot-modal-trigger" data-toggle="modal" data-target="#${ssProps.surfSpotID}-modal">
         <div id="${ssProps.surfSpotID}" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location="${ssProps.surfSpotID}">
 
           <!-- SURF SPOT CARD CAROUSEL DOTS -->
@@ -1239,18 +1243,20 @@ function buildSurfSpotCard(ssProps) {
             <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
             <span class="sr-only">Next</span>
           </a>
-
         </div>
+      </a>
 
-        <!-- SURF SPOT CARD DESCRIPTORS -->
+      <!-- SURF SPOT CARD DESCRIPTORS -->
+      <a class="inherit-link surf-spot-modal-trigger" data-toggle="modal" data-target="#${ssProps.surfSpotID}-modal">
         <div class="card-body mx-0 p-0 pt-2">
           <small class="text-muted card-preheader-text font-weight-bold">${ssProps.waveDir} ${ssProps.waveType}</small>
           <h5 class="card-title card-title-text font-weight-bold">${ssProps.spotName}</h5>
           <span class="badge card-badge ${ssProps.badge} text-uppercase mb-1">${ssProps.skill}</span>
           <p class="card-note">${ssProps.note}</p>
         </div>
-      </div>
-    </a>
+      </a>
+
+    </div>
   `);
 
   //Build the surf spot cards into the list section
@@ -1452,13 +1458,12 @@ function buildSurfSpotCoverPhoto(ssProps) {
         <div class="carousel-item active">
           <img id="iwPhoto" class="d-block surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}" alt="${surfSpotMarkerID}">
           <small class="iw-photo-credit font-weight-bold">
-            <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
               <p class="m-0">${surferAttribution}</p>
-            </a>
-            <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
               <p>P: ${attribution}</p>
-            </a>
           </small>
+          <a class="cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
+            <i class="fas fa-search-location iw-details-indicator"></i>
+          </a>
         </div>
     `);
   //If a surfSpotMarker was NOT clicked ('surfSpotMarkerClick == false'), build the galleries into the cards and their modals
@@ -1541,13 +1546,12 @@ function addSurfSpotPhotosToCards(ssProps) {
           <div class="carousel-item">
             <img id="iwPhoto" class="d-block surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}" alt="${surfSpotMarkerID}">
             <small class="iw-photo-credit font-weight-bold">
-              <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
-                <p class="m-0">${surferAttribution}</p>
-              </a>
-              <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
-                <p>P: ${attribution}</p>
-              </a>
+              <p class="m-0">${surferAttribution}</p>
+              <p>P: ${attribution}</p>
             </small>
+            <a class="cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
+              <i class="fas fa-search-location iw-details-indicator"></i>
+            </a>
           </div>
       `);
     //If a surfSpotMarker was NOT clicked ('surfSpotMarkerClick == false'), build the galleries into the cards and their modals
@@ -2183,7 +2187,7 @@ function lessonsDetailsCallback(placeDetails, status) {
                 <img id='iwPhoto' class="mb-2" src="${placeDetails.photos[0].getUrl()}" alt="${placeDetails.name}"><br>
 
                 <div class="surf-spot-iw-description ml-2 mb-2">
-                  <small class="text-muted card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${placeDetails.rating} of 5 (${placeDetails.reviews.length} reviews)</small>
+                  <small class="text-muted card-preheader-text font-weight-bold"><i class="fas fa-heart"></i> ${placeDetails.rating} of 5 (${placeDetails.reviews.length}+ reviews)</small>
                   <h6 class="mb-1">${placeDetails.name}</h6>
                   <p class="iw-note">${note}</p>
                 </div>

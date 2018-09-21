@@ -705,7 +705,6 @@ p.card-hover-overlay {
 
 .carousel-control-next {
  opacity: 1 !important;
- padding-top: 20px;
  margin-bottom: 20px;
 }
 
@@ -740,6 +739,15 @@ p.card-hover-overlay {
   bottom: -10px !important;
   right: 5px;
   text-align: right;
+}
+
+.iw-details-indicator {
+  font-size: 24px;
+  color: white;
+  z-index: 10;
+  position: absolute;
+  top: 10px !important;
+  right: 10px;
 }
 
 .dark-green-bg {
@@ -861,13 +869,15 @@ p.card-hover-overlay {
 
 .carousel-control-next-iw {
   left: 180px !important;
+  margin-top: 40px;
+  margin-bottom: 25px !important;
 }
 
 /* Controls carousel slide transition speed */
 .carousel-inner .carousel-item {
-  transition: -webkit-transform .35s ease;
-  transition: transform .35s ease;
-  transition: transform .35s ease, -webkit-transform .35s ease;
+  transition: -webkit-transform .15s ease;
+  transition: transform .15s ease;
+  transition: transform .15s ease, -webkit-transform .15s ease;
 }
 
 
