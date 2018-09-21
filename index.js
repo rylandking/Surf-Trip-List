@@ -116,6 +116,7 @@ let surfSpotMarkerID;
 let lessonInfowindow;
 let accommInfowindow;
 let pageLoad = true;
+let infoWindowOpen = false;
 
 
 
@@ -966,8 +967,11 @@ function addSurfSpotMarker(props, map) {
     //Set surfSpotMarkerClickForIW to true so clicking on surf spot marker doesn't render prepended html to cards and modals
     surfSpotMarkerClickForIW = true;
 
-    //Set surfSpotMarkerClick to true so 'idle' listener doesn't run addSurfSpotMarkersWrapper when infowindow pans map
+    //Set surfSpotMarkerClick to true so 'dragend' or 'zoom_changed' listener doesn't run addSurfSpotMarkersWrapper when infowindow pans map
     surfSpotMarkerClick = true;
+
+    //Set infoWindowOpen to true so 'dragend' or 'zoom_changed' listener doesn't fire until infowindow is closed.
+    infoWindowOpen = true;
 
     //Open & close the surfSpotMarker infowindow
     infowindow.setContent(this.html);
@@ -987,6 +991,8 @@ function addSurfSpotMarker(props, map) {
   //Close all infowindows on map click
   google.maps.event.addListener(map, "click", function(event) {
     infowindow.close();
+    //Set infoWindowOpen to false so 'dragend' or 'zoom_changed listener can fire refresh
+    infoWindowOpen = false;
   });
 
   //useCustomPhotos set to false as default value for first surfSpotID passed through areCustomSurfSpotPhotosAvailable. Explained: (https://www.davidbcalhoun.com/2009/ways-of-passing-data-to-functions-in-javascript/)
@@ -1885,14 +1891,18 @@ function initMap() {
 
   //Listen for 'dragend' on map
   google.maps.event.addListener(map, 'dragend', function() {
-    //Run refreshMapAndList()
-    refreshMapAndList();
+    if (infoWindowOpen == false) {
+      //Run refreshMapAndList()
+      refreshMapAndList();
+    }
   });
 
   //Listen for 'zoom_changed' on map
   google.maps.event.addListener(map, 'zoom_changed', function() {
-    //Run refreshMapAndList()
-    refreshMapAndList();
+    if (infoWindowOpen == false) {
+      //Run refreshMapAndList()
+      refreshMapAndList();
+    }
   });
 
   //Listener toggles on/off a checkbox that controls the ability to add markers to map
@@ -2209,6 +2219,9 @@ function lessonsDetailsCallback(placeDetails, status) {
             lessonInfowindow.setContent(this.html);
             lessonInfowindow.open(map, this);
 
+            //Set infoWindowOpen to true so 'dragend' or 'zoom_changed' listener doesn't fire until infowindow is closed.
+            infoWindowOpen = true;
+
             //If surfSpotMarkers are on the map, close surf spot infowindow when lessonMarker is clicked
             if ($("#toggleSurfSpotMarkers").hasClass("markers-showing")) {
               infowindow.close();
@@ -2218,11 +2231,17 @@ function lessonsDetailsCallback(placeDetails, status) {
               accommInfowindow.close();
             }
 
+            //Return lessonMarkerClick to false so that each marker type's wrapper() can run
+            setTimeout(function() {
+              lessonMarkerClick = false;
+            }, 1000)
           });//END -- OPEN lessonMarker LISTENER
 
           //Close all infowindows on map click
           google.maps.event.addListener(map, "click", function(event) {
             lessonInfowindow.close();
+            //Set infoWindowOpen to false so 'dragend' or 'zoom_changed listener can fire refresh
+            infoWindowOpen = false;
           });
 
           trimNote();
@@ -2513,6 +2532,9 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
         accommInfowindow.setContent(this.html);
         accommInfowindow.open(map, this);
 
+        //Set infoWindowOpen to true so 'dragend' or 'zoom_changed' listener doesn't fire until infowindow is closed.
+        infoWindowOpen = true;
+
         //If surfSpotMarkers are on the map, close surf spot infowindow when accommMarker is clicked
         if ($("#toggleSurfSpotMarkers").hasClass("markers-showing")) {
           infowindow.close();
@@ -2526,7 +2548,9 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
 
       //Close all infowindows on map click
       google.maps.event.addListener(map, "click", function(event) {
-        accommInfowindow.close();
+        accommInfowindow.close()
+        //Set infoWindowOpen to false so 'dragend' or 'zoom_changed listener can fire refresh
+        infoWindowOpen = false;
       });
 
     });//END -- accommImage.getDownloadURL
