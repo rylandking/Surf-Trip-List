@@ -1239,7 +1239,7 @@ function buildSurfSpotCard(ssProps) {
             <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
             <span class="sr-only">Previous</span>
           </a>
-          <a class="carousel-control-next" href="#${ssProps.surfSpotID}" role="button" data-slide="next" data-next="${ssProps.surfSpotID}">
+          <a class="carousel-control-next carousel-control-next-card" href="#${ssProps.surfSpotID}" role="button" data-slide="next" data-next="${ssProps.surfSpotID}">
             <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
             <span class="sr-only">Next</span>
           </a>
@@ -1461,9 +1461,7 @@ function buildSurfSpotCoverPhoto(ssProps) {
               <p class="m-0">${surferAttribution}</p>
               <p>P: ${attribution}</p>
           </small>
-          <a class="cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
-            <i class="fas fa-search-location iw-details-indicator"></i>
-          </a>
+          <i class="fas fa-plus-square iw-details-indicator"></i>
         </div>
     `);
   //If a surfSpotMarker was NOT clicked ('surfSpotMarkerClick == false'), build the galleries into the cards and their modals
@@ -1549,9 +1547,7 @@ function addSurfSpotPhotosToCards(ssProps) {
               <p class="m-0">${surferAttribution}</p>
               <p>P: ${attribution}</p>
             </small>
-            <a class="cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
-              <i class="fas fa-search-location iw-details-indicator"></i>
-            </a>
+            <i class="fas fa-plus-square iw-details-indicator"></i>
           </div>
       `);
     //If a surfSpotMarker was NOT clicked ('surfSpotMarkerClick == false'), build the galleries into the cards and their modals

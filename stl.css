@@ -612,7 +612,7 @@ p.card-hover-overlay {
 }
 
 .surfSpotInfoWindow {
-  height:255px;
+  height:260px;
   width:220px;
 }
 
@@ -705,7 +705,11 @@ p.card-hover-overlay {
 
 .carousel-control-next {
  opacity: 1 !important;
- margin-bottom: 20px;
+}
+
+.carousel-control-next-card {
+  margin-bottom: 25px;
+  padding-top: 25px;
 }
 
 .card-photo-credit {
@@ -742,7 +746,7 @@ p.card-hover-overlay {
 }
 
 .iw-details-indicator {
-  font-size: 24px;
+  font-size: 20px;
   color: white;
   z-index: 10;
   position: absolute;
@@ -870,7 +874,7 @@ p.card-hover-overlay {
 .carousel-control-next-iw {
   left: 180px !important;
   margin-top: 40px;
-  margin-bottom: 25px !important;
+  margin-bottom: 40px !important;
 }
 
 /* Controls carousel slide transition speed */
