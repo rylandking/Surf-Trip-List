@@ -111,8 +111,7 @@
     </div>
   </div><!-- End of container-fluid -->
 
-
-    <!-- <img class="details-cover-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7" class="img-fluid" alt="Responsive image"> -->
+    <img class="details-cover-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7" class="img-fluid" alt="Responsive image">
 
     <div class="container surf-spot-page-wrapper">
       <div class="row">
@@ -164,7 +163,7 @@
 
                 <div class="row mt-3">
                   <div class="col-12">
-                    <small class="font-weight-bold">DISTANCE FROM AIRPORT</small>
+                    <small class="font-weight-bold text-capitalize distance-from-specific-airport"></small>
                     <small class="text-muted"><p class="mb-0 duration-from-airport"> </p></small>
                     <p class="text-muted subtext flights-link mb-0"> </p>
                   </div>
@@ -179,7 +178,7 @@
 
             <!-- When to go -->
             <div class="col-12">
-
+              <hr>
               <h6 class="font-weight-bold">Best time to go</h6>
               <div class="container">
                 <div class="row seasonality-chart">
@@ -191,14 +190,45 @@
 
             <!-- Map -->
             <div class="col-12">
-              <h6 class="font-weight-bold">The area</h6>
-              <div id="details-map" class="mb-3 border">
+              <hr>
+              <h6 class="font-weight-bold mb-3">The area</h6>
+
+              <div class="dropdown col-12 border-left border-top border-right py-1">
+                <a href="#" class="map-key-dropdown-toggle dropdown-toggle inherit-link bg-light" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <small id="map-key-text" class="font-weight-bold text-muted mb-1 mt-2">
+                    <span class="map-key-arrow"><i id="map-key-icon" class="fas-map-key fas fa-map-marked-alt"></i></span>
+                    Map key
+                  </small>
+                </a>
+
+                <ul class="dropdown-menu key-dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <div id="dropdown-wrapper" class="container">
+
+                    <div class="row map-key-dropdown">
+                      <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fbeginner.png?alt=media&token=062d4ec7-19cb-4232-b035-455a1cff86ac" alt="beginner-marker"> Beginner wave</span>
+                      <br>
+                      <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fintermediate.png?alt=media&token=a59c89f8-18d1-4183-8ca8-55f6ae5e26e8" alt="intermediate-marker"> Intermediate wave</span>
+                      <br>
+                      <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fadvanced.png?alt=media&token=e921c849-e5c5-48df-8269-50d45b32b33a" alt="advanced-marker"> Advanced wave</span>
+                      <br>
+                      <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fexpert.png?alt=media&token=fe0030f6-d7a9-49f0-8cce-81f6afec35a6" alt="expert-marker"> Expert wave</span>
+                      <br>
+                      <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Flocalism.png?alt=media&token=ab198844-a094-42af-8148-0107303ec34c" alt="localism-marker"> Localism</span>
+                      <br>
+                      <span><img class="marker-key" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fbeach.png?alt=media&token=64b32777-763e-4c9c-a7d5-de02489e75fa" alt="comfortable-beach-marker"> Comfortable Beach</span>
+                    </div>
+
+                  </div>
+                </ul>
+              </div><!-- //MAP KEY DROPDOWN -->
+              <div id="surf-spot-map" class="mb-3 border">
 
               </div>
             </div>
 
             <!-- Where to stay Mobile -->
             <div class="col-lg-8 d-block d-lg-none detail-accomms-mobile">
+              <hr>
               <h6 class="font-weight-bold">Where to stay</h6>
               <div class="row">
 
@@ -274,14 +304,12 @@
                     </div>
                   </div>
 
-                  <hr>
-
               </div>
             </div>
 
             <!-- Nearby -->
             <div class="col-12 pb-4">
-
+              <hr>
               <h6 class="font-weight-bold">Nearby</h6>
               <div class="row">
                 <!-- Nearby Card -->

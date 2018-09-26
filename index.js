@@ -10,6 +10,8 @@ const intermediateMarker = "https://firebasestorage.googleapis.com/v0/b/surf-tri
 const advancedMarker = "https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fadvanced.png?alt=media&token=8bf6550f-d482-4086-91c6-1d3460719e16";
 const expertMarker = "https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fexpert.png?alt=media&token=7bacc68e-8089-4192-8765-7eab996e71a4";
 const surfSchoolMarker = "https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fsurf-lessons.png?alt=media&token=5505ee2f-be62-4d32-80b9-d657e89a8c6a";
+const beachMarker = "https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Fbeach.png?alt=media&token=64b32777-763e-4c9c-a7d5-de02489e75fa";
+const localismMarker = "https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/markers%2Flocalism.png?alt=media&token=ab198844-a094-42af-8148-0107303ec34c";
 const favIcon = "https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/logos%2Ffavicon.ico?alt=media&token=07d2e7a4-9cc0-473e-87e9-005ed4fec5ad";
 const logoBlackTransparent = "https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/logos%2Flogo-black-transparent.png?alt=media&token=608b1e9e-d9c4-4ef9-969d-f28d08e11015";
 const logoRedTransparent = "https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/logos%2Flogo-red-transparent.png?alt=media&token=1f49b9e3-783d-4d9e-a82d-404fc81da74a";
@@ -164,6 +166,7 @@ let french;
 let portugese;
 let indonesian;
 let board;
+let airportName;
 
 
 
@@ -728,7 +731,6 @@ function setHighlightedSkillMarkers() {
     }
   }
 }
-
 
 
 ////HOVER OVER CARD, CHANGE THE SURF SPOT MARKER ON THE MAP
@@ -2654,6 +2656,7 @@ function buildSurfSpotPageHeader() {
       windDir = data.wind;
       board = data.board;
       airportCode = data.airportCode;
+      airportName = data.airportName;
       jan = data.jan;
       feb = data.feb;
       mar = data.mar;
@@ -2849,6 +2852,10 @@ function flightLink() {
   $(".flights-link").append(`
     <a class="inherit-link" href="https://www.google.com/flights/#search;f=;t=${airportCode}" target="_blank">Check flight cost</a>
   `);
+
+  $(".distance-from-specific-airport").append(`
+    Distance From ${airportName}
+  `);
 }
 
 
@@ -2980,6 +2987,7 @@ function initSurfPageMap() {
     data = doc.data();
     airportCoords = data.airportCoords;
     surfSpotCoords = data.surfspot;
+    zoom = data.zoom;
 
     //Init google maps distance matrix service
     var service = new google.maps.DistanceMatrixService;
@@ -3009,10 +3017,64 @@ function initSurfPageMap() {
         }
 
       }
-    });
+    });//End service.getDistanceMatrix
 
-  });
+    //If window is bigger than mobile (desktop), two fingers does NOT zoom map.
+    if ($(window).width() > 600) {
+      map = new google.maps.Map(document.getElementById('surf-spot-map'), {
+        center: surfSpotCoords,
+        zoom: zoom,
+        zoomControl: true,
+        zoomControlOptions: {
+            position: google.maps.ControlPosition.RIGHT_TOP,
+        },
+        mapTypeControl: false,
+        fullscreenControl: false,
+        streetViewControl: false,
+      });//END -- map OBJECT
+    //If window is mobile (less than 600px), show the prev hide controls on page load.
+    } else {
+      map = new google.maps.Map(document.getElementById('surf-spot-map'), {
+        center: surfSpotCoords,
+        zoom: zoom,
+        zoomControl: false,
+        mapTypeControl: false,
+        fullscreenControl: false,
+        streetViewControl: false,
+        gestureHandling: "greedy",
+      });//END -- map OBJECT
+    }
+
+  });//Firestore query
+
+  //Get the surf spot detail markers from the markers collection in Firestore to place them on the map
+  db.collection("markers").where("surfSpot", "==", surfSpotID).get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+        data = doc.data();
+        coords = data.coords;
+        iconImage = data.iconImage;
+
+        //Add surfSpotDetailMarkers to the surf spot map
+        surfSpotMarker = new google.maps.Marker({
+          position: coords,
+          map: map,
+          icon: {url: iconImage, scaledSize: new google.maps.Size(30, 30)},
+          id: surfSpotID,
+          skill: skill,
+          optimized: false,
+        });
+    });
+  })
+
 }
+
+
+
+
+
+
+
+
 
 
 

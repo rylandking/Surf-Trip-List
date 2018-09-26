@@ -272,8 +272,8 @@ input:focus:-ms-input-placeholder {
   position: relative;
 }
 
-#details-map {
-  height:250px;
+#surf-spot-map {
+  height:300px;
   width: 100%;
 }
 
@@ -725,7 +725,6 @@ p.card-hover-overlay {
 
 .highlights-container {
   border-radius: 4px;
-  width: 90%;
 }
 
 .card-note  {
