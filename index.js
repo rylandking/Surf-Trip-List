@@ -2721,7 +2721,15 @@ function buildSurfSpotPageHeader() {
 
     }).then(function() {
 
+      buildSurfSpotPagePhotos();
+
       surfSpotPageHeader();
+
+      buildModalPhotoCarousel();
+
+      surfReportLink();
+
+      directionsLink();
 
       primarySurfHighlights();
 
@@ -2742,6 +2750,160 @@ function buildSurfSpotPageHeader() {
 
 buildSurfSpotPageHeader();
 
+
+function buildSurfSpotPagePhotos() {
+  //Get the surf spot cover image from the surfSpotImages collection in Firestore
+  db.collection("surfSpotImages").where("surfSpot", "==", surfSpotID).where("coverImage", "==", true).get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+      data = doc.data();
+      image = data.image;
+      attribution = data.attribution;
+      attributionLink = data.attributionLink;
+      surferAttribution = data.surferAttribution;
+      surferAttributionLink = data.surferAttributionLink;
+
+      //Build the cover image
+      // $(".surf-spot-cover-image-wrapper").append(`
+      //   <img class="surf-spot-cover-image" src="${image}" class="img-fluid" alt="Responsive image">
+      // `);
+      // buildSurfSpotCoverPhoto();
+
+      $("#surf-spot-page-modal-wrapper").prepend(`
+         <div id="surf-spot-page-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+           <div class="modal-dialog modal-lg">
+             <div class="modal-content">
+               <div class="ml-auto">
+                 <button type="button" class="close mt-2 mr-3 d-block d-sm-none" data-dismiss="modal">&times;</button>
+               </div>
+               <div class="modal-body">
+
+               <div id="surfSpotCarouselIndicators" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location-modal="${surfSpotID}">
+
+                 <ol class="carousel-indicators">
+
+                 </ol>
+
+                 <div class="carousel-inner">
+
+                 </div>
+
+                 <a class="carousel-control-prev" href="#surfSpotCarouselIndicators" role="button" data-slide="prev" data-prev-modal="${surfSpotID}">
+                   <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
+                   <span class="sr-only">Previous</span>
+                 </a>
+                 <a class="carousel-control-next" href="#surfSpotCarouselIndicators" role="button" data-slide="next" data-next-modal="${surfSpotID}">
+                   <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
+                   <span class="sr-only">Next</span>
+                 </a>
+
+               </div>
+
+               </div>
+
+             </div>
+           </div>
+         </div>
+     `);
+
+     toggleCarouselControlsListner();
+
+     hideSurfSpotCarouselControls();
+
+     $(".carousel-indicators").append(`
+       <li data-target="#surfSpotCarouselIndicators" data-slide-to="0" class="active"></li>
+     `);
+
+     //If surferAttribution isn't available, show nothing
+     showOrHideSurferAttribution();
+
+     //Add carousel cover image
+     $(".carousel-inner").append(`
+       <div class="carousel-item active">
+         <img class="d-block modal-custom-image" src="${image}" alt="${surfSpotID}">
+         <small class="modal-photo-credit font-weight-bold">
+           <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+             <p class="m-0">${surferAttribution}</p>
+           </a>
+           <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+             <p>P: ${attribution}</p>
+           </a>
+         </small>
+       </div>
+     `);
+
+    });
+  }).then(function() {
+    //Get the surf spot cover image from the surfSpotImages collection in Firestore
+    db.collection("surfSpotImages").where("surfSpot", "==", surfSpotID).where("coverImage", "==", false).get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        data = doc.data();
+        image = data.image;
+        attribution = data.attribution;
+        attributionLink = data.attributionLink;
+        surferAttribution = data.surferAttribution;
+        surferAttributionLink = data.surferAttributionLink;
+
+        $(".carousel-indicators").append(`
+          <li data-target="#surfSpotCarouselIndicators" data-slide-to="${surfSpotSlideCount}" class="active"></li>
+        `);
+
+        //If surferAttribution isn't available, show nothing
+        showOrHideSurferAttribution();
+
+        //Add carousel cover image
+        $(".carousel-inner").append(`
+          <div class="carousel-item">
+            <img class="d-block modal-custom-image" src="${image}" alt="${surfSpotID}">
+            <small class="modal-photo-credit font-weight-bold">
+              <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+                <p class="m-0">${surferAttribution}</p>
+              </a>
+              <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+                <p>P: ${attribution}</p>
+              </a>
+            </small>
+          </div>
+        `);
+
+        surfSpotSlideCount++
+
+      });
+    });
+
+  });
+}
+
+
+//Builds the surf spot page cover image
+function buildSurfSpotCoverPhoto() {
+
+}
+
+function toggleCarouselControlsListner() {
+  //Show and hide MODAL prev and next controls on hover
+  $(document).on('mouseenter', '[data-photo-location-modal="' + surfSpotID + '"]', function(){
+    //Show prev and next arrows on surf spot photos in surf spot modal
+    showSurfSpotCarouselControls();
+  })
+  .on('mouseleave', '[data-photo-location-modal="' + surfSpotID + '"]', function(){
+    //Hides prev and next arrows on surf spot photos in surf spot modal
+    hideSurfSpotCarouselControls();
+  });
+}
+
+
+function hideSurfSpotCarouselControls() {
+  $('[data-prev-modal="' + surfSpotID + '"]').hide();
+  $('[data-next-modal="' + surfSpotID + '"]').hide();
+}
+
+
+function showSurfSpotCarouselControls() {
+  $('[data-prev-modal="' + surfSpotID + '"]').show();
+  $('[data-next-modal="' + surfSpotID + '"]').show();
+}
+
+
 function surfSpotPageHeader() {
   //Make badge say "expert only" for expert waves
   if (skill == "expert") {
@@ -2758,6 +2920,25 @@ function surfSpotPageHeader() {
 
   //Prepend quality star score to header
   $(".quality-stars").prepend(`${qualityStars}`);
+}
+
+
+function buildModalPhotoCarousel() {
+
+}
+
+
+function surfReportLink() {
+  $(".surf-report-link").append(`
+    <a class="inherit-link" href="${forecast}" target="_blank"><i class="fas fa-desktop"></i> Check surf report</a>
+  `);
+}
+
+
+function directionsLink() {
+  $(".directions-link").append(`
+    <a class="inherit-link" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank"><i class="fas fa-directions"></i>  Get directions</a>
+  `);
 }
 
 
@@ -2829,6 +3010,7 @@ function secondarySurfHighlights() {
   }
 }
 
+
 function nearbyHighlights() {
   //Secondary surf highlight tag
   $(".nearby-highlights").append(`
@@ -2850,7 +3032,7 @@ function nearbyHighlights() {
 
 function flightLink() {
   $(".flights-link").append(`
-    <a class="inherit-link" href="https://www.google.com/flights/#search;f=;t=${airportCode}" target="_blank">Check flight cost</a>
+    <a class="inherit-link" href="https://www.google.com/flights/#search;f=;t=${airportCode}" target="_blank"><i class="fas fa-plane"></i> Check flights</a>
   `);
 
   $(".distance-from-specific-airport").append(`
@@ -3023,7 +3205,7 @@ function initSurfPageMap() {
     if ($(window).width() > 600) {
       map = new google.maps.Map(document.getElementById('surf-spot-map'), {
         center: surfSpotCoords,
-        zoom: zoom,
+        zoom: 14,
         zoomControl: true,
         zoomControlOptions: {
             position: google.maps.ControlPosition.RIGHT_TOP,
@@ -3031,12 +3213,13 @@ function initSurfPageMap() {
         mapTypeControl: false,
         fullscreenControl: false,
         streetViewControl: false,
+        gestureHandling: "greedy",
       });//END -- map OBJECT
     //If window is mobile (less than 600px), show the prev hide controls on page load.
     } else {
       map = new google.maps.Map(document.getElementById('surf-spot-map'), {
         center: surfSpotCoords,
-        zoom: zoom,
+        zoom: 14,
         zoomControl: false,
         mapTypeControl: false,
         fullscreenControl: false,

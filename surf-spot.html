@@ -111,7 +111,9 @@
     </div>
   </div><!-- End of container-fluid -->
 
-    <img class="details-cover-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7" class="img-fluid" alt="Responsive image">
+    <div class="surf-spot-cover-image-wrapper">
+
+    </div>
 
     <div class="container surf-spot-page-wrapper">
       <div class="row">
@@ -126,6 +128,19 @@
               <span class="badge card-badge text-uppercase mb-2 surf-spot-page-badge"> </span><br>
               <small class="quality-stars mb-1"></small>
             </div><!-- //Overview -->
+
+            <!-- Overview Buttons -->
+            <div class="col-12 mt-3 mb-2 surf-spot-header-links dark-grey">
+              <a class="inherit-link surf-spot-modal-trigger cursor" data-toggle="modal" data-target="#surf-spot-page-modal">
+                <small class="mr-2 photos-modal-link"><i class="fas fa-image"></i> View photos</small>
+              </a>
+              <small class="mr-2 surf-report-link"> </small>
+              <small class="mr-2 directions-link"> </small>
+              <small class="mr-2 flights-link"> </small>
+            </div><!-- //Overview Buttons -->
+
+            <!-- Modal with Photo Carousel -->
+            <div id="surf-spot-page-modal-wrapper"> </div>
 
             <!-- Highlights -->
             <div class="col-12">
@@ -165,7 +180,7 @@
                   <div class="col-12">
                     <small class="font-weight-bold text-capitalize distance-from-specific-airport"></small>
                     <small class="text-muted"><p class="mb-0 duration-from-airport"> </p></small>
-                    <p class="text-muted subtext flights-link mb-0"> </p>
+                    <p class="text-muted subtext  mb-0"> </p>
                   </div>
                 </div>
               </div>
@@ -194,7 +209,7 @@
               <h6 class="font-weight-bold mb-3">The area</h6>
 
               <div class="dropdown col-12 border-left border-top border-right py-1">
-                <a href="#" class="map-key-dropdown-toggle dropdown-toggle inherit-link bg-light" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a href="#" class="map-key-dropdown-toggle dropdown-toggle inherit-link" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <small id="map-key-text" class="font-weight-bold text-muted mb-1 mt-2">
                     <span class="map-key-arrow"><i id="map-key-icon" class="fas-map-key fas fa-map-marked-alt"></i></span>
                     Map key

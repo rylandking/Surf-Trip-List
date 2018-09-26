@@ -551,7 +551,7 @@ p.card-hover-overlay {
 }
 
 .modal-custom-image {
-  height: 300px !important;
+  height: 500px !important;
   width: 100%;
   object-fit: cover;
   position: relative;
@@ -831,7 +831,7 @@ p.card-hover-overlay {
   background-color: #EC5D57;
 }
 
-.details-cover-image {
+.surf-spot-cover-image {
   width: 100vw;
   height: 50vh;
   object-fit: cover;
@@ -1245,4 +1245,8 @@ input:checked + .slider:before {
 
 .subtext {
   font-size: 10px;
+}
+
+.dark-grey {
+  color: #484848;
 }
