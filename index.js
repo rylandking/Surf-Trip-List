@@ -117,7 +117,53 @@ let lessonInfowindow;
 let accommInfowindow;
 let pageLoad = true;
 let infoWindowOpen = false;
-
+let swellDir;
+let quality;
+let qualityStars;
+let beachType;
+let swellPeriod;
+let windDir;
+let powerful;
+let ripCurrents;
+let shallow
+let longPaddle;
+let farFromShore;
+let competitive;
+let beginnerFriendly;
+let easyToGetWaves;
+let parkingNearby;
+let parkWalk;
+let parkHike;
+let parkLongHike;
+let boatAccess;
+let walkability;
+let nature;
+let views;
+let nightlife;
+let partyScene;
+let healthcareFarAway;
+let healthcareNearby
+let goodInternet;
+let badInternet
+let touristy
+let themePark;
+let pier;
+let culturalSights;
+let shopping;
+let theftCommon;
+let unsafeArea;
+let unsafeTapWater;
+let goodEats;
+let bars;
+let fastFood;
+let casualEats;
+let sitDownRestaurants
+let english
+let spanish;
+let french;
+let portugese;
+let indonesian;
+let board;
 
 
 
@@ -854,25 +900,10 @@ function addSurfSpotMarkers() {
         barrel = data.barrel;
         skill = data.skill;
         bottom = data.bottom;
-        jan = data.jan;
-        feb = data.feb;
-        mar = data.mar;
-        apr = data.apr;
-        may = data.may;
-        jun = data.jun;
-        jul = data.jul;
-        aug = data.aug;
-        sep = data.sep;
-        oct = data.oct;
-        nov = data.nov;
-        dec = data.dec;
         forecast = data.forecast;
 
         //Build a quick description for surf spot cards
         writeQuickSurfSpotDescription();
-
-        //Create the color for each month
-        buildSeasonalityChartColors();
 
         //If the surf-spot is within the lat/lng map bounds, run addSurfSpotMarker().
         if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
@@ -1014,18 +1045,6 @@ function addSurfSpotMarker(props, map) {
     waveDir: waveDir,
     waveType: waveType,
     skillMarker: skillMarker,
-    jan: jan,
-    feb: feb,
-    mar: mar,
-    apr: apr,
-    may: may,
-    jun: jun,
-    jul: jul,
-    aug: aug,
-    sep: sep,
-    oct: oct,
-    nov: nov,
-    dec: dec,
     forecast: forecast,
   }
 
@@ -1053,9 +1072,8 @@ function buildSurfSpotInfoWindow() {
   surfSpotMarker.html = `
     <div class="surfSpotInfoWindow">
 
-      <a class="cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
-
         <!-- SURF SPOT IW IMAGE CAROUSEL -->
+        <a class="surf-spot-infowindow" data-id="${surfSpotID}">
         <div id="${surfSpotID}IWCarousel" class="carousel carousel-infowindow slide" data-ride="carousel" data-interval="false" data-photo-location-iw="${surfSpotID}">
 
           <!-- SURF SPOT IW CAROUSEL DOTS -->
@@ -1076,20 +1094,16 @@ function buildSurfSpotInfoWindow() {
             <span class="sr-only">Next</span>
           </a>
         </div>
-
-      </a>
+        </a>
 
         <!-- SURF SPOT INFOWINDOW DESCRIPTORS -->
-        <a class="cursor" data-toggle="modal" data-target="#${surfSpotID}-modal">
 
-        <div class="surf-spot-iw-description ml-2 mb-2">
+        <div class="surf-spot-iw-description ml-2 mb-2 surf-spot-infowindow cursor" data-id="${surfSpotID}">
           <small class="text-muted card-preheader-text font-weight-bold">${waveDir} ${waveType}</small>
           <h6 class="card-title card-title-text font-weight-bold mb-1">${spotName}</h6>
           <span class="badge card-badge ${badge} text-uppercase mb-1">${skill}</span>
           <p class="iw-note mb-2">${note}</p>
         </div>
-
-      </a>
 
     </div>
 
@@ -1135,9 +1149,7 @@ function buildSurfSpotInfoWindowPhotos(surfSpotMarkerClickForIW) {
 //Write a quick description for surf spot cards
 function writeQuickSurfSpotDescription() {
   //Quick Description: Adjective
-  if (barrel == "yes") {
-    badge = "badge-dark";
-  } else if (skill == "expert" || skill == "advanced") {
+  if (skill == "expert" || skill == "advanced") {
     badge = "badge-dark";
   } else if (skill == "intermediate") {
     badge = "badge-primary";
@@ -1164,6 +1176,59 @@ function writeQuickSurfSpotDescription() {
   } else if (waveType == "rockreef") {
     waveType = "rockreef break";
   }
+
+  //Quick Description: beachType
+  if (beach == "comfortable") {
+    beachType = "comfortable"
+  } else if (beach == "semi-comfortable") {
+    beachType = "semi comfortable"
+  } else if (beach == "no-beach") {
+    beachType = "no"
+  }
+
+  //Check if surf spot page has loaded (.surf-spot-page-badge has length > 0)
+  if ($(".surf-spot-page-badge").length > 0) {
+    if (quality == "5 Stars") {
+      qualityStars = `<i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i>`;
+    } else if (quality == "4 Stars") {
+      qualityStars = `<i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i>`;
+    } else if (quality == "3 Stars") {
+      qualityStars = `<i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i>`;
+    } else if (quality == "2 Stars") {
+      qualityStars = `<i class="fas fa-star star"></i><i class="fas fa-star star"></i>`;
+    }
+
+    if (crowd == "a-zoo") {
+      crowd = `crowded`;
+    } else if (crowd == "spread-out") {
+      crowd = `spread out crowd`;
+    } else if (crowd == "minimal") {
+      crowd = `uncrowded`;
+    }
+
+    if (barrel == "yes") {
+      barrel = `barrels often`;
+    } else if (barrel == "sometimes") {
+      barrel = `barrels if good`;
+    }
+
+    if (localism == "yes") {
+      localism = `localism`;
+    } else if (localism == "be-respectful") {
+      localism = `surf respectfully`;
+    } else if (localism == "no") {
+      localism = `friendly crowd`;
+    }
+
+    if (board == "short-board") {
+      board = `shortboard`;
+    } else if (board == "fun-board") {
+      board = `funboard`;
+    } else if (board == "long-board") {
+      board = `longboard`;
+    }
+  }
+
 }//END -- writeQuickSurfSpotDescription()
 
 
@@ -1223,211 +1288,42 @@ function buildSurfSpotCard(ssProps) {
     <div class="card photo-card surf-spot-card illuminate-hover" data-id="${ssProps.surfSpotID}">
 
       <!-- SURF SPOT CARD IMAGE CAROUSEL -->
-      <a class="inherit-link surf-spot-modal-trigger" data-toggle="modal" data-target="#${ssProps.surfSpotID}-modal">
-        <div id="${ssProps.surfSpotID}" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location="${ssProps.surfSpotID}">
+        <a class="surf-spot-card-carousel" data-id="${ssProps.surfSpotID}">
+          <div id="${ssProps.surfSpotID}" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location="${ssProps.surfSpotID}">
 
-          <!-- SURF SPOT CARD CAROUSEL DOTS -->
-          <ol class="carousel-indicators" data-carousel-indicators="${ssProps.surfSpotID}">
-          </ol>
+            <!-- SURF SPOT CARD CAROUSEL DOTS -->
+            <ol class="carousel-indicators" data-carousel-indicators="${ssProps.surfSpotID}">
+            </ol>
 
-          <!-- SURF SPOT CARD CAROUSEL PHOTOS -->
-          <div class="carousel-inner" data-carousel-inner="${ssProps.surfSpotID}">
+            <!-- SURF SPOT CARD CAROUSEL PHOTOS -->
+            <div class="carousel-inner" data-carousel-inner="${ssProps.surfSpotID}">
+            </div>
+
+            <!-- SURF SPOT CARD CAROUSEL CONTROLS -->
+            <a class="carousel-control-prev" href="#${ssProps.surfSpotID}" role="button" data-slide="prev" data-prev="${ssProps.surfSpotID}">
+              <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next carousel-control-next-card" href="#${ssProps.surfSpotID}" role="button" data-slide="next" data-next="${ssProps.surfSpotID}">
+              <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
+              <span class="sr-only">Next</span>
+            </a>
           </div>
+        </a>
 
-          <!-- SURF SPOT CARD CAROUSEL CONTROLS -->
-          <a class="carousel-control-prev" href="#${ssProps.surfSpotID}" role="button" data-slide="prev" data-prev="${ssProps.surfSpotID}">
-            <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next carousel-control-next-card" href="#${ssProps.surfSpotID}" role="button" data-slide="next" data-next="${ssProps.surfSpotID}">
-            <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
-      </a>
 
       <!-- SURF SPOT CARD DESCRIPTORS -->
-      <a class="inherit-link surf-spot-modal-trigger" data-toggle="modal" data-target="#${ssProps.surfSpotID}-modal">
-        <div class="card-body mx-0 p-0 pt-2">
-          <small class="text-muted card-preheader-text font-weight-bold">${ssProps.waveDir} ${ssProps.waveType}</small>
-          <h5 class="card-title card-title-text font-weight-bold">${ssProps.spotName}</h5>
-          <span class="badge card-badge ${ssProps.badge} text-uppercase mb-1">${ssProps.skill}</span>
-          <p class="card-note">${ssProps.note}</p>
-        </div>
-      </a>
-
-    </div>
-  `);
-
-  //Build the surf spot cards into the list section
-  $("#modals").prepend(`
-    <!-- SURF SPOT MODAL -->
-    <div class="modal fade" id="${ssProps.surfSpotID}-modal" tabindex="-1" role="dialog" aria-labelledby="${ssProps.surfSpotID}-label" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="ml-auto">
-            <button type="button" class="close mt-2 mr-3 d-block d-sm-none" data-dismiss="modal">&times;</button>
-          </div>
-
-          <div class="modal-body">
-
-            <!-- SURF SPOT MODAL IMAGE CAROUSEL -->
-            <div id="${ssProps.surfSpotID}ModalCarousel" class="carousel slide mb-2" data-ride="carousel" data-interval="false" data-photo-location-modal="${ssProps.surfSpotID}">
-
-              <!-- SURF SPOT MODAL CAROUSEL DOTS -->
-              <ol class="carousel-indicators" data-carousel-indicators-modal="${ssProps.surfSpotID}">
-              </ol>
-
-              <!-- SURF SPOT MODAL CAROUSEL PHOTOS -->
-              <div class="carousel-inner" data-carousel-inner-modal="${ssProps.surfSpotID}">
-              </div>
-
-              <!-- SURF SPOT MODAL CAROUSEL CONTROLS -->
-              <a class="carousel-control-prev" href="#${ssProps.surfSpotID}ModalCarousel" role="button" data-slide="prev" data-prev-modal="${ssProps.surfSpotID}">
-                <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="carousel-control-next" href="#${ssProps.surfSpotID}ModalCarousel" role="button" data-slide="next" data-next-modal="${ssProps.surfSpotID}">
-                <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
-                <span class="sr-only">Next</span>
-              </a>
-
-            </div>
-
-            <!-- SURF SPOT MODAL DESCRIPTION -->
-            <small class="text-muted large-card-preheader-text font-weight-bold">${ssProps.waveDir} ${ssProps.waveType}</small>
-            <h5 class="card-title card-title-text font-weight-bold mt-0">${ssProps.spotName}</h5>
-            <span class="badge modal-badge ${ssProps.badge} text-uppercase">${ssProps.skill}</span>
-
-            <!-- SURF SPOT MODAL SEASONALITY CHART -->
-            <div class="container seasonality-chart mt-3 mb-0 pb-0">
-
-              <div class="row">
-                <ul class="list-unstyled col-1 mx-0 px-0">
-                  <li class="text-center">
-                    <div class="${ssProps.jan}">
-                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JAN</p>
-                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
-                    </div>
-                  </li>
-                </ul>
-
-                <ul class="list-unstyled col-1 mx-0 px-0">
-                  <li class="text-center">
-                    <div class="${ssProps.feb}">
-                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">FEB</p>
-                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">F</p>
-                    </div>
-                  </li>
-                </ul>
-
-                <ul class="list-unstyled col-1 mx-0 px-0">
-                  <li class="text-center">
-                    <div class="${ssProps.mar}">
-                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">MAR</p>
-                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">M</p>
-                    </div>
-                  </li>
-                </ul>
-
-                <ul class="list-unstyled col-1 mx-0 px-0">
-                  <li class="text-center">
-                    <div class="${ssProps.apr}">
-                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">APR</p>
-                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">A</p>
-                    </div>
-                  </li>
-                </ul>
-
-                <ul class="list-unstyled col-1 mx-0 px-0">
-                  <li class="text-center">
-                    <div class="${ssProps.may}">
-                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">MAY</p>
-                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">M</p>
-                    </div>
-                  </li>
-                </ul>
-
-                <ul class="list-unstyled col-1 mx-0 px-0">
-                  <li class="text-center">
-                    <div class="${ssProps.jun}">
-                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JUN</p>
-                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
-                    </div>
-                  </li>
-                </ul>
-
-                <ul class="list-unstyled col-1 mx-0 px-0">
-                  <li class="text-center">
-                    <div class="${ssProps.jul}">
-                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JUL</p>
-                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
-                    </div>
-                  </li>
-                </ul>
-
-                <ul class="list-unstyled col-1 mx-0 px-0">
-                  <li class="text-center">
-                    <div class="${ssProps.aug}">
-                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">AUG</p>
-                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">A</p>
-                    </div>
-                  </li>
-                </ul>
-
-                <ul class="list-unstyled col-1 mx-0 px-0">
-                  <li class="text-center">
-                    <div class="${ssProps.sep}">
-                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">SEP</p>
-                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">S</p>
-                    </div>
-                  </li>
-                </ul>
-
-                <ul class="list-unstyled col-1 mx-0 px-0">
-                  <li class="text-center">
-                    <div class="${ssProps.oct}">
-                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">OCT</p>
-                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">O</p>
-                    </div>
-                  </li>
-                </ul>
-
-                <ul class="list-unstyled col-1 mx-0 px-0">
-                  <li class="text-center">
-                    <div class="${ssProps.nov}">
-                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">NOV</p>
-                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">N</p>
-                    </div>
-                  </li>
-                </ul>
-
-                <ul class="list-unstyled text-center col-1 mx-0 px-0">
-                  <li class="text-center pb-0 mb-0">
-                    <div class="${ssProps.dec}">
-                      <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">DEC</p>
-                      <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">D</p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div><!-- //SURF SPOT MODAL SEASONALITY CHART -->
-
-            <p class="modal-note mt-0 pt-0">${ssProps.fullNote} Always check the report before you go. Be kind and surf respectfully.</p>
-
-          </div>
-
-          <div class="modal-footer bg-secondary">
-            <div class="mr-auto">
-              <a class="btn btn-sm btn-danger font-weight-bold text-uppercase mr-2" href="${ssProps.forecast}" target="_blank">${ssProps.spotName} SURF REPORT</a>
-              <a class="btn btn-sm btn-danger font-weight-bold margin-top-mobile-five-rem" href="https://maps.google.com/?saddr=Current+Location&daddr=${ssProps.parkingLat},${ssProps.parkingLng}&driving" target="_blank">DIRECTIONS TO PARKING</a>
-            </div>
-          </div>
-
-        </div>
+      <div class="card-body mx-0 p-0 pt-2 surf-spot-card-description" data-id="${ssProps.surfSpotID}">
+        <small class="text-muted card-preheader-text font-weight-bold">${ssProps.waveDir} ${ssProps.waveType}</small>
+        <h5 class="card-title card-title-text font-weight-bold">${ssProps.spotName}</h5>
+        <span class="badge card-badge ${ssProps.badge} text-uppercase mb-1">${ssProps.skill}</span>
+        <p class="card-note">${ssProps.note}</p>
       </div>
+
     </div>
   `);
+
+
 
 }//END -- buildSurfSpotCard()
 
@@ -1461,7 +1357,7 @@ function buildSurfSpotCoverPhoto(ssProps) {
               <p class="m-0">${surferAttribution}</p>
               <p>P: ${attribution}</p>
           </small>
-          <i class="fas fa-plus-square iw-details-indicator"></i>
+          <i class="fas fa-plus-square iw-details-indicator cursor"></i>
         </div>
     `);
   //If a surfSpotMarker was NOT clicked ('surfSpotMarkerClick == false'), build the galleries into the cards and their modals
@@ -1485,37 +1381,18 @@ function buildSurfSpotCoverPhoto(ssProps) {
         </div>
     `);
 
-    //MODAL: Add dot indicator for the MODAL cover photo
-    $("[data-carousel-indicators-modal='" + ssProps.surfSpotID + "']").prepend(`
-        <li data-target="#${ssProps.surfSpotID}ModalCarousel" data-slide-to="0"></li>
-    `);
-    //MODAL: Add the MODAL cover photo
-    $("[data-carousel-inner-modal='" + ssProps.surfSpotID + "']").prepend(`
-        <div class="carousel-item active">
-          <img class="d-block modal-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
-          <small class="modal-photo-credit font-weight-bold">
-            <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
-              <p class="m-0">${surferAttribution}</p>
-            </a>
-            <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
-              <p>P: ${attribution}</p>
-            </a>
-          </small>
-        </div>
-    `);
   }//END -- surfSpotMarkerClick conditional
 
   //Set onePhotoOfSurfSpot to 'true' because this is the first photo to be added to a surf spot card
   onePhotoOfSurfSpot = true;
 
-  //Wait 1 seconds to allow 'idle' listener to run while 'surfSpotMarkerClick = true' so it doesn't refresh everything on the map.
+  // Wait 1 seconds to allow 'idle' listener to run while 'surfSpotMarkerClick = true' so it doesn't refresh everything on the map.
   setTimeout(function() {
     //Return surfSpotMarkerClick to false to allow accomms to render on map and in list
     surfSpotMarkerClick = false;
     surfSpotMarkerClickForIW = false;
   }, 1000);
 }
-
 
 
 //Add photos to surf spot card
@@ -1547,7 +1424,7 @@ function addSurfSpotPhotosToCards(ssProps) {
               <p class="m-0">${surferAttribution}</p>
               <p>P: ${attribution}</p>
             </small>
-            <i class="fas fa-plus-square iw-details-indicator"></i>
+            <i class="fas fa-plus-square iw-details-indicator cursor"></i>
           </div>
       `);
     //If a surfSpotMarker was NOT clicked ('surfSpotMarkerClick == false'), build the galleries into the cards and their modals
@@ -1561,25 +1438,6 @@ function addSurfSpotPhotosToCards(ssProps) {
           <div class="carousel-item">
             <img class="d-block card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
             <small class="card-photo-credit font-weight-bold">
-              <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
-                <p class="m-0">${surferAttribution}</p>
-              </a>
-              <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
-                <p>P: ${attribution}</p>
-              </a>
-            </small>
-          </div>
-      `);
-
-      //MODAL: Add dot indicators for the MODAL photos
-      $("[data-carousel-indicators-modal='" + ssProps.surfSpotID + "']").prepend(`
-          <li data-target="#${ssProps.surfSpotID}ModalCarousel" data-slide-to="${surfSpotSlideCount}"></li>
-      `);
-      //MODAL: Add each of the MODAL photos
-      $("[data-carousel-inner-modal='" + ssProps.surfSpotID + "']").prepend(`
-          <div class="carousel-item">
-            <img class="d-block modal-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
-            <small class="modal-photo-credit font-weight-bold">
               <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
                 <p class="m-0">${surferAttribution}</p>
               </a>
@@ -1627,23 +1485,13 @@ function showCarouselControlsOnHover(ssProps) {
       hideCarouselControls(ssProps);
     });
 
-    //Show and hide MODAL prev and next controls on hover
-    $(document).on('mouseenter', '[data-photo-location-modal="' + ssProps.surfSpotID + '"]', function(){
-      $('[data-prev-modal="' + ssProps.surfSpotID + '"]').show();
-      $('[data-next-modal="' + ssProps.surfSpotID + '"]').show();
-    })
-    .on('mouseleave', '[data-photo-location-modal="' + ssProps.surfSpotID + '"]', function(){
-      //Hides prev and next arrows on surf spot photos in surf spot MODAL
-      hideCarouselControls(ssProps);
-    });
-
-    //Show and hide MODAL prev and next controls on hover
+    //Show and hide INFOWINDOW prev and next controls on hover
     $(document).on('mouseenter', '[data-photo-location-iw="' + ssProps.surfSpotID + '"]', function(){
       $('[data-prev-iw="' + ssProps.surfSpotID + '"]').show();
       $('[data-next-iw="' + ssProps.surfSpotID + '"]').show();
     })
     .on('mouseleave', '[data-photo-location-iw="' + ssProps.surfSpotID + '"]', function(){
-      //Hides prev and next arrows on surf spot photos in surf spot MODAL
+      //Hides prev and next arrows on surf spot photos in surf spot INFOWINDOW
       hideCarouselControls(ssProps);
     });
   }
@@ -1656,9 +1504,6 @@ function hideCarouselControls(ssProps) {
     $('[data-prev="' + ssProps.surfSpotID + '"]').hide();
     $('[data-next="' + ssProps.surfSpotID + '"]').hide();
 
-    $('[data-prev-modal="' + ssProps.surfSpotID + '"]').hide();
-    $('[data-next-modal="' + ssProps.surfSpotID + '"]').hide();
-
     $('[data-prev-iw="' + ssProps.surfSpotID + '"]').hide();
     $('[data-next-iw="' + ssProps.surfSpotID + '"]').hide();
   }
@@ -1666,125 +1511,128 @@ function hideCarouselControls(ssProps) {
 
 
 function buildSeasonalityChartColors() {
-  //Set background color of seasonality chart for JAN
-  if (jan >= 90) {
-    jan = "dark-green-bg";
-  } else if (jan >= 70) {
-    jan = "green-bg";
-  } else if (jan >= 50) {
-    jan = "yellow-bg";
-  } else if (jan < 50) {
-    jan = "red-bg";
-  }
+  //Check if surf spot page has loaded (.surf-spot-page-badge has length > 0)
+  if ($(".surf-spot-page-badge").length > 0) {
+    //Set background color of seasonality chart for JAN
+    if (jan >= 90) {
+      jan = "dark-green-bg";
+    } else if (jan >= 70) {
+      jan = "green-bg";
+    } else if (jan >= 50) {
+      jan = "yellow-bg";
+    } else if (jan < 50) {
+      jan = "red-bg";
+    }
 
-  if (feb >= 90) {
-    feb = "dark-green-bg";
-  } else if (feb >= 70) {
-    feb = "green-bg";
-  } else if (feb >= 50) {
-    feb = "yellow-bg";
-  } else if (feb < 50) {
-    feb = "red-bg";
-  }
+    if (feb >= 90) {
+      feb = "dark-green-bg";
+    } else if (feb >= 70) {
+      feb = "green-bg";
+    } else if (feb >= 50) {
+      feb = "yellow-bg";
+    } else if (feb < 50) {
+      feb = "red-bg";
+    }
 
-  if (mar >= 90) {
-    mar = "dark-green-bg";
-  } else if (mar >= 70) {
-    mar = "green-bg";
-  } else if (mar >= 50) {
-    mar = "yellow-bg";
-  } else if (mar < 50) {
-    mar = "red-bg";
-  }
+    if (mar >= 90) {
+      mar = "dark-green-bg";
+    } else if (mar >= 70) {
+      mar = "green-bg";
+    } else if (mar >= 50) {
+      mar = "yellow-bg";
+    } else if (mar < 50) {
+      mar = "red-bg";
+    }
 
-  if (apr >= 90) {
-    apr = "dark-green-bg";
-  } else if (apr >= 70) {
-    apr = "green-bg";
-  } else if (apr >= 50) {
-    apr = "yellow-bg";
-  } else if (apr < 50) {
-    apr = "red-bg";
-  }
+    if (apr >= 90) {
+      apr = "dark-green-bg";
+    } else if (apr >= 70) {
+      apr = "green-bg";
+    } else if (apr >= 50) {
+      apr = "yellow-bg";
+    } else if (apr < 50) {
+      apr = "red-bg";
+    }
 
-  if (may >= 90) {
-    may = "dark-green-bg";
-  } else if (may >= 70) {
-    may = "green-bg";
-  } else if (may >= 50) {
-    may = "yellow-bg";
-  } else if (may < 50) {
-    may = "red-bg";
-  }
+    if (may >= 90) {
+      may = "dark-green-bg";
+    } else if (may >= 70) {
+      may = "green-bg";
+    } else if (may >= 50) {
+      may = "yellow-bg";
+    } else if (may < 50) {
+      may = "red-bg";
+    }
 
-  if (jun >= 90) {
-    jun = "dark-green-bg";
-  } else if (jun >= 70) {
-    jun = "green-bg";
-  } else if (jun >= 50) {
-    jun = "yellow-bg";
-  } else if (jun < 50) {
-    jun = "red-bg";
-  }
+    if (jun >= 90) {
+      jun = "dark-green-bg";
+    } else if (jun >= 70) {
+      jun = "green-bg";
+    } else if (jun >= 50) {
+      jun = "yellow-bg";
+    } else if (jun < 50) {
+      jun = "red-bg";
+    }
 
-  if (jul >= 90) {
-    jul = "dark-green-bg";
-  } else if (jul >= 70) {
-    jul = "green-bg";
-  } else if (jul >= 50) {
-    jul = "yellow-bg";
-  } else if (jul < 50) {
-    jul = "red-bg";
-  }
+    if (jul >= 90) {
+      jul = "dark-green-bg";
+    } else if (jul >= 70) {
+      jul = "green-bg";
+    } else if (jul >= 50) {
+      jul = "yellow-bg";
+    } else if (jul < 50) {
+      jul = "red-bg";
+    }
 
-  if (aug >= 90) {
-    aug = "dark-green-bg";
-  } else if (aug >= 70) {
-    aug = "green-bg";
-  } else if (aug >= 50) {
-    aug = "yellow-bg";
-  } else if (aug < 50) {
-    aug = "red-bg";
-  }
+    if (aug >= 90) {
+      aug = "dark-green-bg";
+    } else if (aug >= 70) {
+      aug = "green-bg";
+    } else if (aug >= 50) {
+      aug = "yellow-bg";
+    } else if (aug < 50) {
+      aug = "red-bg";
+    }
 
-  if (sep >= 90) {
-    sep = "dark-green-bg";
-  } else if (sep >= 70) {
-    sep = "green-bg";
-  } else if (sep >= 50) {
-    sep = "yellow-bg";
-  } else if (sep < 50) {
-    sep = "red-bg";
-  }
+    if (sep >= 90) {
+      sep = "dark-green-bg";
+    } else if (sep >= 70) {
+      sep = "green-bg";
+    } else if (sep >= 50) {
+      sep = "yellow-bg";
+    } else if (sep < 50) {
+      sep = "red-bg";
+    }
 
-  if (oct >= 90) {
-    oct = "dark-green-bg";
-  } else if (oct >= 70) {
-    oct = "green-bg";
-  } else if (oct >= 50) {
-    oct = "yellow-bg";
-  } else if (oct < 50) {
-    oct = "red-bg";
-  }
+    if (oct >= 90) {
+      oct = "dark-green-bg";
+    } else if (oct >= 70) {
+      oct = "green-bg";
+    } else if (oct >= 50) {
+      oct = "yellow-bg";
+    } else if (oct < 50) {
+      oct = "red-bg";
+    }
 
-  if (nov >= 90) {
-    nov = "dark-green-bg";
-  } else if (nov >= 70) {
-    nov = "green-bg";
-  } else if (nov >= 50) {
-    nov = "yellow-bg";
-  } else if (nov < 50) {
-    nov = "red-bg";
-  }
+    if (nov >= 90) {
+      nov = "dark-green-bg";
+    } else if (nov >= 70) {
+      nov = "green-bg";
+    } else if (nov >= 50) {
+      nov = "yellow-bg";
+    } else if (nov < 50) {
+      nov = "red-bg";
+    }
 
-  if (dec >= 90) {
-    dec = "dark-green-bg";
-  } else if (dec >= 70) {
-    dec = "green-bg";
-  } else if (dec >= 50) {
-    dec = "yellow-bg";
-  } else if (dec < 50) {
-    dec = "red-bg";
+    if (dec >= 90) {
+      dec = "dark-green-bg";
+    } else if (dec >= 70) {
+      dec = "green-bg";
+    } else if (dec >= 50) {
+      dec = "yellow-bg";
+    } else if (dec < 50) {
+      dec = "red-bg";
+    }
   }
 
 }//END -- buildSeasonalityChartColors()
@@ -2730,3 +2578,448 @@ if (cityDB !== null) {
     initMap();
   }
 }
+
+
+
+
+
+
+////SURF SPOT PAGE
+//Click surf spot card or infowindow
+$('body').on('click','.surf-spot-card-carousel, .surf-spot-card-description, .surf-spot-infowindow',function(e){
+  //Stores data-id=${surfSpot} in variable surfSpot
+  window.surfSpot = $(this).data('id');
+  surfSpot = window.surfSpot;
+  //Returns redirectPage function
+  return redirectToSurfSpotPage(surfSpot)
+});
+
+//Pass query perams from city page to surf spot page
+function redirectToSurfSpotPage(surfSpot) {
+  window.open(`surf-spot.html?surfSpot=${surfSpot}`)
+  window.surfSpot = surfSpot;
+  return false;
+}
+
+//Store the surfSpot query param value in variable surfSpot
+surfSpotID = getParameterByName('surfSpot');
+
+//Customize the surf spot page title
+function updateSurfSpotPageTitle() {
+  //Check if surf spot page has loaded (.surf-spot-page-badge has length > 0)
+  if ($(".surf-spot-page-badge").length > 0) {
+    //Replace any '-'s with ' 's
+    surfSpotName = surfSpotID.replace(/-/g, ' ');
+    //Capitalize the surf spot's name
+    surfSpotName = surfSpotName.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+    //Update the surf spot page title with the relevant surf spot name
+    document.title = surfSpotName + ' | Surf Trip List';
+  }
+}
+
+updateSurfSpotPageTitle();
+
+
+function buildSurfSpotPageHeader() {
+  //Check if surf spot page has loaded (.surf-spot-page-badge has length > 0)
+  if ($(".surf-spot-page-badge").length > 0) {
+    //Prepends relevant surf spot name to header section
+    $(".surf-spot-name").prepend(surfSpotName);
+
+    //Get stored data from the surf-spot collection
+    db.collection("surf-spot").doc(surfSpotID).get().then(function(doc) {
+      data = doc.data();
+      surfSpotID = doc.id;
+      spotName = doc.id.replace(/-/g,' ');
+      coords = data.surfspot;
+      skill = data.skill;
+      fullNote = data.spotNote
+      note = data.spotNote;
+      parkingLat = data.parkingLat;
+      parkingLng = data.parkingLng;
+      beach = data.beach;
+      waveDir = data.direction;
+      localism = data.localism;
+      waveType = data.type;
+      crowd = data.crowd;
+      barrel = data.barrel;
+      skill = data.skill;
+      bottom = data.bottom;
+      forecast = data.forecast;
+      quality = data.quality;
+      tide = data.tide;
+      swellDir = data.swellDir;
+      swellSize = data.size;
+      swellPeriod = data.period;
+      windDir = data.wind;
+      board = data.board;
+      airportCode = data.airportCode;
+      jan = data.jan;
+      feb = data.feb;
+      mar = data.mar;
+      apr = data.apr;
+      may = data.may;
+      jun = data.jun;
+      jul = data.jul;
+      aug = data.aug;
+      sep = data.sep;
+      oct = data.oct;
+      nov = data.nov;
+      dec = data.dec;
+
+      powerful = data.powerful;
+      ripCurrents = data.ripCurrents;
+      shallow = data.shallow;
+      longPaddle = data.longPaddle;
+      farFromShore = data.farFromShore;
+      competitive = data.competitive;
+      beginnerFriendly = data.beginnerFriendly;
+      easyToGetWaves = data.easyToGetWaves;
+
+      parkingNearby = data.parkingNearby;
+      parkWalk = data.parkWalk;
+      parkHike = data.parkHike;
+      parkLongHike = data.parkLongHike;
+      boatAccess = data.boatAccess;
+
+      walkability = data.walkability;
+      nature = data.nature;
+      views = data.views;
+      nightlife = data.nightlife;
+      partyScene = data.partyScene;
+      healthcareFarAway = data.healthcareFarAway;
+      healthcareNearby = data.healthcareNearby;
+      goodInternet = data.goodInternet;
+      badInternet = data.badInternet;
+      touristy = data.touristy;
+      themePark = data.themePark;
+      pier = data.pier;
+      culturalSights = data.culturalSights;
+      shopping = data.shopping;
+      theftCommon = data.theftCommon;
+      unsafeArea = data.unsafeArea;
+
+      unsafeTapWater = data.unsafeTapWater;
+      goodEats = data.goodEats;
+      bars = data.bars;
+      fastFood = data.fastFood;
+      casualEats = data.casualEats;
+      sitDownRestaurants = data.sitDownRestaurants;
+
+      english = data.english;
+      spanish = data.spanish;
+      french = data.french;
+      portugese = data.portugese;
+      indonesian = data.indonesian;
+
+      writeQuickSurfSpotDescription();
+
+      buildSeasonalityChartColors();
+
+    }).then(function() {
+
+      surfSpotPageHeader();
+
+      primarySurfHighlights();
+
+      secondarySurfHighlights();
+
+      nearbyHighlights();
+
+      flightLink();
+
+      addSurfSpotDescription();
+
+      seasonality();
+
+    });
+  }
+
+}
+
+buildSurfSpotPageHeader();
+
+function surfSpotPageHeader() {
+  //Make badge say "expert only" for expert waves
+  if (skill == "expert") {
+    skill = "expert only";
+  }
+  //Prepends the preheader above the surf spot name on the surf spot page
+  $(".surf-spot-preheader").prepend(`${waveDir} ${waveType}`);
+
+  //Prepend the header skill badge content
+  $(".surf-spot-page-badge").prepend(`${skill}`);
+
+  //Add badge background color class to the header skill badge
+  $(".surf-spot-page-badge").addClass(badge);
+
+  //Prepend quality star score to header
+  $(".quality-stars").prepend(`${qualityStars}`);
+}
+
+
+function primarySurfHighlights() {
+  $(".surf-highlights-primary").append(`
+    <span class="badge large-card-preheader-text badge-light-blue white-text text-uppercase mb-2 mr-1 pb-1 tide">${tide} tides</span>
+    <span class="badge large-card-preheader-text badge-light-blue white-text text-uppercase mb-2 mr-1 pb-1 swell-direction">${swellDir} swell</span>
+    <span class="badge large-card-preheader-text badge-light-blue white-text text-uppercase mb-2 mr-1 pb-1 swell-size">${swellSize}</span>
+    <span class="badge large-card-preheader-text badge-light-blue white-text text-uppercase mb-2 mr-1 pb-1 swell-period">${swellPeriod}</span>
+    <span class="badge large-card-preheader-text badge-light-blue white-text text-uppercase mb-2 mr-1 pb-1 wind-direction">${windDir} wind</span>
+  `);
+}
+
+
+function secondarySurfHighlights() {
+  //Secondary surf highlight tag
+  $(".surf-highlights-secondary").append(`
+    <span class="badge large-card-preheader-text badge-dark-blue white-text text-uppercase mr-1 pb-1">${board}</span>
+  `);
+
+  //Secondary surf highlight tag
+  $(".surf-highlights-secondary").append(`
+    <span class="badge large-card-preheader-text badge-dark-blue white-text text-uppercase mr-1 pb-1">${crowd}</span>
+  `);
+
+  //Nearby highlight tag
+  secondaryHighlightTags = [competitive, beginnerFriendly, easyToGetWaves];
+
+  for (var i = 0; i < secondaryHighlightTags.length; i++) {
+    if (secondaryHighlightTags[i].length > 1) {
+      $(".surf-highlights-secondary").append(`
+        <span class="badge large-card-preheader-text badge-dark-blue white-text text-uppercase mr-1 pb-1">${secondaryHighlightTags[i]}</span>
+      `);
+    }
+    secondaryHighlightTags[i];
+  }
+
+  //Secondary surf highlight tag
+  if (localism == "localism" || localism == "friendly crowd") {
+    $(".surf-highlights-secondary").append(`
+      <span class="badge large-card-preheader-text badge-dark-blue white-text text-uppercase mr-1 pb-1">${localism}</span>
+    `);
+  }
+
+  //Secondary surf highlight tag
+  if (barrel !== "no") {
+    $(".surf-highlights-secondary").append(`
+      <span class="badge large-card-preheader-text badge-dark-blue white-text text-uppercase mr-1 pb-1">${barrel}</span>
+    `);
+  }
+
+  //Nearby highlight tag
+  secondaryHighlightTags = [powerful, ripCurrents, shallow, longPaddle, farFromShore];
+
+  for (var i = 0; i < secondaryHighlightTags.length; i++) {
+    if (secondaryHighlightTags[i].length > 1) {
+      $(".surf-highlights-secondary").append(`
+        <span class="badge large-card-preheader-text badge-dark-blue white-text text-uppercase mr-1 pb-1">${secondaryHighlightTags[i]}</span>
+      `);
+    }
+    secondaryHighlightTags[i];
+  }
+
+  //Secondary surf highlight tag
+  if (localism == "surf respectfully") {
+    $(".surf-highlights-secondary").append(`
+      <span class="badge large-card-preheader-text badge-dark-blue white-text text-uppercase mr-1 pb-1">${localism}</span>
+    `);
+  }
+}
+
+function nearbyHighlights() {
+  //Secondary surf highlight tag
+  $(".nearby-highlights").append(`
+    <span class="badge large-card-preheader-text badge-purple white-text text-uppercase mr-1 pb-1">${beachType} beach</span>
+  `);
+
+  //Nearby highlight tag
+  nearbyTags = [parkingNearby, parkWalk, parkHike, parkLongHike, boatAccess, walkability, nature, views, nightlife, partyScene, healthcareFarAway, healthcareNearby, goodInternet, badInternet, touristy, themePark, pier, culturalSights, shopping, theftCommon, unsafeArea, unsafeTapWater, bars, fastFood, casualEats, sitDownRestaurants, english, spanish, french, portugese, indonesian];
+
+  for (var i = 0; i < nearbyTags.length; i++) {
+    if (nearbyTags[i].length > 1) {
+      $(".nearby-highlights").append(`
+        <span class="badge large-card-preheader-text badge-purple white-text text-uppercase mr-1 pb-1">${nearbyTags[i]}</span>
+      `);
+    }
+  }
+
+}
+
+function flightLink() {
+  $(".flights-link").append(`
+    <a class="inherit-link" href="https://www.google.com/flights/#search;f=;t=${airportCode}" target="_blank">Check flight cost</a>
+  `);
+}
+
+
+function addSurfSpotDescription() {
+  $(".surf-spot-description").append(`
+    <p>${fullNote}</p>
+    <p>Always check the surf report before you go. Be kind and surf respectfully.</p>`);
+}
+
+
+function seasonality() {
+  $(".seasonality-chart").append(`
+    <ul class="list-unstyled col-1 mx-0 px-0">
+      <li class="text-center">
+        <div class="${jan}">
+          <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JAN</p>
+          <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled col-1 mx-0 px-0">
+      <li class="text-center">
+        <div class="${feb}">
+          <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">FEB</p>
+          <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">F</p>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled col-1 mx-0 px-0">
+      <li class="text-center">
+        <div class="${mar}">
+          <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">MAR</p>
+          <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">M</p>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled col-1 mx-0 px-0">
+      <li class="text-center">
+        <div class="${apr}">
+          <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">APR</p>
+          <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">A</p>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled col-1 mx-0 px-0">
+      <li class="text-center">
+        <div class="${may}">
+          <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">MAY</p>
+          <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">M</p>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled col-1 mx-0 px-0">
+      <li class="text-center">
+        <div class="${jun}">
+          <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JUN</p>
+          <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled col-1 mx-0 px-0">
+      <li class="text-center">
+        <div class="${jul}">
+          <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JUL</p>
+          <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled col-1 mx-0 px-0">
+      <li class="text-center">
+        <div class="${aug}">
+          <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">AUG</p>
+          <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">A</p>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled col-1 mx-0 px-0">
+      <li class="text-center">
+        <div class="${sep}">
+          <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">SEP</p>
+          <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">S</p>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled col-1 mx-0 px-0">
+      <li class="text-center">
+        <div class="${oct}">
+          <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">OCT</p>
+          <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">O</p>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled col-1 mx-0 px-0">
+      <li class="text-center">
+        <div class="${nov}">
+          <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">NOV</p>
+          <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">N</p>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled col-1 mx-0 px-0">
+      <li class="text-center pb-0 mb-0">
+        <div class="${dec}">
+          <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">DEC</p>
+          <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">D</p>
+        </div>
+      </li>
+    </ul>
+  `);
+}
+
+
+//Inialize google maps on the surf spot page
+function initSurfPageMap() {
+
+  //Get doc data from the relevant surf-spot collection
+  db.collection("surf-spot").doc(surfSpotID).get().then(function(doc) {
+    data = doc.data();
+    airportCoords = data.airportCoords;
+    surfSpotCoords = data.surfspot;
+
+    //Init google maps distance matrix service
+    var service = new google.maps.DistanceMatrixService;
+
+    //Pass in perameters
+    service.getDistanceMatrix({
+      origins: [airportCoords],
+      destinations: [surfSpotCoords],
+      travelMode: 'DRIVING',
+      unitSystem: google.maps.UnitSystem.IMPERIAL,
+    }, function(response, status) {
+      //If failed, console the error
+      if (status !== 'OK') {
+        alert('Error was: ' + status);
+      //If successful
+      } else {
+        //No idea what this is for other than to use in the for loop
+        var originList = response.originAddresses;
+
+        for (var i = 0; i < originList.length; i++) {
+          var results = response.rows[i].elements;
+          let durationFromAirport = results[i].duration.text;
+          let distanceFromAirport = results[i].distance.text;
+
+          //Append the duration from the airport to the surf spot page
+          $(".duration-from-airport").append(`${durationFromAirport} by car without traffic`)
+        }
+
+      }
+    });
+
+  });
+}
+
+
+
+
+
+
+
+
+
+let holdthebottom = "";

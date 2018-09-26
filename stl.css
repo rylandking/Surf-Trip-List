@@ -272,7 +272,10 @@ input:focus:-ms-input-placeholder {
   position: relative;
 }
 
-
+#details-map {
+  height:250px;
+  width: 100%;
+}
 
 #iwPhoto {
   width:225px;
@@ -436,6 +439,17 @@ p.card-hover-overlay {
   }
 }
 
+.details-where-to-stay {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 10;
+}
+
+.details-bookings {
+  overflow: auto;
+  height: 61vh;
+}
+
 .normal-marker-size {
   width: 30px;
   height: 30px;
@@ -529,11 +543,22 @@ p.card-hover-overlay {
   position: relative;
 }
 
+.nearby-card-custom-image {
+  height: 100px !important;
+  width: 100%;
+  object-fit: cover;
+  position: relative;
+}
+
 .modal-custom-image {
   height: 300px !important;
   width: 100%;
   object-fit: cover;
   position: relative;
+}
+
+.detail-accomms-mobile {
+  height:240px !important;
 }
 
 .photo-card {
@@ -566,6 +591,12 @@ p.card-hover-overlay {
   .accomm-photo-card {
     margin-bottom: 158px;
   }
+}
+
+.nearby-card {
+  height: 75px !important;
+  width: auto;
+  margin-bottom: 75px;
 }
 
 .accomm-photo-modal {
@@ -636,6 +667,11 @@ p.card-hover-overlay {
   margin-top: .25rem;
 }
 
+.small-card-preheader-text {
+  font-size: 8px !important;
+  text-transform: uppercase;
+}
+
 .card-preheader-text {
   font-size: 10px;
   text-transform: uppercase;
@@ -656,14 +692,40 @@ p.card-hover-overlay {
   text-transform: capitalize;
 }
 
+.mobile-details-accomm-card-title-text {
+  font-size: 12px !important;
+}
+
 .card-badge {
   font-size: 9px;
+  border-radius: 0px;
+}
+
+.nearby-card-badge {
+  font-size: 7px;
   border-radius: 0px;
 }
 
 .modal-badge {
   font-size: 11px;
   border-radius: 0px;
+}
+
+.badge-light-blue {
+  background-color: #87ceeb;
+}
+
+.badge-dark-blue {
+  background-color: #4682b4;
+}
+
+.badge-purple {
+  background-color: #9370db;
+}
+
+.highlights-container {
+  border-radius: 4px;
+  width: 90%;
 }
 
 .card-note  {
@@ -770,11 +832,20 @@ p.card-hover-overlay {
   background-color: #EC5D57;
 }
 
+.details-cover-image {
+  width: 100vw;
+  height: 50vh;
+  object-fit: cover;
+}
 
 .card-pretitle {
   font-size: 12px;
   text-transform: uppercase;
   margin-bottom: 0px;
+}
+
+.star {
+  color: #daa520;
 }
 
 .card-subtitle {
@@ -996,6 +1067,10 @@ p.card-hover-overlay {
   text-decoration: none !important;
 }
 
+.white-text {
+  color: white;
+}
+
 .border {
   border: solid 2px;
 }
@@ -1167,4 +1242,8 @@ input:checked + .slider:before {
     font-size: 12px;
   }
 
+}
+
+.subtext {
+  font-size: 10px;
 }

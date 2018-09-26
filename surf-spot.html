@@ -1,0 +1,454 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!-- Google Analytics - Global site tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123074848-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-123074848-1');
+  </script>
+
+  <!-- JQUERY -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+  <!-- Google Places JS Library -->
+  <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXPJDWXhzlAY0N8mMUcgFJ6yNSEd0vMg8&libraries=places"></script> -->
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+  <!-- Bootstrap Toogle Checkboxes -->
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+  <!-- FONT AWESOME - for icons -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/solid.css" integrity="sha384-VGP9aw4WtGH/uPAOseYxZ+Vz/vaTb1ehm1bwx92Fm8dTrE+3boLfF1SpAtB1z7HW" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/regular.css" integrity="sha384-ZlNfXjxAqKFWCwMwQFGhmMh3i89dWDnaFU2/VZg9CvsMGA7hXHQsPIqS+JIAmgEq" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/brands.css" integrity="sha384-rf1bqOAj3+pw6NqYrtaE1/4Se2NBwkIfeYbsFdtiR6TQz0acWiwJbv1IM/Nt/ite" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/fontawesome.css" integrity="sha384-1rquJLNOM3ijoueaaeS5m+McXPJCGdr5HcA03/VHXxcp2kX2sUrQDmFc3jR5i/C7" crossorigin="anonymous">
+
+  <!-- Link to custom CSS -->
+  <link rel="stylesheet" href="stl.css">
+
+  <!-- Initalizes Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyB85TjM4154F_LU7bWtckJ20i22kjcK1T0",
+      authDomain: "surf-trip-list.firebaseapp.com",
+      databaseURL: "https://surf-trip-list.firebaseio.com",
+      projectId: "surf-trip-list",
+      storageBucket: "surf-trip-list.appspot.com",
+      messagingSenderId: "743850386285"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+  <!-- Set Preview Image and Content on Social Shares-->
+  <meta property="og:site_name" content="Surf Trip List"/>
+  <meta property="og:image:type" content="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image1.png?alt=media&token=46accb3f-07bd-4454-bf9a-f262c56ff798">
+  <meta property="og:image" content="image/jpeg">
+  <meta property="og:title" content="Discover Amazing Surf Trips | Surf Trip List"/>
+  <meta property="og:description" content="Surf Trip List helps you discover and book amazing surf trips — no matter your experience level. Book an amazing surf trip with Surf Trip List today!"/>
+  <meta property="og:url" content="http://surftriplist.com/">
+  <meta property="og:type" content="website"/>
+
+  <link rel='shortcut icon' type='image/x-icon' href='https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/logos%2Ffavicon.ico?alt=media&token=07d2e7a4-9cc0-473e-87e9-005ed4fec5ad' />
+  <title></title>
+</head>
+<body>
+
+  <div id="details-page-wrapper" class="container-fluid">
+    <!-- NAV BAR -->
+     <div id="city-page-nav" class="d-flex align-items-center pt-3 pb-3 mb-0 border-bottom box-shadow">
+
+       <a href="index.html"><img id="top-logo" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/logos%2Flogo-red-transparent.png?alt=media&token=1f49b9e3-783d-4d9e-a82d-404fc81da74a" alt="Surf Trip List"></a>
+
+       <!-- Mobile Dropdown Menu -->
+       <div class="dropdown d-md-none">
+         <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           <i id="mobile-menu-arrow" class="fas fa-chevron-down ml-2"></i>
+         </a>
+         <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuLink">
+           <a class="dropdown-item" href="contribute.html">Contribute</a>
+           <a class="dropdown-item" href="contact.html">Help</a>
+         </div>
+       </div>
+
+       <!-- Search Bar -->
+       <div class="input-group input-group-sm col-md-3">
+         <div class="input-group-prepend">
+           <span class="input-group-text" id="search-descriptor"><i class="fas fa-search"></i></span>
+         </div>
+         <input id="searchInput" type="search" class="search-input form-control search city-page-search" placeholder='' aria-label="Search surf trips">
+       </div>
+
+       <h6 id="breadcrumb" class="ml-2 my-0 mr-md-auto font-weight-bold"></h6>
+       <nav id="top-nav" class="my-2 my-md-0 d-none d-md-block">
+         <a class="p-2 text-dark" href="contribute.html">Contribute</a>
+         <a class="p-2 text-dark" href="contact.html">Help</a>
+       </nav>
+
+       <div id="toggle-map-and-list" class="d-md-none ml-auto mr-2">
+         <a id="show-map-mobile" class="font-weight-bold"><u>Map</u></a>
+         <a id="show-list-mobile" class="font-weight-bold hide"><u>List</u></a>
+       </div>
+
+    </div>
+  </div><!-- End of container-fluid -->
+
+
+    <!-- <img class="details-cover-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7" class="img-fluid" alt="Responsive image"> -->
+
+    <div class="container surf-spot-page-wrapper">
+      <div class="row">
+
+        <div class="col-lg-8">
+          <div class="row">
+
+            <!-- Overview -->
+            <div class="col-12 mt-3">
+              <small class="text-muted card-preheader-text font-weight-bold surf-spot-preheader"> </small>
+              <h5 class="card-title card-title-text font-weight-bold surf-spot-name"> </h5>
+              <span class="badge card-badge text-uppercase mb-2 surf-spot-page-badge"> </span><br>
+              <small class="quality-stars mb-1"></small>
+            </div><!-- //Overview -->
+
+            <!-- Highlights -->
+            <div class="col-12">
+              <div class="container border highlights-container float-left mt-2 p-3">
+
+                <small class="text-muted font-weight-bold">HIGHLIGHTS</small>
+
+                <div class="row mt-2">
+                  <div class="col-12">
+                    <small class="font-weight-bold mb-0">BEST CONDITIONS</small>
+                    <div class="surf-highlights-primary">
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-2">
+                  <div class="col-12">
+                    <small class="font-weight-bold mb-0">SURF</small>
+                    <div class="surf-highlights-secondary">
+
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row mt-3">
+                  <div class="col-12">
+                    <small class="font-weight-bold">NEARBY</small>
+                    <div class="nearby-highlights">
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="col-12">
+                    <small class="font-weight-bold">DISTANCE FROM AIRPORT</small>
+                    <small class="text-muted"><p class="mb-0 duration-from-airport"> </p></small>
+                    <p class="text-muted subtext flights-link mb-0"> </p>
+                  </div>
+                </div>
+              </div>
+            </div><!-- //Highlights -->
+
+            <!-- Description -->
+            <div class="col-12 mt-3">
+              <small class="text-muted"><p class="surf-spot-description"> </p></small>
+            </div><!-- //Description -->
+
+            <!-- When to go -->
+            <div class="col-12">
+
+              <h6 class="font-weight-bold">Best time to go</h6>
+              <div class="container">
+                <div class="row seasonality-chart">
+
+                </div>
+              </div>
+
+            </div><!-- //When to go -->
+
+            <!-- Map -->
+            <div class="col-12">
+              <h6 class="font-weight-bold">The area</h6>
+              <div id="details-map" class="mb-3 border">
+
+              </div>
+            </div>
+
+            <!-- Where to stay Mobile -->
+            <div class="col-lg-8 d-block d-lg-none detail-accomms-mobile">
+              <h6 class="font-weight-bold">Where to stay</h6>
+              <div class="row">
+
+                  <!-- Surf Spot Page Accomm Card Mobile -->
+                  <div class="col-3">
+                    <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="test">
+
+                      <!-- Surf Spot Page Accomm Card Photos -->
+                      <img class="card-img nearby-card-custom-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7" alt="${name}">
+
+                      <!-- Surf Spot Page Accomm Card Descriptors -->
+                      <div class="card-body mx-0 p-0 pt-2">
+                        <small class="text-muted card-preheader-text font-weight-bold">Villas • 2 Beds</small>
+                        <h6 class="card-title card-title-text"><small class="font-weight-bold">Gorgeous Beach Front Bali Villa</small></h6>
+                        <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
+                        <p class="card-note">$165 per night • Walk to surf</p>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!-- Surf Spot Page Accomm Card Mobile -->
+                  <div class="col-3">
+                    <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="test">
+
+                      <!-- Surf Spot Page Accomm Card Photos -->
+                      <img class="card-img nearby-card-custom-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7" alt="${name}">
+
+                      <!-- Surf Spot Page Accomm Card Descriptors -->
+                      <div class="card-body mx-0 p-0 pt-2">
+                        <small class="text-muted card-preheader-text font-weight-bold">Villas • 2 Beds</small>
+                        <h6 class="card-title card-title-text"><small class="font-weight-bold">Gorgeous Beach Front Bali Villa</small></h6>
+                        <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
+                        <p class="card-note">$165 per night • Walk to surf</p>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!-- Surf Spot Page Accomm Card Mobile -->
+                  <div class="col-3">
+                    <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="test">
+
+                      <!-- Surf Spot Page Accomm Card Photos -->
+                      <img class="card-img nearby-card-custom-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7" alt="${name}">
+
+                      <!-- Surf Spot Page Accomm Card Descriptors -->
+                      <div class="card-body mx-0 p-0 pt-2">
+                        <small class="text-muted card-preheader-text font-weight-bold">Villas • 2 Beds</small>
+                        <h6 class="card-title card-title-text"><small class="font-weight-bold">Gorgeous Beach Front Bali Villa</small></h6>
+                        <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
+                        <p class="card-note">$165 per night • Walk to surf</p>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!-- Surf Spot Page Accomm Card Mobile -->
+                  <div class="col-3">
+                    <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="test">
+
+                      <!-- Surf Spot Page Accomm Card Photos -->
+                      <img class="card-img nearby-card-custom-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7" alt="${name}">
+
+                      <!-- Surf Spot Page Accomm Card Descriptors -->
+                      <div class="card-body mx-0 p-0 pt-2">
+                        <small class="text-muted card-preheader-text font-weight-bold">Villas • 2 Beds</small>
+                        <h6 class="card-title card-title-text"><small class="font-weight-bold">Gorgeous Beach Front Bali Villa</small></h6>
+                        <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
+                        <p class="card-note">$165 per night • Walk to surf</p>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <hr>
+
+              </div>
+            </div>
+
+            <!-- Nearby -->
+            <div class="col-12 pb-4">
+
+              <h6 class="font-weight-bold">Nearby</h6>
+              <div class="row">
+                <!-- Nearby Card -->
+                <div class="col-3 pr-0">
+                  <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="test">
+
+                    <!-- Card Photos -->
+                    <img class="card-img nearby-card-custom-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7" alt="${name}">
+
+                    <!-- Card Descriptors -->
+                    <div class="card-body mx-0 p-0 pt-1">
+                      <small class="text-muted small-card-preheader-text font-weight-bold">RIGHT POINT BREAK</small>
+                      <h6 class="card-title card-title-text"><small class="font-weight-bold">Hammonds</small></h6>
+                      <span class="badge small-card-preheader-text card-badge badge-primary text-uppercase mb-1">INTERMEDIATE</span>
+                      <p class="card-note"><small>1.2 miles away</small><p>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-3 pr-0">
+                  <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="test">
+
+                    <!-- Card Photos -->
+                    <img class="card-img nearby-card-custom-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7" alt="${name}">
+
+                    <!-- Card Descriptors -->
+                    <div class="card-body mx-0 p-0 pt-1">
+                      <small class="text-muted small-card-preheader-text font-weight-bold">RIGHT POINT BREAK</small>
+                      <h6 class="card-title card-title-text"><small class="font-weight-bold">Hammonds</small></h6>
+                      <span class="badge small-card-preheader-text card-badge badge-primary text-uppercase mb-1">INTERMEDIATE</span>
+                      <p class="card-note"><small>1.2 miles away</small><p>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-3 pr-0">
+                  <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="test">
+
+                    <!-- Card Photos -->
+                    <img class="card-img nearby-card-custom-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7" alt="${name}">
+
+                    <!-- Card Descriptors -->
+                    <div class="card-body mx-0 p-0 pt-1">
+                      <small class="text-muted small-card-preheader-text font-weight-bold">RIGHT POINT BREAK</small>
+                      <h6 class="card-title card-title-text"><small class="font-weight-bold">Hammonds</small></h6>
+                      <span class="badge small-card-preheader-text card-badge badge-primary text-uppercase mb-1">INTERMEDIATE</span>
+                      <p class="card-note"><small>1.2 miles away</small><p>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-3">
+                  <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="test">
+
+                    <!-- Card Photos -->
+                    <img class="card-img nearby-card-custom-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/images%2Fsurf-spot-default-photo.png?alt=media&token=ed4077a4-bdf0-47a2-8dac-ecb0552c76c7" alt="${name}">
+
+                    <!-- Card Descriptors -->
+                    <div class="card-body mx-0 p-0 pt-1">
+                      <small class="text-muted small-card-preheader-text font-weight-bold">RIGHT POINT BREAK</small>
+                      <h6 class="card-title card-title-text"><small class="font-weight-bold">Hammonds</small></h6>
+                      <span class="badge small-card-preheader-text card-badge badge-primary text-uppercase mb-1">INTERMEDIATE</span>
+                      <p class="card-note"><small>1.2 miles away</small><p>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- //Nearby -->
+
+          </div>
+        </div>
+
+
+        <!-- Where to stay Desktop-->
+        <div class="col-4 mt-3 d-none d-lg-block">
+          <div class="details-where-to-stay">
+            <h6 class="font-weight-bold">Where to stay</h6>
+            <div class="details-bookings">
+
+              <!--Accomm card -->
+              <div class="card accomm-spot-card accomm-photo-card illuminate-hover" data-id="test-nearby-accomms">
+                <!-- Accomm photos -->
+                <img class="accomm-card-custom-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/city%2Fbukit-peninsula.jpg?alt=media&token=706726d8-35cd-434c-9f40-e1493b4ce674" alt="Nearby Accomm Test">
+
+                <!-- Accomm descriptors -->
+                <div class="card-body mx-0 p-0 pt-2">
+                  <small class="text-muted card-preheader-text font-weight-bold">Villas • 2 Beds</small>
+                  <h5 class="card-title card-title-text font-weight-bold">Gorgeous Beach Front Bali Villa</h5>
+                  <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
+                  <p class="accomm-card-price">$165 per night • Walk to surf</p>
+                </div>
+              </div><!--//Accomm card -->
+
+              <!--Accomm card -->
+              <div class="card accomm-spot-card accomm-photo-card illuminate-hover" data-id="test-nearby-accomms">
+                <!-- Accomm photos -->
+                <img class="accomm-card-custom-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/city%2Fbukit-peninsula.jpg?alt=media&token=706726d8-35cd-434c-9f40-e1493b4ce674" alt="Nearby Accomm Test">
+
+                <!-- Accomm descriptors -->
+                <div class="card-body mx-0 p-0 pt-2">
+                  <small class="text-muted card-preheader-text font-weight-bold">Villas • 2 Beds</small>
+                  <h5 class="card-title card-title-text font-weight-bold">Gorgeous Beach Front Bali Villa</h5>
+                  <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
+                  <p class="accomm-card-price">$165 per night • Walk to surf</p>
+                </div>
+              </div><!--//Accomm card -->
+
+              <!--Accomm card -->
+              <div class="card accomm-spot-card accomm-photo-card illuminate-hover" data-id="test-nearby-accomms">
+                <!-- Accomm photos -->
+                <img class="accomm-card-custom-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/city%2Fbukit-peninsula.jpg?alt=media&token=706726d8-35cd-434c-9f40-e1493b4ce674" alt="Nearby Accomm Test">
+
+                <!-- Accomm descriptors -->
+                <div class="card-body mx-0 p-0 pt-2">
+                  <small class="text-muted card-preheader-text font-weight-bold">Villas • 2 Beds</small>
+                  <h5 class="card-title card-title-text font-weight-bold">Gorgeous Beach Front Bali Villa</h5>
+                  <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
+                  <p class="accomm-card-price">$165 per night • Walk to surf</p>
+                </div>
+              </div><!--//Accomm card -->
+
+              <!--Accomm card -->
+              <div class="card accomm-spot-card accomm-photo-card illuminate-hover" data-id="test-nearby-accomms">
+                <!-- Accomm photos -->
+                <img class="accomm-card-custom-image" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/city%2Fbukit-peninsula.jpg?alt=media&token=706726d8-35cd-434c-9f40-e1493b4ce674" alt="Nearby Accomm Test">
+
+                <!-- Accomm descriptors -->
+                <div class="card-body mx-0 p-0 pt-2">
+                  <small class="text-muted card-preheader-text font-weight-bold">Villas • 2 Beds</small>
+                  <h5 class="card-title card-title-text font-weight-bold">Gorgeous Beach Front Bali Villa</h5>
+                  <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
+                  <p class="accomm-card-price">$165 per night • Walk to surf</p>
+                </div>
+              </div><!--//Accomm card -->
+
+            </div>
+
+          </div>
+
+        </div><!-- //Where to stay column-->
+
+
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div id="footer">&#169;2018 Surf Trip List</div>
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+  <!-- Custom JS Library -->
+  <script type="text/javascript" src="index.js"></script>
+
+  <!-- Google Places JS Library Search Callback -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWowQZ_tEB7LA6vB-wnuETmrdvCcOVpVY&callback=initSurfPageMap"></script>
+
+</body>
+
+</html>
