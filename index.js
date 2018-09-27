@@ -2763,9 +2763,9 @@ function buildSurfSpotPagePhotos() {
       surferAttributionLink = data.surferAttributionLink;
 
       //Build the cover image
-      // $(".surf-spot-cover-image-wrapper").append(`
-      //   <img class="surf-spot-cover-image" src="${image}" class="img-fluid" alt="Responsive image">
-      // `);
+      $(".surf-spot-cover-image-wrapper").prepend(`
+        <img class="surf-spot-cover-image" src="${image}" class="img-fluid" alt="${surfSpotID} cover photo">
+      `);
       // buildSurfSpotCoverPhoto();
 
       $("#surf-spot-page-modal-wrapper").prepend(`
@@ -3245,6 +3245,7 @@ function initSurfPageMap() {
           id: surfSpotID,
           skill: skill,
           optimized: false,
+
         });
     });
   })
