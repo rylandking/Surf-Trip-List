@@ -167,6 +167,12 @@ let portugese;
 let indonesian;
 let board;
 let airportName;
+let swLngIncreased
+let neLngIncreased
+let swLatIncreased;
+let neLatIncreased;
+let distanceBetweenSurfSpots;
+let durationFromAirport;
 
 
 
@@ -3164,6 +3170,14 @@ function seasonality() {
 //Inialize google maps on the surf spot page
 function initSurfPageMap() {
 
+  getDurationFromAirportAndIncreaseMapBounds();
+
+  addMarkersToSurfSpotMap();
+
+}
+
+
+function getDurationFromAirportAndIncreaseMapBounds() {
   //Get doc data from the relevant surf-spot collection
   db.collection("surf-spot").doc(surfSpotID).get().then(function(doc) {
     data = doc.data();
@@ -3197,7 +3211,6 @@ function initSurfPageMap() {
           //Append the duration from the airport to the surf spot page
           $(".duration-from-airport").append(`${durationFromAirport} by car without traffic`)
         }
-
       }
     });//End service.getDistanceMatrix
 
@@ -3228,8 +3241,212 @@ function initSurfPageMap() {
       });//END -- map OBJECT
     }
 
-  });//Firestore query
+    //Listen for 'idle' on map
+    google.maps.event.addListener(map, 'idle', function() {
+      //If it's the first pageLoad find the increased bounds of map to get nearby surfspots and accomms
+      if (pageLoad == true) {
+        //Clear array & card list
+        latArray = [];
+        lngArray = [];
 
+        //Get lat of NE and SW corners of map at current state
+        neLat = map.getBounds().getNorthEast().lat();
+        swLat = map.getBounds().getSouthWest().lat();
+        neLng = map.getBounds().getNorthEast().lng();
+        swLng = map.getBounds().getSouthWest().lng();
+
+        //GOAL: Increase map bounds by 25 miles, but in lat/lng degrees — Equations: https://stackoverflow.com/questions/639695/how-to-convert-latitude-or-longitude-to-meters
+        //LAT: Length in kilometers of 1 lat = 111.32km.
+        //Starting lat in degrees
+          //console.log(neLat);
+          //1/111.32 = .008983 lat degrees = 1 km = 0.621371mi
+        //Increase the neLat by 25 miles
+          // console.log(neLat + .008983*(.621371*25));
+        neLatIncreased = neLat + .008983*(.621371*30);
+        swLatIncreased = swLat - .008983*(.621371*30);
+
+        //LNG: Length in kilometers of 1 lng = 40075km * cos(lat)/360
+        //Starting lng in degrees
+          // console.log(neLng + "lng");
+        //Km of one Lng
+          //console.log(40075*Math.cos(neLat)/360 + "km");
+        //Miles of one Lng
+          //console.log((40075*Math.cos(neLat)/360)/.621371 + "mi");
+        //Lng degrees per miles
+          //console.log(1/((40075*Math.cos(neLat)/360)/.621371) + "lng/mi");
+        //Lng degrees of 25 miles at lat
+          //console.log((1/((40075*Math.cos(neLat)/360)/.621371))*25 + "lng/25mi");
+        //Increase neLng, in lng degrees, by 25 miles
+          //ANSWER: console.log((1/((40075*Math.cos(neLat)/360)/.621371))*25 + neLng + "neLng + 25 miles");
+        neLngIncreased = (1/((40075*Math.cos(neLat)/360)/.621371))*30 + neLng;
+        swLngIncreased = (-1/((40075*Math.cos(swLat)/360)/.621371))*30 + swLng;
+
+        //Push lats and lngs into arrays
+        latArray.push(neLatIncreased, swLatIncreased);
+        lngArray.push(neLngIncreased, swLngIncreased);
+
+        //Find the largest and smallest lat and lng (for Firestore queries)
+        greaterLat = latArray.sort()[latArray.length - 1];
+        smallerLat = latArray.sort()[latArray.length - 2];
+        greaterLng = lngArray.sort()[lngArray.length - 2];
+        smallerLng = lngArray.sort()[lngArray.length - 1];
+
+        //Find nearby surf spots
+        //Get all surf spots within greaterLat and smallerLat (surfspot is coords of the surf spot location)
+        db.collection("surf-spot").where("surfspot.lat", "<=", greaterLat).where("surfspot.lat", ">=", smallerLat).get().then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            data = doc.data();
+            nearbySurfSpotID = doc.id;
+            nearbySurfSpotName = nearbySurfSpotID.replace(/-/g, ' ');
+            skill = data.skill;
+            coords = data.surfspot;
+            waveDir = data.direction;
+            waveType = data.type;
+
+            nearbySSProps = {
+              nearbySurfSpotID: nearbySurfSpotID,
+              nearbySurfSpotName: nearbySurfSpotName,
+              skill: skill,
+              coords: coords,
+              waveDir, waveDir,
+              waveType, waveType,
+            }
+
+            //If nearbySurfSpot is same as the surfSpot related to the surf spot page, don't let it go through
+            if (nearbySurfSpotID !== surfSpotID) {
+              //If surf spot is within the increased Lat/Lng of the surf spot map, prepend it into the Nearby surf spots list
+              if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
+                //Find the distance between any surf spot inside the increased Lat/Lng bounds, then begin the prepend of the nearby surf spot cards
+                getDistanceBetweenSurfSpots(nearbySSProps);
+
+              }
+            }
+
+          });
+        });
+
+        //Reset pageLoad back to false so that 'idle' never triggers refreshMapAndList() again
+        pageLoad = false;
+      }//Confitional pageLoad = true
+
+    });//Google maps 'idle' listener
+
+  });//Firestore query
+}
+
+
+function writeQuickNearbySurfSpotDescription(nearbySSProps) {
+  //Quick Description: Adjective
+  if (nearbySSProps.skill == "expert" || nearbySSProps.skill == "advanced") {
+    nearbySSProps.badge = "badge-dark";
+  } else if (nearbySSProps.skill == "intermediate") {
+    nearbySSProps.badge = "badge-primary";
+  } else if (nearbySSProps.skill == "beginner") {
+    nearbySSProps.badge = "badge-success";
+  }
+
+  //Quick Description: WaveDirection
+  if (nearbySSProps.waveDir == "right") {
+    nearbySSProps.waveDir == "right";
+  } else if (nearbySSProps.waveDir == "left") {
+    nearbySSProps.waveDir = "left";
+  } else if (nearbySSProps.waveDir == "both") {
+    nearbySSProps.waveDir = "right and left"
+  }
+
+  //Quick Description: waveType
+  if (nearbySSProps.waveType == "beach") {
+    nearbySSProps.waveType = "beach break";
+  } else if (nearbySSProps.waveType == "point") {
+    nearbySSProps.waveType = "point break";
+  } else if (nearbySSProps.waveType == "reef") {
+    nearbySSProps.waveType = "reef break";
+  } else if (nearbySSProps.waveType == "rockreef") {
+    nearbySSProps.waveType = "rockreef break";
+  }
+}
+
+
+function prependNearbySurfSpots(nearbySSProps) {
+  //Get the relevant nearby surf spot cover image
+  db.collection("surfSpotImages").where("surfSpot", "==", nearbySSProps.nearbySurfSpotID).where("coverImage", "==", true).get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+      data = doc.data();
+      image = data.image;
+
+      //Make badge say "expert only" for expert waves
+      if (nearbySSProps.skill == "expert") {
+        nearbySSProps.skill = "expert only";
+      }
+
+      //Prepend nearby surf spots to the nearby surf spots div
+      $(".nearby-surf-spots-container").prepend(`
+        <div class="col-md-5 ex1Child pl-0">
+        <a class="inherit-link" href="surf-spot.html?surfSpot=${nearbySSProps.nearbySurfSpotID}" target="_blank">
+          <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="${nearbySSProps.nearbySurfSpotID}">
+
+            <!-- Card Photos -->
+            <img class="card-img nearby-card-custom-image" src="${image}" alt="${nearbySSProps.nearbySurfSpotID}">
+
+            <!-- Card Descriptors -->
+            <div class="card-body mx-0 p-0 pt-1">
+              <small class="text-muted card-preheader-text font-weight-bold">${nearbySSProps.waveDir} ${nearbySSProps.waveType}</small>
+              <h6 class="card-title card-title-text font-weight-bold">${nearbySSProps.nearbySurfSpotName}</h6>
+              <span class="badge card-preheader-text card-badge ${nearbySSProps.badge} text-uppercase mb-1">${nearbySSProps.skill}</span>
+              <p class="card-note distance-between-surf-spots">${nearbySSProps.distanceBetweenSurfSpots} miles away<p>
+            </div>
+
+          </div>
+          </a>
+        </div>
+      `);
+
+    });
+  });
+
+}
+
+
+
+function getDistanceBetweenSurfSpots(nearbySSProps) {
+  //Init google maps distance matrix service
+  var service = new google.maps.DistanceMatrixService;
+
+  //Pass in perameters
+  service.getDistanceMatrix({
+    origins: [surfSpotCoords],
+    destinations: [coords],
+    travelMode: 'DRIVING',
+    unitSystem: google.maps.UnitSystem.IMPERIAL,
+  }, function(response, status) {
+    //If failed, console the error
+    if (status !== 'OK') {
+      alert('Error was: ' + status);
+    //If successful
+    } else {
+      //No idea what this is for other than to use in the for loop
+      originList = response.originAddresses;
+      for (var i = 0; i < originList.length; i++) {
+        results = response.rows[i].elements;
+        distanceBetweenSurfSpots = results[i].distance.text;
+      }
+
+      //Add distanceBetweenSurfSpots to nearbySSProps object
+      nearbySSProps.distanceBetweenSurfSpots = distanceBetweenSurfSpots;
+
+      //Set up the quick descriptions with nearbySSProps
+      writeQuickNearbySurfSpotDescription(nearbySSProps);
+
+      //Prepend the nearby surf spots html
+      prependNearbySurfSpots(nearbySSProps);
+
+    }
+  });//End service.getDistanceMatrix
+}
+
+
+
+function addMarkersToSurfSpotMap() {
   //Get the surf spot detail markers from the markers collection in Firestore to place them on the map
   db.collection("markers").where("surfSpot", "==", surfSpotID).get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
@@ -3248,14 +3465,8 @@ function initSurfPageMap() {
 
         });
     });
-  })
-
+  });
 }
-
-
-
-
-
 
 
 

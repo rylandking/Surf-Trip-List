@@ -550,10 +550,6 @@ p.card-hover-overlay {
   position: relative;
 }
 
-.detail-accomms-mobile {
-  height:240px !important;
-}
-
 .photo-card {
   height: 165px !important;
   width: auto;
@@ -1273,6 +1269,18 @@ input:checked + .slider:before {
   width: 100%;
   object-fit: cover;
   position: relative;
+}
+
+.accomm-overflow-x-container {
+  height: 300px;
+  overflow-x: scroll;
+  white-space: nowrap !important;
+}
+
+.accomm-mobile-card-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  float: none;
 }
 
 .ex1 {
