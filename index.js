@@ -83,7 +83,9 @@ let neLng;
 let swLat;
 let swLng;
 let lngArray = [];
+let lngAccommArray = [];
 let latArray = [];
+let latAccommArray = [];
 let largerLng;
 let smallerLng;
 let largerLat;
@@ -167,10 +169,10 @@ let portugese;
 let indonesian;
 let board;
 let airportName;
-let swLngIncreased
-let neLngIncreased
-let swLatIncreased;
-let neLatIncreased;
+let swLngNearbySSBounds
+let neLngNearbySSBounds
+let swLatNearbySSBounds;
+let neLatNearbySSBounds;
 let distanceBetweenSurfSpots;
 let durationFromAirport;
 
@@ -2768,11 +2770,21 @@ function buildSurfSpotPagePhotos() {
       surferAttribution = data.surferAttribution;
       surferAttributionLink = data.surferAttributionLink;
 
+      //If surferAttribution isn't available, show nothing
+      showOrHideSurferAttribution();
+
       //Build the cover image
       $(".surf-spot-cover-image-wrapper").prepend(`
-        <img class="surf-spot-cover-image" src="${image}" class="img-fluid" alt="${surfSpotID} cover photo">
+        <a class="cursor" data-toggle="modal" data-target="#surf-spot-page-modal">
+          <img class="surf-spot-cover-image" src="${image}" class="img-fluid" alt="${surfSpotID} cover photo">
+          <small class="cover-photo-credit">
+            <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+              <p>P: ${attribution}</p>
+            </a>
+          </small>
+        </a>
       `);
-      // buildSurfSpotCoverPhoto();
+
 
       $("#surf-spot-page-modal-wrapper").prepend(`
          <div id="surf-spot-page-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -2794,11 +2806,11 @@ function buildSurfSpotPagePhotos() {
                  </div>
 
                  <a class="carousel-control-prev" href="#surfSpotCarouselIndicators" role="button" data-slide="prev" data-prev-modal="${surfSpotID}">
-                   <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
+                   <span><i class="fas fa-chevron-left carousel-controls modal-carousel-control-prev" aria-hidden="true"></i></span>
                    <span class="sr-only">Previous</span>
                  </a>
                  <a class="carousel-control-next" href="#surfSpotCarouselIndicators" role="button" data-slide="next" data-next-modal="${surfSpotID}">
-                   <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
+                   <span><i class="fas fa-chevron-right carousel-controls modal-carousel-control-next" aria-hidden="true"></i></span>
                    <span class="sr-only">Next</span>
                  </a>
 
@@ -2813,7 +2825,10 @@ function buildSurfSpotPagePhotos() {
 
      toggleCarouselControlsListner();
 
-     hideSurfSpotCarouselControls();
+     //If window is bigger than 600px (desktop), show modal prev and next controls
+     if ($(window).width() > 600) {
+       hideSurfSpotCarouselControls();
+     }
 
      $(".carousel-indicators").append(`
        <li data-target="#surfSpotCarouselIndicators" data-slide-to="0" class="active"></li>
@@ -3262,8 +3277,10 @@ function getDurationFromAirportAndIncreaseMapBounds() {
           //1/111.32 = .008983 lat degrees = 1 km = 0.621371mi
         //Increase the neLat by 25 miles
           // console.log(neLat + .008983*(.621371*25));
-        neLatIncreased = neLat + .008983*(.621371*30);
-        swLatIncreased = swLat - .008983*(.621371*30);
+
+        //Nearby surf spot map lat bounds
+        neLatNearbySSBounds = neLat + .008983*(.621371*30);
+        swLatNearbySSBounds = swLat - .008983*(.621371*30);
 
         //LNG: Length in kilometers of 1 lng = 40075km * cos(lat)/360
         //Starting lng in degrees
@@ -3278,18 +3295,38 @@ function getDurationFromAirportAndIncreaseMapBounds() {
           //console.log((1/((40075*Math.cos(neLat)/360)/.621371))*25 + "lng/25mi");
         //Increase neLng, in lng degrees, by 25 miles
           //ANSWER: console.log((1/((40075*Math.cos(neLat)/360)/.621371))*25 + neLng + "neLng + 25 miles");
-        neLngIncreased = (1/((40075*Math.cos(neLat)/360)/.621371))*30 + neLng;
-        swLngIncreased = (-1/((40075*Math.cos(swLat)/360)/.621371))*30 + swLng;
+
+        //Nearby surf spot map lng bounds
+        neLngNearbySSBounds = (1/((40075*Math.cos(neLat)/360)/.621371))*30 + neLng;
+        swLngNearbySSBounds = (-1/((40075*Math.cos(swLat)/360)/.621371))*30 + swLng;
 
         //Push lats and lngs into arrays
-        latArray.push(neLatIncreased, swLatIncreased);
-        lngArray.push(neLngIncreased, swLngIncreased);
+        latArray.push(neLatNearbySSBounds, swLatNearbySSBounds);
+        lngArray.push(neLngNearbySSBounds, swLngNearbySSBounds);
 
-        //Find the largest and smallest lat and lng (for Firestore queries)
+        //Find the largest and smallest lat and lng (for nearby surf spot Firestore queries)
         greaterLat = latArray.sort()[latArray.length - 1];
         smallerLat = latArray.sort()[latArray.length - 2];
         greaterLng = lngArray.sort()[lngArray.length - 2];
         smallerLng = lngArray.sort()[lngArray.length - 1];
+
+        //Nearby accomm map lat bounds
+        neLatNearbyAccommBounds = neLat + .008983*(.621371*10);
+        swLatNearbyAccommBounds = swLat - .008983*(.621371*10);
+
+        //Nearby accomm map lng bounds
+        neLngNearbyAccommBounds = (1/((40075*Math.cos(neLat)/360)/.621371))*10 + neLng;
+        swLngNearbyAccommBounds = (-1/((40075*Math.cos(swLat)/360)/.621371))*10 + swLng;
+
+        //Push nearby accomm lat and lngs into arrays
+        latAccommArray.push(neLatNearbyAccommBounds, swLatNearbyAccommBounds);
+        lngAccommArray.push(neLngNearbyAccommBounds, swLngNearbyAccommBounds);
+
+        //Find the largest and smallest accomm lat and lng (for nearby accomm Firestore queries)
+        greaterAccommLat = latAccommArray.sort()[latAccommArray.length - 1];
+        smallerAccommLat = latAccommArray.sort()[latAccommArray.length - 2];
+        greaterAccommLng = lngAccommArray.sort()[lngAccommArray.length - 2];
+        smallerAccommLng = lngAccommArray.sort()[lngAccommArray.length - 1];
 
         //Find nearby surf spots
         //Get all surf spots within greaterLat and smallerLat (surfspot is coords of the surf spot location)
@@ -3320,6 +3357,50 @@ function getDurationFromAirportAndIncreaseMapBounds() {
                 getDistanceBetweenSurfSpots(nearbySSProps);
 
               }
+            }
+
+          });
+        });
+
+        //Find nearby accomms
+        //Get all accomms within greaterAccommLat and smallerAccommLat
+        db.collection("priceMarkers").where("coords.lat", "<=", greaterAccommLat).where("coords.lat", ">=", smallerAccommLat).get().then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            data = doc.data();
+            accommID = doc.id;
+            coords = data.coords;
+            accommURL = data.bookingURL;
+            photo = data.photo;
+            accommType = data.accommType;
+            bedAmount = data.bedAmount;
+            bedWord = data.bedWord;
+            guestAmount = data.guestAmount;
+            guestWord = data.guestWord;
+            title = data.title;
+            price = data.price;
+            view = data.view;
+            proximity = data.proximity;
+            nearbySurfSpot = data.surfSpot.replace(/-/g,' ');
+
+            nearbyAccommProps = {
+              coords: coords,
+              accommURL: accommURL,
+              photo: photo,
+              accommType: accommType,
+              bedAmount: bedAmount,
+              bedWord: bedWord,
+              guestAmount: guestAmount,
+              guestWord: guestWord,
+              title: title,
+              price: price,
+              view: view,
+              proximity: proximity,
+            }
+
+            //If accomm is within the increased Lat/Lng of the surf spot map, prepend it into the Nearby Accomms lists (mobile & desktop)
+            if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
+              //Find the distance between any accomm inside the accomm Lat/Lng bounds, then begin the prepend of the nearby accomm cards
+              getDistanceToAccomms(nearbyAccommProps);
             }
 
           });
@@ -3445,6 +3526,74 @@ function getDistanceBetweenSurfSpots(nearbySSProps) {
 }
 
 
+function getDistanceToAccomms(nearbyAccommProps) {
+  //Init google maps distance matrix service
+  var service = new google.maps.DistanceMatrixService;
+
+  //Pass in perameters
+  service.getDistanceMatrix({
+    origins: [surfSpotCoords],
+    destinations: [coords],
+    travelMode: 'DRIVING',
+    unitSystem: google.maps.UnitSystem.IMPERIAL,
+  }, function(response, status) {
+    //If failed, console the error
+    if (status !== 'OK') {
+      alert('Error was: ' + status);
+    //If successful
+    } else {
+      //No idea what this is for other than to use in the for loop
+      originList = response.originAddresses;
+      for (var i = 0; i < originList.length; i++) {
+        results = response.rows[i].elements;
+        distanceToAccomm = results[i].distance.text;
+      }
+
+      //Add distanceToAccomm to nearbyAccommProps object
+      nearbyAccommProps.distanceToAccomm = distanceToAccomm;
+
+      prependNearbyAccomms(nearbyAccommProps);
+
+    }
+  });//End service.getDistanceMatrix
+}
+
+
+
+function prependNearbyAccomms(nearbyAccommProps) {
+
+  //Get the correct accommImage download URL
+  accommImage = storage.ref('accomm-images/' + nearbyAccommProps.title + '.png');
+  accommImage.getDownloadURL().then(function(accommPhoto) {
+
+  //Build the accomm cards within map bounds
+  $(".accomm-overflow-x-container").prepend(`
+    <!-- Surf Spot Page Accomm Card Mobile -->
+    <a class="inherit-link" href="${nearbyAccommProps.accommURL}" target="_blank">
+      <div class="col-md-5 accomm-mobile-card-wrapper pl-0">
+        <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="${nearbyAccommProps.accommID}">
+
+          <!-- Surf Spot Page Accomm Card Photos -->
+          <img class="card-img nearby-card-custom-image" src="${accommPhoto}" alt="accommodations near ${nearbyAccommProps.surfSpotID}">
+
+          <!-- Surf Spot Page Accomm Card Descriptors -->
+          <div class="card-body mx-0 p-0 pt-2">
+            <small class="text-muted card-preheader-text font-weight-bold">${nearbyAccommProps.accommType} • ${nearbyAccommProps.bedAmount} ${nearbyAccommProps.bedWord}</small>
+            <h6 class="card-title card-title-text"><small class="font-weight-bold">${nearbyAccommProps.title}</small></h6>
+            <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
+            <p class="card-note">$${nearbyAccommProps.price} per night • ${nearbyAccommProps.distanceToAccomm}</p>
+          </div>
+
+        </div>
+      </div>
+    </a>
+  `);
+
+  });
+}
+
+
+
 
 function addMarkersToSurfSpotMap() {
   //Get the surf spot detail markers from the markers collection in Firestore to place them on the map
@@ -3462,8 +3611,8 @@ function addMarkersToSurfSpotMap() {
           id: surfSpotID,
           skill: skill,
           optimized: false,
-
         });
+
     });
   });
 }
