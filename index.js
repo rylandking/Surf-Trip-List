@@ -3308,10 +3308,11 @@ function getDurationFromAirportAndSetNearbyRecommendations() {
               if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
                 //Find the distance between any surf spot inside the increased Lat/Lng bounds, then begin the prepend of the nearby surf spot cards
                 getDistanceBetweenSurfSpots(nearbySSProps);
-                //If a nearby surf spot exists, change nearbySurfSpotExist to true
-                nearbySurfSpotsExist = true;
               }
             }
+
+            //If a nearby surf spot exists, change nearbySurfSpotExist to true
+            nearbySurfSpotsExist = true;
 
             if (nearbySurfSpotsExist !== true) {
               //Prepend nearby surf spots to the nearby surf spots div
