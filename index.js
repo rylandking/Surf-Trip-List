@@ -176,6 +176,7 @@ let neLatNearbySSBounds;
 let distanceBetweenSurfSpots;
 let durationFromAirport;
 let nearbyAccommsExist;
+let nearbySurfSpotsExist;
 
 
 
@@ -1085,26 +1086,26 @@ function buildSurfSpotInfoWindow() {
 
         <!-- SURF SPOT IW IMAGE CAROUSEL -->
         <a class="surf-spot-infowindow" data-id="${surfSpotID}">
-        <div id="${surfSpotID}IWCarousel" class="carousel carousel-infowindow slide" data-ride="carousel" data-interval="false" data-photo-location-iw="${surfSpotID}">
+          <div id="${surfSpotID}IWCarousel" class="carousel carousel-infowindow slide" data-ride="carousel" data-interval="false" data-photo-location-iw="${surfSpotID}">
 
-          <!-- SURF SPOT IW CAROUSEL DOTS -->
-          <ol class="carousel-indicators carousel-indicators-iw" data-carousel-indicators-iw="${surfSpotID}">
-          </ol>
+            <!-- SURF SPOT IW CAROUSEL DOTS -->
+            <ol class="carousel-indicators carousel-indicators-iw" data-carousel-indicators-iw="${surfSpotID}">
+            </ol>
 
-          <!-- SURF SPOT IW CAROUSEL PHOTOS -->
-          <div class="carousel-inner" data-carousel-inner-iw="${surfSpotID}">
+            <!-- SURF SPOT IW CAROUSEL PHOTOS -->
+            <div class="carousel-inner" data-carousel-inner-iw="${surfSpotID}">
+            </div>
+
+            <!-- SURF SPOT IW CAROUSEL CONTROLS -->
+            <a class="carousel-control-prev carousel-control-prev-iw" href="#${surfSpotID}IWCarousel" role="button" data-slide="prev" data-prev-iw="${surfSpotID}">
+              <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next carousel-control-next-iw" href="#${surfSpotID}IWCarousel" role="button" data-slide="next" data-next-iw="${surfSpotID}">
+              <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
+              <span class="sr-only">Next</span>
+            </a>
           </div>
-
-          <!-- SURF SPOT IW CAROUSEL CONTROLS -->
-          <a class="carousel-control-prev carousel-control-prev-iw" href="#${surfSpotID}IWCarousel" role="button" data-slide="prev" data-prev-iw="${surfSpotID}">
-            <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next carousel-control-next-iw" href="#${surfSpotID}IWCarousel" role="button" data-slide="next" data-next-iw="${surfSpotID}">
-            <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
         </a>
 
         <!-- SURF SPOT INFOWINDOW DESCRIPTORS -->
@@ -1299,29 +1300,28 @@ function buildSurfSpotCard(ssProps) {
     <div class="card photo-card surf-spot-card illuminate-hover" data-id="${ssProps.surfSpotID}">
 
       <!-- SURF SPOT CARD IMAGE CAROUSEL -->
-        <a class="surf-spot-card-carousel" data-id="${ssProps.surfSpotID}">
-          <div id="${ssProps.surfSpotID}" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location="${ssProps.surfSpotID}">
+      <a class="surf-spot-card-carousel" data-id="${ssProps.surfSpotID}">
+        <div id="${ssProps.surfSpotID}" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location="${ssProps.surfSpotID}">
 
-            <!-- SURF SPOT CARD CAROUSEL DOTS -->
-            <ol class="carousel-indicators" data-carousel-indicators="${ssProps.surfSpotID}">
-            </ol>
+          <!-- SURF SPOT CARD CAROUSEL DOTS -->
+          <ol class="carousel-indicators" data-carousel-indicators="${ssProps.surfSpotID}">
+          </ol>
 
-            <!-- SURF SPOT CARD CAROUSEL PHOTOS -->
-            <div class="carousel-inner" data-carousel-inner="${ssProps.surfSpotID}">
-            </div>
-
-            <!-- SURF SPOT CARD CAROUSEL CONTROLS -->
-            <a class="carousel-control-prev" href="#${ssProps.surfSpotID}" role="button" data-slide="prev" data-prev="${ssProps.surfSpotID}">
-              <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next carousel-control-next-card" href="#${ssProps.surfSpotID}" role="button" data-slide="next" data-next="${ssProps.surfSpotID}">
-              <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
-              <span class="sr-only">Next</span>
-            </a>
+          <!-- SURF SPOT CARD CAROUSEL PHOTOS -->
+          <div class="carousel-inner" data-carousel-inner="${ssProps.surfSpotID}">
           </div>
-        </a>
 
+          <!-- SURF SPOT CARD CAROUSEL CONTROLS -->
+          <a class="carousel-control-prev" href="#${ssProps.surfSpotID}" role="button" data-slide="prev" data-prev="${ssProps.surfSpotID}">
+            <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next carousel-control-next-card" href="#${ssProps.surfSpotID}" role="button" data-slide="next" data-next="${ssProps.surfSpotID}">
+            <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </a>
 
       <!-- SURF SPOT CARD DESCRIPTORS -->
       <div class="card-body mx-0 p-0 pt-2 surf-spot-card-description" data-id="${ssProps.surfSpotID}">
@@ -1333,7 +1333,6 @@ function buildSurfSpotCard(ssProps) {
 
     </div>
   `);
-
 
 
 }//END -- buildSurfSpotCard()
@@ -1356,7 +1355,6 @@ function buildSurfSpotCoverPhoto(ssProps) {
   showOrHideSurferAttribution();
   //If a surfSpotMarker was clicked, run build the gallery into the infowindow (surfSpotMarkerID from buildSurfSpotInfoWindowPhotos())
   if (surfSpotMarkerClickForIW == true) {
-    console.log('running');
     //INFOWINDOW: Add dot indicator for the INFOWINDOW cover photo
     $("[data-carousel-indicators-iw='" + surfSpotMarkerID + "']").prepend(`
         <li data-target="#${surfSpotMarkerID}IWCarousel" data-slide-to="0"></li>
@@ -1689,53 +1687,8 @@ function initMap() {
   //IF SEARCH BAR IS NOT EMPTY WITH TEXT, INITALIZE AUTOCOMPLETE
   if ($(".search-input").value !== null) {
 
-    //If cityDB or cityS exist (...on city page), use the city.html input #searchInput
-    if (cityDB !== null || cityS !== null) {
-      //SELECT WHAT'S TYPED INTO THE SEARCH BOX
-      input = document.getElementById('searchInput');
-      //If it's on mobile and not on city.html, use #mobileSearchInput
-    } else if (cityDB == null && cityS == null && $(window).width() < 960) {
-      input = document.getElementById('mobileSearchInput');
-      //If it's on desktop and not on city.html, use the index.html #searchInput
-    } else {
-      input = document.getElementById('searchInput');
-    }//END -- Conditional for which input to use
+    initAutoComplete();
 
-    //BIAS AUTOCOMPLETE RESULTS WITHIN THESE BOUNDS
-    bounds = new google.maps.LatLngBounds (
-      new google.maps.LatLng(31.293808, -122.260797), //sw
-      new google.maps.LatLng(39.990799, -116.374700) //ne
-    );
-
-    //Only show cities (geocodes) in the autocomplete and bias results within the bounds set in the variable bounds
-    options = {
-      types: ['geocode'],
-      bounds: bounds,
-    };
-
-    autocomplete = new google.maps.places.Autocomplete(input, options);
-
-    //LISTEN FOR WHEN A PLACE IS SELECTED FROM THE AUTOCOMPLETE
-    autocomplete.addListener('place_changed', function() {
-      place = autocomplete.getPlace();
-      window.city = place.name;
-      window.lat = place.geometry.location.lat(),
-      window.lng = place.geometry.location.lng();
-
-      city = window.city;
-      lat = window.lat;
-      lng = window.lng;
-
-      if (!place.geometry) {
-        // User entered the name of a Place that was not suggested and
-        // pressed the Enter key, or the Place Details request failed.
-        window.alert("No details available for: '" + place.name + "'");
-        return;
-      }
-
-      //LOAD THE CITY PAGE
-      return redirectPage(city, lat, lng);
-    });//END -- autocomplete listener
   }//END -- searchInput conditional
 
   //Listen for 'idle' on map
@@ -3182,14 +3135,14 @@ function seasonality() {
 //Inialize google maps on the surf spot page
 function initSurfPageMap() {
 
-  getDurationFromAirportAndIncreaseMapBounds();
+  getDurationFromAirportAndSetNearbyRecommendations();
 
   addMarkersToSurfSpotMap();
 
 }
 
 
-function getDurationFromAirportAndIncreaseMapBounds() {
+function getDurationFromAirportAndSetNearbyRecommendations() {
   //Get doc data from the relevant surf-spot collection
   db.collection("surf-spot").doc(surfSpotID).get().then(function(doc) {
     data = doc.data();
@@ -3355,8 +3308,28 @@ function getDurationFromAirportAndIncreaseMapBounds() {
               if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
                 //Find the distance between any surf spot inside the increased Lat/Lng bounds, then begin the prepend of the nearby surf spot cards
                 getDistanceBetweenSurfSpots(nearbySSProps);
-
+                //If a nearby surf spot exists, change nearbySurfSpotExist to true
+                nearbySurfSpotsExist = true;
               }
+            }
+
+            if (nearbySurfSpotsExist !== true) {
+              //Prepend nearby surf spots to the nearby surf spots div
+              $(".nearby-surf-spots-container").prepend(`
+                <div class="col-md-5 ex1Child pl-0">
+                    <div class="card nearby-card nearby-surf-spot-card illuminate-hover">
+
+                      <!-- Card Photos -->
+                      <img class="card-img nearby-card-custom-image" src="${surfSpotDefaultPhoto}">
+
+                      <!-- Card Descriptors -->
+                      <div class="card-body mx-0 p-0 pt-1">
+                        <h6 class="card-title card-title-text font-weight-bold text-muted">No Surf Spots Within 25 Miles</h6>
+                      </div>
+
+                    </div>
+                </div>
+              `);
             }
 
           });
@@ -3457,7 +3430,17 @@ function getDurationFromAirportAndIncreaseMapBounds() {
 
 function initAutoComplete() {
   //SELECT WHAT'S TYPED INTO THE SEARCH BOX
-  input = document.getElementById('searchInput');
+  //If cityDB or cityS exist (...on city page), use the city.html input #searchInput
+  if (cityDB !== null || cityS !== null) {
+    //SELECT WHAT'S TYPED INTO THE SEARCH BOX
+    input = document.getElementById('searchInput');
+    //If it's on mobile and not on city.html, use #mobileSearchInput
+  } else if (cityDB == null && cityS == null && $(window).width() < 960) {
+    input = document.getElementById('mobileSearchInput');
+    //If it's on desktop and not on city.html, use the index.html #searchInput
+  } else {
+    input = document.getElementById('searchInput');
+  }//END -- Conditional for which input to use
 
   //BIAS AUTOCOMPLETE RESULTS WITHIN THESE BOUNDS
   bounds = new google.maps.LatLngBounds (
@@ -3544,27 +3527,27 @@ function prependNearbySurfSpots(nearbySSProps) {
       //Prepend nearby surf spots to the nearby surf spots div
       $(".nearby-surf-spots-container").prepend(`
         <div class="col-md-5 ex1Child pl-0">
-        <a class="inherit-link" href="surf-spot.html?surfSpot=${nearbySSProps.nearbySurfSpotID}" target="_blank">
-          <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="${nearbySSProps.nearbySurfSpotID}">
+          <a class="inherit-link" href="surf-spot.html?surfSpot=${nearbySSProps.nearbySurfSpotID}" target="_blank">
+            <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="${nearbySSProps.nearbySurfSpotID}">
 
-            <!-- Card Photos -->
-            <img class="card-img nearby-card-custom-image" src="${image}" alt="${nearbySSProps.nearbySurfSpotID}">
+              <!-- Card Photos -->
+              <img class="card-img nearby-card-custom-image" src="${image}" alt="${nearbySSProps.nearbySurfSpotID}">
 
-            <!-- Card Descriptors -->
-            <div class="card-body mx-0 p-0 pt-1">
-              <small class="text-muted card-preheader-text font-weight-bold">${nearbySSProps.waveDir} ${nearbySSProps.waveType}</small>
-              <h6 class="card-title card-title-text font-weight-bold">${nearbySSProps.nearbySurfSpotName}</h6>
-              <span class="badge card-preheader-text card-badge ${nearbySSProps.badge} text-uppercase mb-1">${nearbySSProps.skill}</span>
-              <p class="card-note distance-between-surf-spots">${nearbySSProps.distanceBetweenSurfSpots} miles away<p>
+              <!-- Card Descriptors -->
+              <div class="card-body mx-0 p-0 pt-1">
+                <small class="text-muted card-preheader-text font-weight-bold">${nearbySSProps.waveDir} ${nearbySSProps.waveType}</small>
+                <h6 class="card-title card-title-text font-weight-bold">${nearbySSProps.nearbySurfSpotName}</h6>
+                <span class="badge card-preheader-text card-badge ${nearbySSProps.badge} text-uppercase mb-1">${nearbySSProps.skill}</span>
+                <p class="card-note distance-between-surf-spots">${nearbySSProps.distanceBetweenSurfSpots} miles away<p>
+              </div>
+
             </div>
-
-          </div>
           </a>
         </div>
       `);
 
     });
-  });
+  })
 
 }
 
