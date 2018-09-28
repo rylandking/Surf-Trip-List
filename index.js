@@ -1356,6 +1356,7 @@ function buildSurfSpotCoverPhoto(ssProps) {
   showOrHideSurferAttribution();
   //If a surfSpotMarker was clicked, run build the gallery into the infowindow (surfSpotMarkerID from buildSurfSpotInfoWindowPhotos())
   if (surfSpotMarkerClickForIW == true) {
+    console.log('running');
     //INFOWINDOW: Add dot indicator for the INFOWINDOW cover photo
     $("[data-carousel-indicators-iw='" + surfSpotMarkerID + "']").prepend(`
         <li data-target="#${surfSpotMarkerID}IWCarousel" data-slide-to="0"></li>
@@ -2896,11 +2897,6 @@ function buildSurfSpotPagePhotos() {
 }
 
 
-//Builds the surf spot page cover image
-function buildSurfSpotCoverPhoto() {
-
-}
-
 function toggleCarouselControlsListner() {
   //Show and hide MODAL prev and next controls on hover
   $(document).on('mouseenter', '[data-photo-location-modal="' + surfSpotID + '"]', function(){
@@ -3200,6 +3196,7 @@ function getDurationFromAirportAndIncreaseMapBounds() {
     airportCoords = data.airportCoords;
     surfSpotCoords = data.surfspot;
     zoom = data.zoom;
+    surfSpotName = surfSpotID.replace(/-/g, ' ');
 
     //Init google maps distance matrix service
     var service = new google.maps.DistanceMatrixService;
@@ -3242,7 +3239,6 @@ function getDurationFromAirportAndIncreaseMapBounds() {
         mapTypeControl: false,
         fullscreenControl: false,
         streetViewControl: false,
-        gestureHandling: "greedy",
       });//END -- map OBJECT
     //If window is mobile (less than 600px), show the prev hide controls on page load.
     } else {
@@ -3256,6 +3252,9 @@ function getDurationFromAirportAndIncreaseMapBounds() {
         gestureHandling: "greedy",
       });//END -- map OBJECT
     }
+
+    //Add name of relevant surf spot as a placeholder to the search input
+    $(".search-input").attr("placeholder", surfSpotName);
 
     //Listen for 'idle' on map
     google.maps.event.addListener(map, 'idle', function() {
@@ -3413,7 +3412,7 @@ function getDurationFromAirportAndIncreaseMapBounds() {
           if (nearbyAccommsExist !== true) {
             //Build the mobile accomm cards within nearby accomm map bounds
             $(".accomm-overflow-x-container").prepend(`
-            <!-- Surf Spot Page Accomm Card Mobile -->
+              <!-- Surf Spot Page Accomm Card Mobile -->
               <div class="col-md-5 accomm-mobile-card-wrapper pl-0">
                 <div class="card nearby-card nearby-surf-spot-card illuminate-hover">
 
@@ -3451,7 +3450,50 @@ function getDurationFromAirportAndIncreaseMapBounds() {
 
     });//Google maps 'idle' listener
 
+    initAutoComplete();
+
   });//Firestore query
+}
+
+function initAutoComplete() {
+  //SELECT WHAT'S TYPED INTO THE SEARCH BOX
+  input = document.getElementById('searchInput');
+
+  //BIAS AUTOCOMPLETE RESULTS WITHIN THESE BOUNDS
+  bounds = new google.maps.LatLngBounds (
+    new google.maps.LatLng(31.293808, -122.260797), //sw
+    new google.maps.LatLng(39.990799, -116.374700) //ne
+  );
+
+  //Only show cities (geocodes) in the autocomplete and bias results within the bounds set in the variable bounds
+  options = {
+    types: ['geocode'],
+    bounds: bounds,
+  };
+
+  autocomplete = new google.maps.places.Autocomplete(input, options);
+
+  //LISTEN FOR WHEN A PLACE IS SELECTED FROM THE AUTOCOMPLETE
+  autocomplete.addListener('place_changed', function() {
+    place = autocomplete.getPlace();
+    window.city = place.name;
+    window.lat = place.geometry.location.lat(),
+    window.lng = place.geometry.location.lng();
+
+    city = window.city;
+    lat = window.lat;
+    lng = window.lng;
+
+    if (!place.geometry) {
+      // User entered the name of a Place that was not suggested and
+      // pressed the Enter key, or the Place Details request failed.
+      window.alert("No details available for: '" + place.name + "'");
+      return;
+    }
+
+    //LOAD THE CITY PAGE
+    return redirectPage(city, lat, lng);
+  });//END -- autocomplete listener
 }
 
 
