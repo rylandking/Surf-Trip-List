@@ -175,6 +175,7 @@ let swLatNearbySSBounds;
 let neLatNearbySSBounds;
 let distanceBetweenSurfSpots;
 let durationFromAirport;
+let nearbyAccommsExist;
 
 
 
@@ -3395,6 +3396,7 @@ function getDurationFromAirportAndIncreaseMapBounds() {
               price: price,
               view: view,
               proximity: proximity,
+              surfSpotName: surfSpotName,
             }
 
             //If accomm is within the increased Lat/Lng of the surf spot map, prepend it into the Nearby Accomms lists (mobile & desktop)
@@ -3403,7 +3405,44 @@ function getDurationFromAirportAndIncreaseMapBounds() {
               getDistanceToAccomms(nearbyAccommProps);
             }
 
+            nearbyAccommsExist = true;
+
           });
+        }).then(function() {
+          //If no nearby accomms, show the no nearby accomms cards
+          if (nearbyAccommsExist !== true) {
+            //Build the mobile accomm cards within nearby accomm map bounds
+            $(".accomm-overflow-x-container").prepend(`
+            <!-- Surf Spot Page Accomm Card Mobile -->
+              <div class="col-md-5 accomm-mobile-card-wrapper pl-0">
+                <div class="card nearby-card nearby-surf-spot-card illuminate-hover">
+
+                  <!-- Surf Spot Page Accomm Card Photos -->
+                  <img class="card-img nearby-card-custom-image" src="${accommDefaultPhoto}">
+
+                  <!-- Surf Spot Page Accomm Card Descriptors -->
+                  <div class="card-body mx-0 p-0 pt-2">
+                    <h6 class="card-title card-title-text"><small class="font-weight-bold">No Accommodations Within 25 Miles</small></h6>
+                  </div>
+
+                </div>
+              </div>
+            `);
+
+            $(".details-bookings").prepend(`
+              <!--Accomm card -->
+              <div class="card accomm-spot-card accomm-photo-card illuminate-hover">
+                <!-- Accomm photos -->
+                <img class="accomm-card-custom-image" src="${accommDefaultPhoto}">
+
+                <!-- Accomm descriptors -->
+                <div class="card-body mx-0 p-0 pt-2">
+                  <h6 class="card-title card-title-text text-muted font-weight-bold">No Accommodations Within 25 Miles</h6>
+                </div>
+              </div><!--//Accomm card -->
+            `);
+
+          }
         });
 
         //Reset pageLoad back to false so that 'idle' never triggers refreshMapAndList() again
@@ -3566,7 +3605,7 @@ function prependNearbyAccomms(nearbyAccommProps) {
   accommImage = storage.ref('accomm-images/' + nearbyAccommProps.title + '.png');
   accommImage.getDownloadURL().then(function(accommPhoto) {
 
-  //Build the accomm cards within map bounds
+  //Build the mobile accomm cards within nearby accomm map bounds
   $(".accomm-overflow-x-container").prepend(`
     <!-- Surf Spot Page Accomm Card Mobile -->
     <a class="inherit-link" href="${nearbyAccommProps.accommURL}" target="_blank">
@@ -3581,11 +3620,29 @@ function prependNearbyAccomms(nearbyAccommProps) {
             <small class="text-muted card-preheader-text font-weight-bold">${nearbyAccommProps.accommType} • ${nearbyAccommProps.bedAmount} ${nearbyAccommProps.bedWord}</small>
             <h6 class="card-title card-title-text"><small class="font-weight-bold">${nearbyAccommProps.title}</small></h6>
             <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
-            <p class="card-note">$${nearbyAccommProps.price} per night • ${nearbyAccommProps.distanceToAccomm}</p>
+            <p class="card-note">$${nearbyAccommProps.price} per night • ${nearbyAccommProps.distanceToAccomm}les away</p>
           </div>
 
         </div>
       </div>
+    </a>
+  `);
+
+  $(".details-bookings").prepend(`
+    <!--Accomm card -->
+    <a class="inherit-link" href="${nearbyAccommProps.accommURL}" target="_blank">
+      <div class="card accomm-spot-card accomm-photo-card illuminate-hover" data-id="${nearbyAccommProps.accommID}">
+        <!-- Accomm photos -->
+        <img class="accomm-card-custom-image" src="${accommPhoto}" alt="accommodations near ${nearbyAccommProps.surfSpotID}">
+
+        <!-- Accomm descriptors -->
+        <div class="card-body mx-0 p-0 pt-2">
+          <small class="text-muted card-preheader-text font-weight-bold">${nearbyAccommProps.accommType} • ${nearbyAccommProps.bedAmount} ${nearbyAccommProps.bedWord}</small>
+          <h5 class="card-title card-title-text font-weight-bold">${nearbyAccommProps.title}</h5>
+          <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
+          <p class="accomm-card-price">$${nearbyAccommProps.price} per night • ${nearbyAccommProps.distanceToAccomm}les away</p>
+        </div>
+      </div><!--//Accomm card -->
     </a>
   `);
 
