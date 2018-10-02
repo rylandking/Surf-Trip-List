@@ -3535,15 +3535,6 @@ function buildNearbyCarouselStructure(nearbySSProps) {
     </div>
   `);
 
-  //If desktop, hide the card carousel controls on page load
-  if ($(window).width() > 600) {
-    //Hide the prev and next controls on carousel load
-    hideNearbyCardControls(nearbySSProps);
-  }
-
-  //Show and hide nearby surf spot card carousel prev and next controls on hover
-  toggleNearbyCardCarouselControls(nearbySSProps);
-
   //Prepend the nearby surf spots html
   prependNearbySurfSpots(nearbySSProps);
 
@@ -3611,6 +3602,8 @@ function writeQuickNearbySurfSpotDescription(nearbySSProps) {
 
 
 function prependNearbySurfSpots(nearbySSProps) {
+  //useCustomPhotos will turn to true if a custom photo is available in the Firestore query below
+  useCustomPhotos = false;
 
   //Get the relevant nearby surf spot cover image
   db.collection("surfSpotImages").where("surfSpot", "==", nearbySSProps.nearbySurfSpotID).where("coverImage", "==", true).get().then(function(querySnapshot) {
@@ -3626,6 +3619,8 @@ function prependNearbySurfSpots(nearbySSProps) {
       attributionLink = data.attributionLink;
       surferAttribution = data.surferAttribution;
       surferAttributionLink = data.surferAttributionLink;
+
+      hideNearbyCardControls(nearbySSProps);
 
       //Add dot indicator for the card cover photo
       $("[data-carousel-indicators='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
@@ -3663,6 +3658,15 @@ function prependNearbySurfSpots(nearbySSProps) {
         surferAttribution = data.surferAttribution;
         surferAttributionLink = data.surferAttributionLink;
 
+        //Because there are multiple photos, if desktop, hide the card carousel controls on page load
+        if ($(window).width() > 600) {
+          //Hide the prev and next controls on carousel load
+          hideNearbyCardControls(nearbySSProps);
+        }
+
+        //Because there are multiple photos, show and hide nearby surf spot card carousel prev and next controls on hover
+        toggleNearbyCardCarouselControls(nearbySSProps);
+
         //Add dot indicator for the card cover photo
         $("[data-carousel-indicators='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
             <li data-target="#${nearbySSProps.nearbySurfSpotID}" data-slide-to="${surfSpotSlideCount}"></li>
@@ -3689,7 +3693,26 @@ function prependNearbySurfSpots(nearbySSProps) {
         surfSpotSlideCount++
 
       });
+    }).then(function() {
+
+      if (useCustomPhotos == false) {
+        //Add dot indicator for the card cover photo
+        $("[data-carousel-indicators='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
+            <li data-target="#${nearbySSProps.nearbySurfSpotID}" data-slide-to="0"></li>
+        `);
+
+        hideNearbyCardControls(nearbySSProps);
+
+        //Add the cover photo to the nearby surf spot carousel
+        $("[data-carousel-inner='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
+          <div class="carousel-item active">
+            <img class="d-block card-custom-image" src="${surfSpotDefaultPhoto}" alt="${nearbySSProps.nearbySurfSpotID}">
+          </div>
+        `);
+      }
+
     });
+
   });
 
 }
