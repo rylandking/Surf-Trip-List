@@ -3693,27 +3693,32 @@ function prependNearbySurfSpots(nearbySSProps) {
         surfSpotSlideCount++
 
       });
-    }).then(function() {
-
-      if (useCustomPhotos == false) {
-        //Add dot indicator for the card cover photo
-        $("[data-carousel-indicators='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
-            <li data-target="#${nearbySSProps.nearbySurfSpotID}" data-slide-to="0"></li>
-        `);
-
-        hideNearbyCardControls(nearbySSProps);
-
-        //Add the cover photo to the nearby surf spot carousel
-        $("[data-carousel-inner='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
-          <div class="carousel-item active">
-            <img class="d-block card-custom-image" src="${surfSpotDefaultPhoto}" alt="${nearbySSProps.nearbySurfSpotID}">
-          </div>
-        `);
-      }
-
     });
 
+  }).then(function() {
+    //If there are no custom photos, add the surf spot default photo to the nearby surf spot card
+    if (useCustomPhotos !== true) {
+      //Add dot indicator for the card cover photo
+      $("[data-carousel-indicators='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
+          <li data-target="#${nearbySSProps.nearbySurfSpotID}" data-slide-to="0"></li>
+      `);
+
+      hideNearbyCardControls(nearbySSProps);
+
+      //Add the cover photo to the nearby surf spot carousel
+      $("[data-carousel-inner='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
+        <div class="carousel-item active">
+          <img class="d-block card-custom-image" src="${surfSpotDefaultPhoto}" alt="${nearbySSProps.nearbySurfSpotID}">
+        </div>
+      `);
+    }
+
+    //Reset useCustomPhotos to false to restart the loop
+    useCustomPhotos = false;
+
   });
+
+
 
 }
 
