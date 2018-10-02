@@ -2750,26 +2750,26 @@ function buildSurfSpotPagePhotos() {
                </div>
                <div class="modal-body">
 
-               <div id="surfSpotCarouselIndicators" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location-modal="${surfSpotID}">
+                 <div id="surfSpotCarouselIndicators" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location-modal="${surfSpotID}">
 
-                 <ol class="carousel-indicators carousel-indicators-modal">
+                   <ol class="carousel-indicators carousel-indicators-modal">
 
-                 </ol>
+                   </ol>
 
-                 <div class="carousel-inner-modal">
+                   <div class="carousel-inner-modal">
+
+                   </div>
+
+                   <a class="carousel-control-prev" href="#surfSpotCarouselIndicators" role="button" data-slide="prev" data-prev-modal="${surfSpotID}">
+                     <span><i class="fas fa-chevron-left carousel-controls modal-carousel-control-prev" aria-hidden="true"></i></span>
+                     <span class="sr-only">Previous</span>
+                   </a>
+                   <a class="carousel-control-next" href="#surfSpotCarouselIndicators" role="button" data-slide="next" data-next-modal="${surfSpotID}">
+                     <span><i class="fas fa-chevron-right carousel-controls modal-carousel-control-next" aria-hidden="true"></i></span>
+                     <span class="sr-only">Next</span>
+                   </a>
 
                  </div>
-
-                 <a class="carousel-control-prev" href="#surfSpotCarouselIndicators" role="button" data-slide="prev" data-prev-modal="${surfSpotID}">
-                   <span><i class="fas fa-chevron-left carousel-controls modal-carousel-control-prev" aria-hidden="true"></i></span>
-                   <span class="sr-only">Previous</span>
-                 </a>
-                 <a class="carousel-control-next" href="#surfSpotCarouselIndicators" role="button" data-slide="next" data-next-modal="${surfSpotID}">
-                   <span><i class="fas fa-chevron-right carousel-controls modal-carousel-control-next" aria-hidden="true"></i></span>
-                   <span class="sr-only">Next</span>
-                 </a>
-
-               </div>
 
                </div>
 
@@ -2794,7 +2794,7 @@ function buildSurfSpotPagePhotos() {
 
      //Add carousel cover image
      $(".carousel-inner-modal").append(`
-       <div class="carousel-item active">
+       <div class="carousel-item carousel-item-modal active">
          <img class="d-block modal-custom-image" src="${image}" alt="${surfSpotID}">
          <small class="modal-photo-credit font-weight-bold">
            <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
@@ -2828,7 +2828,7 @@ function buildSurfSpotPagePhotos() {
 
         //Add carousel cover image
         $(".carousel-inner-modal").append(`
-          <div class="carousel-item">
+          <div class="carousel-item carousel-item-modal">
             <img class="d-block modal-custom-image" src="${image}" alt="${surfSpotID}">
             <small class="modal-photo-credit font-weight-bold">
               <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">

@@ -1011,7 +1011,15 @@ p.card-hover-overlay {
   transition: transform .15s ease, -webkit-transform .15s ease;
 }
 
+.carousel-inner-modal .carousel-item-modal {
+  transition: -webkit-transform .15s ease;
+  transition: transform .15s ease;
+  transition: transform .15s ease, -webkit-transform .15s ease;
+}
 
+#surfSpotCarouselIndicators {
+  overflow: hidden;
+}
 
 .bright-hover:hover img {
   filter: brightness(90%);
@@ -1176,7 +1184,9 @@ p.card-hover-overlay {
 }
 
 /* Hide default HTML checkbox */
-.switch input {display:none;}
+.switch input {
+  display:none;
+}
 
 /* The slider */
 .slider {
