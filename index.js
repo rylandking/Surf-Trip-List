@@ -1401,7 +1401,7 @@ function buildSurfSpotCoverPhoto(ssProps) {
     //Return surfSpotMarkerClick to false to allow accomms to render on map and in list
     surfSpotMarkerClick = false;
     surfSpotMarkerClickForIW = false;
-  }, 1000);
+  }, 500);
 }
 
 
@@ -2752,11 +2752,11 @@ function buildSurfSpotPagePhotos() {
 
                <div id="surfSpotCarouselIndicators" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location-modal="${surfSpotID}">
 
-                 <ol class="carousel-indicators">
+                 <ol class="carousel-indicators carousel-indicators-modal">
 
                  </ol>
 
-                 <div class="carousel-inner">
+                 <div class="carousel-inner-modal">
 
                  </div>
 
@@ -2785,7 +2785,7 @@ function buildSurfSpotPagePhotos() {
        hideSurfSpotCarouselControls();
      }
 
-     $(".carousel-indicators").append(`
+     $(".carousel-indicators-modal").append(`
        <li data-target="#surfSpotCarouselIndicators" data-slide-to="0" class="active"></li>
      `);
 
@@ -2793,7 +2793,7 @@ function buildSurfSpotPagePhotos() {
      showOrHideSurferAttribution();
 
      //Add carousel cover image
-     $(".carousel-inner").append(`
+     $(".carousel-inner-modal").append(`
        <div class="carousel-item active">
          <img class="d-block modal-custom-image" src="${image}" alt="${surfSpotID}">
          <small class="modal-photo-credit font-weight-bold">
@@ -2819,7 +2819,7 @@ function buildSurfSpotPagePhotos() {
         surferAttribution = data.surferAttribution;
         surferAttributionLink = data.surferAttributionLink;
 
-        $(".carousel-indicators").append(`
+        $(".carousel-indicators-modal").append(`
           <li data-target="#surfSpotCarouselIndicators" data-slide-to="${surfSpotSlideCount}" class="active"></li>
         `);
 
@@ -2827,7 +2827,7 @@ function buildSurfSpotPagePhotos() {
         showOrHideSurferAttribution();
 
         //Add carousel cover image
-        $(".carousel-inner").append(`
+        $(".carousel-inner-modal").append(`
           <div class="carousel-item">
             <img class="d-block modal-custom-image" src="${image}" alt="${surfSpotID}">
             <small class="modal-photo-credit font-weight-bold">
@@ -2860,6 +2860,7 @@ function toggleCarouselControlsListner() {
     //Hides prev and next arrows on surf spot photos in surf spot modal
     hideSurfSpotCarouselControls();
   });
+
 }
 
 
@@ -3137,7 +3138,7 @@ function initSurfPageMap() {
 
   getDurationFromAirportAndSetNearbyRecommendations();
 
-  addMarkersToSurfSpotMap();
+  addLineUpMarkersToSurfSpotMap();
 
 }
 
@@ -3293,21 +3294,21 @@ function getDurationFromAirportAndSetNearbyRecommendations() {
             waveDir = data.direction;
             waveType = data.type;
 
-            nearbySSProps = {
-              nearbySurfSpotID: nearbySurfSpotID,
-              nearbySurfSpotName: nearbySurfSpotName,
-              skill: skill,
-              coords: coords,
-              waveDir, waveDir,
-              waveType, waveType,
-            }
-
             //If nearbySurfSpot is same as the surfSpot related to the surf spot page, don't let it go through
             if (nearbySurfSpotID !== surfSpotID) {
               //If surf spot is within the increased Lat/Lng of the surf spot map, prepend it into the Nearby surf spots list
               if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
+                nearbySSProps = {
+                  nearbySurfSpotID: nearbySurfSpotID,
+                  nearbySurfSpotName: nearbySurfSpotName,
+                  skill: skill,
+                  coords: coords,
+                  waveDir, waveDir,
+                  waveType, waveType,
+                }
                 //Find the distance between any surf spot inside the increased Lat/Lng bounds, then begin the prepend of the nearby surf spot cards
                 getDistanceBetweenSurfSpots(nearbySSProps);
+
               }
             }
 
@@ -3481,6 +3482,102 @@ function initAutoComplete() {
 }
 
 
+function buildNearbyCarouselStructure(nearbySSProps) {
+
+  writeQuickNearbySurfSpotDescription(nearbySSProps);
+
+  //Make badge say "expert only" for expert waves
+  if (nearbySSProps.skill == "expert") {
+    nearbySSProps.skill = "expert only";
+  }
+
+  //Prepend nearby surf spots to the nearby surf spots div
+  $(".nearby-surf-spots-container").prepend(`
+    <div class="col-md-5 ex1Child pl-0">
+      <a class="inherit-link" href="surf-spot.html?surfSpot=${nearbySSProps.nearbySurfSpotID}" target="_blank">
+        <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="${nearbySSProps.nearbySurfSpotID}">
+
+          <!-- NEARBY SURF SPOT CARD IMAGE CAROUSEL -->
+          <div id="${nearbySSProps.nearbySurfSpotID}" class="carousel slide" data-ride="carousel" data-interval="false" data-photo-location-nearby-card="${nearbySSProps.nearbySurfSpotID}">
+
+            <!-- NEARBY SURF SPOT CARD CAROUSEL DOTS -->
+            <ol class="carousel-indicators" data-carousel-indicators="${nearbySSProps.nearbySurfSpotID}">
+
+            </ol>
+
+           <!-- NEARBY SURF SPOT CARD CAROUSEL PHOTOS -->
+            <div class="carousel-inner" data-carousel-inner="${nearbySSProps.nearbySurfSpotID}">
+
+            </div>
+
+            <!-- NEARBY SURF SPOT CARD CAROUSEL CONTROLS -->
+            <a class="carousel-control-prev" href="#${nearbySSProps.nearbySurfSpotID}" role="button" data-slide="prev" data-prev-nearby-card="${nearbySSProps.nearbySurfSpotID}">
+              <span><i class="fas fa-chevron-left carousel-controls" aria-hidden="true"></i></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#${nearbySSProps.nearbySurfSpotID}" role="button" data-slide="next" data-prev-nearby-card="${nearbySSProps.nearbySurfSpotID}">
+              <span><i class="fas fa-chevron-right carousel-controls" aria-hidden="true"></i></span>
+              <span class="sr-only">Next</span>
+            </a>
+
+          </div>
+
+          <!-- Card Descriptors -->
+          <div class="card-body mx-0 p-0 pt-1">
+            <small class="text-muted card-preheader-text font-weight-bold">${nearbySSProps.waveDir} ${nearbySSProps.waveType}</small>
+            <h6 class="card-title card-title-text font-weight-bold">${nearbySSProps.nearbySurfSpotName}</h6>
+            <span class="badge card-preheader-text card-badge ${nearbySSProps.badge} text-uppercase mb-1">${nearbySSProps.skill}</span>
+            <p class="card-note distance-between-surf-spots">${nearbySSProps.distanceBetweenSurfSpots} miles away<p>
+          </div>
+
+        </div>
+      </a>
+    </div>
+  `);
+
+  //If desktop, hide the card carousel controls on page load
+  if ($(window).width() > 600) {
+    //Hide the prev and next controls on carousel load
+    hideNearbyCardControls(nearbySSProps);
+  }
+
+  //Show and hide nearby surf spot card carousel prev and next controls on hover
+  toggleNearbyCardCarouselControls(nearbySSProps);
+
+  //Prepend the nearby surf spots html
+  prependNearbySurfSpots(nearbySSProps);
+
+}
+
+
+//Hides the nearby surf spot carousel controls
+function hideNearbyCardControls(nearbySSProps) {
+  $('[data-prev-nearby-card="' + nearbySSProps.nearbySurfSpotID + '"]').hide();
+  $('[data-next-nearby-card="' + nearbySSProps.nearbySurfSpotID + '"]').hide();
+}
+
+
+//Shows the nearby surf spot carousel controls
+function showNearbyCardControls(nearbySSProps) {
+  $('[data-prev-nearby-card="' + nearbySSProps.nearbySurfSpotID + '"]').show();
+  $('[data-next-nearby-card="' + nearbySSProps.nearbySurfSpotID + '"]').show();
+}
+
+
+//Set listener to show and hide nearby surf spot card carousel prev and next controls on hover
+function toggleNearbyCardCarouselControls(nearbySSProps) {
+  //Show and hide nearby surf spot card carousel prev and next controls on hover
+  $(document).on('mouseenter', '[data-photo-location-nearby-card="' + nearbySSProps.nearbySurfSpotID + '"]', function(){
+    //Show prev and next arrows on surf spot photos in surf spot card
+    showNearbyCardControls(nearbySSProps);
+  })
+  .on('mouseleave', '[data-photo-location-nearby-card="' + nearbySSProps.nearbySurfSpotID + '"]', function(){
+    //Hides prev and next arrows on surf spot photos in surf spot card
+    hideNearbyCardControls(nearbySSProps);
+  });
+}
+
+
 function writeQuickNearbySurfSpotDescription(nearbySSProps) {
   //Quick Description: Adjective
   if (nearbySSProps.skill == "expert" || nearbySSProps.skill == "advanced") {
@@ -3514,44 +3611,88 @@ function writeQuickNearbySurfSpotDescription(nearbySSProps) {
 
 
 function prependNearbySurfSpots(nearbySSProps) {
+
   //Get the relevant nearby surf spot cover image
   db.collection("surfSpotImages").where("surfSpot", "==", nearbySSProps.nearbySurfSpotID).where("coverImage", "==", true).get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
       data = doc.data();
       image = data.image;
+      surfSpotPhotoID = doc.id;
+      surfSpotPhotoLocation = data.surfSpot;
+      surfSpotCoverPhoto = data.coverImage;
+      //Update useCustomPhotos to true so that the relevant surfSpotID doesn't build another card with default photos in the following .then(function(){})
+      useCustomPhotos = true;
+      attribution = data.attribution;
+      attributionLink = data.attributionLink;
+      surferAttribution = data.surferAttribution;
+      surferAttributionLink = data.surferAttributionLink;
 
-      //Make badge say "expert only" for expert waves
-      if (nearbySSProps.skill == "expert") {
-        nearbySSProps.skill = "expert only";
-      }
+      //Add dot indicator for the card cover photo
+      $("[data-carousel-indicators='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
+          <li data-target="#${nearbySSProps.nearbySurfSpotID}" data-slide-to="0"></li>
+      `);
 
-      //Prepend nearby surf spots to the nearby surf spots div
-      $(".nearby-surf-spots-container").prepend(`
-        <div class="col-md-5 ex1Child pl-0">
-          <a class="inherit-link" href="surf-spot.html?surfSpot=${nearbySSProps.nearbySurfSpotID}" target="_blank">
-            <div class="card nearby-card nearby-surf-spot-card illuminate-hover" data-id="${nearbySSProps.nearbySurfSpotID}">
+      //If surferAttribution isn't available, show nothing
+      showOrHideSurferAttribution();
 
-              <!-- Card Photos -->
-              <img class="card-img nearby-card-custom-image" src="${image}" alt="${nearbySSProps.nearbySurfSpotID}">
-
-              <!-- Card Descriptors -->
-              <div class="card-body mx-0 p-0 pt-1">
-                <small class="text-muted card-preheader-text font-weight-bold">${nearbySSProps.waveDir} ${nearbySSProps.waveType}</small>
-                <h6 class="card-title card-title-text font-weight-bold">${nearbySSProps.nearbySurfSpotName}</h6>
-                <span class="badge card-preheader-text card-badge ${nearbySSProps.badge} text-uppercase mb-1">${nearbySSProps.skill}</span>
-                <p class="card-note distance-between-surf-spots">${nearbySSProps.distanceBetweenSurfSpots} miles away<p>
-              </div>
-
-            </div>
-          </a>
+      //Add the cover photo to the nearby surf spot carousel
+      $("[data-carousel-inner='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
+        <div class="carousel-item active">
+          <img class="d-block card-custom-image" src="${image}" alt="${nearbySSProps.nearbySurfSpotID}">
+          <small class="card-photo-credit font-weight-bold">
+            <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+              <p class="m-0">${surferAttribution}</p>
+            </a>
+            <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+              <p>P: ${attribution}</p>
+            </a>
+          </small>
         </div>
       `);
 
     });
-  })
+  }).then(function() {
+    //Get the secondary images surf spot from the surfSpotImages collection in Firestore
+    db.collection("surfSpotImages").where("surfSpot", "==", nearbySSProps.nearbySurfSpotID).where("coverImage", "==", false).get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        data = doc.data();
+        image = data.image;
+        surfSpotPhotoLocation = data.surfSpot;
+        attribution = data.attribution;
+        attributionLink = data.attributionLink;
+        surferAttribution = data.surferAttribution;
+        surferAttributionLink = data.surferAttributionLink;
+
+        //Add dot indicator for the card cover photo
+        $("[data-carousel-indicators='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
+            <li data-target="#${nearbySSProps.nearbySurfSpotID}" data-slide-to="${surfSpotSlideCount}"></li>
+        `);
+
+        //If surferAttribution isn't available, show nothing
+        showOrHideSurferAttribution();
+
+        //Add the cover photo to the nearby surf spot carousel
+        $("[data-carousel-inner='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
+          <div class="carousel-item">
+            <img class="d-block card-custom-image" src="${image}" alt="${nearbySSProps.nearbySurfSpotID}">
+            <small class="card-photo-credit font-weight-bold">
+              <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
+                <p class="m-0">${surferAttribution}</p>
+              </a>
+              <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+                <p>P: ${attribution}</p>
+              </a>
+            </small>
+          </div>
+        `);
+
+        surfSpotSlideCount++
+
+      });
+    });
+  });
 
 }
-
 
 
 function getDistanceBetweenSurfSpots(nearbySSProps) {
@@ -3580,11 +3721,8 @@ function getDistanceBetweenSurfSpots(nearbySSProps) {
       //Add distanceBetweenSurfSpots to nearbySSProps object
       nearbySSProps.distanceBetweenSurfSpots = distanceBetweenSurfSpots;
 
-      //Set up the quick descriptions with nearbySSProps
-      writeQuickNearbySurfSpotDescription(nearbySSProps);
-
-      //Prepend the nearby surf spots html
-      prependNearbySurfSpots(nearbySSProps);
+      //Build the nearby surf spot carousel structure
+      buildNearbyCarouselStructure(nearbySSProps);
 
     }
   });//End service.getDistanceMatrix
@@ -3678,7 +3816,7 @@ function prependNearbyAccomms(nearbyAccommProps) {
 
 
 
-function addMarkersToSurfSpotMap() {
+function addLineUpMarkersToSurfSpotMap() {
   //Get the surf spot detail markers from the markers collection in Firestore to place them on the map
   db.collection("markers").where("surfSpot", "==", surfSpotID).get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
