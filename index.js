@@ -2724,6 +2724,7 @@ function buildSurfSpotPagePhotos() {
       attributionLink = data.attributionLink;
       surferAttribution = data.surferAttribution;
       surferAttributionLink = data.surferAttributionLink;
+      useCustomPhotos = true;
 
       //If surferAttribution isn't available, show nothing
       showOrHideSurferAttribution();
@@ -2846,6 +2847,17 @@ function buildSurfSpotPagePhotos() {
       });
     });
 
+  }).then(function() {
+    //If no custom photos available, use the surf spot default photo for the cover image
+    if (useCustomPhotos !== true) {
+      //Build the cover image
+      $(".surf-spot-cover-image-wrapper").prepend(`
+          <img class="surf-spot-cover-image" src="${surfSpotDefaultPhoto}" class="img-fluid" alt="surf trip list cover photo">
+      `);
+
+      //Hide the View Photos button since there's no photos of this spot
+      $(".surf-spot-modal-button").hide();
+    }
   });
 }
 
@@ -3865,16 +3877,3 @@ function addLineUpMarkersToSurfSpotMap() {
     });
   });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-let holdthebottom = "";
