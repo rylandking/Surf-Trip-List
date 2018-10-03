@@ -1388,6 +1388,7 @@ function buildSurfSpotCoverPhoto(ssProps) {
               <p>P: ${attribution}</p>
             </a>
           </small>
+          <i class="fas fa-plus-square iw-details-indicator cursor"></i>
         </div>
     `);
 
@@ -1455,6 +1456,7 @@ function addSurfSpotPhotosToCards(ssProps) {
                 <p>P: ${attribution}</p>
               </a>
             </small>
+            <i class="fas fa-plus-square iw-details-indicator cursor"></i>
           </div>
       `);
 
