@@ -225,6 +225,118 @@ function buildCityCards(cityProps) {
 }//END -- BUILD CITY CARDS
 
 
+let beginnerFilter;
+let intermediateFilter;
+let advancedFilter;
+let expertFilter;
+
+let destinationArray = [];
+let greaterLatArray = [];
+let smallerLatArray = [];
+let greaterLngArray = [];
+let smallerLngArray = [];
+
+//On click of cta button set the initial filter variables
+function filterDestinations() {
+  $(".cta-search-button").click(function() {
+    //If button has .active, get it's value
+    if ($(".beginner-cta-button").hasClass("active")) {
+      beginnerFilter = $("#beginner-cta-choice").val();
+    }
+    if ($(".intermediate-cta-button").hasClass("active")) {
+      intermediateFilter = $("#intermediate-cta-choice").val();
+    }
+    if ($(".advanced-cta-button").hasClass("active")) {
+      advancedFilter = $("#advanced-cta-choice").val();
+    }
+    if ($(".expert-cta-button").hasClass("active")) {
+      expertFilter = $("#expert-cta-choice").val();
+    }
+    console.log('clicked');
+
+    //Query all the cities to see if filter choice matches that city/destination
+    db.collection("city").where("beta", "==", true).get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        data = doc.data();
+        city = doc.id;
+
+        neCoords = data.neBounds;
+        swCoords = data.swBounds;
+
+        //Get lat of NE and SW corners of destination bounds in Firestore
+        neLat = neCoords.lat;
+        swLat = swCoords.lat;
+        neLng = neCoords.lng;
+        swLng = swCoords.lng;
+
+        //Reset the arrays
+        latArray = [];
+        lngArray = [];
+
+        //Push lats and lngs into arrays
+        latArray.push(neLat, swLat);
+        lngArray.push(neLng, swLng);
+
+        //Find the largest and smallest lat and lng (for Firestore query to find surf spots within those bounds)
+        greaterLat = latArray.sort()[latArray.length - 1];
+        smallerLat = latArray.sort()[latArray.length - 2];
+        greaterLng = lngArray.sort()[lngArray.length - 2];
+        smallerLng = lngArray.sort()[lngArray.length - 1];
+
+        //Push to greater/smaller lat/lngs to their own separate arrays to loop through and use as the query perameters to check if any surf spots that match the user's skill selection are within each destinations bounds so they can then be populated on the homepage
+        destinationArray.push(city);
+        greaterLatArray.push(greaterLat);
+        smallerLatArray.push(smallerLat);
+        greaterLngArray.push(greaterLng);
+        smallerLngArray.push(smallerLng);
+
+      });
+    }).then(function() {
+      //Loop through the each destination
+      for (var i = 0; i < destinationArray.length; i++) {
+        //Set each destinations bounds
+        greaterLatArray[i];
+        smallerLatArray[i];
+        greaterLngArray[i];
+        smallerLngArray[i];
+
+        //Find the surf spots who's lat/lng are within those bounds
+        findSurfSpotsWithinDestinationBounds(i);
+      }
+    });
+  });
+}//END -- filterDestinations()
+
+filterDestinations();
+
+
+//Find the surf spots' who's lat/lng are within those bounds
+function findSurfSpotsWithinDestinationBounds(i) {
+  //Query for surf spots within the map lat bounds
+  db.collection("surf-spot").where("surfspot.lat", "<=", greaterLatArray[i]).where("surfspot.lat", ">=", smallerLatArray[i]).get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+      data = doc.data();
+      surfSpotID = doc.id;
+      coords = data.surfspot;
+      skill = data.skill;
+
+      //If the surf spot is within the lat/lng bounds of destionation
+      if (coords.lng <= greaterLngArray[i] && coords.lng >= smallerLngArray[i]) {
+        //If the surf spot matches the selected wave skill
+        if (skill == beginnerFilter || skill == intermediateFilter || skill == advancedFilter || skill == expertFilter) {
+          //Prepend each destination that matches on to the homepage
+          console.log(destinationArray[i]);
+        }
+      }
+
+    });
+  });
+}
+
+
+
+
+
 ////PUT CITY IN QUERY PARAMS AFTER CLICKING ON CARD
 //Click city card on homepage
 $('body').on('click','#city-card',function(e){
