@@ -86,6 +86,7 @@ let lngArray = [];
 let lngAccommArray = [];
 let latArray = [];
 let latAccommArray = [];
+let destinationTagsArray = [];
 let largerLng;
 let smallerLng;
 let largerLat;
@@ -208,19 +209,19 @@ function buildCityCards(cityProps) {
   cityImage = storage.ref('city/' + cityProps.cityID + '.png');
 
   //Get each cityImage from Firestore storage and
-  cityImage.getDownloadURL().then(function(cityImage) {
-    $("#city-cards").append(
-      `<div id="city-card" class="card city-card bright-hover text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3" data-id="${cityProps.cityID}">
-        <img class="card-img tinted" src="${cityImage}" alt="${cityProps.city}">
-        <a class="white-link" href="city.html">
-          <div class="card-img-overlay">
-            <h4 class=" surf-spot-card-title position-relative">${cityProps.city}</h4>
-            <p class="card-subtitle position-relative">${cityProps.region}</p>
-          </div>
-        </a>
-      </div>`
-    );
-  });
+  // cityImage.getDownloadURL().then(function(cityImage) {
+  //   $("#city-cards").append(
+  //     `<div id="city-card" class="card city-card bright-hover text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3" data-id="${cityProps.cityID}">
+  //       <img class="card-img tinted" src="${cityImage}" alt="${cityProps.city}">
+  //       <a class="white-link" href="city.html">
+  //         <div class="card-img-overlay">
+  //           <h4 class=" surf-spot-card-title position-relative">${cityProps.city}</h4>
+  //           <p class="card-subtitle position-relative">${cityProps.region}</p>
+  //         </div>
+  //       </a>
+  //     </div>`
+  //   );
+  // });
 
 }//END -- BUILD CITY CARDS
 
@@ -229,6 +230,7 @@ let beginnerFilter;
 let intermediateFilter;
 let advancedFilter;
 let expertFilter;
+let previousDestination;
 
 let destinationArray = [];
 let greaterLatArray = [];
@@ -239,6 +241,12 @@ let smallerLngArray = [];
 //On click of cta button set the initial filter variables
 function filterDestinations() {
   $(".cta-search-button").click(function() {
+    //Reset the filters on next click
+    beginnerFilter = "";
+    intermediateFilter = "";
+    advancedFilter = "";
+    expertFilter = "";
+
     //If button has .active, get it's value
     if ($(".beginner-cta-button").hasClass("active")) {
       beginnerFilter = $("#beginner-cta-choice").val();
@@ -252,30 +260,49 @@ function filterDestinations() {
     if ($(".expert-cta-button").hasClass("active")) {
       expertFilter = $("#expert-cta-choice").val();
     }
-    console.log('clicked');
 
     //Query all the cities to see if filter choice matches that city/destination
-    db.collection("city").where("beta", "==", true).get().then(function(querySnapshot) {
+    db.collection("destinations").get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         data = doc.data();
-        city = doc.id;
+        destination = data.destination;
+
+        barScene = data.barScene;
+        comfortableBeaches = data.comfortableBeaches;
+        goodEats = data.goodEats;
+        hiking = data.hiking;
+        walkability = data.walkability;
+        worldRenowned = data.worldRenowned;
+
+        //Set object with tags to add to array and then come out with each relevant surf spot in findSurfSpotsWithinDestinationBounds(i)
+        destinationTags = {
+          barScene: barScene,
+          comfortableBeaches: comfortableBeaches,
+          goodEats: goodEats,
+          hiking: hiking,
+          walkability: walkability,
+          worldRenowned: worldRenowned,
+        }
 
         neCoords = data.neBounds;
         swCoords = data.swBounds;
 
         //Get lat of NE and SW corners of destination bounds in Firestore
-        neLat = neCoords.lat;
-        swLat = swCoords.lat;
-        neLng = neCoords.lng;
-        swLng = swCoords.lng;
+        neLat = neCoords.neLat;
+        swLat = swCoords.swLat;
+        neLng = neCoords.neLng;
+        swLng = swCoords.swLng;
 
         //Reset the arrays
         latArray = [];
         lngArray = [];
+        // destinationTagsArray = [];
 
         //Push lats and lngs into arrays
         latArray.push(neLat, swLat);
         lngArray.push(neLng, swLng);
+        destinationTagsArray.push(destinationTags);
+        // console.log(destinationTagsArray);
 
         //Find the largest and smallest lat and lng (for Firestore query to find surf spots within those bounds)
         greaterLat = latArray.sort()[latArray.length - 1];
@@ -284,7 +311,7 @@ function filterDestinations() {
         smallerLng = lngArray.sort()[lngArray.length - 1];
 
         //Push to greater/smaller lat/lngs to their own separate arrays to loop through and use as the query perameters to check if any surf spots that match the user's skill selection are within each destinations bounds so they can then be populated on the homepage
-        destinationArray.push(city);
+        destinationArray.push(destination);
         greaterLatArray.push(greaterLat);
         smallerLatArray.push(smallerLat);
         greaterLngArray.push(greaterLng);
@@ -312,6 +339,9 @@ filterDestinations();
 
 //Find the surf spots' who's lat/lng are within those bounds
 function findSurfSpotsWithinDestinationBounds(i) {
+  //Set the waveTypesAvailable object to use to prepend waveTypes available in each destination
+  waveTypesAvailable = {};
+
   //Query for surf spots within the map lat bounds
   db.collection("surf-spot").where("surfspot.lat", "<=", greaterLatArray[i]).where("surfspot.lat", ">=", smallerLatArray[i]).get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
@@ -319,13 +349,109 @@ function findSurfSpotsWithinDestinationBounds(i) {
       surfSpotID = doc.id;
       coords = data.surfspot;
       skill = data.skill;
+      waveType = data.type;
 
       //If the surf spot is within the lat/lng bounds of destionation
       if (coords.lng <= greaterLngArray[i] && coords.lng >= smallerLngArray[i]) {
-        //If the surf spot matches the selected wave skill
+        //For the first loop set the previousDestination == destinationArray[0]
+        // if (previousDestination == undefined) {
+        //   previousDestination = destinationArray[i];
+        // }
+        //If the surf spot matches any of the selected wave skills
         if (skill == beginnerFilter || skill == intermediateFilter || skill == advancedFilter || skill == expertFilter) {
-          //Prepend each destination that matches on to the homepage
-          console.log(destinationArray[i]);
+
+          //If waveType is _______ add it to the waveTypesAvailable object
+          if (waveType == "point") {
+            waveTypesAvailable.point = waveType;
+          }
+          if (waveType == "beach") {
+            waveTypesAvailable.beach = waveType;
+          }
+          if (waveType == "reef") {
+            waveTypesAvailable.reef = waveType;
+          }
+          if (waveType == "rockreef") {
+            waveTypesAvailable.rockreef = waveType;
+          }
+
+          //Add the waveTypesAvailable object to the array for that i destination
+          // waveTypesAvailableArray.push(waveTypesAvailable)
+          // console.log(waveTypesAvailable);
+          // console.log(waveTypesAvailableArray);
+
+          //If destinationArray has been set and it hasn't been set before, show or prepend the destination to the homepage (keeps it a singular destination)
+          if (destinationArray[i] !== previousDestination) {
+            console.log(destinationArray[i] + " & " + previousDestination);
+            console.log(waveTypesAvailable);
+            // console.log(i);
+            console.log(destinationArray[i] + ": " + destinationTagsArray[i].barScene, destinationTagsArray[i].comfortableBeaches, destinationTagsArray[i].goodEats, destinationTagsArray[i].hiking, destinationTagsArray[i].walkability, destinationTagsArray[i].worldRenowned);
+            // waveTypesAvailable = {};
+
+
+            // <div id="city-card" class="card city-card bright-hover text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3" data-id="testing">
+
+            //Builds each destination card
+            $("#destination-cards").prepend(`
+            <!-- DESTINATION CARD -->
+            <div id="city-card" class="card city-card bright-hover p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3" data-id="testing">
+              <div class="card photo-card illuminate-hover">
+
+                <img class="d-block card-custom-image" src="${surfSpotDefaultPhoto}" alt="test-alt-name">
+
+                <!-- DESTINATION CARD DESCRIPTORS -->
+                <div class="card-body mx-0 p-0 pt-2 surf-spot-card-description">
+                  <small class="text-muted card-preheader-text font-weight-bold">WAVE TYPES</small>
+                  <h5 class="card-title card-title-text font-weight-bold">${destinationArray[i]}</h5>
+                  <div class="destination-tags">
+                    <span class="dest-tag-bars-${destinationArray[i]}"></span>
+                    <span class="dest-tag-beach-${destinationArray[i]}"></span>
+                    <span class="dest-tag-eats-${destinationArray[i]}"></span>
+                    <span class="dest-tag-hiking-${destinationArray[i]}"></span>
+                    <span class="dest-tag-walkability-${destinationArray[i]}"></span>
+                    <span class="dest-tag-renowned-${destinationArray[i]}"></span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            `);
+
+            if (destinationTagsArray[i].barScene.length > 1) {
+              $(`.dest-tag-bars-${destinationArray[i]}`).prepend(`
+                <span class="badge destination-badge badge-purple text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].barScene} </span>
+              `);
+            }
+            if (destinationTagsArray[i].comfortableBeaches.length > 1) {
+              $(`.dest-tag-beach-${destinationArray[i]}`).prepend(`
+                <span class="badge destination-badge badge-purple text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].comfortableBeaches} </span>
+              `);
+            }
+            if (destinationTagsArray[i].goodEats.length > 1) {
+              $(`.dest-tag-eats-${destinationArray[i]}`).prepend(`
+                <span class="badge destination-badge badge-purple text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].goodEats} </span>
+              `);
+            }
+            if (destinationTagsArray[i].hiking.length > 1) {
+              $(`.dest-tag-hiking-${destinationArray[i]}`).prepend(`
+                <span class="badge destination-badge badge-purple text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].hiking} </span>
+              `);
+            }
+            if (destinationTagsArray[i].walkability.length > 1) {
+              $(`.dest-tag-walkability-${destinationArray[i]}`).prepend(`
+                <span class="badge destination-badge badge-purple text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].walkability} </span>
+              `);
+            }
+            if (destinationTagsArray[i].worldRenowned.length > 1) {
+              $(`.dest-tag-renowned-${destinationArray[i]}`).prepend(`
+                <span class="badge destination-badge badge-purple text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].worldRenowned} </span>
+              `);
+            }
+
+          }
+
+          //Sets the previous destination in the variable. Used to check if the destination has already been shown/prepended ot the homepage
+          previousDestination = destinationArray[i];
+
         }
       }
 
