@@ -178,6 +178,40 @@ let distanceBetweenSurfSpots;
 let durationFromAirport;
 let nearbyAccommsExist;
 let nearbySurfSpotsExist;
+let beginnerFilter;
+let intermediateFilter;
+let advancedFilter;
+let expertFilter;
+let previousDestination;
+let previousDestinationForWaveTypes;
+let destinationArray = [];
+let greaterLatArray = [];
+let smallerLatArray = [];
+let greaterLngArray = [];
+let smallerLngArray = [];
+let regionArray = [];
+let destinationName;
+let waveTypesAvailable = {};
+let j = 0;
+let isBeachSet = false;
+let isPointSet = false;
+let isReefSet = false;
+let isRockreefSet = false;
+let waveTypeDescription;
+let surfSpotCountInDestionation = [];
+let skillLevelsAvailable = {};
+let skillLevelsAvailableArray = [];
+let checkSkillsAtDestination;
+let beginnerSkillsAtDestination = "";
+let intermediateSkillsAtDestination = "";
+let advancedSkillsAtDestination = "";
+let expertSkillsAtDestination = "";
+let beginnerCount;
+let intermediateCount;
+let advancedCount;
+let expertCount;
+let skillsToFilterOn = [];
+let howManySkillsChosen;
 
 
 
@@ -225,31 +259,6 @@ function buildCityCards(cityProps) {
 
 }//END -- BUILD CITY CARDS
 
-
-let beginnerFilter;
-let intermediateFilter;
-let advancedFilter;
-let expertFilter;
-let previousDestination;
-let previousDestinationForWaveTypes;
-
-let destinationArray = [];
-let greaterLatArray = [];
-let smallerLatArray = [];
-let greaterLngArray = [];
-let smallerLngArray = [];
-let regionArray = [];
-
-let destinationName;
-let waveTypesAvailable = {};
-let j = 0;
-
-let isBeachSet = false;
-let isPointSet = false;
-let isReefSet = false;
-let isRockreefSet = false;
-let waveTypeDescription;
-let surfSpotCountInDestionation = [];
 
 //On click of cta button set the initial filter variables
 function buildHomePageDestinations() {
@@ -367,7 +376,7 @@ function findSurfSpotsWithinDestinationBounds(i) {
           //Builds each destination card
           $("#destination-cards").prepend(`
           <!-- DESTINATION CARD -->
-          <div id="destination-card" class="cursor p-1 pt-0 mb-4 col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3" data-id="${destinationArray[i]}">
+          <div id="destination-card" class="destination-card-skill-check cursor p-1 pt-0 mb-4 col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3" data-id="${destinationArray[i]}">
             <div class="destination-card surf-spot-card illuminate-hover">
 
               <img class="d-block card-custom-image" src="${accommDefaultPhoto}" alt="test-alt-name">
@@ -431,10 +440,6 @@ function findSurfSpotsWithinDestinationBounds(i) {
     });
   });
 }
-
-
-let skillLevelsAvailable = {};
-let skillLevelsAvailableArray = [];
 
 
 //In relevant destination, find all the wave types that exist
@@ -576,6 +581,20 @@ function findWaveTypesAtEachDestination(i) {
         ${waveTypeDescription} (${numberOfSurfSpots})
       `);
 
+      //Set the data-skill attribute with a dashed listed of the skills available in that destination
+      if (skillLevelsAvailableArray.length == 1) {
+        $(`[data-id="${previousDestinationForWaveTypes}"]`).attr('data-skill', skillLevelsAvailableArray[0]);
+      }
+      if (skillLevelsAvailableArray.length == 2) {
+        $(`[data-id="${previousDestinationForWaveTypes}"]`).attr('data-skill', skillLevelsAvailableArray[0] + "-" + skillLevelsAvailableArray[1]);
+      }
+      if (skillLevelsAvailableArray.length == 3) {
+        $(`[data-id="${previousDestinationForWaveTypes}"]`).attr('data-skill', skillLevelsAvailableArray[0] + "-" + skillLevelsAvailableArray[1] + "-" + skillLevelsAvailableArray[2]);
+      }
+      if (skillLevelsAvailableArray.length == 4) {
+        $(`[data-id="${previousDestinationForWaveTypes}"]`).attr('data-skill', skillLevelsAvailableArray[0] + "-" + skillLevelsAvailableArray[1] + "-" + skillLevelsAvailableArray[2] + skillLevelsAvailableArray[3]);
+      }
+
     }
   });
 }
@@ -584,25 +603,80 @@ function findWaveTypesAtEachDestination(i) {
 //Select what skill of waves you want, show the destinations that have that wave skill, hide the destinatinos that dont
 function filterDestinations() {
   $(".cta-search-button").click(function() {
+    //Reset the cards to all showing for continual filter
+    $(".destination-card-skill-check").show();
 
-    //Reset the filters on next click
-    beginnerFilter = "";
-    intermediateFilter = "";
-    advancedFilter = "";
-    expertFilter = "";
+    //Reset the counts to 0 on click to use the correct hide/show function
+    beginnerCount = 0;
+    intermediateCount = 0;
+    advancedCount = 0;
+    expertCount = 0;
+    skillsToFilterOn = [];
 
     //If button has .active, show destinations that have surf spots of that skill level. If not, hide destinations.
     if ($(".beginner-cta-button").hasClass("active")) {
-      beginnerFilter = $("#beginner-cta-choice").val();
+      beginnerCount = 1;
+      skillsToFilterOn.push("beginner");
+    } else {
+      beginnerCount = 0;
     }
     if ($(".intermediate-cta-button").hasClass("active")) {
-      intermediateFilter = $("#intermediate-cta-choice").val();
+      intermediateCount = 1;
+      skillsToFilterOn.push("intermediate");
+    } else {
+      intermediateCount = 0;
     }
     if ($(".advanced-cta-button").hasClass("active")) {
-      advancedFilter = $("#advanced-cta-choice").val();
+      advancedCount = 1;
+      skillsToFilterOn.push("advanced");
+    } else {
+      advancedCount = 0;
     }
     if ($(".expert-cta-button").hasClass("active")) {
-      expertFilter = $("#expert-cta-choice").val();
+      expertCount = 1;
+      skillsToFilterOn.push("expert");
+    } else {
+      expertCount = 0;
+    }
+
+    //Count the number of skills chosen
+    howManySkillsChosen = beginnerCount + intermediateCount + advancedCount + expertCount;
+
+    //If 1 skill chosen
+    if (howManySkillsChosen == 1) {
+      //Loop through all the destination cards and check if their data-skill="" contains an index of the skill selected. If it doesn't match (indexOf == -1), hide those cards.
+      $(".destination-card-skill-check").each(function() {
+        if ($(this).data('skill').indexOf(skillsToFilterOn[0]) == -1) {
+          $(this).hide();
+        }
+      });
+    }
+
+    if (howManySkillsChosen == 2) {
+      //Loop through all the destination cards and check if their data-skill="" contains an index of ALL the skills selected. If it doesn't match (indexOf == -1), hide those cards.
+      $(".destination-card-skill-check").each(function() {
+        if ($(this).data('skill').indexOf(skillsToFilterOn[0]) == -1 || $(this).data('skill').indexOf(skillsToFilterOn[1]) == -1) {
+          $(this).hide();
+        }
+      });
+    }
+
+    if (howManySkillsChosen == 3) {
+      //Loop through all the destination cards and check if their data-skill="" contains an index of ALL the skills selected. If it doesn't match (indexOf == -1), hide those cards.
+      $(".destination-card-skill-check").each(function() {
+        if ($(this).data('skill').indexOf(skillsToFilterOn[0]) == -1 || $(this).data('skill').indexOf(skillsToFilterOn[1]) == -1 || $(this).data('skill').indexOf(skillsToFilterOn[2]) == -1) {
+          $(this).hide();
+        }
+      });
+    }
+
+    if (howManySkillsChosen == 4) {
+      //Loop through all the destination cards and check if their data-skill="" contains an index of ALL the skills selected. If it doesn't match (indexOf == -1), hide those cards.
+      $(".destination-card-skill-check").each(function() {
+        if ($(this).data('skill').indexOf(skillsToFilterOn[0]) == -1 || $(this).data('skill').indexOf(skillsToFilterOn[1]) == -1 || $(this).data('skill').indexOf(skillsToFilterOn[2]) == -1 || $(this).data('skill').indexOf(skillsToFilterOn[3]) == -1) {
+          $(this).hide();
+        }
+      });
     }
 
   });
