@@ -383,8 +383,8 @@ function findSurfSpotsWithinDestinationBounds(i) {
 
               <!-- DESTINATION CARD DESCRIPTORS -->
               <div class="card-body mx-0 p-0 pt-2 surf-spot-card-description">
-                <small class="text-muted card-preheader-text font-weight-bold wave-types-available-${destinationArray[i]}"> </small>
                 <h5 class="card-title card-title-text font-weight-bold">${destinationName}</h5>
+                <small class="text-muted large-card-preheader-text font-weight-bold wave-types-available-${destinationArray[i]}"> </small>
                 <div class="destination-tags">
                   <span class="dest-tag-beach-${destinationArray[i]}"></span>
                   <span class="dest-tag-bars-${destinationArray[i]}"></span>
@@ -612,29 +612,50 @@ function filterDestinations() {
     advancedCount = 0;
     expertCount = 0;
     skillsToFilterOn = [];
+    $(".showcase-badge").remove();
 
     //If button has .active, show destinations that have surf spots of that skill level. If not, hide destinations.
     if ($(".beginner-cta-button").hasClass("active")) {
       beginnerCount = 1;
       skillsToFilterOn.push("beginner");
+
+      $(".filter-showcase").append(`
+        <span class="badge badge-success showcase-badge ml-1 mb-3 p-1">BEGINNER WAVES</span>
+      `);
+
     } else {
       beginnerCount = 0;
     }
+
     if ($(".intermediate-cta-button").hasClass("active")) {
       intermediateCount = 1;
       skillsToFilterOn.push("intermediate");
+
+      $(".filter-showcase").append(`
+        <span class="badge badge-primary showcase-badge ml-1 mb-3 p-1">INTERMEDIATE WAVES</span>
+      `);
     } else {
       intermediateCount = 0;
     }
+
     if ($(".advanced-cta-button").hasClass("active")) {
       advancedCount = 1;
       skillsToFilterOn.push("advanced");
+
+      $(".filter-showcase").append(`
+        <span class="badge badge-dark showcase-badge ml-1 mb-3 p-1">ADVANCED WAVES</span>
+      `);
     } else {
       advancedCount = 0;
     }
+
     if ($(".expert-cta-button").hasClass("active")) {
       expertCount = 1;
       skillsToFilterOn.push("expert");
+
+      $(".filter-showcase").append(`
+        <span class="badge badge-dark showcase-badge ml-1 mb-3 p-1">EXPERT WAVES</span>
+      `);
     } else {
       expertCount = 0;
     }
@@ -678,6 +699,9 @@ function filterDestinations() {
         }
       });
     }
+
+    //Scroll to view the destination cards that match the skill selection
+    $('html, body').animate({ scrollTop: $('#explore-destinations-title').offset().top }, 1500);
 
   });
 }

@@ -791,6 +791,11 @@ p.card-hover-overlay {
   margin-top: .25rem;
 }
 
+.showcase-badge {
+  font-size: 16px;
+  border-radius: 0px;
+}
+
 .small-card-preheader-text {
   font-size: 8px !important;
   text-transform: uppercase;
@@ -932,7 +937,7 @@ p.card-hover-overlay {
 
 .carousel-control-next-card {
   margin-bottom: 25px;
-  padding-top: 25px;
+  margin-top: 40px;
 }
 
 .card-photo-credit {
