@@ -504,7 +504,9 @@ input:focus:-ms-input-placeholder {
 .destination-card {
   height: 225px !important;
   border: none !important;
+  margin-bottom: 80px;
 }
+
 
 /* SPOT CARD DESKTOP */
 .spot-card {

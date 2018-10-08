@@ -183,30 +183,30 @@ let nearbySurfSpotsExist;
 
 
 ////POPULATE CARDS ON HOME PAGE
-db.collection("city").where("beta", "==", true).get().then(function(querySnapshot) {
-  querySnapshot.forEach(function(doc) {
-    data = doc.data();
-    cityID = doc.id;
-    city = doc.id.replace(/-/g,' ');
-    region = data.region.replace(/-/g,' ');
-    photo = data.cityimage;
-
-    cityProps = {
-      cityID: cityID,
-      city: city,
-      region: region,
-    }
-
-    buildCityCards(cityProps);
-
-  });
-});//END -- POPULATE CARDS ON HOME PAGE
+// db.collection("city").where("beta", "==", true).get().then(function(querySnapshot) {
+//   querySnapshot.forEach(function(doc) {
+//     data = doc.data();
+//     cityID = doc.id;
+//     city = doc.id.replace(/-/g,' ');
+//     region = data.region.replace(/-/g,' ');
+//     photo = data.cityimage;
+//
+//     cityProps = {
+//       cityID: cityID,
+//       city: city,
+//       region: region,
+//     }
+//
+//     buildCityCards(cityProps);
+//
+//   });
+// });//END -- POPULATE CARDS ON HOME PAGE
 
 
 //BUILD CITY CARDS
 function buildCityCards(cityProps) {
   //Create a reference for each city photo in Firestore storage
-  cityImage = storage.ref('city/' + cityProps.cityID + '.png');
+  // cityImage = storage.ref('city/' + cityProps.cityID + '.png');
 
   //Get each cityImage from Firestore storage and
   // cityImage.getDownloadURL().then(function(cityImage) {
@@ -242,29 +242,17 @@ let regionArray = [];
 
 let destinationName;
 let waveTypesAvailable = {};
+let j = 0;
+
+let isBeachSet = false;
+let isPointSet = false;
+let isReefSet = false;
+let isRockreefSet = false;
+let waveTypeDescription;
+let surfSpotCountInDestionation = [];
 
 //On click of cta button set the initial filter variables
-function filterDestinations() {
-
-    //Reset the filters on next click
-    beginnerFilter = "";
-    intermediateFilter = "";
-    advancedFilter = "";
-    expertFilter = "";
-
-    //If button has .active, get it's value
-    if ($(".beginner-cta-button").hasClass("active")) {
-      beginnerFilter = $("#beginner-cta-choice").val();
-    }
-    if ($(".intermediate-cta-button").hasClass("active")) {
-      intermediateFilter = $("#intermediate-cta-choice").val();
-    }
-    if ($(".advanced-cta-button").hasClass("active")) {
-      advancedFilter = $("#advanced-cta-choice").val();
-    }
-    if ($(".expert-cta-button").hasClass("active")) {
-      expertFilter = $("#expert-cta-choice").val();
-    }
+function buildHomePageDestinations() {
 
     //Query all the cities to see if filter choice matches that city/destination
     db.collection("destinations").get().then(function(querySnapshot) {
@@ -350,11 +338,10 @@ function filterDestinations() {
       }
     });
 
-}//END -- filterDestinations()
+}//END -- buildHomePageDestinations()
 
-filterDestinations();
+buildHomePageDestinations();
 
-let j = 0;
 
 //Find the surf spots' who's lat/lng are within those bounds
 function findSurfSpotsWithinDestinationBounds(i) {
@@ -380,10 +367,10 @@ function findSurfSpotsWithinDestinationBounds(i) {
           //Builds each destination card
           $("#destination-cards").prepend(`
           <!-- DESTINATION CARD -->
-          <div id="destination-card" class="p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3" data-id="testing">
-            <div class="card photo-card surf-spot-card illuminate-hover">
+          <div id="destination-card" class="cursor p-1 pt-0 mb-4 col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3" data-id="${destinationArray[i]}">
+            <div class="destination-card surf-spot-card illuminate-hover">
 
-              <img class="d-block card-custom-image" src="${surfSpotDefaultPhoto}" alt="test-alt-name">
+              <img class="d-block card-custom-image" src="${accommDefaultPhoto}" alt="test-alt-name">
 
               <!-- DESTINATION CARD DESCRIPTORS -->
               <div class="card-body mx-0 p-0 pt-2 surf-spot-card-description">
@@ -446,12 +433,8 @@ function findSurfSpotsWithinDestinationBounds(i) {
 }
 
 
-let isBeachSet = false;
-let isPointSet = false;
-let isReefSet = false;
-let isRockreefSet = false;
-let waveTypeDescription;
-let surfSpotCountInDestionation = [];
+let skillLevelsAvailable = {};
+let skillLevelsAvailableArray = [];
 
 
 //In relevant destination, find all the wave types that exist
@@ -469,9 +452,6 @@ function findWaveTypesAtEachDestination(i) {
       //Prepend each destination with the last iterations grouping of variables when the destination changes, then reset the variables for the current loop
       if (i !== j) {
 
-        //Count the surf spots within the destionation
-        numberOfSurfSpots = surfSpotCountInDestionation.length;
-
         //Convert the waveTypesAvailable object to an array
         waveTypesAvailableArray = Object.values(waveTypesAvailable);
 
@@ -479,33 +459,46 @@ function findWaveTypesAtEachDestination(i) {
         if (waveTypesAvailableArray.length == 1) {
           waveTypeDescription = `${waveTypesAvailableArray[0]} breaks`;
         }
-
         if (waveTypesAvailableArray.length == 2) {
           waveTypeDescription = `${waveTypesAvailableArray[0]} and ${waveTypesAvailableArray[1]} breaks`;
         }
-
         if (waveTypesAvailableArray.length == 3) {
           waveTypeDescription = `${waveTypesAvailableArray[0]}, ${waveTypesAvailableArray[1]} and ${waveTypesAvailableArray[2]} breaks`;
         }
-
         if (waveTypesAvailableArray.length == 4) {
           waveTypeDescription = `${waveTypesAvailableArray[0]}, ${waveTypesAvailableArray[1]}, ${waveTypesAvailableArray[2]} and ${waveTypesAvailableArray[3]} breaks`;
         }
+
+        //Count the surf spots within the destionation
+        numberOfSurfSpots = surfSpotCountInDestionation.length;
 
         //Prepend the wave types that exist at each destiantion
         $(`.wave-types-available-${previousDestinationForWaveTypes}`).prepend(`
           ${waveTypeDescription} (${numberOfSurfSpots})
         `);
 
+        //Covert the skillLevelsAvailable object to an array
+        skillLevelsAvailableArray = Object.values(skillLevelsAvailable)
+
+        //Set the data-skill attribute with a dashed listed of the skills available in that destination
+        if (skillLevelsAvailableArray.length == 1) {
+          $(`[data-id="${previousDestinationForWaveTypes}"]`).attr('data-skill', skillLevelsAvailableArray[0]);
+        }
+        if (skillLevelsAvailableArray.length == 2) {
+          $(`[data-id="${previousDestinationForWaveTypes}"]`).attr('data-skill', skillLevelsAvailableArray[0] + "-" + skillLevelsAvailableArray[1]);
+        }
+        if (skillLevelsAvailableArray.length == 3) {
+          $(`[data-id="${previousDestinationForWaveTypes}"]`).attr('data-skill', skillLevelsAvailableArray[0] + "-" + skillLevelsAvailableArray[1] + "-" + skillLevelsAvailableArray[2]);
+        }
+        if (skillLevelsAvailableArray.length == 4) {
+          $(`[data-id="${previousDestinationForWaveTypes}"]`).attr('data-skill', skillLevelsAvailableArray[0] + "-" + skillLevelsAvailableArray[1] + "-" + skillLevelsAvailableArray[2] + skillLevelsAvailableArray[3]);
+        }
+
         //Reset the waveTypesAvailable object to use to prepend waveTypes available in each destination
         waveTypesAvailable = {};
+        skillLevelsAvailable = {};
         surfSpotCountInDestionation = [];
 
-        //Reset so waveTypesAvailable._____ never shows up as undefined
-        isBeachSet = false;
-        isPointSet = false;
-        isReefSet = false;
-        isRockreefSet = false;
       }
 
       //If the surf spot is within the lng bounds of destionation
@@ -514,22 +507,33 @@ function findWaveTypesAtEachDestination(i) {
         //If waveType is _______ add it to the waveTypesAvailable object
         if (waveType == "beach") {
           waveTypesAvailable.beach = waveType;
-          isBeachSet = true;
         }
         if (waveType == "point") {
           waveTypesAvailable.point = waveType;
-          isPointSet = true;
         }
         if (waveType == "reef") {
           waveTypesAvailable.reef = waveType;
-          isReefSet = true;
         }
         if (waveType == "rockreef") {
           waveTypesAvailable.rockreef = waveType;
-          isRockreefSet = true;
         }
 
+        //Count the number of surf spots within the destinations bounds
         surfSpotCountInDestionation.push(surfSpotID);
+
+        //If skill is ________, add it to the skillLevelsAvailable object
+        if (skill == "beginner") {
+          skillLevelsAvailable.beginner = skill;
+        }
+        if (skill == "intermediate") {
+          skillLevelsAvailable.intermediate = skill;
+        }
+        if (skill == "advanced") {
+          skillLevelsAvailable.advanced = skill;
+        }
+        if (skill == "expert") {
+          skillLevelsAvailable.expert = skill;
+        }
 
       }
 
@@ -543,9 +547,6 @@ function findWaveTypesAtEachDestination(i) {
   }).then(function() {
     //Prepend the final destination's waveTypes. This is in a .then(function() {}) because if it were in the above function it would prepend multiple times due to the firestore .forEach query which hits multiple surf spots per destination
     if (i == destinationArray.length-1) {
-
-      //Count the surf spots within the destionation
-      numberOfSurfSpots = surfSpotCountInDestionation.length;
 
       //Convert the waveTypesAvailable object to an array
       waveTypesAvailableArray = Object.values(waveTypesAvailable);
@@ -567,6 +568,9 @@ function findWaveTypesAtEachDestination(i) {
         waveTypeDescription = `${waveTypesAvailableArray[0]}, ${waveTypesAvailableArray[1]}, ${waveTypesAvailableArray[2]} and ${waveTypesAvailableArray[3]} breaks`;
       }
 
+      //Count the surf spots within the destionation
+      numberOfSurfSpots = surfSpotCountInDestionation.length;
+
       //Prepend the wave types that exist at each destiantion
       $(`.wave-types-available-${previousDestinationForWaveTypes}`).prepend(`
         ${waveTypeDescription} (${numberOfSurfSpots})
@@ -577,11 +581,40 @@ function findWaveTypesAtEachDestination(i) {
 }
 
 
+//Select what skill of waves you want, show the destinations that have that wave skill, hide the destinatinos that dont
+function filterDestinations() {
+  $(".cta-search-button").click(function() {
+
+    //Reset the filters on next click
+    beginnerFilter = "";
+    intermediateFilter = "";
+    advancedFilter = "";
+    expertFilter = "";
+
+    //If button has .active, show destinations that have surf spots of that skill level. If not, hide destinations.
+    if ($(".beginner-cta-button").hasClass("active")) {
+      beginnerFilter = $("#beginner-cta-choice").val();
+    }
+    if ($(".intermediate-cta-button").hasClass("active")) {
+      intermediateFilter = $("#intermediate-cta-choice").val();
+    }
+    if ($(".advanced-cta-button").hasClass("active")) {
+      advancedFilter = $("#advanced-cta-choice").val();
+    }
+    if ($(".expert-cta-button").hasClass("active")) {
+      expertFilter = $("#expert-cta-choice").val();
+    }
+
+  });
+}
+
+filterDestinations();
+
 
 
 ////PUT CITY IN QUERY PARAMS AFTER CLICKING ON CARD
 //Click city card on homepage
-$('body').on('click','#city-card',function(e){
+$('body').on('click','#destination-card',function(e){
   //Stores data-id=${city} in variable cityPage
   window.city = $(this).data('id');
   city = window.city;
@@ -2844,36 +2877,39 @@ function initialize() {
 ////BUILD CITY PAGE BASED ON cityDB PARAM (user clicked on card on homepage)
 if (cityDB !== null) {
 
-  db.collection("city").doc(cityDB).get().then(function(doc) {
-    data = doc.data();
-    city = doc.id.replace(/-/g,' ');
-    mapCenter = data.cityCenter;
-    zoom = data.zoom;
+  db.collection("destinations").where("destination", "==", cityDB).get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+      data = doc.data();
+      city = data.destination.replace(/-/g, ' ');
+      cityOld = doc.id.replace(/-/g,' ');
+      mapCenter = data.mapCenter;
+      zoom = data.zoom;
 
-    //Add city's name as placeholder in search bar
-    $(".city-page-search").attr("placeholder", city);
+      //Add city's name as placeholder in search bar
+      $(".city-page-search").attr("placeholder", city);
 
-    initMap();
+      initMap();
 
-    //Add d-none back to #map-wrapper once initMap has ran, to hide map near immediately after clicking into new city on mobile
-    setTimeout(function() {
-      $("#map-wrapper").addClass("d-none");
+      //Add d-none back to #map-wrapper once initMap has ran, to hide map near immediately after clicking into new city on mobile
+      setTimeout(function() {
+        $("#map-wrapper").addClass("d-none");
 
-      //If click on 'Map' on home page and screen width is mobile go straight to mobile map view
-      if (cityDB == 'california' && $(window).width() < 600) {
-        //Hide list
-        $("#spot-cards").hide();
-        $("#card-button-menu").hide();
-        $("#card-button-menu-bottom").hide();
-        //Show map
-        $("#map-wrapper").removeClass("d-none");
-        $("#map-wrapper").show();
-        //Replace 'Map' with 'List'
-        $("#show-list-mobile").show();
-        $("#show-map-mobile").hide();
-      }
-    }, 300);
+        //If click on 'Map' on home page and screen width is mobile go straight to mobile map view
+        if (cityDB == 'california' && $(window).width() < 600) {
+          //Hide list
+          $("#spot-cards").hide();
+          $("#card-button-menu").hide();
+          $("#card-button-menu-bottom").hide();
+          //Show map
+          $("#map-wrapper").removeClass("d-none");
+          $("#map-wrapper").show();
+          //Replace 'Map' with 'List'
+          $("#show-list-mobile").show();
+          $("#show-map-mobile").hide();
+        }
+      }, 300);
 
+    });
   });
   //If user submitted a search from the homepage, populate the city page as so
   } else if (cityS !== null) {
