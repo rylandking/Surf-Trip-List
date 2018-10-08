@@ -501,6 +501,11 @@ input:focus:-ms-input-placeholder {
   border: none !important;
 }
 
+.destination-card {
+  height: 225px !important;
+  border: none !important;
+}
+
 /* SPOT CARD DESKTOP */
 .spot-card {
   height: 250px !important;
@@ -842,6 +847,30 @@ p.card-hover-overlay {
 
 .badge-purple {
   background-color: #9370db;
+}
+
+.bg-red {
+  background-color: #C33325;
+}
+
+.bg-slate {
+  background-color: #105187;
+}
+
+.bg-teal {
+  background-color: #2C8693;
+}
+
+.bg-orange {
+  background-color: #F19722;
+}
+
+.bg-pink {
+  background-color: #FE74CD;
+}
+
+.bg-white {
+  background-color: #FFF;
 }
 
 .highlights-container {
