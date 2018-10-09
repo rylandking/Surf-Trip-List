@@ -212,52 +212,9 @@ let advancedCount;
 let expertCount;
 let skillsToFilterOn = [];
 let howManySkillsChosen;
+let destinationPhotosArray = [];
 
 
-
-
-////POPULATE CARDS ON HOME PAGE
-// db.collection("city").where("beta", "==", true).get().then(function(querySnapshot) {
-//   querySnapshot.forEach(function(doc) {
-//     data = doc.data();
-//     cityID = doc.id;
-//     city = doc.id.replace(/-/g,' ');
-//     region = data.region.replace(/-/g,' ');
-//     photo = data.cityimage;
-//
-//     cityProps = {
-//       cityID: cityID,
-//       city: city,
-//       region: region,
-//     }
-//
-//     buildCityCards(cityProps);
-//
-//   });
-// });//END -- POPULATE CARDS ON HOME PAGE
-
-
-//BUILD CITY CARDS
-function buildCityCards(cityProps) {
-  //Create a reference for each city photo in Firestore storage
-  // cityImage = storage.ref('city/' + cityProps.cityID + '.png');
-
-  //Get each cityImage from Firestore storage and
-  // cityImage.getDownloadURL().then(function(cityImage) {
-  //   $("#city-cards").append(
-  //     `<div id="city-card" class="card city-card bright-hover text-white p-1 pt-0 mb-2 col-xs-12 col-sm-6 col-md-4 col-lg-3" data-id="${cityProps.cityID}">
-  //       <img class="card-img tinted" src="${cityImage}" alt="${cityProps.city}">
-  //       <a class="white-link" href="city.html">
-  //         <div class="card-img-overlay">
-  //           <h4 class=" surf-spot-card-title position-relative">${cityProps.city}</h4>
-  //           <p class="card-subtitle position-relative">${cityProps.region}</p>
-  //         </div>
-  //       </a>
-  //     </div>`
-  //   );
-  // });
-
-}//END -- BUILD CITY CARDS
 
 
 //On click of cta button set the initial filter variables
@@ -275,6 +232,7 @@ function buildHomePageDestinations() {
         hiking = data.hiking;
         walkability = data.walkability;
         worldRenowned = data.worldRenowned;
+        photo = data.image;
 
         //Set object with tags to add to array and then come out with each relevant surf spot in findSurfSpotsWithinDestinationBounds(i)
         destinationTags = {
@@ -317,6 +275,7 @@ function buildHomePageDestinations() {
         greaterLngArray.push(greaterLng);
         smallerLngArray.push(smallerLng);
         regionArray.push(region);
+        destinationPhotosArray.push(photo);
 
       });
     }).then(function() {
@@ -379,7 +338,7 @@ function findSurfSpotsWithinDestinationBounds(i) {
           <div id="destination-card" class="destination-card-skill-check cursor p-1 pt-0 mb-4 col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3" data-id="${destinationArray[i]}">
             <div class="destination-card surf-spot-card illuminate-hover">
 
-              <img class="d-block card-custom-image" src="${accommDefaultPhoto}" alt="test-alt-name">
+              <img class="d-block card-custom-image" src="${destinationPhotosArray[i]}" alt="${destinationArray[i]}">
 
               <!-- DESTINATION CARD DESCRIPTORS -->
               <div class="card-body mx-0 p-0 pt-2 surf-spot-card-description">
