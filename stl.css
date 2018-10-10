@@ -278,22 +278,20 @@ body {
 /* Landing Page Search Bar -- Display of City Name  */
 .landing-page-search::-webkit-input-placeholder {
  font-size: 14px !important;
- color: grey;
+ color: #696969;
  font-weight: bold;
 }
 
 .landing-page-search:-moz-placeholder { /* Firefox 18- */
   font-size: 14px !important;
-  color: grey;
+  color: #696969;
   font-weight: bold;
-
 }
 
 .landing-page-search::-moz-placeholder {  /* Firefox 19+ */
   font-size: 14px !important;
-  color: grey;
+  color: #696969;
   font-weight: bold;
-
 }
 
 /* Homepage Search Bar */

@@ -1361,13 +1361,9 @@ function addSurfSpotMarkers() {
         //Build a quick description for surf spot cards
         writeQuickSurfSpotDescription();
 
-        console.log(greaterLngRefresh, coords.lng, smallerLngRefresh);
-
-        //ISSUE HERE -- Must be LNG is not hitting here anymore.
         //If the surf-spot is within the lat/lng map bounds, run addSurfSpotMarker().
         if (coords.lng <= greaterLngRefresh && coords.lng >= smallerLngRefresh) {
           addSurfSpotMarker(surfSpotMarker, map);
-          console.log('within lng coords running');
         }
 
     });//END -- surf-spot querySnapshot
