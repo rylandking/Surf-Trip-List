@@ -2697,10 +2697,6 @@ function addAccommMarkers(i) {
         accommsHere: accommsHere,
       }
 
-      console.log(greaterLat, coords.lat, smallerLat);
-
-      console.log(greaterLng, coords.lng, smallerLng);
-
       //If the accomm-spot is within the lat/lng map bounds, run addAccommMarker().
       if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
         addAccommMarker(accommMarker, map, coords, title, price, accommURL, accommType, bedAmount, bedWord, guestAmount, guestWord, view, proximity, accommID);
