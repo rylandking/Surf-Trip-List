@@ -220,91 +220,91 @@ let destinationPhotosArray = [];
 //On click of cta button set the initial filter variables
 function buildHomePageDestinations() {
 
-    //Query all the cities to see if filter choice matches that city/destination
-    db.collection("destinations").get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        data = doc.data();
-        destination = data.destination;
-        region = data.region;
-        barScene = data.barScene;
-        comfortableBeaches = data.comfortableBeaches;
-        goodEats = data.goodEats;
-        hiking = data.hiking;
-        walkability = data.walkability;
-        worldRenowned = data.worldRenowned;
-        photo = data.image;
+  //Query all the cities to see if filter choice matches that city/destination
+  db.collection("destinations").get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+      data = doc.data();
+      destination = data.destination;
+      region = data.region;
+      barScene = data.barScene;
+      comfortableBeaches = data.comfortableBeaches;
+      goodEats = data.goodEats;
+      hiking = data.hiking;
+      walkability = data.walkability;
+      worldRenowned = data.worldRenowned;
+      photo = data.image;
 
-        //Set object with tags to add to array and then come out with each relevant surf spot in findSurfSpotsWithinDestinationBounds(i)
-        destinationTags = {
-          barScene: barScene,
-          comfortableBeaches: comfortableBeaches,
-          goodEats: goodEats,
-          hiking: hiking,
-          walkability: walkability,
-          worldRenowned: worldRenowned,
-        }
-
-        neCoords = data.neBounds;
-        swCoords = data.swBounds;
-
-        //Get lat of NE and SW corners of destination bounds in Firestore
-        neLat = neCoords.neLat;
-        swLat = swCoords.swLat;
-        neLng = neCoords.neLng;
-        swLng = swCoords.swLng;
-
-        //Reset the arrays
-        latArray = [];
-        lngArray = [];
-
-        //Push lats and lngs into arrays
-        latArray.push(neLat, swLat);
-        lngArray.push(neLng, swLng);
-
-        //Find the largest and smallest lat and lng (for Firestore query to find surf spots within those bounds)
-        greaterDestintaitonLat = latArray.sort()[latArray.length - 1];
-        smallerDestintaitonLat = latArray.sort()[latArray.length - 2];
-        greaterDestintaitonLng = lngArray.sort()[lngArray.length - 2];
-        smallerDestintaitonLng = lngArray.sort()[lngArray.length - 1];
-
-        //Push to greater/smaller lat/lngs to their own separate arrays to loop through and use as the query perameters to check if any surf spots that match the user's skill selection are within each destinations bounds so they can then be populated on the homepage
-        destinationArray.push(destination);
-        destinationTagsArray.push(destinationTags);
-        greaterLatArray.push(greaterDestintaitonLat);
-        smallerLatArray.push(smallerDestintaitonLat);
-        greaterLngArray.push(greaterDestintaitonLng);
-        smallerLngArray.push(smallerDestintaitonLng);
-        regionArray.push(region);
-        destinationPhotosArray.push(photo);
-
-      });
-    }).then(function() {
-      //Loop through the each destination
-      for (var i = 0; i < destinationArray.length; i++) {
-        //Set each destinations bounds
-        greaterLatArray[i];
-        smallerLatArray[i];
-        greaterLngArray[i];
-        smallerLngArray[i];
-
-        //Find the surf spots who's lat/lng are within those bounds
-        findSurfSpotsWithinDestinationBounds(i);
+      //Set object with tags to add to array and then come out with each relevant surf spot in findSurfSpotsWithinDestinationBounds(i)
+      destinationTags = {
+        barScene: barScene,
+        comfortableBeaches: comfortableBeaches,
+        goodEats: goodEats,
+        hiking: hiking,
+        walkability: walkability,
+        worldRenowned: worldRenowned,
       }
-    }).then(function() {
-      //Loop through the each destination
-      for (var i = 0; i < destinationArray.length; i++) {
 
-        //Set each destinations bounds
-        greaterLatArray[i];
-        smallerLatArray[i];
-        greaterLngArray[i];
-        smallerLngArray[i];
+      neCoords = data.neBounds;
+      swCoords = data.swBounds;
 
-        //In each destination, find all the wave types that exist
-        findWaveTypesAtEachDestination(i);
+      //Get lat of NE and SW corners of destination bounds in Firestore
+      neLat = neCoords.neLat;
+      swLat = swCoords.swLat;
+      neLng = neCoords.neLng;
+      swLng = swCoords.swLng;
 
-      }
+      //Reset the arrays
+      latArray = [];
+      lngArray = [];
+
+      //Push lats and lngs into arrays
+      latArray.push(neLat, swLat);
+      lngArray.push(neLng, swLng);
+
+      //Find the largest and smallest lat and lng (for Firestore query to find surf spots within those bounds)
+      greaterDestintaitonLat = latArray.sort()[latArray.length - 1];
+      smallerDestintaitonLat = latArray.sort()[latArray.length - 2];
+      greaterDestintaitonLng = lngArray.sort()[lngArray.length - 2];
+      smallerDestintaitonLng = lngArray.sort()[lngArray.length - 1];
+
+      //Push to greater/smaller lat/lngs to their own separate arrays to loop through and use as the query perameters to check if any surf spots that match the user's skill selection are within each destinations bounds so they can then be populated on the homepage
+      destinationArray.push(destination);
+      destinationTagsArray.push(destinationTags);
+      greaterLatArray.push(greaterDestintaitonLat);
+      smallerLatArray.push(smallerDestintaitonLat);
+      greaterLngArray.push(greaterDestintaitonLng);
+      smallerLngArray.push(smallerDestintaitonLng);
+      regionArray.push(region);
+      destinationPhotosArray.push(photo);
+
     });
+  }).then(function() {
+    //Loop through the each destination
+    for (var i = 0; i < destinationArray.length; i++) {
+      //Set each destinations bounds
+      greaterLatArray[i];
+      smallerLatArray[i];
+      greaterLngArray[i];
+      smallerLngArray[i];
+
+      //Find the surf spots who's lat/lng are within those bounds
+      findSurfSpotsWithinDestinationBounds(i);
+    }
+  }).then(function() {
+    //Loop through the each destination
+    for (var i = 0; i < destinationArray.length; i++) {
+
+      //Set each destinations bounds
+      greaterLatArray[i];
+      smallerLatArray[i];
+      greaterLngArray[i];
+      smallerLngArray[i];
+
+      //In each destination, find all the wave types that exist
+      findWaveTypesAtEachDestination(i);
+
+    }
+  });
 
 }//END -- buildHomePageDestinations()
 
@@ -318,7 +318,7 @@ function findSurfSpotsWithinDestinationBounds(i) {
   db.collection("surf-spot").where("surfspot.lat", "<=", greaterLatArray[i]).where("surfspot.lat", ">=", smallerLatArray[i]).get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
       data = doc.data();
-      surfSpotID = doc.id;
+      surfSpotIDInDestinations = doc.id;
       coords = data.surfspot;
       skill = data.skill;
       waveType = data.type;
@@ -403,12 +403,12 @@ function findSurfSpotsWithinDestinationBounds(i) {
 
 //In relevant destination, find all the wave types that exist
 function findWaveTypesAtEachDestination(i) {
-
+  //This function is overwriting surfSpotImages Firestore query for the surf spot page modal. Just use unique variables.
   //Within the destinations lat bounds, query all the surf spots
   db.collection("surf-spot").where("surfspot.lat", "<=", greaterLatArray[i]).where("surfspot.lat", ">=", smallerLatArray[i]).get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
       data = doc.data();
-      surfSpotID = doc.id;
+      surfSpotIDInDestinations = doc.id;
       coords = data.surfspot;
       skill = data.skill;
       waveType = data.type;
