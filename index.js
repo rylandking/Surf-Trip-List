@@ -262,18 +262,18 @@ function buildHomePageDestinations() {
         lngArray.push(neLng, swLng);
 
         //Find the largest and smallest lat and lng (for Firestore query to find surf spots within those bounds)
-        greaterLat = latArray.sort()[latArray.length - 1];
-        smallerLat = latArray.sort()[latArray.length - 2];
-        greaterLng = lngArray.sort()[lngArray.length - 2];
-        smallerLng = lngArray.sort()[lngArray.length - 1];
+        greaterDestintaitonLat = latArray.sort()[latArray.length - 1];
+        smallerDestintaitonLat = latArray.sort()[latArray.length - 2];
+        greaterDestintaitonLng = lngArray.sort()[lngArray.length - 2];
+        smallerDestintaitonLng = lngArray.sort()[lngArray.length - 1];
 
         //Push to greater/smaller lat/lngs to their own separate arrays to loop through and use as the query perameters to check if any surf spots that match the user's skill selection are within each destinations bounds so they can then be populated on the homepage
         destinationArray.push(destination);
         destinationTagsArray.push(destinationTags);
-        greaterLatArray.push(greaterLat);
-        smallerLatArray.push(smallerLat);
-        greaterLngArray.push(greaterLng);
-        smallerLngArray.push(smallerLng);
+        greaterLatArray.push(greaterDestintaitonLat);
+        smallerLatArray.push(smallerDestintaitonLat);
+        greaterLngArray.push(greaterDestintaitonLng);
+        smallerLngArray.push(smallerDestintaitonLng);
         regionArray.push(region);
         destinationPhotosArray.push(photo);
 
@@ -1362,7 +1362,7 @@ function addSurfSpotMarkers() {
         writeQuickSurfSpotDescription();
 
         //If the surf-spot is within the lat/lng map bounds, run addSurfSpotMarker().
-        if (coords.lng <= greaterLngRefresh && coords.lng >= smallerLngRefresh) {
+        if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
           addSurfSpotMarker(surfSpotMarker, map);
         }
 
@@ -2207,8 +2207,10 @@ function refreshMapAndList() {
   //Find the largest and smallest lat and lng (for Firestore queries)
   greaterLat = latArray.sort()[latArray.length - 1];
   smallerLat = latArray.sort()[latArray.length - 2];
-  greaterLngRefresh = lngArray.sort()[lngArray.length - 2];
-  smallerLngRefresh = lngArray.sort()[lngArray.length - 1];
+  greaterLatReresh = latArray.sort()[latArray.length - 1];
+  smallerLat = latArray.sort()[latArray.length - 2];
+  greaterLng = lngArray.sort()[lngArray.length - 2];
+  smallerLng = lngArray.sort()[lngArray.length - 1];
 
   //Hide the "Nothing here" buttons on the mobile map on after 'idle' listener fires
   $("#no-surf-spots-here-button").hide();
@@ -2658,7 +2660,7 @@ function addAccommMarkers(i) {
   }
 
   //QUERY accommMarkers (priceMarkers) COLLECTION TO ADD accommMarkers
-  db.collection("priceMarkers").where("coords.lat", "<=", greaterLat).where("coords.lat", ">=", smallerLat).get().then(function(querySnapshot) {
+  db.collection("priceMarkers").where("coords.lat", "<=", greaterLatReresh).where("coords.lat", ">=", smallerLat).get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
       data = doc.data();
       accommID = doc.id;
@@ -2694,6 +2696,10 @@ function addAccommMarkers(i) {
         nearbySurfSpot: nearbySurfSpot,
         accommsHere: accommsHere,
       }
+
+      console.log(greaterLat, coords.lat, smallerLat);
+
+      console.log(greaterLng, coords.lng, smallerLng);
 
       //If the accomm-spot is within the lat/lng map bounds, run addAccommMarker().
       if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
@@ -3893,9 +3899,6 @@ function initAutoComplete() {
   if (cityDB !== null || cityS !== null) {
     //SELECT WHAT'S TYPED INTO THE SEARCH BOX
     input = document.getElementById('searchInput');
-    //If it's on mobile and not on city.html, use #mobileSearchInput
-  } else if (cityDB == null && cityS == null && $(window).width() < 960) {
-    input = document.getElementById('mobileSearchInput');
     //If it's on desktop and not on city.html, use the index.html #searchInput
   } else {
     input = document.getElementById('searchInput');
