@@ -1361,9 +1361,13 @@ function addSurfSpotMarkers() {
         //Build a quick description for surf spot cards
         writeQuickSurfSpotDescription();
 
+        console.log(greaterLngRefresh, coords.lng, smallerLngRefresh);
+
+        //ISSUE HERE -- Must be LNG is not hitting here anymore.
         //If the surf-spot is within the lat/lng map bounds, run addSurfSpotMarker().
-        if (coords.lng <= greaterLng && coords.lng >= smallerLng) {
+        if (coords.lng <= greaterLngRefresh && coords.lng >= smallerLngRefresh) {
           addSurfSpotMarker(surfSpotMarker, map);
+          console.log('within lng coords running');
         }
 
     });//END -- surf-spot querySnapshot
@@ -1724,7 +1728,6 @@ function areCustomSurfSpotPhotosAvailable(ssProps) {
 }
 
 
-//IN PROGRESS: BUILD OF THE NEW CARDS
 //Build the card skeleton
 function buildSurfSpotCard(ssProps) {
   //Make badge say "expert only" for expert waves
@@ -1777,7 +1780,6 @@ function buildSurfSpotCard(ssProps) {
 
     </div>
   `);
-
 
 }//END -- buildSurfSpotCard()
 
@@ -2209,8 +2211,8 @@ function refreshMapAndList() {
   //Find the largest and smallest lat and lng (for Firestore queries)
   greaterLat = latArray.sort()[latArray.length - 1];
   smallerLat = latArray.sort()[latArray.length - 2];
-  greaterLng = lngArray.sort()[lngArray.length - 2];
-  smallerLng = lngArray.sort()[lngArray.length - 1];
+  greaterLngRefresh = lngArray.sort()[lngArray.length - 2];
+  smallerLngRefresh = lngArray.sort()[lngArray.length - 1];
 
   //Hide the "Nothing here" buttons on the mobile map on after 'idle' listener fires
   $("#no-surf-spots-here-button").hide();
@@ -2996,8 +2998,6 @@ if (cityDB !== null) {
 
 
 
-
-
 ////SURF SPOT PAGE
 //Click surf spot card or infowindow
 $('body').on('click','.surf-spot-card-carousel, .surf-spot-card-description, .surf-spot-infowindow',function(e){
@@ -3370,7 +3370,7 @@ function surfReportLink() {
 
 function directionsLink() {
   $(".directions-link").append(`
-    <a class="inherit-link" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank"><i class="fas fa-directions"></i>  Get directions</a>
+    <a class="inherit-link" href="https://maps.google.com/?saddr=Current+Location&daddr=${parkingLat},${parkingLng}&driving" target="_blank"><i class="fas fa-directions"></i>  Directions to parking lot</a>
   `);
 }
 
