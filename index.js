@@ -1357,6 +1357,7 @@ function addSurfSpotMarkers() {
         skill = data.skill;
         bottom = data.bottom;
         forecast = data.forecast;
+        console.log(data);
 
         //Build a quick description for surf spot cards
         writeQuickSurfSpotDescription();
@@ -2205,12 +2206,20 @@ function refreshMapAndList() {
   lngArray.push(neLng, swLng);
 
   //Find the largest and smallest lat and lng (for Firestore queries)
-  greaterLat = latArray.sort()[latArray.length - 1];
-  smallerLat = latArray.sort()[latArray.length - 2];
-  greaterLatReresh = latArray.sort()[latArray.length - 1];
-  smallerLat = latArray.sort()[latArray.length - 2];
-  greaterLng = lngArray.sort()[lngArray.length - 2];
-  smallerLng = lngArray.sort()[lngArray.length - 1];
+  //If in the northern hemisphere, lat > 0
+  if (neLat > 0) {
+    greaterLat = latArray.sort()[latArray.length - 1];
+    smallerLat = latArray.sort()[latArray.length - 2];
+    greaterLng = lngArray.sort()[lngArray.length - 2];
+    smallerLng = lngArray.sort()[lngArray.length - 1];
+  //If in the southern hermisphere
+  } else {
+    smallerLat = latArray.sort()[latArray.length - 1];
+    greaterLat = latArray.sort()[latArray.length - 2];
+    smallerLng = lngArray.sort()[lngArray.length - 2];
+    greaterLng = lngArray.sort()[lngArray.length - 1];
+  }
+
 
   //Hide the "Nothing here" buttons on the mobile map on after 'idle' listener fires
   $("#no-surf-spots-here-button").hide();
