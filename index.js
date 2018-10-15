@@ -262,10 +262,19 @@ function buildHomePageDestinations() {
       lngArray.push(neLng, swLng);
 
       //Find the largest and smallest lat and lng (for Firestore query to find surf spots within those bounds)
-      greaterDestintaitonLat = latArray.sort()[latArray.length - 1];
-      smallerDestintaitonLat = latArray.sort()[latArray.length - 2];
-      greaterDestintaitonLng = lngArray.sort()[lngArray.length - 2];
-      smallerDestintaitonLng = lngArray.sort()[lngArray.length - 1];
+      //If in the northern hemisphere, lat > 0
+      if (neLat > 0) {
+        greaterDestintaitonLat = latArray.sort()[latArray.length - 1];
+        smallerDestintaitonLat = latArray.sort()[latArray.length - 2];
+        greaterDestintaitonLng = lngArray.sort()[lngArray.length - 2];
+        smallerDestintaitonLng = lngArray.sort()[lngArray.length - 1];
+      //If in the southern hermisphere
+      } else {
+        smallerDestintaitonLat = latArray.sort()[latArray.length - 1];
+        greaterDestintaitonLat = latArray.sort()[latArray.length - 2];
+        smallerDestintaitonLng = lngArray.sort()[lngArray.length - 2];
+        greaterDestintaitonLng = lngArray.sort()[lngArray.length - 1];
+      }
 
       //Push to greater/smaller lat/lngs to their own separate arrays to loop through and use as the query perameters to check if any surf spots that match the user's skill selection are within each destinations bounds so they can then be populated on the homepage
       destinationArray.push(destination);
