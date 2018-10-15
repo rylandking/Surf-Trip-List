@@ -1509,3 +1509,7 @@ input:checked + .slider:before {
   vertical-align: top;
   float: none;
 }
+
+.destination-region {
+  font-size: 12px;
+}

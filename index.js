@@ -351,8 +351,9 @@ function findSurfSpotsWithinDestinationBounds(i) {
 
               <!-- DESTINATION CARD DESCRIPTORS -->
               <div class="card-body mx-0 p-0 pt-2 surf-spot-card-description">
-                <h5 class="card-title card-title-text font-weight-bold">${destinationName}</h5>
                 <small class="text-muted large-card-preheader-text font-weight-bold wave-types-available-${destinationArray[i]}"> </small>
+                <h5 class="card-title card-title-text font-weight-bold mb-0">${destinationName}</h5>
+                <p class="m-0 text-capitalize font-weight-bold destination-region">${regionName}</p>
                 <div class="destination-tags">
                   <span class="dest-tag-beach-${destinationArray[i]}"></span>
                   <span class="dest-tag-bars-${destinationArray[i]}"></span>
