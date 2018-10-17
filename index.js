@@ -2679,7 +2679,7 @@ function addAccommMarkers(i) {
   }
 
   //QUERY accommMarkers (priceMarkers) COLLECTION TO ADD accommMarkers
-  db.collection("priceMarkers").where("coords.lat", "<=", greaterLatReresh).where("coords.lat", ">=", smallerLat).get().then(function(querySnapshot) {
+  db.collection("priceMarkers").where("coords.lat", "<=", greaterLat).where("coords.lat", ">=", smallerLat).get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
       data = doc.data();
       accommID = doc.id;
