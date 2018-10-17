@@ -961,6 +961,11 @@ p.card-hover-overlay {
   font-size: 10px !important;
 }
 
+.bg-black {
+  z-index: 10;
+  background-color: black;
+}
+
 .cover-photo-credit {
   color: white;
   font-weight: bold;

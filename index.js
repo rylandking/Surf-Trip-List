@@ -360,8 +360,8 @@ function findSurfSpotsWithinDestinationBounds(i) {
                   <p class="m-0 text-capitalize font-weight-bold destination-region">${regionName}</p>
                   <div class="destination-tags">
                     <span class="dest-tag-beach-${destinationArray[i]}"></span>
-                    <span class="dest-tag-bars-${destinationArray[i]}"></span>
                     <span class="dest-tag-eats-${destinationArray[i]}"></span>
+                    <span class="dest-tag-bars-${destinationArray[i]}"></span>
                     <span class="dest-tag-hiking-${destinationArray[i]}"></span>
                     <span class="dest-tag-walkability-${destinationArray[i]}"></span>
                     <span class="dest-tag-renowned-${destinationArray[i]}"></span>
@@ -1373,7 +1373,6 @@ function addSurfSpotMarkers() {
         skill = data.skill;
         bottom = data.bottom;
         forecast = data.forecast;
-        console.log(data);
 
         //Build a quick description for surf spot cards
         writeQuickSurfSpotDescription();
@@ -1722,6 +1721,7 @@ function areCustomSurfSpotPhotosAvailable(ssProps) {
           attributionLink = data.attributionLink;
           surferAttribution = data.surferAttribution;
           surferAttributionLink = data.surferAttributionLink;
+          textColor = data.textColor;
 
           //Build surf spot cards with the custom photo. Pass the ssProps object that holds all necessary variables
           addSurfSpotPhotosToCards(ssProps);
@@ -1808,7 +1808,7 @@ function showOrHideSurferAttribution() {
 }
 
 
-//Build the first photo you see representing a surf spot
+//Build the first photo representing a surf spot in the surf spot photo gallery
 function buildSurfSpotCoverPhoto(ssProps) {
   //If surferAttribution is not available, don't show the "S: " on the photo
   showOrHideSurferAttribution();
@@ -1818,17 +1818,19 @@ function buildSurfSpotCoverPhoto(ssProps) {
     $("[data-carousel-indicators-iw='" + surfSpotMarkerID + "']").prepend(`
         <li data-target="#${surfSpotMarkerID}IWCarousel" data-slide-to="0"></li>
     `);
+
     //INFOWINDOW: Add the INFOWINDOW cover photo
     $("[data-carousel-inner-iw='" + surfSpotMarkerID + "']").prepend(`
         <div class="carousel-item active">
           <img id="iwPhoto" class="d-block surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}" alt="${surfSpotMarkerID}">
-          <small class="iw-photo-credit font-weight-bold">
+          <small class="iw-photo-credit font-weight-bold ${textColor}">
               <p class="m-0">${surferAttribution}</p>
               <p>P: ${attribution}</p>
           </small>
           <i class="fas fa-plus-square iw-details-indicator cursor"></i>
         </div>
     `);
+
   //If a surfSpotMarker was NOT clicked ('surfSpotMarkerClick == false'), build the galleries into the cards and their modals
   } else {
     //Add dot indicator for the card cover photo
@@ -1839,7 +1841,7 @@ function buildSurfSpotCoverPhoto(ssProps) {
     $("[data-carousel-inner='" + ssProps.surfSpotID + "']").prepend(`
         <div class="carousel-item active">
           <img class="d-block card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
-          <small class="card-photo-credit font-weight-bold">
+          <small class="card-photo-credit font-weight-bold ${textColor}">
             <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
               <p class="m-0">${surferAttribution}</p>
             </a>
@@ -1890,7 +1892,7 @@ function addSurfSpotPhotosToCards(ssProps) {
       $("[data-carousel-inner-iw='" + surfSpotMarkerID + "']").prepend(`
           <div class="carousel-item">
             <img id="iwPhoto" class="d-block surf-spot-infowindow-photo mb-2 p-0 mx-0 mt-0" src="${surfSpotPhoto}" alt="${surfSpotMarkerID}">
-            <small class="iw-photo-credit font-weight-bold">
+            <small class="iw-photo-credit font-weight-bold ${textColor}">
               <p class="m-0">${surferAttribution}</p>
               <p>P: ${attribution}</p>
             </small>
@@ -1907,7 +1909,7 @@ function addSurfSpotPhotosToCards(ssProps) {
       $("[data-carousel-inner='" + ssProps.surfSpotID + "']").prepend(`
           <div class="carousel-item">
             <img class="d-block card-custom-image" src="${surfSpotPhoto}" alt="${ssProps.spotName}">
-            <small class="card-photo-credit font-weight-bold">
+            <small class="card-photo-credit font-weight-bold ${textColor}">
               <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
                 <p class="m-0">${surferAttribution}</p>
               </a>
@@ -3196,6 +3198,7 @@ function buildSurfSpotPagePhotos() {
       attributionLink = data.attributionLink;
       surferAttribution = data.surferAttribution;
       surferAttributionLink = data.surferAttributionLink;
+      textColor = data.textColor;
       useCustomPhotos = true;
 
       //If surferAttribution isn't available, show nothing
@@ -3205,14 +3208,13 @@ function buildSurfSpotPagePhotos() {
       $(".surf-spot-cover-image-wrapper").prepend(`
         <a class="cursor" data-toggle="modal" data-target="#surf-spot-page-modal">
           <img class="surf-spot-cover-image" src="${image}" class="img-fluid" alt="${surfSpotID} cover photo">
-          <small class="cover-photo-credit">
+          <small class="cover-photo-credit ${textColor}">
             <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
               <p>P: ${attribution}</p>
             </a>
           </small>
         </a>
       `);
-
 
       $("#surf-spot-page-modal-wrapper").prepend(`
          <div id="surf-spot-page-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -3269,7 +3271,7 @@ function buildSurfSpotPagePhotos() {
      $(".carousel-inner-modal").append(`
        <div class="carousel-item carousel-item-modal active">
          <img class="d-block modal-custom-image" src="${image}" alt="${surfSpotID}">
-         <small class="modal-photo-credit font-weight-bold">
+         <small class="modal-photo-credit font-weight-bold ${textColor}">
            <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
              <p class="m-0">${surferAttribution}</p>
            </a>
@@ -3303,7 +3305,7 @@ function buildSurfSpotPagePhotos() {
         $(".carousel-inner-modal").append(`
           <div class="carousel-item carousel-item-modal">
             <img class="d-block modal-custom-image" src="${image}" alt="${surfSpotID}">
-            <small class="modal-photo-credit font-weight-bold">
+            <small class="modal-photo-credit font-weight-bold ${textColor}">
               <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
                 <p class="m-0">${surferAttribution}</p>
               </a>
@@ -3810,7 +3812,7 @@ function getDurationFromAirportAndSetNearbyRecommendations() {
 
                       <!-- Card Descriptors -->
                       <div class="card-body mx-0 p-0 pt-1">
-                        <h6 class="card-title card-title-text font-weight-bold text-muted">No Surf Spots Within 25 Miles</h6>
+                        <h6 class="card-title card-title-text font-weight-bold text-muted">Accommodations not available here yet</h6>
                       </div>
 
                     </div>
@@ -4115,7 +4117,7 @@ function prependNearbySurfSpots(nearbySSProps) {
       $("[data-carousel-inner='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
         <div class="carousel-item active">
           <img class="d-block card-custom-image" src="${image}" alt="${nearbySSProps.nearbySurfSpotID}">
-          <small class="card-photo-credit font-weight-bold">
+          <small class="card-photo-credit font-weight-bold ${textColor}">
             <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
               <p class="m-0">${surferAttribution}</p>
             </a>
@@ -4160,7 +4162,7 @@ function prependNearbySurfSpots(nearbySSProps) {
         $("[data-carousel-inner='" + nearbySSProps.nearbySurfSpotID + "']").prepend(`
           <div class="carousel-item">
             <img class="d-block card-custom-image" src="${image}" alt="${nearbySSProps.nearbySurfSpotID}">
-            <small class="card-photo-credit font-weight-bold">
+            <small class="card-photo-credit font-weight-bold ${textColor}">
               <a target="_blank" onclick='window.open("${surferAttributionLink}");' class="inherit-link">
                 <p class="m-0">${surferAttribution}</p>
               </a>
@@ -4199,8 +4201,16 @@ function prependNearbySurfSpots(nearbySSProps) {
 
   });
 
+}
 
-
+function darkAttributionColor() {
+  if (attribution.indexOf("BVR Photography") !== -1) {
+    // $(`[data]`).
+    // $(`.card-photo-credit`).addClass("text-dark");
+    // $(".iw-photo-credit").addClass("text-dark");
+    // $(".modal-photo-credit").addClass("text-dark");
+    // $(".cover-photo-credit").addClass("text-dark");
+  }
 }
 
 
