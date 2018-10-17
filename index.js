@@ -335,74 +335,80 @@ function findSurfSpotsWithinDestinationBounds(i) {
       destinationName = destinationArray[i].replace(/-/g, ' ');
       regionName = regionArray[i].replace(/-/g, ' ');
 
-      //If the surf spot is within the lat/lng bounds of destionation
-      if (coords.lng <= greaterLngArray[i] && coords.lng >= smallerLngArray[i]) {
+      //If destinationName = california, someone clicked on the "Map" link on the homepage. Do not build a destination card for California.
+      if (destinationName !== "california") {
 
-        //If destinationArray has been set and it hasn't been set before, show or prepend the destination to the homepage (keeps it a singular destination)
-        if (destinationArray[i] !== previousDestination) {
+        //If the surf spot is within the lat/lng bounds of destionation
+        if (coords.lng <= greaterLngArray[i] && coords.lng >= smallerLngArray[i]) {
 
-          //Builds each destination card
-          $("#destination-cards").prepend(`
-          <!-- DESTINATION CARD -->
-          <div id="destination-card" class="destination-card-skill-check cursor p-1 pt-0 mb-4 col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3" data-id="${destinationArray[i]}">
-            <div class="destination-card surf-spot-card illuminate-hover">
+          //If destinationArray has been set and it hasn't been set before, show or prepend the destination to the homepage (keeps it a singular destination)
+          if (destinationArray[i] !== previousDestination) {
 
-              <img class="d-block card-custom-image" src="${destinationPhotosArray[i]}" alt="${destinationArray[i]}">
 
-              <!-- DESTINATION CARD DESCRIPTORS -->
-              <div class="card-body mx-0 p-0 pt-2">
-                <small class="text-muted large-card-preheader-text font-weight-bold wave-types-available-${destinationArray[i]}"> </small>
-                <h5 class="card-title card-title-text font-weight-bold mb-0">${destinationName}</h5>
-                <p class="m-0 text-capitalize font-weight-bold destination-region">${regionName}</p>
-                <div class="destination-tags">
-                  <span class="dest-tag-beach-${destinationArray[i]}"></span>
-                  <span class="dest-tag-bars-${destinationArray[i]}"></span>
-                  <span class="dest-tag-eats-${destinationArray[i]}"></span>
-                  <span class="dest-tag-hiking-${destinationArray[i]}"></span>
-                  <span class="dest-tag-walkability-${destinationArray[i]}"></span>
-                  <span class="dest-tag-renowned-${destinationArray[i]}"></span>
+            //Builds each destination card
+            $("#destination-cards").prepend(`
+            <!-- DESTINATION CARD -->
+            <div id="destination-card" class="destination-card-skill-check cursor p-1 pt-0 mb-4 col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3" data-id="${destinationArray[i]}">
+              <div class="destination-card surf-spot-card illuminate-hover">
+
+                <img class="d-block card-custom-image" src="${destinationPhotosArray[i]}" alt="${destinationArray[i]}">
+
+                <!-- DESTINATION CARD DESCRIPTORS -->
+                <div class="card-body mx-0 p-0 pt-2">
+                  <small class="text-muted large-card-preheader-text font-weight-bold wave-types-available-${destinationArray[i]}"> </small>
+                  <h5 class="card-title card-title-text font-weight-bold mb-0">${destinationName}</h5>
+                  <p class="m-0 text-capitalize font-weight-bold destination-region">${regionName}</p>
+                  <div class="destination-tags">
+                    <span class="dest-tag-beach-${destinationArray[i]}"></span>
+                    <span class="dest-tag-bars-${destinationArray[i]}"></span>
+                    <span class="dest-tag-eats-${destinationArray[i]}"></span>
+                    <span class="dest-tag-hiking-${destinationArray[i]}"></span>
+                    <span class="dest-tag-walkability-${destinationArray[i]}"></span>
+                    <span class="dest-tag-renowned-${destinationArray[i]}"></span>
+                  </div>
                 </div>
+
               </div>
-
             </div>
-          </div>
-          `);
+            `);
 
-          if (destinationTagsArray[i].comfortableBeaches.length > 1) {
-            $(`.dest-tag-beach-${destinationArray[i]}`).prepend(`
-              <span class="badge destination-badge badge-light-blue text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].comfortableBeaches} </span>
-            `);
+            if (destinationTagsArray[i].comfortableBeaches.length > 1) {
+              $(`.dest-tag-beach-${destinationArray[i]}`).prepend(`
+                <span class="badge destination-badge badge-light-blue text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].comfortableBeaches} </span>
+              `);
+            }
+            if (destinationTagsArray[i].goodEats.length > 1) {
+              $(`.dest-tag-eats-${destinationArray[i]}`).prepend(`
+                <span class="badge destination-badge badge-purple text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].goodEats} </span>
+              `);
+            }
+            if (destinationTagsArray[i].barScene.length > 1) {
+              $(`.dest-tag-bars-${destinationArray[i]}`).prepend(`
+                <span class="badge destination-badge bg-slate text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].barScene} </span>
+              `);
+            }
+            if (destinationTagsArray[i].walkability.length > 1) {
+              $(`.dest-tag-walkability-${destinationArray[i]}`).prepend(`
+                <span class="badge destination-badge bg-orange text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].walkability} </span>
+              `);
+            }
+            if (destinationTagsArray[i].hiking.length > 1) {
+              $(`.dest-tag-hiking-${destinationArray[i]}`).prepend(`
+                <span class="badge destination-badge bg-teal text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].hiking} </span>
+              `);
+            }
+            if (destinationTagsArray[i].worldRenowned.length > 1) {
+              $(`.dest-tag-renowned-${destinationArray[i]}`).prepend(`
+                <span class="badge destination-badge bg-red text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].worldRenowned} </span>
+              `);
+            }
+
           }
-          if (destinationTagsArray[i].goodEats.length > 1) {
-            $(`.dest-tag-eats-${destinationArray[i]}`).prepend(`
-              <span class="badge destination-badge badge-purple text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].goodEats} </span>
-            `);
-          }
-          if (destinationTagsArray[i].barScene.length > 1) {
-            $(`.dest-tag-bars-${destinationArray[i]}`).prepend(`
-              <span class="badge destination-badge bg-slate text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].barScene} </span>
-            `);
-          }
-          if (destinationTagsArray[i].walkability.length > 1) {
-            $(`.dest-tag-walkability-${destinationArray[i]}`).prepend(`
-              <span class="badge destination-badge bg-orange text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].walkability} </span>
-            `);
-          }
-          if (destinationTagsArray[i].hiking.length > 1) {
-            $(`.dest-tag-hiking-${destinationArray[i]}`).prepend(`
-              <span class="badge destination-badge bg-teal text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].hiking} </span>
-            `);
-          }
-          if (destinationTagsArray[i].worldRenowned.length > 1) {
-            $(`.dest-tag-renowned-${destinationArray[i]}`).prepend(`
-              <span class="badge destination-badge bg-red text-white text-uppercase p-1 mb-1">${destinationTagsArray[i].worldRenowned} </span>
-            `);
-          }
+
+          //Sets the previous destination in the variable. Used to check if the destination has already been shown/prepended ot the homepage
+          previousDestination = destinationArray[i];
 
         }
-
-        //Sets the previous destination in the variable. Used to check if the destination has already been shown/prepended ot the homepage
-        previousDestination = destinationArray[i];
 
       }
 
