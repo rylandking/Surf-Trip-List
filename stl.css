@@ -385,10 +385,6 @@ input:focus:-ms-input-placeholder {
   }
 }
 
-#map-wrapper {
-  position: relative;
-}
-
 #surf-spot-map {
   height:300px;
   width: 100%;
@@ -471,6 +467,11 @@ input:focus:-ms-input-placeholder {
   font-weight: bold;
   height: 20px;
   width: auto;
+}
+
+#map-wrapper {
+  position: relative;
+  padding-left: .5rem;
 }
 
 @media only screen and (max-width: 600px) {
