@@ -1989,122 +1989,170 @@ function buildSeasonalityChartColors() {
     //Set background color of seasonality chart for JAN
     if (jan >= 90) {
       jan = "dark-green-bg";
+      janTip = 'data-toggle="tooltip" title="Excellent time to go"';
     } else if (jan >= 70) {
       jan = "green-bg";
+      janTip = 'data-toggle="tooltip" title="Good time to go"';
     } else if (jan >= 50) {
       jan = "yellow-bg";
+      janTip = 'data-toggle="tooltip" title="Okay time to go"';
     } else if (jan < 50) {
       jan = "red-bg";
+      janTip = 'data-toggle="tooltip" title="Poor time to go"';
     }
 
     if (feb >= 90) {
       feb = "dark-green-bg";
+      febTip = 'data-toggle="tooltip" title="Excellent time to go"';
     } else if (feb >= 70) {
       feb = "green-bg";
+      febTip = 'data-toggle="tooltip" title="Good time to go"';
     } else if (feb >= 50) {
       feb = "yellow-bg";
+      febTip = 'data-toggle="tooltip" title="Okay time to go"';
     } else if (feb < 50) {
       feb = "red-bg";
+      febTip = 'data-toggle="tooltip" title="Poor time to go"';
     }
 
     if (mar >= 90) {
       mar = "dark-green-bg";
+      marTip = 'data-toggle="tooltip" title="Excellent time to go"';
     } else if (mar >= 70) {
       mar = "green-bg";
+      marTip = 'data-toggle="tooltip" title="Good time to go"';
     } else if (mar >= 50) {
       mar = "yellow-bg";
+      marTip = 'data-toggle="tooltip" title="Okay time to go"';
     } else if (mar < 50) {
       mar = "red-bg";
+      marTip = 'data-toggle="tooltip" title="Poor time to go"';
     }
 
     if (apr >= 90) {
       apr = "dark-green-bg";
+      aprTip = 'data-toggle="tooltip" title="Excellent time to go"';
     } else if (apr >= 70) {
       apr = "green-bg";
+      aprTip = 'data-toggle="tooltip" title="Good time to go"';
     } else if (apr >= 50) {
       apr = "yellow-bg";
+      aprTip = 'data-toggle="tooltip" title="Okay time to go"';
     } else if (apr < 50) {
       apr = "red-bg";
+      aprTip = 'data-toggle="tooltip" title="Poor time to go"';
     }
 
     if (may >= 90) {
       may = "dark-green-bg";
+      mayTip = 'data-toggle="tooltip" title="Excellent time to go"';
     } else if (may >= 70) {
       may = "green-bg";
+      mayTip = 'data-toggle="tooltip" title="Good time to go"';
     } else if (may >= 50) {
       may = "yellow-bg";
+      mayTip = 'data-toggle="tooltip" title="Okay time to go"';
     } else if (may < 50) {
       may = "red-bg";
+      mayTip = 'data-toggle="tooltip" title="Poor time to go"';
     }
 
     if (jun >= 90) {
       jun = "dark-green-bg";
+      junTip = 'data-toggle="tooltip" title="Excellent time to go"';
     } else if (jun >= 70) {
       jun = "green-bg";
+      junTip = 'data-toggle="tooltip" title="Good time to go"';
     } else if (jun >= 50) {
       jun = "yellow-bg";
+      junTip = 'data-toggle="tooltip" title="Okay time to go"';
     } else if (jun < 50) {
       jun = "red-bg";
+      junTip = 'data-toggle="tooltip" title="Poor time to go"';
     }
 
     if (jul >= 90) {
       jul = "dark-green-bg";
+      julTip = 'data-toggle="tooltip" title="Excellent time to go"';
     } else if (jul >= 70) {
       jul = "green-bg";
+      julTip = 'data-toggle="tooltip" title="Good time to go"';
     } else if (jul >= 50) {
       jul = "yellow-bg";
+      julTip = 'data-toggle="tooltip" title="Okay time to go"';
     } else if (jul < 50) {
       jul = "red-bg";
+      julTip = 'data-toggle="tooltip" title="Poor time to go"';
     }
 
     if (aug >= 90) {
       aug = "dark-green-bg";
+      augTip = 'data-toggle="tooltip" title="Excellent time to go"';
     } else if (aug >= 70) {
       aug = "green-bg";
+      augTip = 'data-toggle="tooltip" title="Good time to go"';
     } else if (aug >= 50) {
       aug = "yellow-bg";
+      augTip = 'data-toggle="tooltip" title="Okay time to go"';
     } else if (aug < 50) {
       aug = "red-bg";
+      augTip = 'data-toggle="tooltip" title="Poor time to go"';
     }
 
     if (sep >= 90) {
       sep = "dark-green-bg";
+      sepTip = 'data-toggle="tooltip" title="Excellent time to go"';
     } else if (sep >= 70) {
       sep = "green-bg";
+      sepTip = 'data-toggle="tooltip" title="Good time to go"';
     } else if (sep >= 50) {
       sep = "yellow-bg";
+      sepTip = 'data-toggle="tooltip" title="Okay time to go"';
     } else if (sep < 50) {
       sep = "red-bg";
+      sepTip = 'data-toggle="tooltip" title="Poor time to go"';
     }
 
     if (oct >= 90) {
       oct = "dark-green-bg";
+      octTip = 'data-toggle="tooltip" title="Excellent time to go"';
     } else if (oct >= 70) {
       oct = "green-bg";
+      octTip = 'data-toggle="tooltip" title="Good time to go"';
     } else if (oct >= 50) {
       oct = "yellow-bg";
+      octTip = 'data-toggle="tooltip" title="Okay time to go"';
     } else if (oct < 50) {
       oct = "red-bg";
+      octTip = 'data-toggle="tooltip" title="Poor time to go"';
     }
 
     if (nov >= 90) {
       nov = "dark-green-bg";
+      novTip = 'data-toggle="tooltip" title="Excellent time to go"';
     } else if (nov >= 70) {
       nov = "green-bg";
+      novTip = 'data-toggle="tooltip" title="Good time to go"';
     } else if (nov >= 50) {
       nov = "yellow-bg";
+      novTip = 'data-toggle="tooltip" title="Okay time to go"';
     } else if (nov < 50) {
       nov = "red-bg";
+      novTip = 'data-toggle="tooltip" title="Poor time to go"';
     }
 
     if (dec >= 90) {
       dec = "dark-green-bg";
+      decTip = 'data-toggle="tooltip" title="Excellent time to go"';
     } else if (dec >= 70) {
       dec = "green-bg";
+      decTip = 'data-toggle="tooltip" title="Good time to go"';
     } else if (dec >= 50) {
       dec = "yellow-bg";
+      decTip = 'data-toggle="tooltip" title="Okay time to go"';
     } else if (dec < 50) {
       dec = "red-bg";
+      decTip = 'data-toggle="tooltip" title="Poor time to go"';
     }
   }
 
@@ -3506,110 +3554,117 @@ function addSurfSpotDescription() {
 }
 
 
+function initTooltips() {
+  $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+}
+initTooltips();
+
+
+
 function seasonality() {
   $(".seasonality-chart").append(`
-    <ul class="list-unstyled col-1 mx-0 px-0">
+    <ul class="list-unstyled col-1 mx-0 px-0" ${janTip}>
       <li class="text-center">
-        <div class="${jan}">
+        <div class="month ${jan}">
           <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JAN</p>
           <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
         </div>
       </li>
     </ul>
 
-    <ul class="list-unstyled col-1 mx-0 px-0">
+    <ul class="list-unstyled col-1 mx-0 px-0" ${febTip}>
       <li class="text-center">
-        <div class="${feb}">
+        <div class="month ${feb}">
           <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">FEB</p>
           <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">F</p>
         </div>
       </li>
     </ul>
 
-    <ul class="list-unstyled col-1 mx-0 px-0">
+    <ul class="list-unstyled col-1 mx-0 px-0" ${marTip}>
       <li class="text-center">
-        <div class="${mar}">
+        <div class="month ${mar}">
           <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">MAR</p>
           <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">M</p>
         </div>
       </li>
     </ul>
 
-    <ul class="list-unstyled col-1 mx-0 px-0">
+    <ul class="list-unstyled col-1 mx-0 px-0" ${aprTip}>
       <li class="text-center">
-        <div class="${apr}">
+        <div class="month ${apr}">
           <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">APR</p>
           <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">A</p>
         </div>
       </li>
     </ul>
 
-    <ul class="list-unstyled col-1 mx-0 px-0">
+    <ul class="list-unstyled col-1 mx-0 px-0" ${mayTip}>
       <li class="text-center">
-        <div class="${may}">
+        <div class="month ${may}">
           <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">MAY</p>
           <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">M</p>
         </div>
       </li>
     </ul>
 
-    <ul class="list-unstyled col-1 mx-0 px-0">
+    <ul class="list-unstyled col-1 mx-0 px-0" ${junTip}>
       <li class="text-center">
-        <div class="${jun}">
+        <div class="month ${jun}">
           <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JUN</p>
           <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
         </div>
       </li>
     </ul>
 
-    <ul class="list-unstyled col-1 mx-0 px-0">
+    <ul class="list-unstyled col-1 mx-0 px-0" ${julTip}>
       <li class="text-center">
-        <div class="${jul}">
+        <div class="month ${jul}">
           <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">JUL</p>
           <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">J</p>
         </div>
       </li>
     </ul>
 
-    <ul class="list-unstyled col-1 mx-0 px-0">
+    <ul class="list-unstyled col-1 mx-0 px-0" ${augTip}>
       <li class="text-center">
-        <div class="${aug}">
+        <div class="month ${aug}">
           <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">AUG</p>
           <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">A</p>
         </div>
       </li>
     </ul>
 
-    <ul class="list-unstyled col-1 mx-0 px-0">
+    <ul class="list-unstyled col-1 mx-0 px-0" ${sepTip}>
       <li class="text-center">
-        <div class="${sep}">
+        <div class="month ${sep}">
           <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">SEP</p>
           <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">S</p>
         </div>
       </li>
     </ul>
 
-    <ul class="list-unstyled col-1 mx-0 px-0">
+    <ul class="list-unstyled col-1 mx-0 px-0" ${octTip}>
       <li class="text-center">
-        <div class="${oct}">
+        <div class="month ${oct}">
           <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">OCT</p>
           <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">O</p>
         </div>
       </li>
     </ul>
 
-    <ul class="list-unstyled col-1 mx-0 px-0">
+    <ul class="list-unstyled col-1 mx-0 px-0" ${novTip}>
       <li class="text-center">
-        <div class="${nov}">
+        <div class="month ${nov}">
           <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">NOV</p>
           <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">N</p>
         </div>
       </li>
     </ul>
 
-    <ul class="list-unstyled col-1 mx-0 px-0">
+    <ul class="list-unstyled col-1 mx-0 px-0" ${decTip}>
       <li class="text-center pb-0 mb-0">
-        <div class="${dec}">
+        <div class="month ${dec}">
           <p class="white-link font-weight-light d-none d-sm-block pt-1 pb-1">DEC</p>
           <p class="white-link font-weight-light d-block d-sm-none pt-1 pb-1">D</p>
         </div>
