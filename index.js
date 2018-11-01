@@ -2811,7 +2811,7 @@ function addAccommMarker(props, map, coords, title, price, accommURL, accommType
              <span class="text-muted card-preheader-text font-weight-bold mb-2">${accommType} • ${bedAmount} ${bedWord}</span>
              <h6 class="card-title card-title-text mb-1">${title}</h6>
              <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
-             <p class="accomm-card-price">$${price} per night • Free cancellation</p>
+             <p class="accomm-card-price">$${price} per night</p>
            </div>
          </a>
        </div>
@@ -2903,7 +2903,7 @@ function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWor
             <small class="text-muted card-preheader-text font-weight-bold">${accommType} • ${bedAmount} ${bedWord}</small>
             <h5 class="card-title card-title-text font-weight-bold">${title}</h5>
             <span class="badge badge-danger card-badge text-uppercase mb-1">AIRBNB</span>
-            <p class="accomm-card-price">$${price} per night • Free cancellation</p>
+            <p class="accomm-card-price">$${price} per night</p>
           </div>
 
         </div>
@@ -2930,7 +2930,7 @@ function buildAccommCards(accommURL, title, photo, accommType, bedAmount, bedWor
                 <small class="text-muted card-preheader-text font-weight-bold">${accommType} • ${bedAmount} ${bedWord}</small>
                 <h5 class="card-title card-title-text font-weight-bold">${title}</h5>
                 <span class="badge badge-danger card-badge text-uppercase accomm-modal-badge mb-1">AIRBNB</span>
-                <p class="accomm-card-price">$${price} per night • Free cancellation</p>
+                <p class="accomm-card-price">$${price} per night</p>
               </div>
             </div>
 

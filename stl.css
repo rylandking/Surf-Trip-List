@@ -109,7 +109,16 @@ body {
 #top-logo {
   width:32px;
   height:32px;
+  /* width:46px;
+  height:46px; */
   vertical-align:middle;
+}
+
+@media only screen and (max-width: 600px) {
+  #top-logo {
+    width:36px;
+    height:36px;
+  }
 }
 
 #top-nav {
@@ -545,6 +554,13 @@ p.card-hover-overlay {
   height: -webkit-calc(100vh - 130px); /* google, safari */
   height: -moz-calc(100vh - 130px); /* firefox */
   overflow-y: scroll;
+}
+
+/* On screens bigger than mobile */
+@media only screen and (min-width: 600px) {
+  #spot-cards {
+    padding-right: .5rem;
+  }
 }
 
 /* On screens bigger than mobile */
