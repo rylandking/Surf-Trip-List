@@ -683,7 +683,13 @@ function filterDestinations() {
 
 filterDestinations();
 
+function viewDestinations() {
+  $(".scroll-indicator").click(function() {
+    $('html, body').animate({ scrollTop: $('#explore-destinations-title').offset().top }, 1250);
+  });
+}
 
+viewDestinations();
 
 ////PUT CITY IN QUERY PARAMS AFTER CLICKING ON CARD
 //Click city card on homepage
@@ -1393,12 +1399,13 @@ function addSurfSpotMarkers() {
         $(".loading-surf-spot-card").hide();
 
         $("#spot-cards").append(`
-          <div id="no-surf-spots-card" class="card surf-spot-card bright-hover" data-id="loading">
+          <div id="no-surf-spots-card" class="card surf-spot-card" data-id="loading">
             <img class="card-img tinted-spot-cards" src="${surfSpotDefaultPhoto}" alt="no-surf-spots-in-map-view">
             <div class="card-img-overlay">
               <div class="card-body text-white p-0">
-                <h5 class="card-title2">No surf spots here.</h5>
-                <h5 class="card-text2 note mt-2">To discover more surf spots, move the map somewhere else or refresh the page.</h6>
+                <h5 class="font-weight-bold">No Surf Spots Here</h5>
+                <p><small class="mt-2 font-weight-bold">Do you know a surf spot here? Email us at surftriplist@gmail.com.</small></p>
+                <p><small class="mt-2 font-weight-bold">To discover more surf spots, move the map somewhere else or refresh the page.</small></p>
               </div>
             </div>
           </div>
@@ -1704,6 +1711,8 @@ function writeQuickSurfSpotDescription() {
 }//END -- writeQuickSurfSpotDescription()
 
 
+photoCountPerSurfSpot = [];
+
 //Check if custom photos are available
 function areCustomSurfSpotPhotosAvailable(ssProps) {
   //In the surfSpotImages collection get each document that has the surfSpot field with relevant surfSpotID
@@ -1722,6 +1731,7 @@ function areCustomSurfSpotPhotosAvailable(ssProps) {
           surferAttribution = data.surferAttribution;
           surferAttributionLink = data.surferAttributionLink;
           textColor = data.textColor;
+          photoCountPerSurfSpot.push({id: surfSpotPhotoID, surfSpot: surfSpotPhotoLocation});
 
           //Build surf spot cards with the custom photo. Pass the ssProps object that holds all necessary variables
           addSurfSpotPhotosToCards(ssProps);
@@ -1735,8 +1745,20 @@ function areCustomSurfSpotPhotosAvailable(ssProps) {
       //Build surf spot cards with the default photo. Pass the ssProps object that holds all necessary variables
       addSurfSpotPhotosToCards(ssProps);
     }
+
+    //If only one photo is present in the carousel
+    if (photoCountPerSurfSpot.length == 1) {
+      //Hide carousel controls
+      $('[data-prev="' + ssProps.surfSpotID + '"]').hide();
+      $('[data-next="' + ssProps.surfSpotID + '"]').hide();
+      $('[data-prev-iw="' + ssProps.surfSpotID + '"]').hide();
+      $('[data-next-iw="' + ssProps.surfSpotID + '"]').hide();
+    }
+
     //Reset useCustomPhotos to false to restart the loop
     useCustomPhotos = false;
+    //Reset photoCountPerSurfSpot
+    photoCountPerSurfSpot = [];
   });
 }
 
@@ -2793,8 +2815,8 @@ function addAccommMarkers(i) {
             <img class="card-img tinted-spot-cards" src="${accommDefaultPhoto}" alt="no-accommodations-in-map-view">
             <div class="card-img-overlay">
               <div class="card-body text-white p-0">
-                <h5 class="card-title2">No accommodations here.</h5>
-                <h5 class="card-text2 note mt-2">To discover more surf accommodations, move the map somewhere else or refresh the page.</h6>
+                <h5 class="font-weight-bold">Accommodations coming soon</h5>
+                <small class="mt-2 font-weight-bold">Do you know of a great place to stay here? Email us at surftriplist@gmail.com and we'll list it!</small>
               </div>
             </div>
           </div>
@@ -3538,7 +3560,7 @@ function nearbyHighlights() {
 
 function flightLink() {
   $(".flights-link").append(`
-    <a class="inherit-link" href="https://www.google.com/flights/#search;f=;t=${airportCode}" target="_blank"><i class="fas fa-plane"></i> Check flights</a>
+    <a class="inherit-link" href="https://www.google.com/flights/#search;f=;t=${airportCode}" target="_blank"><i class="fas fa-plane"></i> Check flight prices</a>
   `);
 
   $(".distance-from-specific-airport").append(`
@@ -3734,6 +3756,7 @@ function getDurationFromAirportAndSetNearbyRecommendations() {
         mapTypeControl: false,
         fullscreenControl: false,
         streetViewControl: false,
+        mapTypeId: 'satellite',
       });//END -- map OBJECT
     //If window is mobile (less than 600px), show the prev hide controls on page load.
     } else {
@@ -3745,6 +3768,7 @@ function getDurationFromAirportAndSetNearbyRecommendations() {
         fullscreenControl: false,
         streetViewControl: false,
         gestureHandling: "greedy",
+        mapTypeId: 'satellite',
       });//END -- map OBJECT
     }
 
@@ -3800,10 +3824,19 @@ function getDurationFromAirportAndSetNearbyRecommendations() {
         lngArray.push(neLngNearbySSBounds, swLngNearbySSBounds);
 
         //Find the largest and smallest lat and lng (for nearby surf spot Firestore queries)
-        greaterLat = latArray.sort()[latArray.length - 1];
-        smallerLat = latArray.sort()[latArray.length - 2];
-        greaterLng = lngArray.sort()[lngArray.length - 2];
-        smallerLng = lngArray.sort()[lngArray.length - 1];
+        //If in the northern hemisphere, lat > 0
+        if (neLat > 0) {
+          greaterLat = latArray.sort()[latArray.length - 1];
+          smallerLat = latArray.sort()[latArray.length - 2];
+          greaterLng = lngArray.sort()[lngArray.length - 2];
+          smallerLng = lngArray.sort()[lngArray.length - 1];
+        //If in the southern hermisphere
+        } else {
+          smallerLat = latArray.sort()[latArray.length - 1];
+          greaterLat = latArray.sort()[latArray.length - 2];
+          smallerLng = lngArray.sort()[lngArray.length - 2];
+          greaterLng = lngArray.sort()[lngArray.length - 1];
+        }
 
         //Nearby accomm map lat bounds
         neLatNearbyAccommBounds = neLat + .008983*(.621371*10);
@@ -3937,7 +3970,8 @@ function getDurationFromAirportAndSetNearbyRecommendations() {
 
                   <!-- Surf Spot Page Accomm Card Descriptors -->
                   <div class="card-body mx-0 p-0 pt-2">
-                    <h6 class="card-title card-title-text"><small class="font-weight-bold">No Accommodations Within 25 Miles</small></h6>
+                    <h5><small class="text-muted font-weight-bold">Accommodations coming soon</small></h5>
+                    <small class="text-muted font-weight-bold">Do you know of a great place to stay here? <br>Email us at surftriplist@gmail.com and we'll list it!</small>
                   </div>
 
                 </div>
@@ -3952,7 +3986,8 @@ function getDurationFromAirportAndSetNearbyRecommendations() {
 
                 <!-- Accomm descriptors -->
                 <div class="card-body mx-0 p-0 pt-2">
-                  <h6 class="card-title card-title-text text-muted font-weight-bold">No Accommodations Within 25 Miles</h6>
+                  <h5><small class="text-muted font-weight-bold">Accommodations coming soon</small></h5>
+                  <small class="text-muted font-weight-bold">Do you know of a great place to stay here? Email us at surftriplist@gmail.com and we'll list it!</small>
                 </div>
               </div><!--//Accomm card -->
             `);

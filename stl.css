@@ -55,7 +55,15 @@ body {
     background-image:url("https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image-friends-mobile2.png?alt=media&token=7304492b-790f-431e-b66c-9e5293077a4e");
     height: 35vh;
     margin-bottom: 1rem;
+    animation-name: noAnimation;
+  }
+}
 
+@media only screen and (max-width: 376px) {
+  #landing-page {
+    background-image:url("https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/cover-images%2Flanding-image-friends-mobile2.png?alt=media&token=7304492b-790f-431e-b66c-9e5293077a4e");
+    height: 38vh;
+    margin-bottom: 1rem;
     animation-name: noAnimation;
   }
 }
@@ -128,7 +136,7 @@ body {
 
 #mobile-menu-arrow {
  font-size: 14px;
- color: black;
+ color: grey;
 }
 
 .dropdown-item {
@@ -184,6 +192,18 @@ body {
   left: 17%;
   top: 17%;
   box-shadow: 3px 3px 50px 3px darkgrey;
+}
+
+.scroll-indicator {
+  position: absolute;
+  top: 91.75%;
+  font-size: 36px;
+}
+
+.scroll-indicator-dark {
+  position: absolute;
+  top: 92%;
+  font-size: 36px;
 }
 
 .cta-button-group {
@@ -281,7 +301,7 @@ body {
 
 .tagline-mobile {
   position: absolute;
-  top: 25%;
+  top: 26%;
 }
 
 /* Landing Page Search Bar -- Display of City Name  */
@@ -1040,14 +1060,28 @@ p.card-hover-overlay {
 
 .surf-spot-cover-image {
   width: 100vw;
-  height: 70vh;
+  height: 55vh;
   object-fit: cover;
 }
 
 .surf-spot-cover-image-wrapper {
   position: relative;
   width: 100vw;
-  height: 70vh;
+  height: 55vh;
+}
+
+@media only screen and (max-width: 600px) {
+  .surf-spot-cover-image {
+    width: 100vw;
+    height: 35vh;
+    object-fit: cover;
+  }
+
+  .surf-spot-cover-image-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 35vh;
+  }
 }
 
 .surf-spot-modal-button {
