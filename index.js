@@ -213,7 +213,8 @@ let expertCount;
 let skillsToFilterOn = [];
 let howManySkillsChosen;
 let destinationPhotosArray = [];
-
+let photoCountPerSurfSpot = [];
+let photoCountPerNearbySurfSpot = [];
 
 
 
@@ -1710,8 +1711,6 @@ function writeQuickSurfSpotDescription() {
 
 }//END -- writeQuickSurfSpotDescription()
 
-
-photoCountPerSurfSpot = [];
 
 //Check if custom photos are available
 function areCustomSurfSpotPhotosAvailable(ssProps) {
@@ -3280,6 +3279,7 @@ function buildSurfSpotPagePhotos() {
           <img class="surf-spot-cover-image" src="${image}" class="img-fluid" alt="${surfSpotID} cover photo">
           <small class="cover-photo-credit ${textColor}">
             <a target="_blank" onclick='window.open("${attributionLink}");' class="inherit-link">
+              <p class="m-0">${surferAttribution}</p>
               <p>P: ${attribution}</p>
             </a>
           </small>
@@ -3351,6 +3351,12 @@ function buildSurfSpotPagePhotos() {
          </small>
        </div>
      `);
+
+     //If surferAttribution exists, increase the bottom margin
+     if (surferAttribution.length > 4) {
+       // $(".surf-spot-page-surfer-attribution").removeClass("m-0");
+       $(".surf-spot-modal-button").addClass("m-3");
+     }
 
     });
   }).then(function() {
@@ -4224,12 +4230,14 @@ function prependNearbySurfSpots(nearbySSProps) {
     db.collection("surfSpotImages").where("surfSpot", "==", nearbySSProps.nearbySurfSpotID).where("coverImage", "==", false).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         data = doc.data();
+        id = doc.id;
         image = data.image;
         surfSpotPhotoLocation = data.surfSpot;
         attribution = data.attribution;
         attributionLink = data.attributionLink;
         surferAttribution = data.surferAttribution;
         surferAttributionLink = data.surferAttributionLink;
+        photoCountPerNearbySurfSpot.push({id: id, surfSpot: surfSpotPhotoLocation});
 
         //Because there are multiple photos, if desktop, hide the card carousel controls on page load
         if ($(window).width() > 600) {
@@ -4263,6 +4271,11 @@ function prependNearbySurfSpots(nearbySSProps) {
           </div>
         `);
 
+        //Because there are multiple images in the carousel, show carousel controls
+        $('[data-prev-nearby-card="' + nearbySSProps.nearbySurfSpotID + '"]').show();
+        $('[data-next-nearby-card="' + nearbySSProps.nearbySurfSpotID + '"]').show();
+
+        //Count the number of slides
         surfSpotSlideCount++
 
       });
@@ -4293,15 +4306,6 @@ function prependNearbySurfSpots(nearbySSProps) {
 
 }
 
-function darkAttributionColor() {
-  if (attribution.indexOf("BVR Photography") !== -1) {
-    // $(`[data]`).
-    // $(`.card-photo-credit`).addClass("text-dark");
-    // $(".iw-photo-credit").addClass("text-dark");
-    // $(".modal-photo-credit").addClass("text-dark");
-    // $(".cover-photo-credit").addClass("text-dark");
-  }
-}
 
 
 function getDistanceBetweenSurfSpots(nearbySSProps) {
