@@ -1100,6 +1100,13 @@ p.card-hover-overlay {
   }
 }
 
+@media only screen and (max-width: 600px) {
+  .align-button-with-s-attribution {
+    left: 240px !important;
+    margin-bottom: 1rem;
+  }
+}
+
 .surf-spot-share-button {
   position: absolute;
   top: 20px;
