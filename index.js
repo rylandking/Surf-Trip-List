@@ -1855,6 +1855,7 @@ function buildSurfSpotCoverPhoto(ssProps) {
 
   //If a surfSpotMarker was NOT clicked ('surfSpotMarkerClick == false'), build the galleries into the cards and their modals
   } else {
+
     //Add dot indicator for the card cover photo
     $("[data-carousel-indicators='" + ssProps.surfSpotID + "']").prepend(`
         <li data-target="#${ssProps.surfSpotID}" data-slide-to="0"></li>
@@ -3295,6 +3296,7 @@ function buildSurfSpotPagePhotos() {
         </a>
       `);
 
+
       $("#surf-spot-page-modal-wrapper").prepend(`
          <div id="surf-spot-page-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
            <div class="modal-dialog modal-lg">
@@ -3339,12 +3341,12 @@ function buildSurfSpotPagePhotos() {
        hideSurfSpotCarouselControls();
      }
 
+     //If surferAttribution isn't available, show nothing
+     showOrHideSurferAttribution();
+
      $(".carousel-indicators-modal").append(`
        <li data-target="#surfSpotCarouselIndicators" data-slide-to="0" class="active"></li>
      `);
-
-     //If surferAttribution isn't available, show nothing
-     showOrHideSurferAttribution();
 
      //Add carousel cover image
      $(".carousel-inner-modal").append(`
@@ -4238,6 +4240,7 @@ function prependNearbySurfSpots(nearbySSProps) {
           </small>
         </div>
       `);
+
 
     });
   }).then(function() {
