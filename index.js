@@ -264,7 +264,14 @@ function buildHomePageDestinations() {
 
       //Find the largest and smallest lat and lng (for Firestore query to find surf spots within those bounds)
       //If in the northern hemisphere, lat > 0
-      if (neLat > 0) {
+      //If all lats and lngs are negative
+      if (neLat < 0 && neLng < 0 && swLat < 0 && swLng < 0) {
+        smallerDestinationLat = latArray.sort()[latArray.length - 1];
+        greaterDestinationLat = latArray.sort()[latArray.length - 2];
+        greaterDestinationLng = lngArray.sort()[lngArray.length - 2];
+        smallerDestinationLng = lngArray.sort()[lngArray.length - 1];
+      //If in the northern hemisphere, lat > 0
+      } else if (neLat > 0) {
         greaterDestintaitonLat = latArray.sort()[latArray.length - 1];
         smallerDestintaitonLat = latArray.sort()[latArray.length - 2];
         greaterDestintaitonLng = lngArray.sort()[lngArray.length - 2];
@@ -2302,8 +2309,14 @@ function refreshMapAndList() {
   lngArray.push(neLng, swLng);
 
   //Find the largest and smallest lat and lng (for Firestore queries)
+  //If all lats and lngs are negative
+  if (neLat < 0 && neLng < 0 && swLat < 0 && swLng < 0) {
+    smallerLat = latArray.sort()[latArray.length - 1];
+    greaterLat = latArray.sort()[latArray.length - 2];
+    greaterLng = lngArray.sort()[lngArray.length - 2];
+    smallerLng = lngArray.sort()[lngArray.length - 1];
   //If in the northern hemisphere, lat > 0
-  if (neLat > 0) {
+  } else if (neLat > 0) {
     greaterLat = latArray.sort()[latArray.length - 1];
     smallerLat = latArray.sort()[latArray.length - 2];
     greaterLng = lngArray.sort()[lngArray.length - 2];
@@ -2315,7 +2328,6 @@ function refreshMapAndList() {
     smallerLng = lngArray.sort()[lngArray.length - 2];
     greaterLng = lngArray.sort()[lngArray.length - 1];
   }
-
 
   //Hide the "Nothing here" buttons on the mobile map on after 'idle' listener fires
   $("#no-surf-spots-here-button").hide();
@@ -3846,8 +3858,14 @@ function getDurationFromAirportAndSetNearbyRecommendations() {
         lngArray.push(neLngNearbySSBounds, swLngNearbySSBounds);
 
         //Find the largest and smallest lat and lng (for nearby surf spot Firestore queries)
+        //If all lats and lngs are negative
+        if (neLat < 0 && neLng < 0 && swLat < 0 && swLng < 0) {
+          smallerLat = latArray.sort()[latArray.length - 1];
+          greaterLat = latArray.sort()[latArray.length - 2];
+          greaterLng = lngArray.sort()[lngArray.length - 2];
+          smallerLng = lngArray.sort()[lngArray.length - 1];
         //If in the northern hemisphere, lat > 0
-        if (neLat > 0) {
+        } else if (neLat > 0) {
           greaterLat = latArray.sort()[latArray.length - 1];
           smallerLat = latArray.sort()[latArray.length - 2];
           greaterLng = lngArray.sort()[lngArray.length - 2];
@@ -3889,6 +3907,12 @@ function getDurationFromAirportAndSetNearbyRecommendations() {
             coords = data.surfspot;
             waveDir = data.direction;
             waveType = data.type;
+            parkingLat = data.parkingLat;
+            parkingLng = data.parkingLng;
+            parkingCoords = {
+              lat: parkingLat,
+              lng: parkingLng
+            }
 
             //If nearbySurfSpot is same as the surfSpot related to the surf spot page, don't let it go through
             if (nearbySurfSpotID !== surfSpotID) {
@@ -4338,6 +4362,7 @@ function getDistanceBetweenSurfSpots(nearbySSProps) {
   service.getDistanceMatrix({
     origins: [surfSpotCoords],
     destinations: [coords],
+    //Parking coords must always be on land (not in the ocean) or nearby surf spots won't be able to populate as this function throws an error bc no driving directions
     travelMode: 'DRIVING',
     unitSystem: google.maps.UnitSystem.IMPERIAL,
   }, function(response, status) {
