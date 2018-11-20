@@ -194,6 +194,13 @@ body {
   box-shadow: 3px 3px 50px 3px darkgrey;
 }
 
+@media only screen and (min-width: 1000px) {
+  .landing-page-cta-background {
+    height: 435px;
+    width: 435px;
+  }
+}
+
 .scroll-indicator {
   position: absolute;
   top: 91.75%;
