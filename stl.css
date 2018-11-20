@@ -194,7 +194,7 @@ body {
   box-shadow: 3px 3px 50px 3px darkgrey;
 }
 
-@media only screen and (min-width: 1000px) {
+@media only screen and (min-width: 1700px) {
   .landing-page-cta-background {
     height: 435px;
     width: 435px;
