@@ -218,6 +218,30 @@ let photoCountPerNearbySurfSpot = [];
 
 
 
+//On click of STL Deals submit button, store inputs in Firestore, show success message, allow people to get right back to the site
+function stlDealsSubmission() {
+  $(".deals-submit-button").on("click", function() {
+    // let firstName = $("#inputFirstName").val();
+    let email = $("#inputEmail").val();
+
+    //Update each document's consentToUse field to true
+    db.collection("subscribers").add({
+      // firstName: firstName,
+      email: email,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    })
+    .then(function() {
+      $(".modal-header").hide();
+      $(".modal-body").hide();
+      $(".deals-confirmation").show();
+      console.log("Document successfully updated consent to true!");
+    });
+  });
+}
+stlDealsSubmission();
+
+
+
 //On click of cta button set the initial filter variables
 function buildHomePageDestinations() {
 

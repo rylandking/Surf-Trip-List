@@ -167,16 +167,19 @@
           </div>
           <div class="modal-body">
             <p class="text-dark font-weight-bold secondary-cta-modal-font">Each month we hand-pick five amazing surf trips accommodations and offer them to you for $200-$500 off for only 48 hours.</p>
-            <p class="text-dark font-weight-bold secondary-cta-modal-font">We don't take any refferal fees so we only send you the highest quality trips.</p>
+            <p class="text-dark font-weight-bold secondary-cta-modal-font">We don't take any referral fees so we only send you the highest quality trips.</p>
             <p class="text-dark font-weight-bold secondary-cta-modal-font">Sign up to get monthly email alerts and save $200+ on your next surf trip.</p>
-            <form>
+            <form class="subscriber-submit-form">
               <div class="form-group">
-                <input type="firstName" class="form-control w-75 mb-2" id="InputFirstName" aria-describedby="firstNameHelp" placeholder="First name">
-                <input type="email" class="form-control w-75" id="InputFirstName" aria-describedby="emailHelp" placeholder="Email">
+                <!-- <input type="firstName" class="form-control w-75 mb-2" id="inputFirstName" aria-describedby="firstNameHelp" placeholder="First name"> -->
+                <input type="email" class="form-control w-75" id="inputEmail" aria-describedby="emailHelp" placeholder="Email">
               </div>
             </form>
-            <button type="button" class="btn btn-danger font-weight-bold deals-submit-button" data-dismiss="modal">Submit</button>
-            <button type="button" class="btn btn-danger font-weight-bold deals-submit-button" data-dismiss="modal">Done</button>
+            <button type="button" class="btn btn-danger font-weight-bold deals-submit-button">Submit</button>
+          </div>
+          <div class="modal-body deals-confirmation col-12 text-center">
+            <p class="text-dark font-weight-bold secondary-cta-modal-font text-center">You're all set! We'll send you the deals each month.</p>
+            <button type="button" class="btn btn-danger font-weight-bold deals-done-button" data-dismiss="modal">Back to Surf Trip List!</button>
           </div>
         </div>
       </div>

@@ -1603,3 +1603,13 @@ input:checked + .slider:before {
   padding-left: 1.5rem !important;
   padding-right: 1.5rem !important;
 }
+
+.deals-done-button {
+  font-size: 12px !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+.deals-confirmation {
+  display: none;
+}
