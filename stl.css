@@ -269,6 +269,12 @@ body {
   }
 }
 
+.secondary-cta {
+  position: absolute;
+  margin-top: 4.25rem;
+  margin-left: 3rem;
+}
+
 .cta-skill-marker {
   height: 24px;
   width: 24px;
@@ -890,16 +896,20 @@ p.card-hover-overlay {
   background-color: #87ceeb;
 }
 
-.badge-dark-blue {
-  background-color: #4682b4;
-}
-
 .badge-purple {
   background-color: #9370db;
 }
 
+.badge-dark-blue {
+  background-color: #4682b4;
+}
+
 .bg-red {
   background-color: #C33325;
+}
+
+.bg-orange {
+  background-color: #F19722;
 }
 
 .bg-slate {
@@ -908,10 +918,6 @@ p.card-hover-overlay {
 
 .bg-teal {
   background-color: #2C8693;
-}
-
-.bg-orange {
-  background-color: #F19722;
 }
 
 .bg-pink {
@@ -1582,4 +1588,18 @@ input:checked + .slider:before {
 
 .destination-region {
   font-size: 12px;
+}
+
+.secondary-cta-arrow {
+  font-size: 14px;
+}
+
+.secondary-cta-modal-font {
+  font-size: 26px;
+}
+
+.deals-submit-button {
+  font-size: 12px !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
 }

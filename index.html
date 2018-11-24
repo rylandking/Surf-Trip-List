@@ -80,7 +80,7 @@
 
     <div class="container-fluid landing-nav">
       <!-- DESKTOP NAV BAR -->
-      <div id="index-page-nav" class="d-flex align-items-center pt-2 pb-3 mb-2">
+      <div id="index-page-nav" class="d-flex align-items-center pt-3 pb-3 mb-2">
         <a href="index.html"><img id="top-logo" src="https://firebasestorage.googleapis.com/v0/b/surf-trip-list.appspot.com/o/logos%2Flogo-white-transparent.png?alt=media&token=623d87bf-cbbe-41eb-82f1-e3f7769c84fa" alt="Surf Trip List"></a>
 
         <!-- Mobile Dropdown Menu -->
@@ -149,8 +149,38 @@
         <div class="px-4 pt-0 mt-0 d-flex justify-content-end cta-search-button-wrapper">
           <button class="btn btn-lg btn-danger cta-search-button px-4 font-weight-bold">Search</button>
         </div>
+        <div class="secondary-cta">
+          <small class="font-weight-bold cursor justify-content-center" data-toggle="modal" data-target="#signUpModal"><i class="fas fa-home secondary-cta-arrow"></i> Save $200+ on an amazing surf trip <i class="fas fa-chevron-right secondary-cta-arrow"></i></small>
+        </div>
       </div>
     </div><!-- //Landing Page Discovery CTA (Desktop) -->
+
+    <!-- Sign Up Modal -->
+    <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="text-dark modal-title mb-0 pb-0">Surf Trip List Deals</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="text-dark font-weight-bold secondary-cta-modal-font">Each month we hand-pick five amazing surf trips accommodations and offer them to you for $200-$500 off for only 48 hours.</p>
+            <p class="text-dark font-weight-bold secondary-cta-modal-font">We don't take any refferal fees so we only send you the highest quality trips.</p>
+            <p class="text-dark font-weight-bold secondary-cta-modal-font">Sign up to get monthly email alerts and save $200+ on your next surf trip.</p>
+            <form>
+              <div class="form-group">
+                <input type="firstName" class="form-control w-75 mb-2" id="InputFirstName" aria-describedby="firstNameHelp" placeholder="First name">
+                <input type="email" class="form-control w-75" id="InputFirstName" aria-describedby="emailHelp" placeholder="Email">
+              </div>
+            </form>
+            <button type="button" class="btn btn-danger font-weight-bold deals-submit-button" data-dismiss="modal">Submit</button>
+            <button type="button" class="btn btn-danger font-weight-bold deals-submit-button" data-dismiss="modal">Done</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="d-md-none text-light px-3 tagline-mobile">
       <h4>Discover, plan and book amazing surf trips.</h4>
